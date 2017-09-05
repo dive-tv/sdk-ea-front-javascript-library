@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+	As DOCTYPE either 
+	the strict XHTML declaration or 
+	"-//HbbTV//1.1.1//EN" "http://www.hbbtv.org/dtd/HbbTV-1.1.1.dtd"
+	shall be used as described in the HbbTV-standard: A.2.6.2.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- 
+	Required XML-namespace as described in the HbbTV-standard: A.2.6.2. 
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Frontend Boilerplate with React and TypeScript</title>
+  <!-- 
+			Required MIME content type as described in the HbbTV-standard: A.2.6.2.
+		-->
+  <meta http-equiv="Content-Type" content="application/vnd.hbbtv.xml+xhtml; utf-8" />
+</head>
+
+<body>
+  <!--
+				ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) 
+			-->
+  <object xmlns="http://www.w3.org/1999/xhtml" id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+  <div id="root"></div>
+</body>
+
+</html>
