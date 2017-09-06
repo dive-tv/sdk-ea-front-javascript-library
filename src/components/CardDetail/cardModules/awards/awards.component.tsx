@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {
-    CardDetailResponse, CardContainerTypeEnum, Helper,
+    Card, CardContainerTypeEnum, Helper,
     Awards as AwardsContainer, AwardsData, Localize, ListingData,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
@@ -14,7 +14,7 @@ interface IAwardsProps {
 
 export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps, {}> {
     public static moduleName = "awards";
-    public static validate(card: CardDetailResponse, moduleType: string, parent: any) {
+    public static validate(card: Card, moduleType: string, parent: any) {
         const container = Helper.getContainer(card, 'awards') as AwardsContainer;
         // MOCKUP
         // container!.data = [

@@ -3,16 +3,17 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { Loading, NavigationContainer } from 'Components';
-import { DiveAPI, CardDetailResponse } from 'Services';
 import { IUIActions, UIActions, UserActions } from 'Actions';
 import { navigable } from "HOC";
 import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from 'CardModules';
 import { NavigableCardModuleList } from "Containers";
 
+declare const DiveAPI: any;
+declare type DiveAPI = any;
 export type CardDetailStatus = "LOADING" | "DONE";
 export type RelationTypes = "all" | "offmovie" | "none";
 export interface ICardDetailOwnProps {
-    card?: CardDetailResponse;
+    card?: DiveAPI.Card;
     relations?: RelationTypes;
 }
 export type CardDetailProps = ICardDetailOwnProps & { uiActions: IUIActions };

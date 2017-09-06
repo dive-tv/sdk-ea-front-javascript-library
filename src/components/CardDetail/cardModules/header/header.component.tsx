@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { CardDetailResponse, Helper, Localize, Catalog } from "Services";
+import { Card, Helper, Localize, Catalog } from "Services";
 import { MiniCard, CardAndCategory, NavigationContainer } from "Components";
 import { ICardModuleProps } from "CardModules";
 import { navigable } from "HOC";
@@ -37,7 +37,7 @@ function statics(a: any) {
 
 @statics({
     moduleName: "header",
-    validate: (card: CardDetailResponse, moduleType: string, parent: any) => {
+    validate: (card: Card, moduleType: string, parent: any) => {
         const title: string | null = card.title;
         const subtitle = card.subtitle && card.subtitle !== "" ? card.subtitle : null;
         let time: string | null = null; // "2 h 13 m";

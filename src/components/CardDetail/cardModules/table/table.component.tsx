@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {
-    CardDetailResponse, CardContainerTypeEnum, Helper,
+    Card, CardContainerTypeEnum, Helper,
     Listing as ListingVO, ListingData as ListingDataVO, Localize, ListingData,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
@@ -14,7 +14,7 @@ interface ITableProps {
 
 export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {}> {
     public static moduleName = "table";
-    public static validate(card: CardDetailResponse, moduleType: string, parent: any) {
+    public static validate(card: Card, moduleType: string, parent: any) {
         // No se puede guardar el container aquí, porque es un método estático.
         const container = Helper.getContainer(card, 'listing') as ListingVO;
         if (container && container.data && container.data.length > 0) {

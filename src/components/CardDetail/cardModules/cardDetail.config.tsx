@@ -1,3 +1,5 @@
+import { CardTypeEnum } from 'Services';
+
 import * as artConfig from '../config/art.json';
 import * as businessConfig from '../config/business.json';
 import * as chapterConfig from '../config/chapter.json';
@@ -46,7 +48,7 @@ const cardDetailConfig = {
     weaponConfig,
 };
 
-export const cardModuleConfig: {[key in CardDetailResponseTypeEnum]?: any } = {
+export const cardModuleConfig: {[key in CardTypeEnum]?: any } = {
     art: cardDetailConfig.artConfig,
     business: cardDetailConfig.businessConfig,
     chapter: cardDetailConfig.chapterConfig,

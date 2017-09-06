@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import { Header, Text, Table, Awards, List } from 'CardModules';
-import { CardDetailResponse, CardContainerTypeEnum } from "Services";
+import { Card, CardContainerTypeEnum } from "Services";
 
 export interface ICardModuleProps {
-    card: CardDetailResponse;
+    card: Card;
     moduleType: string;
 }
 

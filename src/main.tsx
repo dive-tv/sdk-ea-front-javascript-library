@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import { configureStore } from './store';
-import { App } from './containers/App';
-import * as diveApi from 'api-typescript-library';
 
-const store = configureStore();
+import { store } from './store';
+import { App } from 'Containers';
+import { AccessToken, DiveAPI } from "api-typescript-library";
+
 const history = createBrowserHistory();
-let DiveAPI: diveApi.DiveAPI;
+// let DiveAPI: diveApi.DiveAPI;
 
 export const initLib = (params: { apiKey: string, deviceId: string, selector: string }) => {
   if (typeof params !== "object") {
@@ -25,14 +25,14 @@ export const initLib = (params: { apiKey: string, deviceId: string, selector: st
     throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
   }
-  DiveAPI = new diveApi.DiveAPI(
+  const APIinstance = new DiveAPI(
     { env: "DEV", storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
-  DiveAPI.setLocale("es-ES");
-  DiveAPI.postTokenAndSave({ deviceId: this.deviceId, grantType: "device_credentials" })
-    .then(() => {
+  APIinstance.setLocale("es-ES");
+  APIinstance.postTokenAndSave({ deviceId: this.deviceId, grantType: "device_credentials" })
+    .then((response: AccessToken) => {
       console.log("Authorized!");
-      (window as any).DiveAPI = DiveAPI;
+      (window as any).DiveAPI = APIinstance;
       // tslint:disable-next-line:no-console
       console.log("DiveAPI generated, available through DiveLib.API or window.DiveAPI (global)");
       if (typeof params.selector !== "string") {

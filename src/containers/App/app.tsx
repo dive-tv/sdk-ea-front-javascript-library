@@ -1,21 +1,15 @@
 import * as React from 'react';
-import * as TodoActions from '../../actions/todos';
-import * as style from './style.css';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { RootState } from '../../reducers';
-import { Header, MainSection, CardDetail } from '../../components';
-import { View } from 'react-primitives';
+import { CardDetail } from '../../components';
 import { MapStateToPropsParam } from "react-redux";
 
 export namespace App {
   export interface IOwnProps  {
-    todos?: TodoItemData[];
   }
 
   export interface IActionProps {
-    actions?: typeof TodoActions;
   }
 
   export interface IState {
@@ -26,28 +20,26 @@ export namespace App {
 @connect(mapStateToProps, mapDispatchToProps, undefined)
 export class App extends React.Component<App.IOwnProps & App.IActionProps, App.IState> {
 
-  public render() {
-    let view;
+  public render(): any {
+    let view: any = "";
     if (true) {
       view = "hola";//<CardDetail></CardDetail>;
     }
 
     return (
-      <View className={style.normal}>
+      <div>
         {view}
-      </View>
+      </div>
     );
   }
 }
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: any) {
   return {
-    todos: state.todos,
   };
 }
 
-function mapDispatchToProps(dispatch): App.IActionProps {
+function mapDispatchToProps(dispatch: any): App.IActionProps {
   return {
-    actions: bindActionCreators(TodoActions as any, dispatch),
   };
 }

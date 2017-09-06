@@ -1,24 +1,26 @@
-import { createStore, applyMiddleware, Store } from 'redux';
-import { logger } from '../middleware';
-import rootReducer, { RootState } from '../reducers';
+import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
+import thunk from "redux-thunk";
 
-declare const window: any;
+import { NavReducer } from 'Reducers';
 
-export function configureStore(initialState?: RootState): Store<RootState> {
-  const create = window.devToolsExtension
-    ? window.devToolsExtension()(createStore)
-    : createStore;
+declare const __ENV__: string;
 
-  const createStoreWithMiddleware = applyMiddleware(logger)(create);
+const windowIfDefined = typeof window === 'undefined' ? null : window as any;
+const composeEnhancers = windowIfDefined.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-  const store = createStoreWithMiddleware(rootReducer, initialState) as Store<RootState>;
-
-  if (module.hot) {
-    module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers');
-      store.replaceReducer(nextReducer);
-    });
+const getMiddlewares = () => {
+  if (__ENV__ !== "production") {
+    return applyMiddleware(/*createLogger({
+          predicate: () => (window as any).enableActionLogger,
+      }),*/ thunk /*, persistedState*//*, socketMiddleware()*/);
+  } else {
+    return applyMiddleware(thunk /*, persistedState*/, /*socketMiddleware()*/);
   }
+};
 
-  return store;
-}
+export const store = createStore(
+  combineReducers({
+    nav: NavReducer,
+  }),
+  composeEnhancers(getMiddlewares()),
+);

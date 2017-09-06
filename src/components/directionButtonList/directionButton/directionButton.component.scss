@@ -1,0 +1,35 @@
+.directionButton {
+    width: pxToVw(18);
+    height: pxToVh(18);
+    box-sizing: border-box;
+    background-image: url('#{$assets-path}common/Arrow_Down_Inactive@1x.svg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 2px solid $color-warm-grey;
+    background-position-y: 1px;
+    background-color: $color-dark-grey-three;
+    &:active{
+        background-image: url('#{$assets-path}common/Arrow_Down_Press@1x.svg') !important;
+        background-color: $color-dark-grey-three !important;
+        
+    }
+
+    &.down {
+        // background-position-y: pxToVh(0.1);
+    }
+    &.up {
+        transform: rotate(-180deg);
+    }
+    &.left {
+        transform: rotate(90deg);
+    }
+    &.right {
+        transform: rotate(-90deg);
+    }
+}
+
+:focus .directionButton {
+    background-image: url('#{$assets-path}common/Arrow_Down_Active@1x.svg');
+    background-color: $color-off-yellow;
+}

@@ -3,7 +3,7 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { createAction } from 'redux-actions';
 
 import { IUIAction, CardActionTypes, IUIGroup } from 'Reducers';
-import { DiveAPI, TrailerResponse, CardDetailResponse } from "Services";
+import { DiveAPI, TrailerResponse, Card } from "Services";
 import { SyncActions, ISocketDataTS } from "Actions";
 
 export interface ICardActions extends MapDispatchToPropsObject {
@@ -26,7 +26,7 @@ export const UIActions: ICardActions = {
             dispatch(UIActions.performOpenCard());
         }
         DiveAPI.getCards({ cardId })
-            .then((card: CardDetailResponse) => {
+            .then((card: Card) => {
                 dispatch(UIActions.performOpenCard(card));
             })
             .catch((error) => {
@@ -34,7 +34,7 @@ export const UIActions: ICardActions = {
                 // TODO: display error?
             });
     },
-    performOpenCard: cardAction("UI/OPEN_CARD", (card: CardDetailResponse) => (card)),
+    performOpenCard: cardAction("UI/OPEN_CARD", (card: Card) => (card)),
     openSync: cardAction("UI/OPEN_SYNC"),
     open: (group: IUIGroup) => (dispatch: any) => {
         if (group.top === "YOUTUBE") {

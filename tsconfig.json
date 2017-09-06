@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noImplicitReturns": false,
     "removeComments": true,
     "strictNullChecks": false,
@@ -22,31 +22,31 @@
     ],
     "paths": {
       "Components": [
-        "./src/app/components/index"
+        "./src/components/index"
       ],
       "Services": [
-        "./src/app/services/index"
+        "./src/services/index"
       ],
       "Reducers": [
-        "./src/app/reducers/index"
+        "./src/reducers/index"
       ],
       "Actions": [
-        "./src/app/actions/index"
+        "./src/actions/index"
       ],
       "Types": [
-        "./src/app/types/index"
+        "./types/index"
       ],
       "Containers": [
-        "./src/app/containers/index"
+        "./src/containers/index"
       ],
       "Constants": [
-        "./src/app/constants"
+        "./src/constants"
       ],
       "HOC": [
-        "./src/app/HOC/index"
+        "./src/HOC/index"
       ],
       "CardModules": [
-        "./src/app/components/cardDetail/cardModules/index"
+        "./src/components/cardDetail/cardModules/index"
       ]
     }
   },

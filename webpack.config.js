@@ -13,7 +13,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   context: sourcePath,
   entry: {
-    main: './index.tsx',
+    main: './main.tsx',
     vendor: [
       'react',
       'react-dom',
@@ -35,7 +35,7 @@ module.exports = {
       Services: path.resolve(__dirname, '..', 'src', 'services', 'index'),
       Reducers: path.resolve(__dirname, '..', 'src', 'reducers', 'index'),
       Actions: path.resolve(__dirname, '..', 'src', 'actions', 'index'),
-      Types: path.resolve(__dirname, '..', 'src', 'types', 'index'),
+      Types: path.resolve(__dirname, '..', 'types', 'index'),
       Containers: path.resolve(__dirname, '..', 'src', 'containers', 'index'),
       Constants: path.resolve(__dirname, '..', 'src', 'constants'),
       HOC: path.resolve(__dirname, '..', 'src', 'HOC', 'index'),
@@ -50,7 +50,7 @@ module.exports = {
     loaders: [
       // .ts, .tsx
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         use: isProduction
           ? 'awesome-typescript-loader?module=es6'
           : [

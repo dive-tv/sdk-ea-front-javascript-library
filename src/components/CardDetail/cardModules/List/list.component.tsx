@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import {
-    CardDetailResponse, CardContainerTypeEnum, Helper, Image as ImageVO,
-    ImageData as ImageDataVO, Localize, CardContainer,
+    Card, CardContainerTypeEnum, Helper, Image as ImageVO,
+    ImageData as ImageDataVO, CardContainer,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
@@ -15,7 +15,7 @@ interface IListProps {
 
 export class List extends React.PureComponent<ICardModuleProps & IListProps, {}> {
     public static moduleName = "list";
-    public static validate(card: CardDetailResponse, moduleType: string, parent: any) {
+    public static validate(card: Card, moduleType: string, parent: any) {
         let container: ImageVO | undefined;
         switch (moduleType) {
             case 'Gallery':

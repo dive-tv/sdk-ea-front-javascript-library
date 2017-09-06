@@ -1,0 +1,42 @@
+.verticalScroll {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    >.scrollBox {
+        width: 100%;
+        max-height: pxToVh(108);
+        position: relative;
+        overflow: hidden;
+        overflow-y: scroll;
+        margin-bottom: pxToVh(6);
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    >.source {
+        font-size: pxToEmZeplinX2(9);
+        width: 100%;
+        line-height: 1;
+        @include ellipsis;
+        >.label {
+            color: $color-teal-green;
+        }
+        >.text {
+            color: $color-pale-grey-two;
+        }
+        // margin-bottom: pxToVh(9);
+    }
+    > .btns {
+        width: 100%;
+        height: pxToVw(18);
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+        li {
+            width: pxToVw(18);
+            display: inline-block;
+            margin-right: 3px;
+            margin-left: 3px;
+        }
+    }
+}

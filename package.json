@@ -50,6 +50,7 @@
     "react-primitives": "^0.4.3",
     "react-router": "^4.2.0",
     "redux": "^3.7.2",
-    "redux-actions": "^2.2.1"
+    "redux-actions": "^2.2.1",
+    "redux-thunk": "^2.2.0"
   }
 }

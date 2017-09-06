@@ -1,23 +1,19 @@
 import * as React from 'react';
 
-import {
-    CardDetailResponse, CardContainerTypeEnum, Helper,
-    Text as TextVO, TextData as TextDataVO, Localize,
-} from "Services";
 import { ICardModuleProps } from "CardModules";
-import { DirectionButton, VerticalScroll } from "Components";
 import { navigable } from "HOC";
+import { Helper } from "Services";
 
 interface ITextProps {
-    container: TextVO;
-    textData: TextDataVO;
+    container: any;
+    textData: any;
 }
 
 export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}> {
     public static moduleName = "text";
-    public static validate(card: CardDetailResponse, moduleType: string, parent: any) {
+    public static validate(card: any, moduleType: string, parent: any) {
         // No se puede guardar el container aquí, porque es un método estático.
-        const container: TextVO | undefined = Helper.getContainer(card, 'text') as TextVO;
+        const container: any | undefined = Helper.getContainer(card, 'text') as any;
         if (container !== undefined &&
             container.data !== undefined &&
             container.data.length > 0) {
@@ -53,9 +49,9 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
         }
         switch (this.props.container!.content_type) {
             case 'biography':
-                return Localize('BIOGRAPHY');
+                return 'BIOGRAPHY';
             case 'overview':
-                return Localize('SYNOPSIS');
+                return 'SYNOPSIS';
             case 'quote':
             case 'reference':
             case 'curiosity':
