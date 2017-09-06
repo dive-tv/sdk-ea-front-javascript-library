@@ -12,7 +12,9 @@
     "noImplicitReturns": false,
     "removeComments": true,
     "strictNullChecks": false,
-    "outDir": "build",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "rootDir": ".",
     "lib": [
       "es6",
       "es7",

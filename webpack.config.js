@@ -30,10 +30,17 @@ module.exports = {
   },
   target: 'web',
   resolve: {
-    /*alias: {
-      HOC: path.resolve(__dirname, '..', 'src', 'app', 'HOC', 'index'),
-      Containers: path.resolve(__dirname, '..', 'src', 'app', 'containers', 'index'),
-    },*/
+    alias: {
+      Components: path.resolve(__dirname, '..', 'src', 'components', 'index'),
+      Services: path.resolve(__dirname, '..', 'src', 'services', 'index'),
+      Reducers: path.resolve(__dirname, '..', 'src', 'reducers', 'index'),
+      Actions: path.resolve(__dirname, '..', 'src', 'actions', 'index'),
+      Types: path.resolve(__dirname, '..', 'src', 'types', 'index'),
+      Containers: path.resolve(__dirname, '..', 'src', 'containers', 'index'),
+      Constants: path.resolve(__dirname, '..', 'src', 'constants'),
+      HOC: path.resolve(__dirname, '..', 'src', 'HOC', 'index'),
+      CardModules: path.resolve(__dirname, '..', 'src', 'components', 'cardDetail', 'cardModules', 'index'),
+    },
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // https://github.com/Microsoft/TypeScript/issues/11677
