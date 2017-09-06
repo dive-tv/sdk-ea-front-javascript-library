@@ -1,0 +1,40 @@
+.cardModuleAwards {
+    .awards {
+        &>table {
+            width: 100%;
+            &>tbody>tr {
+                & > td {
+                    border-color: $color-warm-grey-two;
+                    border-bottom: solid 1px;
+                    padding-top: 0.92593vh;
+                    padding-bottom: 0.92593vh;
+                    width: 100%; 
+
+                }                                      
+                &:nth-child(1) {
+                    & > td {
+                        padding-top: 0;
+                    }                    
+                }
+            }
+        }
+        .awardName {
+            font-size: pxToEmZeplinX2(10);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: 0.1px;
+            text-align: left;
+            color: $color-pale-grey;
+            & > td {
+                padding-bottom: pxToVh(5);
+            }
+        }
+        .awardNums {
+            font-size: pxToEmZeplinX2(9);
+            line-height: 1;
+            letter-spacing: .1px;
+            text-align: left;
+            color: $color-warm-grey;
+        }
+    }
+}

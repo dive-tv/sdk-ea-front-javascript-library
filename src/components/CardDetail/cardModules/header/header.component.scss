@@ -1,0 +1,186 @@
+html body .cardModulesContainer .cardModule-container.header-container {
+    width: pxToVw(249.5);
+}
+
+.header {
+    width: 100%;
+    white-space: nowrap;
+    padding-top: pxToVh(10);
+    height: 100%; //pxToVh(167.5);
+    box-sizing: border-box;
+    >* {
+        display: inline-block;
+        vertical-align: top;
+    }
+    $left-part-width: pxToVw(89.5);
+    .cardAndCategory {
+        width: $left-part-width;
+        overflow: hidden;
+    }
+    .rightPart {
+        width: pxToVw(160);
+        box-sizing: border-box;
+        padding: 0 pxToVw(10);
+        font-family: $font-lato;
+        color: $color-white;
+        overflow: hidden;
+        white-space: normal;
+        height: 100%;
+        position: relative;
+        height: pxToVh(133);
+        .info {
+            position: relative;
+            max-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            flex-basis: pxToVh(12);
+            overflow: hidden;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: stretch;
+            height: pxToVh(133);
+            &>* {
+                // max-height: pxToVh(27);
+                flex-shrink: 1;
+                align-self: flex-start;
+                flex-grow: 0;
+            }
+            .titleContainer {
+                margin-bottom: pxToVh(7.5);
+                overflow: hidden;
+                word-break: normal;
+                font-size: pxToEmZeplinX2(12.5);
+                font-weight: bold;
+                line-height: 1.08;
+                text-align: left;
+                text-overflow: ellipsis;
+                display: block;
+                position: relative;
+                word-wrap: normal;
+                word-break: normal;
+                flex-shrink: 20;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                height: auto;
+                .title {
+                    font-size: pxToEmZeplinX2(12.5);
+                    font-weight: bold;
+                    line-height: 1.08;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    display: inline;
+                    flex-shrink: 30;
+                    max-height: calc(100% - 34px);
+                    overflow: hidden;
+                    word-break: normal;
+                    hyphens: auto;
+                    text-align: left;
+                    position: relative;
+                }
+                .titleParenthesis {
+                    // margin-left: 5px;
+                    display: block;
+                    font-size: pxToEmZeplinX2(12.5);
+                    font-weight: 300; // float: right;
+                    // bottom: 0;
+                    position: relative; // padding-left: 10px;
+                    flex-shrink: 1;
+                    flex-grow: 0;
+                    float: right;
+                    align-self: flex-end;
+                    line-height: 1.1;
+                }
+            }
+            .subtitle {
+                font-size: pxToEmZeplinX2(10);
+                font-weight: 600;
+                letter-spacing: pxToVw(.1);
+                flex-shrink: 1;
+                margin-bottom: pxToVh(7.5);
+            }
+            .categories {
+                color: $color-teal-green;
+                font-size: pxToEmZeplinX2(8);
+                line-height: 1.2;
+                letter-spacing: pxToVw(.1);
+                flex-shrink: 1;
+                margin-bottom: pxToVh(7.5);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                width: 100%;
+            }
+            .time {
+                width: 100%;
+                height: pxToVw(12);
+                margin-bottom: pxToVh(7.5);
+                .clock {
+                    width: pxToVw(12);
+                    height: pxToVw(12);
+                    border: 1px solid $color-pale-grey-two;
+                    border-radius: 50%;
+                    display: inline-block;
+                    margin-right: pxToVw(2.5);
+                    position: relative;
+                    box-sizing: border-box;
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        top: pxToVw(2.5);
+                        left: pxToVw(2.5);
+                        width: pxToVw(3.5);
+                        height: pxToVw(4);
+                        border: 1px solid $color-pale-grey-two;
+                        border-left: 0;
+                        border-top: 0;
+                        box-sizing: border-box;
+                    }
+                }
+                span {
+                    line-height: pxToVw(12);
+                    vertical-align: top;
+                    font-size: pxToVw(7.5);
+                }
+            }
+        }
+        .headerButtons {
+            height: pxToVh(20);
+            width: 100%;
+            box-sizing: border-box; // position: absolute;
+            bottom: 0;
+            align-self: flex-end;
+            flex-grow: 20;
+            position: relative;
+            .centeredContent {
+                width: 100%;
+                white-space: nowrap;
+                text-align: center;
+                height: 27px;
+            }
+            >.navigable {
+                box-sizing: border-box;
+                height: pxToVw(20);
+                width: 100%;
+                vertical-align: bottom;
+                position: absolute;
+                bottom: 0;
+                .icon {
+                    width: pxToVw(10.4);
+                    height: pxToVw(20);
+                    margin-right: pxToVw(6.1);
+                    background-size: 100% auto;
+                    background-repeat: no-repeat;
+                    background-position: 50%;
+                    &.like {
+                        background-image: url('#{$assets-path}carousel/ico-like.png');
+                    }
+                }
+                span {
+                    line-height: pxToVw(20);
+                }
+            }
+        }
+    }
+}

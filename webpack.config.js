@@ -26,10 +26,14 @@ module.exports = {
     path: outPath,
     publicPath: '/',
     filename: 'bundle.js',
-    library: 'DiveSDK'
+    library: 'DiveLib'
   },
   target: 'web',
   resolve: {
+    /*alias: {
+      HOC: path.resolve(__dirname, '..', 'src', 'app', 'HOC', 'index'),
+      Containers: path.resolve(__dirname, '..', 'src', 'app', 'containers', 'index'),
+    },*/
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // https://github.com/Microsoft/TypeScript/issues/11677
@@ -102,6 +106,11 @@ module.exports = {
   devServer: {
     contentBase: sourcePath,
     hot: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
     stats: {
       warnings: false
     },

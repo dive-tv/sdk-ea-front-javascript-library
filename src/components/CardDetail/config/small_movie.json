@@ -1,0 +1,30 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"MovieHeader"
+                   },
+                   {
+                   "type":"MovieHeaderSmall"
+                   },
+                   {
+                   "type":"Overview"
+                   },
+                   {
+                   "type":"Trailer"
+                   },
+                   {
+                   "type":"BasicInfo"
+                   },
+                   {
+                   "type":"Awards"
+                   }
+		]
+			
+	}
+	] 
+	
+}

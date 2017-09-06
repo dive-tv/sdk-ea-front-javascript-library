@@ -10,7 +10,7 @@ const store = configureStore();
 const history = createBrowserHistory();
 let DiveAPI: diveApi.DiveAPI;
 
-export const initSDK = (params: { apiKey: string, deviceId: string, selector: string }) => {
+export const initLib = (params: { apiKey: string, deviceId: string, selector: string }) => {
   if (typeof params !== "object") {
     console.error("You should provide initialization parameters as an object.");
     throw new Error("You should provide initialization parameters as an object.");
@@ -34,7 +34,7 @@ export const initSDK = (params: { apiKey: string, deviceId: string, selector: st
       console.log("Authorized!");
       (window as any).DiveAPI = DiveAPI;
       // tslint:disable-next-line:no-console
-      console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
+      console.log("DiveAPI generated, available through DiveLib.API or window.DiveAPI (global)");
       if (typeof params.selector !== "string") {
         console.error(`You should provide a selector that resolves to an existing DOM Element
         in the initialization parameter 'selector'`);
@@ -43,7 +43,10 @@ export const initSDK = (params: { apiKey: string, deviceId: string, selector: st
       }
     })
     .then(() => {
-      DiveAPI.getCard({cardId: "76b9b155-80e9-457a-85bf-47bc535a2678"}, {mode: "no-cors"});
+      /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
+        console.warn(response);
+      });*/
+      //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
     });
 
   ReactDOM.render(

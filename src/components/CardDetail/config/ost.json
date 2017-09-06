@@ -1,0 +1,33 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Header"
+                   },
+                   {
+                   "type":"Soundtrack"
+                   },
+                   {
+                   "type":"Description"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"SoundsIn"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

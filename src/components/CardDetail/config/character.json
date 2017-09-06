@@ -1,0 +1,48 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Header"
+                   },
+                   {
+                   "type":"Biography"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"BasicInfo"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"Video"
+                   },
+                   {
+                   "type":"Curiosities"
+                   },
+                   {
+                   "type":"Highligts"
+                   },
+                   {
+                   "type":"InterpretedBySingle"
+                   },
+                   {
+                   "type":"InterpretedBy"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

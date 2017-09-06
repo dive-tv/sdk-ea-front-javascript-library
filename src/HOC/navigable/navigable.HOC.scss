@@ -1,0 +1,25 @@
+.navigable {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    
+    &:focus > div {
+        border: solid yellow 1px;
+        /*box-sizing: border-box;*/
+    }
+    
+    &.selected {
+        /*border: solid cyan 2px !important;*/
+    }
+    &:hover {
+        /*border: solid red 1px;*/
+    }
+}
+
+.navigableContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}

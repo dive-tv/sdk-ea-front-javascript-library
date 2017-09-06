@@ -1,0 +1,39 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Header"
+                   },
+                   {
+                   "type":"MusicShop"
+                   },
+                   {
+                   "type":"Description"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"Curiosities"
+                   },
+                   {
+                   "type":"SongBelongToSingle"
+                   },
+                   {
+                   "type":"SongBelongTo"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

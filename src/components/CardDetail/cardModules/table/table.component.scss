@@ -1,0 +1,21 @@
+.cardModuleTable {
+    .container 
+    table tr {
+        font-size: pxToEmZeplinX2(9);
+        line-height: 1.11;
+        margin-bottom: pxToVh(10);
+        text-align: left;
+        display: block;
+        td:nth-child(odd) {
+            font-weight: 600;
+            color: $color-white;
+            width: pxToVw(72);
+            box-sizing: border-box;
+            padding-right: 6px;
+        }
+        td:nth-child(even) {
+            color: $color-warm-grey;
+            font-weight: normal;
+        }
+    }
+}

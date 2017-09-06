@@ -1,0 +1,91 @@
+import * as React from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { Loading, NavigationContainer } from 'Components';
+import { DiveAPI, CardDetailResponse } from 'Services';
+import { IUIActions, UIActions, UserActions } from 'Actions';
+import { navigable } from "HOC";
+import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from 'CardModules';
+import { NavigableCardModuleList } from "Containers";
+
+export type CardDetailStatus = "LOADING" | "DONE";
+export type RelationTypes = "all" | "offmovie" | "none";
+export interface ICardDetailOwnProps {
+    card?: CardDetailResponse;
+    relations?: RelationTypes;
+}
+export type CardDetailProps = ICardDetailOwnProps & { uiActions: IUIActions };
+export interface ICardDetailState { status: CardDetailStatus; }
+export const cardDetailInitialState: ICardDetailState = {
+    status: "LOADING",
+};
+
+export class CardDetailClass
+    extends React.PureComponent<CardDetailProps, ICardDetailState> {
+    private cardModules: JSX.Element[] = [];
+    constructor(props: CardDetailProps) {
+        super(props);
+        this.state = cardDetailInitialState;
+    }
+    public render(): any {
+        if (this.state.status !== "DONE") {
+            return <Loading />;
+        } else {
+            return (
+                <div className="cardDetail fillParent">
+                    <div className="bottomContainerTopButtons">
+                        <div className="cardDetailBtn">
+                            <NavigationContainer key="carouselClose" className="bctButton close"
+                                parent={this}
+                                clickAction={this.closeAllCards.bind(this)}
+                                columns={1}
+                            >
+                            </NavigationContainer>
+                        </div>
+                    </div>
+                    {this.props.card ?
+                    <NavigableCardModuleList
+                        isDefault={true}
+                        parent={this} columns={1}
+                        card={this.props.card} />
+                    : <Loading />}
+                </div>
+            );
+        }
+    }
+
+    public closeAllCards() {
+        console.log("CLOSE ALL CARDS");
+        // TODO: logic to close all cards
+        this.props.uiActions.openSync();
+    }
+
+    public componentDidUpdate() {
+        if (this.props.card && this.state.status !== "DONE") {
+            this.setState({ ...this.state, status: "DONE" });
+        }
+    }
+
+    private addToArrayIfExists(targetArray: Array<React.Component<any, any>>, candidate: any) {
+        if (candidate) {
+            targetArray.push(candidate);
+        }
+    }
+}
+
+const mapDispatchToProps = (dispatch: any): any => {
+    return {
+        uiActions: bindActionCreators(UIActions, dispatch),
+    };
+};
+
+const mergeProps = (stateProps: any, dispatchProps: any, ownProps: any) => {
+    return { ...stateProps, ...ownProps, ...dispatchProps };
+};
+
+export const CardDetail = navigable(connect(
+    undefined,
+    mapDispatchToProps,
+    mergeProps,
+)(CardDetailClass)) as React.ComponentClass<INavigableProps & ICardDetailOwnProps>;

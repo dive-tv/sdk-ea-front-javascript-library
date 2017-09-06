@@ -1,0 +1,51 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"MovieHeader"
+                   },
+                   {
+                   "type":"MovieHeaderSmall"
+                   },
+                   {
+                   "type":"Overview"
+                   },
+                   {
+                   "type":"Seasons"
+                   },
+                   {
+                   "type":"Trailer"
+                   },
+                   {
+                   "type":"BasicInfo"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"AwardsModuleList"
+                   },
+                   {
+                   "type":"Cast"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"Recommended"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

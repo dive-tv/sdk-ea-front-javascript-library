@@ -1,0 +1,30 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Reference"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"Video"
+                   },
+                   {
+                   "type":"AppearsInSingle"
+                   },
+                   {
+                   "type":"AppearsIn"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

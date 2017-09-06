@@ -1,0 +1,29 @@
+.cardTitle {
+    width: 100%;
+}
+
+.listContent {
+    width: 100%;
+    //height: 80%;
+    height: pxToVh(118.5);
+    position: relative;
+    .listElement {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        box-sizing: border-box;
+        display: inline-block;
+        border: solid 2px $color-warm-grey;
+        /*width: 45%;
+        margin-right: 5%;*/
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: black;
+        }
+    }
+     :focus .listElement {
+         border: 2px solid $off-yellow !important;
+     }
+}

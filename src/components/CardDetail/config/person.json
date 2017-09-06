@@ -1,0 +1,42 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Header"
+                   },
+                   {
+                   "type":"Biography"
+                   },
+                   {
+                   "type":"BasicInfo"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"AwardsModuleList"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"Curiosities"
+                   },
+                   {
+                   "type":"Filmography"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

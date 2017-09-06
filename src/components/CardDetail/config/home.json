@@ -1,0 +1,48 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"ButtonHeader"
+                   },
+                   {
+                   "type":"Description"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"Specifications"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"Home"
+                   },
+                   {
+                   "type":"CompleteTheDeco"
+                   },
+                   {
+                   "type":"Curiosities"
+                   },
+                   {
+                    "type":"AppearsIn"
+                   },
+                   {
+                   "type":"AppearsInSingle"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

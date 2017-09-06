@@ -1,0 +1,18 @@
+.cardModuleText {
+    $contentWidth: pxToVw(180.5);
+    .container {
+        .cardTitle {
+            // In cardModules
+        }
+        .cardText {
+            color: $color-warm-grey;
+            width: $contentWidth;
+            margin-bottom: pxToVh(9);
+            position: relative; // max-height: pxToVw(93);
+            letter-spacing: 0.1px;
+            font-size: pxToEmZeplinX2(10);
+            line-height: 1.05;
+            font-family: $font-lato;
+        }
+    }
+}

@@ -17,11 +17,44 @@
       "es6",
       "es7",
       "dom"
-    ]
+    ],
+    "paths": {
+      "Components": [
+        "./src/app/components/index"
+      ],
+      "Services": [
+        "./src/app/services/index"
+      ],
+      "Reducers": [
+        "./src/app/reducers/index"
+      ],
+      "Actions": [
+        "./src/app/actions/index"
+      ],
+      "Types": [
+        "./src/app/types/index"
+      ],
+      "Containers": [
+        "./src/app/containers/index"
+      ],
+      "Constants": [
+        "./src/app/constants"
+      ],
+      "HOC": [
+        "./src/app/HOC/index"
+      ],
+      "CardModules": [
+        "./src/app/components/cardDetail/cardModules/index"
+      ]
+    }
   },
   "exclude": [
     "dist",
     "build",
-    "node_modules"
+    "node_modules",
+    "types"
+  ],
+  "include": [
+    "./src/**/*"
   ]
 }

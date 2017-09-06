@@ -1,0 +1,45 @@
+{
+	"sections":[
+	{
+		"title":"main",
+        "main": true,
+		"modules":[
+                   {
+                   "type":"Header"
+                   },
+                   {
+                   "type":"Description"
+                   },
+                   {
+                   "type":"Shop"
+                   },
+                   {
+                   "type":"TravelShop"
+                   },
+                   {
+                   "type":"Specifications"
+                   },
+                   {
+                   "type":"Gallery"
+                   },
+                   {
+                   "type":"Video"
+                   },
+                   {
+                   "type":"Curiosities"
+                   },
+                   {
+                    "type":"AppearsInSingle"
+                   },
+                   {
+                   "type":"AppearsIn"
+                   },
+                   {
+                   "type":"BackToHome"
+                   }
+		]
+			
+	}
+	] 
+	
+}

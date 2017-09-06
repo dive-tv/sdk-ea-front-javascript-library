@@ -1,0 +1,63 @@
+{
+    "sections":[
+                {
+                "title":"main",
+                "main": true,
+                "modules":[
+                           {
+                           "type":"MovieHeader"
+                           },
+                           {
+                           "type":"MovieHeaderSmall"
+                           },
+                           {
+                           "type":"Overview"
+                           },
+                           {
+                           "type":"BasicInfo"
+                           },
+                           {
+                           "type":"Trailer"
+                           },
+                           {
+                           "type":"Cast"
+                           },
+                           {
+                           "type":"BelongToSingle"
+                           },
+                           {
+                           "type":"Shop"
+                           },
+                           {
+                           "type":"TravelShop"
+                           },
+                           {
+                           "type":"Curiosities"
+                           },
+                           {
+                           "type":"PlacesShown"
+                           },
+                           {
+                           "type":"Vehicles"
+                           },
+                           {
+                           "type":"MovieSoundtrack"
+                           },
+                           {
+                           "type":"Highlights"
+                           },
+                           {
+                           "type":"DiveInModule"
+                           },
+                           {
+                           "type":"Recommended"
+                           },
+                           {
+                           "type":"BackToHome"
+                           }
+                           ]
+                
+                }
+                ]
+    
+}
