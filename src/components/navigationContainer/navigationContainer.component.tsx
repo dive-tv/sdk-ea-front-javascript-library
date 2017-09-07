@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { navigable } from "HOC";
+import { navigable, INavigableProps } from "HOC";
 
 interface INCCOwnProps {
     propagateParent?: boolean;

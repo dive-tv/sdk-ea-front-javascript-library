@@ -1,0 +1,47 @@
+.miniCardButton {
+    position: relative;
+    text-align: center;
+    color: $warm-grey;
+    background-color: $dark-grey-two;
+    border: solid 2px $warm-grey;
+    box-sizing: border-box;
+    /*FONT STYLE*/
+    font-family: $font-lato;
+    font-size: pxToEmZeplinX2(10);
+    font-weight: 600;
+    line-height: 2;
+    text-transform: uppercase;
+    &.more {
+        line-height: .6;
+        font-size: pxToEmZeplinX2(27.5);
+    }
+    >.icon {
+        &.like, &.liked {
+            background-size: 100% 100%;
+            width: pxToVw(12);
+            height: pxToVh(11.5);
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 6px;
+            top: pxToVh(4);
+        }
+        &.like {
+            background-image: url('#{$assets-path}carousel/ico-like.png');
+        }
+        &.liked {
+            background-image: url('#{$assets-path}carousel/ico-liked.svg');
+        }
+    }
+}
+
+:focus .miniCardButton {
+    background: $off-yellow;
+    color: $dark-grey-three;
+    border-color: $off-yellow;
+    >.icon {
+        &.like {
+            background-image: url('#{$assets-path}carousel/ico-like.png');
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {
-    Card, CardContainerTypeEnum, Helper, Image as ImageVO,
+    Card, CardContainerTypeEnum, Localize, Helper, Image as ImageVO,
     ImageData as ImageDataVO, CardContainer,
 } from "Services";
 import { ICardModuleProps } from "CardModules";

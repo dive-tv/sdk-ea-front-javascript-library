@@ -6,7 +6,6 @@ import { Card, Helper, Localize, Catalog } from "Services";
 import { MiniCard, CardAndCategory, NavigationContainer } from "Components";
 import { ICardModuleProps } from "CardModules";
 import { navigable } from "HOC";
-import { UserActions, IUserActions } from "Actions";
 
 interface IHeaderProps {
     title: string | null;
@@ -14,22 +13,7 @@ interface IHeaderProps {
     time: string | null; // "2 h 13 m";
     titleParenthesis: string | null; // = "2017";
     categories: string | null; // "Bio, Adventure, Comedy";
-    userActions: IUserActions;
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        userActions: bindActionCreators(UserActions, dispatch),
-    };
-};
-
-const mergeProps = (
-    stateProps: any,
-    dispatchProps: { userActions: IUserActions },
-    ownProps: any, // ICardModuleProps & IHeaderProps,
-) => {
-    return { ...stateProps, ...ownProps, ...dispatchProps };
-};
 
 function statics(a: any) {
     return (b: any) => Object.assign(b, a)
@@ -72,7 +56,7 @@ function statics(a: any) {
                 break;
         }
 
-        const Instantiated = connect(undefined, mapDispatchToProps, mergeProps)(navigable(Header));
+        const Instantiated = navigable(Header);
 
         return (<Instantiated
             parent={parent}
@@ -84,15 +68,8 @@ function statics(a: any) {
         />);
     },
 })
-export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps & { userActions: IUserActions }, {}> {
-    public clickLike() {
-        this.props.userActions.likeCard(this.props.card)
-            .then(() => {
-                console.log("Liked success");
-            });
-    }
+export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps, {}> {
     public render(): JSX.Element {
-        const liked = this.props.card.user && this.props.card.user.is_liked;
         return (
             <div className="header cardModule">
                 <CardAndCategory card={this.props.card} />
@@ -111,18 +88,6 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps 
                         {this.props.time ? (<div className="time">
                             <i className="clock"></i><span>{this.props.time}</span>
                         </div>) : null}
-                        <div className="headerButtons">
-                            <NavigationContainer
-                                parent={this} columns={1}
-                                className={`likeButton genericBtn ${liked ? "liked" : ""}`}
-                                clickAction={this.clickLike.bind(this)}
-                            >
-                                <div className="centeredContent">
-                                    <i className="icon like"></i>
-                                    <span>{Localize("CAROUSEL_CARD_SAVE")}</span>
-                                </div>
-                            </NavigationContainer>
-                        </div>
                     </div>
                 </div>
             </div >

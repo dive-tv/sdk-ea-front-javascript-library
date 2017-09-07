@@ -3,14 +3,16 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
-import { store } from './store';
+import { store } from './store/store';
 import { App } from 'Containers';
-import { AccessToken, DiveAPI } from "api-typescript-library";
+import { AccessToken, DiveAPIClass } from "api-typescript-library";
+
+import * as styles from './main.scss';
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
-export const initLib = (params: { apiKey: string, deviceId: string, selector: string }) => {
+export const init = (params: { apiKey: string, deviceId: string, selector: string }) => {
   if (typeof params !== "object") {
     console.error("You should provide initialization parameters as an object.");
     throw new Error("You should provide initialization parameters as an object.");
@@ -25,10 +27,11 @@ export const initLib = (params: { apiKey: string, deviceId: string, selector: st
     throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
   }
-  const APIinstance = new DiveAPI(
+  const APIinstance = new DiveAPIClass(
     { env: "DEV", storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
   APIinstance.setLocale("es-ES");
+  (window as any).DiveAPI = APIinstance;
   APIinstance.postTokenAndSave({ deviceId: this.deviceId, grantType: "device_credentials" })
     .then((response: AccessToken) => {
       console.log("Authorized!");
@@ -47,14 +50,11 @@ export const initLib = (params: { apiKey: string, deviceId: string, selector: st
         console.warn(response);
       });*/
       //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
+      ReactDOM.render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        document.querySelector(params.selector),
+      );
     });
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.querySelector(params.selector),
-  );
 };
-
-export const API = DiveAPI;

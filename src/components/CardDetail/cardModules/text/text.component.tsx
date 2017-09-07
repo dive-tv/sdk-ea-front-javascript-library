@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ICardModuleProps } from "CardModules";
 import { navigable } from "HOC";
 import { Helper } from "Services";
+import { VerticalScroll } from "Components";
 
 interface ITextProps {
     container: any;

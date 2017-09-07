@@ -2,11 +2,11 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { CardDetail } from '../../components';
+import { CardDetailContainer } from 'Containers';
 import { MapStateToPropsParam } from "react-redux";
 
 export namespace App {
-  export interface IOwnProps  {
+  export interface IOwnProps {
   }
 
   export interface IActionProps {
@@ -23,7 +23,13 @@ export class App extends React.Component<App.IOwnProps & App.IActionProps, App.I
   public render(): any {
     let view: any = "";
     if (true) {
-      view = "hola";//<CardDetail></CardDetail>;
+      view = <CardDetailContainer
+        cardId={"c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}
+        key={"cardDetail"}
+        parent={this}
+        columns={1}
+        isDefault={true}
+      />;
     }
 
     return (

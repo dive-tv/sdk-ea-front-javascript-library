@@ -1,0 +1,1 @@
+/** Global definitions for developement **/

@@ -21,6 +21,9 @@
       "dom"
     ],
     "paths": {
+      "*": [
+        "./types/*"
+      ],
       "Components": [
         "./src/components/index"
       ],
@@ -50,13 +53,13 @@
       ]
     }
   },
+  "include": [
+    "./src/**/*",
+    "./types/**"
+  ],
   "exclude": [
     "dist",
     "build",
-    "node_modules",
-    "types"
-  ],
-  "include": [
-    "./src/**/*"
+    "node_modules"
   ]
 }

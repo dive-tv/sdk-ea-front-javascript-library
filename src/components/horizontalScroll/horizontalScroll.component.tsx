@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-import { CardDetailResponse, CardContainerTypeEnum, Helper, SourceData as SourceDataVO, Localize } from "Services";
+import { Card, CardContainerTypeEnum, Helper, SourceData as SourceDataVO, Localize } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, NavigationContainer, DirectionButtonList } from "Components";
 import { navigable } from "HOC";

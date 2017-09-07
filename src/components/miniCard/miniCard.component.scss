@@ -1,0 +1,135 @@
+$minicard-width: pxToVw(92);
+$card-expandedInfo-width: pxToVw(161.5);
+$computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);
+.minicard {
+    width: auto; // background: $off-yellow;
+    min-width: $minicard-width;
+    height: 30vh;
+    position: relative; // overflow: hidden;
+    border: none !important;
+    .cardLeft {
+        position: relative;
+        width: $minicard-width;
+        height: pxToVh(162.5);
+        overflow: hidden;
+        background-color: $dark-grey;
+        box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, .5);
+        box-sizing: border-box;
+        padding-top: pxToVh(3);
+        padding-bottom: pxToVh(3);
+        padding-left: pxToVw(3);
+        padding-right: pxToVw(3);
+        z-index: 2;
+        display: inline-block;
+        float: left;
+    }
+    .expandedInfoContainer {
+        overflow: hidden;
+        float: left;
+        width: $card-expandedInfo-width;
+        height: 30vh;
+        box-sizing: border-box;
+        position: relative;
+    }
+    .expandedInfo {
+        @include animationHack();
+        transition-property: transform;
+        transform: translate3d(0, 0, 0) translateX(-100%);
+        transition-duration: 0s;
+        transition-delay: 0s;
+        top: pxToVh(14);
+        background-color: $dark-grey-three;
+        width: $card-expandedInfo-width; // width: 159px;
+        height: pxToVh(135); // margin-top: 1vh;
+        margin-left: -2px;
+        box-sizing: border-box; // display: none;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        .expandedInfoInside {
+            transform: translate3d(0, 0, 0);
+            padding: pxToVh(10);
+            width: pxToVw(161.5);
+            height: pxToVh(135); // margin-top: 1vh;
+            box-sizing: border-box;
+            position: relative;
+            .text {
+                width: 100%;
+                height: pxToVh(58);
+                position: relative;
+                margin-bottom: pxToVh(5);
+                text-align: left;
+                font-family: $font-lato;
+                white-space: normal;
+                &.alone {
+                    @include ellipsisMultiline(6);
+                    /*TEXT STYLE*/
+                    font-size: pxToEmZeplinX2(9);
+                    line-height: 1.11;
+                    letter-spacing: pxToEmZeplinX2(1);
+                    color: $pale-grey-two;
+                }
+                .title {
+                    width: 100%;
+                    font-size: pxToEmZeplinX2(11);
+                    color: $pale-grey;
+                    @include ellipsis;
+                    height: pxToVh(16);
+                }
+                .desc {
+                    width: 100%;
+                    color: $pale-grey-two;
+                    @include ellipsisMultiline(4);
+                    /*TEXT STYLE*/
+                    font-size: pxToEmZeplinX2(9);
+                    line-height: 1.11;
+                    letter-spacing: pxToEmZeplinX2(1);
+                }
+            }
+            .btn {
+                width: 100%;
+                height: pxToVh(22);
+                margin-bottom: pxToVh(5);
+            }
+        }
+    }
+    .childFocused & {
+        /*transition-property: width;
+        transition-duration: .5s;
+        transition-delay: 0.1s;*/
+        //width: pxToVw(252); // background: $off-yellow;
+        width: $computed-card-plus-expandedInfo; //unquote("#{$computed}vw");
+        .cardLeft {
+            .image,
+            .category {
+                border: solid 2px $off-yellow;
+                color: $pale-grey;
+            }
+        }
+        .expandedInfo {
+            transform: translateX(0);
+            transition-duration: .3s;
+            transition-delay: 0.05s; // display: inline-block;
+            border: solid 2px $off-yellow; //display: block;
+            width: $card-expandedInfo-width;
+            z-index: 1;
+            position: relative;
+        }
+    }
+    &.relation {
+        .relationBar {
+            background-color: $warm-grey;
+            width: 1.5625vw;
+            margin-left: -2.7037vh;
+            width: pxToVw(20);
+            height: pxToVh(5);
+            position: absolute;
+            top: pxToVh(70);
+            z-index: 0;
+            .activeGroup & {
+                background-color: $off-yellow;
+            }
+        }
+    }
+}

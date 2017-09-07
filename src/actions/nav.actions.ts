@@ -3,6 +3,7 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 // import * as React from 'react';
 import { INavAction, NavActionTypes } from 'Reducers';
 import { createAction } from 'redux-actions';
+import { INavigable } from "HOC";
 
 export interface INavActions extends MapDispatchToPropsObject {
     addNode: ActionCreator<INavAction>;

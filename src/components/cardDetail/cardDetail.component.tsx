@@ -3,17 +3,17 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { Loading, NavigationContainer } from 'Components';
-import { IUIActions, UIActions, UserActions } from 'Actions';
-import { navigable } from "HOC";
+import { IUIActions, UIActions } from 'Actions';
+import { navigable, INavigableProps } from "HOC";
 import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from 'CardModules';
 import { NavigableCardModuleList } from "Containers";
+import { Card } from "Services";
 
-declare const DiveAPI: any;
 declare type DiveAPI = any;
 export type CardDetailStatus = "LOADING" | "DONE";
 export type RelationTypes = "all" | "offmovie" | "none";
 export interface ICardDetailOwnProps {
-    card?: DiveAPI.Card;
+    card: Card;
     relations?: RelationTypes;
 }
 export type CardDetailProps = ICardDetailOwnProps & { uiActions: IUIActions };
@@ -30,30 +30,28 @@ export class CardDetailClass
         this.state = cardDetailInitialState;
     }
     public render(): any {
-        if (this.state.status !== "DONE") {
-            return <Loading />;
-        } else {
-            return (
-                <div className="cardDetail fillParent">
-                    <div className="bottomContainerTopButtons">
-                        <div className="cardDetailBtn">
-                            <NavigationContainer key="carouselClose" className="bctButton close"
-                                parent={this}
-                                clickAction={this.closeAllCards.bind(this)}
-                                columns={1}
-                            >
-                            </NavigationContainer>
-                        </div>
+        return (
+            <div className="cardDetail fillParent">
+                <div className="bottomContainerTopButtons">
+                    <div className="cardDetailBtn">
+                        <NavigationContainer key="carouselClose" className="bctButton close"
+                            parent={this}
+                            clickAction={() => {
+                                return "";
+                            } /*this.closeAllCards.bind(this)*/}
+                            columns={1}
+                        >
+                        </NavigationContainer>
                     </div>
-                    {this.props.card ?
+                </div>
+                {this.props.card ?
                     <NavigableCardModuleList
                         isDefault={true}
                         parent={this} columns={1}
                         card={this.props.card} />
                     : <Loading />}
-                </div>
-            );
-        }
+            </div>
+        );
     }
 
     public closeAllCards() {

@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-
+import { INavigable } from 'HOC';
 //
 //  Actions
 //

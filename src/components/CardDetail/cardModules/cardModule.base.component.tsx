@@ -3,7 +3,7 @@ import * as React from "react";
 import { Card } from "Services";
 
 export interface IValidatable {
-    validate: (card: Card, modyleType: string, parent: any) => JSX.Element | null; // React.Component<any, any>;
+    validate: (card: Card, moduleType: string, parent: any, props: any) => JSX.Element | null; // React.Component<any, any>;
     moduleName: string;
 }
 

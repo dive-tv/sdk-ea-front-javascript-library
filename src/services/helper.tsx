@@ -1,14 +1,16 @@
+import { Card, CardContainerTypeEnum, CardContainer, RelationModule } from 'Services';
+
 // tslint:disable-next-line:no-internal-module
 // tslint:disable-next-line:no-namespace
 class HelperClass {
-    public getContainer = (card: any, type: any): any | undefined => {
+    public getContainer = (card: Card, type: CardContainerTypeEnum): CardContainer | undefined => {
         return card.info ?
-            card.info.filter((el: any) => el.type === type)[0] : undefined;
+            card.info.filter((el: CardContainer) => el.type === type)[0] : undefined;
     }
 
-    public getRelation = (relations: any[], relType: string): any | undefined => {
+    public getRelation = (relations: RelationModule[], relType: string): RelationModule | undefined => {
         return relations ?
-            relations.filter((el: any) => el.rel_type === relType)[0] : undefined;
+            relations.filter((el: RelationModule) => el.type === relType)[0] : undefined;
     }
 
     public cutText = (text: string, count: number): string => {

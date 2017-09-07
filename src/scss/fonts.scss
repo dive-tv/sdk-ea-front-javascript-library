@@ -1,0 +1,222 @@
+// @font-face {
+//     font-family: 'Touchvie';
+//     src:    url('#{$assets-path}fonts/touchvie/Touchvie.eot?c2gxmg');
+//     src:    url('#{$assets-path}fonts/touchvie/Touchvie.eot?c2gxmg#iefix') format('embedded-opentype'),
+//         url('#{$assets-path}fonts/touchvie/Touchvie.ttf?c2gxmg') format('truetype'),
+//         url('#{$assets-path}fonts/touchvie/Touchvie.woff?c2gxmg') format('woff'),
+//         url('#{$assets-path}fonts/touchvie/Touchvie.svg?c2gxmg#Touchvie') format('svg');
+//     font-weight: normal;
+//     font-style: normal;
+// }
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700italic,700,400italic,300italic,300);
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ThinItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ThinItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ThinItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ThinItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ThinItalic.svg#489193bc210a2f35d8a28037d9282c2b') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  200;
+// }
+// @font-face {
+//   font-family: 'Zona Pro ExtraBold';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ExtraBold.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ExtraBold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBold.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBold.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBold.svg#b1685b3bb7bf2cab29af6680c5962cb9') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  700;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-SemiBoldItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-SemiBoldItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-SemiBoldItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-SemiBoldItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-SemiBoldItalic.svg#40d9dc5992fcd91c986ce763d0b18251') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  700;
+// }
+// @font-face {
+//   font-family: 'Zona Pro Black';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-BlackItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-BlackItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BlackItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BlackItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BlackItalic.svg#7ab880f8711d8f0fd1dab05483db0866') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  400;
+// }
+// @font-face {
+//   font-family: 'Zona Pro Black';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Black.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Black.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Black.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Black.svg#e06a1b5abe020541116679cfcedb5416') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  400;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Light.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Light.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Light.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Light.svg#539f28dff6ab3b175f2fd677663c51c6') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  200;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-RegularItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-RegularItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-RegularItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-RegularItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-RegularItalic.svg#50903ccde4896339dc5dfd301348fe14') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  400;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-LightItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-LightItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-LightItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-LightItalic.svg#f274ef5ff2b2ebe0601a37963eaa00d5') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  200;
+// }
+// @font-face {
+//   font-family: 'Zona Pro Hairline';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-HairlineItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-HairlineItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-HairlineItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-HairlineItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-HairlineItalic.svg#f16ebd89b3fabd724017c27ac174ce85') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  400;
+// }
+// @font-face {
+//   font-family: 'Zona Pro ExtraBold';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ExtraBoldItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBoldItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBoldItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-ExtraBoldItalic.svg#4ce38c929f133fcc970f7c9856595391') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  700;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-BoldItalic.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-BoldItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BoldItalic.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BoldItalic.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-BoldItalic.svg#91c5d94ae404bcf02c241d64eabe2ab8') format('svg'); /* Legacy iOS */
+//   font-style:   italic;
+//   font-weight:  700;
+// }
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Thin.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Thin.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Thin.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Thin.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Thin.svg#7578feebbccce406800e568eece85043') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  200;
+// }
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$assets-path}fonts/lato/Lato-SemiboldItalic.eot');
+    /* IE9 Compat Modes */
+    src: url('#{$assets-path}fonts/lato/Lato-SemiboldItalic.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('#{$assets-path}fonts/lato/Lato-SemiboldItalic.woff2') format('woff2'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/lato/Lato-SemiboldItalic.woff') format('woff'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/lato/Lato-SemiboldItalic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 600;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$assets-path}fonts/lato/Lato-Semibold.eot');
+    /* IE9 Compat Modes */
+    src: url('#{$assets-path}fonts/lato/Lato-Semibold.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('#{$assets-path}fonts/lato/Lato-Semibold.woff2') format('woff2'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/lato/Lato-Semibold.woff') format('woff'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/lato/Lato-Semibold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 600;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('#{$assets-path}fonts/zona/ZonaPro-SemiBold.eot');
+    /* IE9 Compat Modes */
+    src: url('#{$assets-path}fonts/zona/ZonaPro-SemiBold.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('#{$assets-path}fonts/zona/ZonaPro-SemiBold.woff') format('woff'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/zona/ZonaPro-SemiBold.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('#{$assets-path}fonts/zona/ZonaPro-SemiBold.svg#162f7822120324b8c470efd092b0a3f1') format('svg');
+    /* Legacy iOS */
+    font-style: normal;
+    font-weight: 700;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('#{$assets-path}fonts/zona/ZonaPro-Regular.eot');
+    /* IE9 Compat Modes */
+    src: url('#{$assets-path}fonts/zona/ZonaPro-Regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('#{$assets-path}fonts/zona/ZonaPro-Regular.woff') format('woff'),
+    /* Modern Browsers */
+    url('#{$assets-path}fonts/zona/ZonaPro-Regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('#{$assets-path}fonts/zona/ZonaPro-Regular.svg#bb1fe4599c1fb6494adcac51c11eb979') format('svg');
+    /* Legacy iOS */
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+}
+
+// @font-face {
+//   font-family: 'Zona Pro';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Bold.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Bold.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Bold.svg#9f382fee952eb88388ebc6cbb2f6f72b') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  700;
+// }
+// @font-face {
+//   font-family: 'Zona Pro Hairline';
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Hairline.eot'); /* IE9 Compat Modes */
+//   src: url('#{$assets-path}fonts/zona/ZonaPro-Hairline.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Hairline.woff') format('woff'), /* Modern Browsers */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Hairline.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('#{$assets-path}fonts/zona/ZonaPro-Hairline.svg#c5e1f6902d776e7e1ed6262bd857df8d') format('svg'); /* Legacy iOS */
+//   font-style:   normal;
+//   font-weight:  400;
+// }
+$font-lato: 'Lato';
+$font-zona-pro: 'Zona Pro';
+html {
+    font-family: $font-lato;
+    font-weight: 600;
+    font-style: normal;
+}

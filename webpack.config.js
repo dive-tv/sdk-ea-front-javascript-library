@@ -13,7 +13,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   context: sourcePath,
   entry: {
-    main: './main.tsx',
+    main: [
+      path.resolve(__dirname, 'src', 'main.tsx'),
+    ],
     vendor: [
       'react',
       'react-dom',
@@ -25,21 +27,21 @@ module.exports = {
   output: {
     path: outPath,
     publicPath: '/',
-    filename: 'bundle.js',
-    library: 'DiveLib'
+    filename: '[name].js',
+    library: 'DiveSDK'
   },
   target: 'web',
   resolve: {
     alias: {
-      Components: path.resolve(__dirname, '..', 'src', 'components', 'index'),
-      Services: path.resolve(__dirname, '..', 'src', 'services', 'index'),
-      Reducers: path.resolve(__dirname, '..', 'src', 'reducers', 'index'),
-      Actions: path.resolve(__dirname, '..', 'src', 'actions', 'index'),
-      Types: path.resolve(__dirname, '..', 'types', 'index'),
-      Containers: path.resolve(__dirname, '..', 'src', 'containers', 'index'),
-      Constants: path.resolve(__dirname, '..', 'src', 'constants'),
-      HOC: path.resolve(__dirname, '..', 'src', 'HOC', 'index'),
-      CardModules: path.resolve(__dirname, '..', 'src', 'components', 'cardDetail', 'cardModules', 'index'),
+      Components: path.resolve(__dirname, 'src', 'components', 'index'),
+      Services: path.resolve(__dirname, 'src', 'services', 'index'),
+      Reducers: path.resolve(__dirname, 'src', 'reducers', 'index'),
+      Actions: path.resolve(__dirname, 'src', 'actions', 'index'),
+      Types: path.resolve(__dirname, 'types', 'index'),
+      Containers: path.resolve(__dirname, 'src', 'containers', 'index'),
+      Constants: path.resolve(__dirname, 'src', 'constants'),
+      HOC: path.resolve(__dirname, 'src', 'HOC', 'index'),
+      CardModules: path.resolve(__dirname, 'src', 'components', 'cardDetail', 'cardModules', 'index'),
     },
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module
@@ -52,10 +54,10 @@ module.exports = {
       {
         test: /\.(ts|tsx)?$/,
         use: isProduction
-          ? 'awesome-typescript-loader?module=es6'
+          ? 'awesome-typescript-loader?module=es6&configFileName=tsconfig.json'
           : [
             'react-hot-loader',
-            'awesome-typescript-loader'
+            'awesome-typescript-loader?configFileName=tsconfig.json'
           ]
       },
       // css
@@ -89,27 +91,79 @@ module.exports = {
           ]
         })
       },
+      {
+        test: /\.scss?$/,
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          //resolve-url-loader may be chained before sass-loader if necessary 
+          use: [
+            {
+              loader: "css-loader", // translates CSS into CommonJS
+              options: { sourceMap: process.env.NODE_ENV !== 'production' }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: [
+                  require('autoprefixer')({
+                    browsers: ['last 10 versions']
+                  })
+                ]
+              }
+            },
+            'resolve-url-loader',
+            {
+              loader: "sass-loader", // compiles Sass to CSS
+              options: { sourceMap: true }
+            }
+          ]
+        }))
+      },
       // static assets
       { test: /\.html$/, use: 'html-loader' },
       { test: /\.png$/, use: 'url-loader?limit=10000' },
       { test: /\.jpg$/, use: 'file-loader' },
+      {
+        test: /\.(svg)$/,
+        exclude: ['node_modules', path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
+        use: [
+          {
+            loader: "file-loader",
+            query: {
+              name: 'assets/svg/[name].[ext]'
+            }
+          }
+        ]
+      },
+      { test: /\.json$/, use: 'json-loader' }
     ],
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.bundle.js',
-      minChunks: Infinity
+      minChunks: function (module) {
+        // this assumes your vendor imports exist in the node_modules directory
+        return module.resource && (/node_modules/).test(module.resource);
+      }
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new ExtractTextPlugin({
       filename: 'styles.css',
-      disable: !isProduction
+      //disable: false //!isProduction
     }),
     new HtmlWebpackPlugin({
       template: 'index.html'
     })
   ],
+  devtool: (function () {
+    // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'dev') {
+    return 'inline-source-map';
+    // }
+    // else {
+    //   return 'source-map';
+    // }
+  })(),
   devServer: {
     contentBase: sourcePath,
     hot: true,

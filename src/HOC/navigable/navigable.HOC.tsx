@@ -6,6 +6,42 @@ import { connect, ComponentDecorator } from 'react-redux';
 import { INavState, IState } from 'Reducers';
 import { NavActions, INavActions } from 'Actions';
 
+(window as any).currentNavId = 0;
+
+export interface INavigableProps {
+    parent: any;
+    idx?: number; // Identificador único del navigable
+    columns?: number; // Numero de columnas que hay en el entorno del elemento actual
+    tabIndex?: number; // Orden de tabulación
+    clickAction?: any;
+    name?: string; // Nombre identificativo
+    isDefault?: boolean; // Para que se seleccione ese elemento por defeto si no hay ningún otro  en ese listado.
+    groupName?: string; // Nombre de grupo perteneciente
+    onFocusCallback?: () => void;
+    onFocusCallbackRepeat?: boolean;
+    forceFirst?: boolean;
+    forceOrder?: number;
+    modal?: boolean; // Para bloquear la selección dentro de este navigable
+    onBeforeUnmount?: (nav: INavigable) => void;
+    focusChainClass?: string;
+    activeGroupClass?: string;
+    isScrollable?: boolean; // Elemento sobre el que se hace un scroll.
+    scrollPadding?: number;
+}
+
+export interface INavigable {
+    parentId: number;
+    id: number;
+    children: number[][];
+    columns?: number;
+    name?: string;
+    groupName?: string;
+    forceFirst?: boolean;
+    forceOrder?: number;
+    modal?: boolean;
+    isScrollable?: boolean;
+}
+
 type InjectedProps = INavigableProps & INavActions & INavState;
 
 const NavigableClass = <TOriginalProps extends {}>(

@@ -2,11 +2,13 @@ import * as React from 'react';
 
 import {
     Card, CardContainerTypeEnum, Helper,
-    Awards as AwardsContainer, AwardsData, Localize, ListingData,
+    Awards as AwardsContainer, AwardsData, ListingData,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
 import { navigable } from "HOC";
+
+declare const Localize: any;
 
 interface IAwardsProps {
     container: AwardsContainer;

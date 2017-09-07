@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { CardDetailResponse, Localize } from "Services";
+import { Card, Localize } from "Services";
 
 export interface ICardAndCategoryProps {
-    card: CardDetailResponse | null;
+    card: Card | null;
 }
 export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, {}> {
     public static defaultProps: ICardAndCategoryProps = {

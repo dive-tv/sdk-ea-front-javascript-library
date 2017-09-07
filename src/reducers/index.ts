@@ -1,3 +1,4 @@
-export * from './nav/nav.reducer';
+export * from './nav.reducer';
+export * from './ui.reducer';
 
 export * from './reducer';
