@@ -48,11 +48,11 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         console.warn(response);
       });*/
       //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
-      /*ReactDOM.render(
+      ReactDOM.render(
         <Provider store={store}>
           <App />
         </Provider>,
         document.querySelector(params.selector),
-      );*/
+      );
     });
 };

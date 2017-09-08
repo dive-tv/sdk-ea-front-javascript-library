@@ -88,6 +88,18 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                         {this.props.time ? (<div className="time">
                             <i className="clock"></i><span>{this.props.time}</span>
                         </div>) : null}
+                        <div className="headerButtons">
+                            <NavigationContainer
+                                parent={this} columns={1}
+                                className={`likeButton genericBtn`}
+                                // clickAction={this.clickLike.bind(this)}
+                            >
+                                <div className="centeredContent">
+                                    <i className="icon like"></i>
+                                    <span>{Localize("CAROUSEL_CARD_SAVE")}</span>
+                                </div>
+                            </NavigationContainer>
+                        </div>
                     </div>
                 </div>
             </div >

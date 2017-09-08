@@ -14,7 +14,7 @@ const extractSASS = new ExtractTextPlugin('[name].css');
 module.exports = {
   context: sourcePath,
   entry: {
-    main: [
+    front: [
       path.resolve(__dirname, 'src', 'main.tsx'),
     ],
     styles: [

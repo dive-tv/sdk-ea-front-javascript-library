@@ -15,6 +15,7 @@ import * as lookConfig from '../config/look.json';
 import * as movieConfig from '../config/movie.json';
 import * as ostConfig from '../config/ost.json';
 import * as personConfig from '../config/person.json';
+import * as characterConfig from '../config/character.json';
 import * as referenceConfig from '../config/reference.json';
 import * as serieConfig from '../config/serie.json';
 import * as songConfig from '../config/song.json';
@@ -39,6 +40,7 @@ const cardDetailConfig = {
     movieConfig,
     ostConfig,
     personConfig,
+    characterConfig,
     referenceConfig,
     serieConfig,
     songConfig,
@@ -64,6 +66,7 @@ export const cardModuleConfig: {[key in CardTypeEnum]?: any } = {
     movie: cardDetailConfig.movieConfig,
     ost: cardDetailConfig.ostConfig,
     person: cardDetailConfig.personConfig,
+    character: cardDetailConfig.characterConfig,
     reference: cardDetailConfig.referenceConfig,
     serie: cardDetailConfig.serieConfig,
     song: cardDetailConfig.songConfig,
