@@ -9,12 +9,16 @@ var outPath = path.join(__dirname, './dist');
 // plugins
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractSASS = new ExtractTextPlugin('[name].css');
 
 module.exports = {
   context: sourcePath,
   entry: {
     main: [
       path.resolve(__dirname, 'src', 'main.tsx'),
+    ],
+    styles: [
+      path.resolve(__dirname, 'src', 'scss', 'main.scss'),
     ],
     vendor: [
       'react',
@@ -27,8 +31,9 @@ module.exports = {
   output: {
     path: outPath,
     publicPath: '/',
-    filename: '[name].js',
-    library: 'DiveSDK'
+    filename: 'DiveSDK.[name].js',
+    library: ['DiveSDK', "[name]"],
+    libraryTarget: 'umd',
   },
   target: 'web',
   resolve: {
@@ -99,7 +104,7 @@ module.exports = {
           use: [
             {
               loader: "css-loader", // translates CSS into CommonJS
-              options: { sourceMap: process.env.NODE_ENV !== 'production' }
+              options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
             },
             {
               loader: 'postcss-loader',
@@ -111,7 +116,7 @@ module.exports = {
                 ]
               }
             },
-            'resolve-url-loader',
+            //'resolve-url-loader',
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
@@ -148,10 +153,11 @@ module.exports = {
       }
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new ExtractTextPlugin({
-      filename: 'styles.css',
-      //disable: false //!isProduction
-    }),
+    new ExtractTextPlugin(
+      '[name].css', {
+        allChunks: false
+      }
+    ),
     new HtmlWebpackPlugin({
       template: 'index.html'
     })

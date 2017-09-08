@@ -7,8 +7,6 @@ import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "api-typescript-library";
 
-import * as styles from './main.scss';
-
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
@@ -50,11 +48,11 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         console.warn(response);
       });*/
       //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
-      ReactDOM.render(
+      /*ReactDOM.render(
         <Provider store={store}>
           <App />
         </Provider>,
         document.querySelector(params.selector),
-      );
+      );*/
     });
 };
