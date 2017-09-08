@@ -29,4 +29,12 @@
             background-image: url('#{$assets-path}carousel/x.svg');
         }
     }
+
+    :focus .bctButton {
+        color: $color-dark-grey-three;
+        background-color: $color-off-yellow;
+        svg {
+            fill: $color-dark-grey-three;
+        }
+    }
 }
