@@ -11,7 +11,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
-console.log("AUTOPREFIXER", autoPrefixer);
 
 module.exports = {
   context: sourcePath,

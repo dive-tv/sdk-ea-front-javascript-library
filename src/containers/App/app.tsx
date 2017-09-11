@@ -29,6 +29,7 @@ export class App extends React.Component<App.IOwnProps & App.IActionProps, App.I
       view = this.props.cards.map((card: Card, idx: number) => {
         return <CardDetailContainer
           cardId={card.card_id}
+          version={card.version}
           key={`cardDetail_${idx}`}
           parent={this}
           columns={1}
