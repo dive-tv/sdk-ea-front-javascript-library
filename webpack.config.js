@@ -100,7 +100,7 @@ module.exports = {
       },
       {
         test: /\.scss?$/,
-        use: /*['css-hot-loader'].concat(*/ExtractTextPlugin.extract({
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
           use: [
@@ -125,7 +125,7 @@ module.exports = {
               options: { sourceMap: true }
             }
           ]
-        })//)
+        }))
       },
       // static assets
       { test: /\.html$/, use: 'html-loader' },

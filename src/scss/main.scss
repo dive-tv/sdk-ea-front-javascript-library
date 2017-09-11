@@ -4,6 +4,9 @@
 @import 'functions';
 $font-lato: 'Helvetica';
 $font-zona: 'Arial';
+:host { //Shadow DOM's root
+    font-size: 4px;
+}
 @import '../HOC/navigable/navigable.HOC';
 @import '../components/miniCard/miniCard.component';
 @import '../components/miniCard/miniCardButton/miniCardButton.component';
