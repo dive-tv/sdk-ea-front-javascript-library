@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Card, Helper, Localize, Catalog } from "Services";
 import { MiniCard, CardAndCategory, NavigationContainer } from "Components";
 import { ICardModuleProps } from "CardModules";
-import { navigable } from "HOC";
+import { navigable, statics } from "HOC";
 
 interface IHeaderProps {
     title: string | null;
@@ -15,13 +15,9 @@ interface IHeaderProps {
     categories: string | null; // "Bio, Adventure, Comedy";
 }
 
-function statics(a: any) {
-    return (b: any) => Object.assign(b, a)
-}
-
 @statics({
     moduleName: "header",
-    validate: (card: Card, moduleType: string, parent: any) => {
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
         const title: string | null = card.title;
         const subtitle = card.subtitle && card.subtitle !== "" ? card.subtitle : null;
         let time: string | null = null; // "2 h 13 m";
@@ -65,6 +61,7 @@ function statics(a: any) {
             title={title} subtitle={subtitle}
             time={time} titleParenthesis={titleParenthesis}
             categories={categories}
+            {...props}
         />);
     },
 })
@@ -92,7 +89,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                             <NavigationContainer
                                 parent={this} columns={1}
                                 className={`likeButton genericBtn`}
-                                // clickAction={this.clickLike.bind(this)}
+                            // clickAction={this.clickLike.bind(this)}
                             >
                                 <div className="centeredContent">
                                     <i className="icon like"></i>

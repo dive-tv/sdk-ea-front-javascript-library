@@ -6,15 +6,41 @@ import {
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
-import { navigable } from "HOC";
+import { navigable, statics } from "HOC";
 
 interface IListProps {
     itemsShown: number;
     container: CardContainer & { content_type: string, data: any[] };
 }
+@statics({
+    moduleName: "list",
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
+        let container: ImageVO | undefined;
+        switch (moduleType) {
+            case 'Gallery':
+                container = Helper.getContainer(card, 'image') as ImageVO;
+                break;
+        }
 
+        if (container !== undefined &&
+            container.data !== undefined &&
+            container.data.length > 0) {
+            const Instantiated = navigable(List);
+
+            return (<Instantiated
+                itemsShown={2}
+                container={container}
+                parent={parent}
+                isScrollable={true}
+                card={card}
+                moduleType={moduleType}
+            />);
+        }
+        return null;
+    },
+})
 export class List extends React.PureComponent<ICardModuleProps & IListProps, {}> {
-    public static moduleName = "list";
+    public static moduleName = "";
     public static validate(card: Card, moduleType: string, parent: any) {
         let container: ImageVO | undefined;
         switch (moduleType) {

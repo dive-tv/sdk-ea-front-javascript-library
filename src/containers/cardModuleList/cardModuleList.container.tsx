@@ -23,19 +23,22 @@ export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}
         if (card.type && cardModuleOrder && cardModuleOrder.sections &&
             cardModuleOrder.sections[0] &&
             cardModuleOrder.sections[0].modules instanceof Array) {
-                cardModuleOrder.sections[0].modules
+            cardModuleOrder.sections[0].modules
                 .map((cardModule: { type: string }, idx: number): any => {
                     if (cardModule.type && cardModule.type !== "") {
                         const candidate = cardModuleClasses[cardModule.type];
                         if (isValidatable(candidate)) {
                             if (candidate) {
+                                console.warn("Instantiating", cardModule.type);
                                 const moduleInstance = candidate.validate(card, cardModule.type, this, {
                                     isScrollable: true,
                                     scrollPadding: 300,
                                 });
                                 if (moduleInstance) {
+                                    console.warn("Instantiating because validated", cardModule.type);
                                     const navClass = candidate.moduleName ?
-                                    `${candidate.moduleName.toLocaleLowerCase()}-container cardModule-container scrollable` : "container";
+                                        `${candidate.moduleName.toLocaleLowerCase()}-container cardModule-container scrollable` :
+                                        "container";
                                     moduleList.push(
                                         <div className={navClass}
                                             key={`${card.card_id}_module_${idx}`}>
@@ -44,10 +47,10 @@ export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}
                                     );
                                 }
                             } else {
-                                console.error("No existe el módulo o no ha validado", cardModule.type);
+                                console.warn("No existe el módulo o no ha validado", cardModule.type);
                             }
                         } else {
-                            console.error("No existe el módulo", cardModule.type);
+                            console.warn("No existe el módulo", cardModule.type);
                         }
                     }
                     return undefined;

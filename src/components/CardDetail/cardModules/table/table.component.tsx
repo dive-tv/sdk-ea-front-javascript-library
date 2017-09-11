@@ -6,15 +6,14 @@ import {
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
-import { navigable } from "HOC";
+import { navigable, statics } from "HOC";
 
 interface ITableProps {
     container: ListingVO;
 }
-
-export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {}> {
-    public static moduleName = "table";
-    public static validate(card: Card, moduleType: string, parent: any) {
+@statics({
+    moduleName: "table",
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
         // No se puede guardar el container aquí, porque es un método estático.
         const container = Helper.getContainer(card, 'listing') as ListingVO;
         if (container && container.data && container.data.length > 0) {
@@ -27,8 +26,10 @@ export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {
                 moduleType={moduleType} />
             );
         }
-    }
-
+        return null;
+    },
+})
+export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {}> {
     public render(): any {
         return (
             <div className="cardModuleTable cardModule">

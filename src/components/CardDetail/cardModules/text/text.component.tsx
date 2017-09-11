@@ -1,18 +1,17 @@
 import * as React from 'react';
 
 import { ICardModuleProps } from "CardModules";
-import { navigable } from "HOC";
-import { Helper } from "Services";
+import { navigable, statics } from "HOC";
+import { Helper, Localize, Card } from "Services";
 import { VerticalScroll } from "Components";
 
 interface ITextProps {
     container: any;
     textData: any;
 }
-
-export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}> {
-    public static moduleName = "text";
-    public static validate(card: any, moduleType: string, parent: any) {
+@statics({
+    moduleName: "text",
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
         // No se puede guardar el container aquí, porque es un método estático.
         const container: any | undefined = Helper.getContainer(card, 'text') as any;
         if (container !== undefined &&
@@ -25,11 +24,14 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
                 parent={parent}
                 isScrollable={true}
                 card={card}
-                moduleType={moduleType} />
+                moduleType={moduleType}
+                {...props} />
             );
         }
-    }
-
+        return null;
+    },
+})
+export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}> {
     public render(): any {
         const textTitle = this.getTitle();
         return (
@@ -50,9 +52,9 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
         }
         switch (this.props.container!.content_type) {
             case 'biography':
-                return 'BIOGRAPHY';
+                return Localize('BIOGRAPHY');
             case 'overview':
-                return 'SYNOPSIS';
+                return Localize('SYNOPSIS');
             case 'quote':
             case 'reference':
             case 'curiosity':
