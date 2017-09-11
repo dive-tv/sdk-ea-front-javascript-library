@@ -1,13 +1,9 @@
 import * as React from 'react';
 import * as memoizee from 'memoizee';
-/*
-import * as ES from '../../assets/ES/localized_texts.json';
-import * as EN from '../../assets/EN/localized_texts.json';
-import * as DE from '../../assets/DE/localized_texts.json';
-*/
-const ES = {};
-const EN = {};
-const DE = {};
+
+import * as ES from '../assets/ES/localized_texts.json';
+import * as EN from '../assets/EN/localized_texts.json';
+import * as DE from '../assets/DE/localized_texts.json';
 
 type AvailableLanguages = "ES" | "EN" | "DE";
 
