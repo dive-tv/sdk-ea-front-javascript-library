@@ -3,8 +3,7 @@
 }
 
 .listContent {
-    width: 100%;
-    //height: 80%;
+    width: 100%; //height: 80%;
     height: pxToVh(118.5);
     position: relative;
     .listElement {
@@ -13,7 +12,10 @@
         position: relative;
         box-sizing: border-box;
         display: inline-block;
-        border: solid 2px $color-warm-grey;
+        border: none !important;
+        &.focusable {
+            border: solid 2px $color-warm-grey !important;
+        }
         /*width: 45%;
         margin-right: 5%;*/
         img {
@@ -22,8 +24,33 @@
             object-fit: cover;
             background-color: black;
         }
+        .image {
+            width: 100%;
+            height: 78%;
+            position: relative;
+            box-sizing: border-box;
+            border: solid 2px $color-warm-grey;
+            margin-bottom: 7%;
+        }
+        .title {
+            width: 100%;
+            height: 15%;
+            position: relative;
+            box-sizing: border-box;
+            border: solid 2px $color-warm-grey;
+            font-size: pxToEmZeplinX2(10);
+            text-align: center;
+            padding-top: 7%;
+        }
     }
-     :focus .listElement {
-         border: 2px solid $off-yellow !important;
-     }
+     :focus {
+        .listElement {
+            &.focusable {
+                border: 2px solid $off-yellow !important;
+            }
+            .focusable {
+                border: 2px solid $off-yellow !important;
+            }
+        }
+    }
 }
