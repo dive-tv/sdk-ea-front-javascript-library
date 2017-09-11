@@ -3,7 +3,7 @@
 @import './table/table.component';
 @import './awards/awards.component';
 @import './list/list.component';
-html body .cardModulesContainer {
+.cardModulesContainer {
     white-space: nowrap;
     height: pxToVh(168);
     box-sizing: border-box;
