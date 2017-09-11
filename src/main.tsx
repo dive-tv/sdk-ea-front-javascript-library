@@ -7,8 +7,7 @@ import ShadowDOM from 'react-shadow';
 import { AccessToken, DiveAPIClass } from "api-typescript-library";
 import { store } from './store/store';
 import { App } from 'Containers';
-
-import * as styles from './scss/main.scss';
+import { Card } from 'Services';
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -47,20 +46,27 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
       }
     })
     .then(() => {
+      APIinstance.getStaticMovieScene({relations: true, clientMovieId: "m00001", timestamp: 4000})
+      .then((response: Card[]) => {
+        console.log("CARDS FROM MOVIE", response);
+        ReactDOM.render(
+          <ShadowDOM include={'styles.css'}>
+            <div className="diveContainer">
+              <Provider store={store}>
+                <App cards={response} />
+              </Provider>
+            </div>
+          </ShadowDOM >,
+          document.querySelector(params.selector),
+        );
+      })
+      .catch((error) => {
+        console.error("CARDS FROM MOVIE ERROR", error);
+      });
       /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
         console.warn(response);
       });*/
       //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
-      ReactDOM.render(
-        <ShadowDOM>
-          <div className="diveContainer">
-            <style type="text/css">{styles}</style>
-            <Provider store={store}>
-              <App />
-            </Provider>
-          </div>
-        </ShadowDOM >,
-        document.querySelector(params.selector),
-      );
+      // console.log("STYLES", styles);
     });
 };

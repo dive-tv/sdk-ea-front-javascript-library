@@ -2,11 +2,14 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { CardDetailContainer } from 'Containers';
 import { MapStateToPropsParam } from "react-redux";
+
+import { CardDetailContainer } from 'Containers';
+import { Card } from 'Services';
 
 export namespace App {
   export interface IOwnProps {
+    cards: Card[];
   }
 
   export interface IActionProps {
@@ -17,19 +20,21 @@ export namespace App {
   }
 }
 
-@connect(mapStateToProps, mapDispatchToProps, undefined)
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
 export class App extends React.Component<App.IOwnProps & App.IActionProps, App.IState> {
 
   public render(): any {
     let view: any = "";
     if (true) {
-      view = <CardDetailContainer
-        cardId={"c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}
-        key={"cardDetail"}
-        parent={this}
-        columns={1}
-        isDefault={true}
-      />;
+      view = this.props.cards.map((card: Card, idx: number) => {
+        return <CardDetailContainer
+          cardId={card.card_id}
+          key={`cardDetail_${idx}`}
+          parent={this}
+          columns={1}
+          isDefault={true}
+        />;
+      });
     }
 
     return (
@@ -48,4 +53,8 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any): App.IActionProps {
   return {
   };
+}
+
+function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOwnProps {
+  return { ...stateProps, ...ownProps, ...dispatchProps };
 }

@@ -10,16 +10,18 @@ var outPath = path.join(__dirname, './dist');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
+const autoPrefixer = require('autoprefixer');
+console.log("AUTOPREFIXER", autoPrefixer);
 
 module.exports = {
   context: sourcePath,
   entry: {
     front: [
       path.resolve(__dirname, 'src', 'main.tsx'),
-    ],/*
+    ],
     styles: [
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
-    ],*/
+    ],
     vendor: [
       'react',
       'react-dom',
@@ -75,7 +77,7 @@ module.exports = {
               loader: 'css-loader',
               query: {
                 modules: true,
-                sourceMap: !isProduction,
+                sourceMap: true, //!isProduction,
                 importLoaders: 1,
                 localIdentName: '[local]__[hash:base64:5]'
               }
@@ -104,13 +106,14 @@ module.exports = {
           use: [
             {
               loader: "css-loader", // translates CSS into CommonJS
-              options: { modules: true, sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
+              options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
             },
             {
               loader: 'postcss-loader',
               options: {
+                sourceMap: true,
                 plugins: [
-                  require('autoprefixer')({
+                  autoPrefixer({
                     browsers: ['last 10 versions']
                   })
                 ]
@@ -122,7 +125,7 @@ module.exports = {
               options: { sourceMap: true }
             }
           ]
-        })/*)*/
+        })//)
       },
       // static assets
       { test: /\.html$/, use: 'html-loader' },
@@ -159,7 +162,8 @@ module.exports = {
       }
     ),
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: 'index.html',
+      excludeChunks: ['styles']
     })
   ],
   devtool: (function () {
