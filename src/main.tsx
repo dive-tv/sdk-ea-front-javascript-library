@@ -2,10 +2,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
+import ShadowDOM from 'react-shadow';
 
+import { AccessToken, DiveAPIClass } from "api-typescript-library";
 import { store } from './store/store';
 import { App } from 'Containers';
-import { AccessToken, DiveAPIClass } from "api-typescript-library";
+
+import * as styles from './scss/main.scss';
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -35,7 +38,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
       console.log("Authorized!");
       (window as any).DiveAPI = APIinstance;
       // tslint:disable-next-line:no-console
-      console.log("DiveAPI generated, available through DiveLib.API or window.DiveAPI (global)");
+      console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
       if (typeof params.selector !== "string") {
         console.error(`You should provide a selector that resolves to an existing DOM Element
         in the initialization parameter 'selector'`);
@@ -49,9 +52,14 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
       });*/
       //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
       ReactDOM.render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
+        <ShadowDOM>
+          <div className="diveContainer">
+            <style type="text/css">{styles}</style>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </div>
+        </ShadowDOM >,
         document.querySelector(params.selector),
       );
     });

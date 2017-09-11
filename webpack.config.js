@@ -16,10 +16,10 @@ module.exports = {
   entry: {
     front: [
       path.resolve(__dirname, 'src', 'main.tsx'),
-    ],
+    ],/*
     styles: [
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
-    ],
+    ],*/
     vendor: [
       'react',
       'react-dom',
@@ -98,13 +98,13 @@ module.exports = {
       },
       {
         test: /\.scss?$/,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+        use: /*['css-hot-loader'].concat(*/ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
           use: [
             {
               loader: "css-loader", // translates CSS into CommonJS
-              options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
+              options: { modules: true, sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
             },
             {
               loader: 'postcss-loader',
@@ -122,7 +122,7 @@ module.exports = {
               options: { sourceMap: true }
             }
           ]
-        }))
+        })/*)*/
       },
       // static assets
       { test: /\.html$/, use: 'html-loader' },
