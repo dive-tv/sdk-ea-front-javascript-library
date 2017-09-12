@@ -11,17 +11,18 @@ import {
     CardContainer,
     RelationModule,
     Single,
-    Duple
+    Duple,
+    DupleData
 } from "Services";
-import {ICardModuleProps} from "CardModules";
-import {DirectionButton, HorizontalScroll, NavigationContainer} from "Components";
-import {navigable, statics} from "HOC";
+import { ICardModuleProps } from "CardModules";
+import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
+import { navigable, statics } from "HOC";
 
 interface IListProps {
-    itemsShown : number,
-    container : IListContainerType,
-    card : Card,
-    moduleType : ListModuleType
+    itemsShown: number,
+    container: IListContainerType,
+    card: Card,
+    moduleType: ListModuleType
 }
 
 /*interface ITempProduct {
@@ -41,41 +42,40 @@ interface IListProps {
 
 }*/
 
-interface IListContainerType/*extends CardContainer*/
-{
-    content_type : string,
-    data : Array < any >
+interface IListContainerType/*extends CardContainer*/ {
+    content_type: string,
+    data: Array<any>
 };
 type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'LocationOnScreen';
 
 @statics({
     moduleName: "list",
-    validate: (card : Card, moduleType : string, parent : any, props : any) => {
-        const container : ImageVO | IListContainerType | undefined = List.getContainer(card, moduleType);
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
+        const container: ImageVO | IListContainerType | Single | Duple | undefined = List.getContainer(card, moduleType);
 
         if (container !== undefined && container.data !== undefined && container.data.length > 0) {
             const Instantiated = navigable(List);
-
             return (<Instantiated
                 itemsShown={2}
                 container={container}
                 parent={parent}
                 isScrollable={true}
                 card={card}
-                moduleType={moduleType as ListModuleType}/>);
+                moduleType={moduleType as ListModuleType} />);
         }
         return null;
     }
 })
-export class List extends React.PureComponent < ICardModuleProps & IListProps, {} > {
+export class List extends React.PureComponent<ICardModuleProps & IListProps, {}> {
     public static moduleName = "";
 
-    public static getContainer(card : Card, moduleType : string): ImageVO | IListContainerType | Single | Duple | undefined {
-        switch(moduleType as ListModuleType) {
+    public static getContainer(card: Card, moduleType: string): ImageVO | IListContainerType | Single | Duple | undefined {
+        console.log("Filmography card: ", card);
+        switch (moduleType as ListModuleType) {
             case 'Gallery':
-                return Helper.getContainer(card, 'image')as ImageVO;
+                return Helper.getContainer(card, 'image') as ImageVO;
             case 'Shop':
-                console.log("Shop card: ", card);
+                // console.log("Shop card: ", card);
                 const obj = {
                     content_type: 'products',
                     data: card.products,
@@ -85,6 +85,9 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
 
             case 'Filmography':
                 return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;
+            case 'Cast':
+                return Helper.getRelation(card.relations, 'casting', 'content_type') as Duple;
+
             default:
                 return undefined;
         }
@@ -99,7 +102,7 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
                     <div className="listContent">
                         <HorizontalScroll
                             parent={this}
-                            uniqueId={this.props.container !.content_type}
+                            uniqueId={this.props.container!.content_type}
                             itemsShown={this.props.itemsShown}>
                             {this.getList()}
                         </HorizontalScroll>
@@ -110,13 +113,17 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
     }
 
     private getList = (): JSX.Element[] | null => {
-        const type : ListModuleType = this.props.moduleType;
+        const type: ListModuleType = this.props.moduleType;
 
         switch (type) {
             case 'Gallery':
                 return this.getGalleryList();
             case 'Shop':
                 return this.getShopList();
+            case 'Filmography':
+                return this.getFilmographyList();
+            case 'Cast':
+                return this.getCastList();
         }
     }
 
@@ -126,14 +133,14 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
                 .props
                 .container
                 .data
-                .map((el : ImageDataVO, i : number) => (
+                .map((el: ImageDataVO, i: number) => (
                     <NavigationContainer
-                        key={this.props.container !.content_type + '_show_' + i}
+                        key={this.props.container!.content_type + '_show_' + i}
                         parent={this}
                         forceOrder={i % this.props.itemsShown}
                         columns={2}
                         className="horizontalElement listElement focusable">
-                        <img src={el.thumb}/>
+                        <img src={el.thumb} />
                     </NavigationContainer>
                 ));
             return elements;
@@ -147,24 +154,50 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
                 .props
                 .container
                 .data
-                .map((el : Product, i : number) => (
-                    <NavigationContainer
-                        key={this.props.container !.content_type + '_show_' + i}
-                        parent={this}
-                        forceOrder={i % this.props.itemsShown}
-                        columns={2}
-                        className="horizontalElement listElement">
-                        <div className="image focusable"><img src={el.image}/></div>
-                        <div className="title focusable">{el.price}</div>
-                    </NavigationContainer>
-                ));
+                .map((el: Product, i: number) => this.getGenericElement(el.price.toString() + el.currency, el.image, i));
             return elements;
         }
         return null;
     }
 
+    private getFilmographyList = (): JSX.Element[] | null => {
+        if (this.props.container) {
+            const elements = this
+                .props
+                .container
+                .data
+                .map((el: DupleData, i: number) => this.getGenericElement(el.from.title, el.from.image ? el.from.image.thumb : null, i));
+            return elements;
+        }
+        return null;
+    }
+
+    private getCastList = (): JSX.Element[] | null => {
+        if (this.props.container) {
+            const elements = this
+                .props
+                .container
+                .data
+                .map((el: DupleData, i: number) => el.rel_type == 'plays' && this.getGenericElement(el.from.title, el.from.image ? el.from.image.thumb : null, i));
+            return elements;
+        }
+        return null;
+    }
+
+    private getGenericElement = (title: string, image: string, order: number): JSX.Element =>
+        <NavigationContainer
+            key={this.props.container!.content_type + '_show_' + order}
+            parent={this}
+            forceOrder={order % this.props.itemsShown}
+            columns={2}
+            className="horizontalElement listElement">
+            <div className="image focusable"><img src={image} /></div>
+            <div className="title focusable">{title}</div>
+        </NavigationContainer>
+
+
     private getTitle = () => {
-        switch (this.props.container !.content_type) {
+        switch (this.props.container!.content_type) {
             case 'gallery':
                 return Localize('GALLERY');
             default:
