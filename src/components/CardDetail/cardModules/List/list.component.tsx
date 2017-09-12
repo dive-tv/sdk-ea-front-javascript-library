@@ -8,7 +8,10 @@ import {
     Helper,
     Image as ImageVO,
     ImageData as ImageDataVO,
-    CardContainer
+    CardContainer,
+    RelationModule,
+    Single,
+    Duple
 } from "Services";
 import {ICardModuleProps} from "CardModules";
 import {DirectionButton, HorizontalScroll, NavigationContainer} from "Components";
@@ -43,7 +46,7 @@ interface IListContainerType/*extends CardContainer*/
     content_type : string,
     data : Array < any >
 };
-type ListModuleType = 'Gallery' | 'Shop';
+type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'LocationOnScreen';
 
 @statics({
     moduleName: "list",
@@ -67,7 +70,7 @@ type ListModuleType = 'Gallery' | 'Shop';
 export class List extends React.PureComponent < ICardModuleProps & IListProps, {} > {
     public static moduleName = "";
 
-    public static getContainer(card : Card, moduleType : string): ImageVO | IListContainerType | undefined {
+    public static getContainer(card : Card, moduleType : string): ImageVO | IListContainerType | Single | Duple | undefined {
         switch(moduleType as ListModuleType) {
             case 'Gallery':
                 return Helper.getContainer(card, 'image')as ImageVO;
@@ -78,8 +81,10 @@ export class List extends React.PureComponent < ICardModuleProps & IListProps, {
                     data: card.products,
                     type: 'listing'
                 };
-                return (obj)as IListContainerType;
+                return obj as IListContainerType;
 
+            case 'Filmography':
+                return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;
             default:
                 return undefined;
         }
