@@ -40,8 +40,15 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
             <div className="cardModuleText cardModule">
                 <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll source={this.props.textData ? this.props.textData.source : undefined} parent={this}>
-                        {textTitle ? <div className="cardTitle">{textTitle}</div> : null}
-                        <div className="cardText">{this.props.textData.text}</div>
+                        {textTitle ?
+                            <div className={`cardTitle ${Theme.cardModuleTitleColor}`}>
+                                {textTitle}
+                            </div> :
+                            null
+                        }
+                        <div className={`cardText ${Theme.cardModuleTextMainColor}`}>
+                            {this.props.textData.text}
+                        </div>
                     </VerticalScroll>
                 </div>
             </div>

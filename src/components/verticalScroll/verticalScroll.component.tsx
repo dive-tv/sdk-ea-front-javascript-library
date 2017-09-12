@@ -6,6 +6,8 @@ import { ICardModuleProps } from "CardModules";
 import { DirectionButton, DirectionButtonList } from "Components";
 import { navigable } from "HOC";
 
+import { Theme } from "Theme";
+
 export interface IVerticalScrollProps {
     source?: SourceDataVO | undefined;
 }
@@ -31,8 +33,8 @@ export class VerticalScrollClass extends React.PureComponent<IVerticalScrollProp
                 </div>
                 {source ?
                     <div className="source">
-                        <label className="label">{Localize('SOURCE')}: </label>
-                        <label className="text">{source}</label>
+                        <label className={`label ${Theme.cardModuleTextTernaryColor}`}>{Localize('SOURCE')}: </label>
+                        <label className={`text ${Theme.cardModuleTextSecondaryColor}`}>{source}</label>
                     </div>
                     : null}
 

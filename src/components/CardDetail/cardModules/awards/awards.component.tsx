@@ -58,7 +58,7 @@ export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps,
             <div className="cardModuleAwards cardModule">
                 <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll parent={this}>
-                        <div className="cardTitle">{this.getTitle()}</div>
+                        <div className={`cardTitle ${Theme.cardModuleTitleColor}`}>{this.getTitle()}</div>
                         <div className="awards">
                             <table>
                                 <tbody>

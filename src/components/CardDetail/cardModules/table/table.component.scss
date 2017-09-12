@@ -8,13 +8,13 @@
         display: block;
         td:nth-child(odd) {
             font-weight: 600;
-            color: $color-white;
+            //color: $color-white;
             width: pxToVw(72);
             box-sizing: border-box;
             padding-right: 6px;
         }
         td:nth-child(even) {
-            color: $color-warm-grey;
+            //color: $color-warm-grey;
             font-weight: normal;
         }
     }

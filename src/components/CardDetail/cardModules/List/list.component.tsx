@@ -72,7 +72,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
         return (
             <div className="cardModuleList cardModule">
                 <div className={`container ${Theme.cardDetailModuleBg}`}>
-                    <div className="cardTitle">{textTitle}</div>
+                    <div className={`cardTitle ${Theme.cardModuleTitleColor}`}>{textTitle}</div>
                     <div className="listContent">
                         <HorizontalScroll
                             parent={this}

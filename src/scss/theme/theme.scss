@@ -1,9 +1,28 @@
 .mainBackgroundAndBaseColor {
-    color: #fff;
-    background-color: #1c1d1d;
+    color: #fff !important;
+    background-color: #1c1d1d !important;
+}
+
+.cardDetailTitle {
+    color: aqua !important;
 }
 
 .cardDetailModuleBg {
-    background-color: #252526;
+    background-color: #252526 !important;
 }
 
+.cardModuleTitleColor {
+    color: yellow !important;
+}
+
+.cardModuleTextMainColor {
+    color: blue !important;
+}
+
+.cardModuleTextSecondaryColor {
+    color: green !important;
+}
+
+.cardModuleTextTernaryColor {
+    color: pink !important;
+}

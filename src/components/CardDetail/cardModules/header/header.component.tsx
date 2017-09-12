@@ -7,6 +7,8 @@ import { MiniCard, CardAndCategory, NavigationContainer } from "Components";
 import { ICardModuleProps } from "CardModules";
 import { navigable, statics } from "HOC";
 
+import { Theme } from "Theme";
+
 interface IHeaderProps {
     title: string | null;
     subtitle: string | null;
@@ -73,7 +75,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                 <div className="rightPart">
                     <div className="info">
                         <div className="titleContainer">
-                            <p className="title">{this.props.title}</p>
+                            <p className={`title ${Theme.cardDetailTitle}`}>{this.props.title}</p>
                             {
                                 this.props.titleParenthesis ?
                                     <div className="titleParenthesis"> ({this.props.titleParenthesis})</div> :

@@ -37,15 +37,19 @@ export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {
             <div className="cardModuleTable cardModule">
                 <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll parent={this}>
-                        <div className="cardTitle">{this.getTitle()}</div>
+                        <div className={`cardTitle ${Theme.cardModuleTitleColor}`}>{this.getTitle()}</div>
                         <div className="table">
                             <table>
                                 <tbody>
                                     {this.props.container!.data.map((listItem: ListingData, idx: number) => {
                                         return (
                                             <tr key={idx}>
-                                                <td>{listItem.text}</td>
-                                                <td>{listItem.value}</td>
+                                                <td className={`${Theme.cardModuleTextSecondaryColor}`}>
+                                                    {listItem.text}
+                                                </td>
+                                                <td className={`${Theme.cardModuleTextMainColor}`}>
+                                                    {listItem.value}
+                                                </td>
                                             </tr>);
                                     })}
                                 </tbody>
