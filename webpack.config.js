@@ -60,6 +60,7 @@ module.exports = {
       // .ts, .tsx
       {
         test: /\.(ts|tsx)?$/,
+        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules'],
         use: isProduction
           ? 'awesome-typescript-loader?module=es6&configFileName=tsconfig.json'
           : [
@@ -70,6 +71,7 @@ module.exports = {
       // css
       {
         test: /\.css$/,
+        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules'],
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -100,6 +102,7 @@ module.exports = {
       },
       {
         test: /\.scss?$/,
+        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules', 'theme'],
         use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
@@ -119,7 +122,7 @@ module.exports = {
                 ]
               }
             },
-            //'resolve-url-loader',
+            'resolve-url-loader',
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
@@ -127,10 +130,46 @@ module.exports = {
           ]
         }))
       },
+      {
+        test: /\theme.scss?$/,
+        exclude: ['node_modules'],
+        use: /*['css-hot-loader'].concat(*/ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          //resolve-url-loader may be chained before sass-loader if necessary 
+          use: [
+            { loader: 'style-loader' },
+            {
+              loader: 'css-loader',
+              query: {
+                modules: true,
+                sourceMap: true, //!isProduction,
+                importLoaders: 1,
+                localIdentName: '[local]__[hash:base64:5]'
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                plugins: [
+                  autoPrefixer({
+                    browsers: ['last 10 versions']
+                  })
+                ]
+              }
+            },
+            'resolve-url-loader',
+            {
+              loader: "sass-loader", // compiles Sass to CSS
+              options: { sourceMap: true }
+            }
+          ]
+        })/*)*/
+      },
       // static assets
-      { test: /\.html$/, use: 'html-loader' },
-      { test: /\.png$/, use: 'url-loader?limit=10000' },
-      { test: /\.jpg$/, use: 'file-loader' },
+      { test: /\.html$/, use: 'html-loader', exclude: ['node_modules'] },
+      { test: /\.png$/, use: 'url-loader?limit=10000', exclude: ['node_modules'] },
+      { test: /\.jpg$/, use: 'file-loader', exclude: ['node_modules'] },
       {
         test: /\.(svg)$/,
         exclude: ['node_modules', path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
@@ -143,7 +182,7 @@ module.exports = {
           }
         ]
       },
-      { test: /\.json$/, use: 'json-loader' }
+      { test: /\.json$/, use: 'json-loader', exclude: ['node_modules'] }
     ],
   },
   plugins: [
