@@ -60,7 +60,7 @@ module.exports = {
       // .ts, .tsx
       {
         test: /\.(ts|tsx)?$/,
-        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules'],
+        exclude: [/\.(spec|e2e|d)\.tsx$/, /node_modules/],
         use: isProduction
           ? 'awesome-typescript-loader?module=es6&configFileName=tsconfig.json'
           : [
@@ -68,41 +68,9 @@ module.exports = {
             'awesome-typescript-loader?configFileName=tsconfig.json'
           ]
       },
-      // css
-      {
-        test: /\.css$/,
-        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules'],
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                sourceMap: true, //!isProduction,
-                importLoaders: 1,
-                localIdentName: '[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [
-                  require('postcss-import')({ addDependencyTo: webpack }),
-                  require('postcss-url')(),
-                  require('postcss-cssnext')(),
-                  require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({ disabled: isProduction }),
-                ]
-              }
-            }
-          ]
-        })
-      },
       {
         test: /\.scss?$/,
-        exclude: ['/\.(spec|e2e|d)\.tsx$/', 'node_modules', 'theme'],
+        exclude: [/node_modules/, /theme/],
         use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
@@ -131,8 +99,8 @@ module.exports = {
         }))
       },
       {
-        test: /\theme.scss?$/,
-        use: /*['css-hot-loader'].concat(*/ExtractTextPlugin.extract({
+        test: /theme.scss/,
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
           use: [
@@ -150,13 +118,13 @@ module.exports = {
                 ]
               }
             },
-            //'resolve-url-loader',
+            'resolve-url-loader',
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
             }
           ]
-        })/*)*/
+        }))
       },
       // static assets
       { test: /\.html$/, use: 'html-loader', exclude: ['node_modules'] },

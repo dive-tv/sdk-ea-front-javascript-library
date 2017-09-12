@@ -10,11 +10,11 @@ import { NavigableCardModuleList } from "Containers";
 import { Card } from "Services";
 
 import * as styling from "../../scss/theme/theme.scss";
-import { MainTheme } from "Theme";
+// import { MainTheme } from "Theme";
 
 console.error("Theme file", styling);
 
-console.error("MAIN THEME", MainTheme);
+// console.error("MAIN THEME", MainTheme);
 
 declare type DiveAPI = any;
 export type CardDetailStatus = "LOADING" | "DONE";
@@ -38,7 +38,7 @@ export class CardDetailClass
     }
     public render(): any {
         return (
-            <div className={`cardDetail fillParent ${MainTheme.mainBackgroundAndBaseColor}`}>
+            <div className={`cardDetail fillParent`}>
                 <div className="bottomContainerTopButtons">
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"
