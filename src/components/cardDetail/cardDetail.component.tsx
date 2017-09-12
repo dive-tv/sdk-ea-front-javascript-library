@@ -9,10 +9,8 @@ import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from
 import { NavigableCardModuleList } from "Containers";
 import { Card } from "Services";
 
-import * as styling from "../../scss/theme/theme.scss";
+import * as theme from "../../scss/theme/theme.scss";
 // import { MainTheme } from "Theme";
-
-console.error("Theme file", styling);
 
 // console.error("MAIN THEME", MainTheme);
 
@@ -38,7 +36,7 @@ export class CardDetailClass
     }
     public render(): any {
         return (
-            <div className={`cardDetail fillParent`}>
+            <div className={`cardDetail fillParent ${theme.mainBackgroundAndBaseColor}`}>
                 <div className="bottomContainerTopButtons">
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"

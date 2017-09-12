@@ -52,7 +52,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         const newCard: any = {card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ"};
         response = [newCard, ...response];
         ReactDOM.render(
-          <ShadowDOM include={'styles.css'}>
+          <ShadowDOM include={['styles.css', 'front.css']}>
             <div className="diveContainer">
               <Provider store={store}>
                 <App cards={response} />

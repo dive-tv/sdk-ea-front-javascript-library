@@ -70,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.scss?$/,
-        exclude: [/node_modules/, /theme/],
+        exclude: [/node_modules/, /theme\/*\.scss/],
         use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
@@ -111,6 +111,7 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
+                sourcemap: true,
                 plugins: [
                   require('autoprefixer')({
                     browsers: ['last 10 versions']
@@ -118,7 +119,10 @@ module.exports = {
                 ]
               }
             },
-            'resolve-url-loader',
+            {
+              loader: 'resolve-url-loader',
+              options: { sourceMap: true }
+            },
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
