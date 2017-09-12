@@ -132,33 +132,25 @@ module.exports = {
       },
       {
         test: /\theme.scss?$/,
-        exclude: ['node_modules'],
         use: /*['css-hot-loader'].concat(*/ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
           use: [
-            { loader: 'style-loader' },
             {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                sourceMap: true, //!isProduction,
-                importLoaders: 1,
-                localIdentName: '[local]__[hash:base64:5]'
-              }
+              loader: "css-loader", // translates CSS into CommonJS
+              options: { modules: true, sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
             },
             {
               loader: 'postcss-loader',
               options: {
-                sourceMap: true,
                 plugins: [
-                  autoPrefixer({
+                  require('autoprefixer')({
                     browsers: ['last 10 versions']
                   })
                 ]
               }
             },
-            'resolve-url-loader',
+            //'resolve-url-loader',
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
