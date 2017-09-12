@@ -9,6 +9,10 @@ import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from
 import { NavigableCardModuleList } from "Containers";
 import { Card } from "Services";
 
+import { MainTheme } from "Theme";
+
+console.error("MAIN THEME", MainTheme);
+
 declare type DiveAPI = any;
 export type CardDetailStatus = "LOADING" | "DONE";
 export type RelationTypes = "all" | "offmovie" | "none";
@@ -31,7 +35,7 @@ export class CardDetailClass
     }
     public render(): any {
         return (
-            <div className="cardDetail fillParent">
+            <div className={`cardDetail fillParent ${MainTheme.mainBackgroundAndBaseColor}`}>
                 <div className="bottomContainerTopButtons">
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"
