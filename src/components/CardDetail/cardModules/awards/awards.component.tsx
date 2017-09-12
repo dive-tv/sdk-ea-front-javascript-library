@@ -8,6 +8,8 @@ import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
 import { navigable } from "HOC";
 
+import { Theme } from "Theme";
+
 declare const Localize: any;
 
 interface IAwardsProps {
@@ -54,7 +56,7 @@ export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps,
     public render(): any {
         return (
             <div className="cardModuleAwards cardModule">
-                <div className="container">
+                <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll parent={this}>
                         <div className="cardTitle">{this.getTitle()}</div>
                         <div className="awards">

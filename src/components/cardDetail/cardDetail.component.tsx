@@ -36,7 +36,7 @@ export class CardDetailClass
     }
     public render(): any {
         return (
-            <div className={`cardDetail fillParent ${theme.mainBackgroundAndBaseColor}`}>
+            <div className={`cardDetail fillParent ${theme.mainBackgroundAndBaseColor} ${theme.cardDetail}`}>
                 <div className="bottomContainerTopButtons">
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"

@@ -5,6 +5,8 @@ import { navigable, statics } from "HOC";
 import { Helper, Localize, Card } from "Services";
 import { VerticalScroll } from "Components";
 
+import { Theme } from "Theme";
+
 interface ITextProps {
     container: any;
     textData: any;
@@ -36,7 +38,7 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
         const textTitle = this.getTitle();
         return (
             <div className="cardModuleText cardModule">
-                <div className="container">
+                <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll source={this.props.textData ? this.props.textData.source : undefined} parent={this}>
                         {textTitle ? <div className="cardTitle">{textTitle}</div> : null}
                         <div className="cardText">{this.props.textData.text}</div>

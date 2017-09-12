@@ -1,5 +1,2 @@
-/*
-import * as Theme from './theme.scss';
-console.log("THEME", Theme);
-export const MainTheme = {...Theme};
-*/
+import * as theme from './theme.scss';
+export const Theme: any = {...theme};

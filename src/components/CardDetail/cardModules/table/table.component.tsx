@@ -8,6 +8,8 @@ import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
 import { navigable, statics } from "HOC";
 
+import { Theme } from "Theme";
+
 interface ITableProps {
     container: ListingVO;
 }
@@ -33,7 +35,7 @@ export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {
     public render(): any {
         return (
             <div className="cardModuleTable cardModule">
-                <div className="container">
+                <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <VerticalScroll parent={this}>
                         <div className="cardTitle">{this.getTitle()}</div>
                         <div className="table">

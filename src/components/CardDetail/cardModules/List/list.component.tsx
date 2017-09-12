@@ -8,6 +8,8 @@ import { ICardModuleProps } from "CardModules";
 import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
 import { navigable, statics } from "HOC";
 
+import { Theme } from "Theme";
+
 interface IListProps {
     itemsShown: number;
     container: CardContainer & { content_type: string, data: any[] };
@@ -69,7 +71,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
         const textTitle = this.getTitle();
         return (
             <div className="cardModuleList cardModule">
-                <div className="container">
+                <div className={`container ${Theme.cardDetailModuleBg}`}>
                     <div className="cardTitle">{textTitle}</div>
                     <div className="listContent">
                         <HorizontalScroll

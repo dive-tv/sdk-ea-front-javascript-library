@@ -3,10 +3,10 @@ declare module '*.css' {
     export = styles;
 }
 
-declare module '*.scss' {
+declare module '*.scss';/* {
     const styles: any;
     export = styles;
-}
+}*/
 
 declare module "*.json" {
     const value: any;
