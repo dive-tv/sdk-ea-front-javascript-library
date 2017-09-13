@@ -1,14 +1,15 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
 // variables
-var isProduction = process.argv.indexOf('-p') >= 0;
-var sourcePath = path.join(__dirname, './src');
-var outPath = path.join(__dirname, './dist');
+const isProduction = process.argv.indexOf('-p') >= 0;
+const sourcePath = path.join(__dirname, './src');
+const outPath = path.join(__dirname, './dist');
 
 // plugins
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 
@@ -166,8 +167,10 @@ module.exports = {
     ),
     new HtmlWebpackPlugin({
       template: 'index.html',
-      excludeChunks: ['styles']
-    })
+      excludeAssets: [/styles.css/, /front.css/],
+      allChunks: false,
+    }),
+    new HtmlWebpackExcludeAssetsPlugin()
   ],
   devtool: (function () {
     // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'dev') {

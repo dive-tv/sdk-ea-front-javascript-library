@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import ShadowDOM from 'react-shadow';
 
-import { AccessToken, DiveAPIClass } from "api-typescript-library";
+import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { store } from './store/store';
 import { App } from 'Containers';
 import { Card } from 'Services';
@@ -72,3 +72,5 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
       // console.log("STYLES", styles);
     });
 };
+
+init({selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test"});
