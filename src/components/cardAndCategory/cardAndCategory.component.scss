@@ -18,7 +18,7 @@
             background-image: url('#{$assets-path}carousel/ico-nophoto.png');
             background-position: 50% 50%;
             background-repeat: no-repeat;
-            background-size: pxToVw(40) pxToVh(40);
+            background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
             width: 100%;
             height: 100%;
             display: inline-block;
