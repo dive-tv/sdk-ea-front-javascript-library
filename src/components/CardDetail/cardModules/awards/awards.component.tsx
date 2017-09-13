@@ -6,20 +6,34 @@ import {
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
-import { navigable } from "HOC";
+import { navigable, statics } from "HOC";
 
 declare const Localize: any;
 
 interface IAwardsProps {
     container: AwardsContainer;
 }
-
-export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps, {}> {
-    public static moduleName = "awards";
-    public static validate(card: Card, moduleType: string, parent: any) {
+@statics({
+    moduleName: "awards",
+    validate: (card: Card, moduleType: string, parent: any, props: any) => {
         const container = Helper.getContainer(card, 'awards') as AwardsContainer;
         // MOCKUP
         // container!.data = [
+        //     {
+        //         title: "Mejor actor",
+        //         winner: [{}, {}, {}],
+        //         nominee: [{}],
+        //     },
+        //     {
+        //         title: "Mejor actor",
+        //         winner: [{}, {}, {}],
+        //         nominee: [{}],
+        //     },
+        //     {
+        //         title: "Mejor actor",
+        //         winner: [{}, {}, {}],
+        //         nominee: [{}],
+        //     },
         //     {
         //         title: "Mejor actor",
         //         winner: [{}, {}, {}],
@@ -46,8 +60,10 @@ export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps,
                 moduleType={moduleType} />
             );
         }
-    }
-
+        return null;
+    },
+})
+export class Awards extends React.PureComponent<ICardModuleProps & IAwardsProps, {}> {
     private container: AwardsContainer | undefined;
     private scrollBox: HTMLElement;
 

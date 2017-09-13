@@ -3,6 +3,24 @@
     font-size: 4px !important;
 }
 
+::-webkit-scrollbar {
+    display: none;
+    background: rgba(0, 0, 0, .3);
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+}
+ ::-webkit-scrollbar-thumb {
+    background: #8c8c8c;
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    display: none;
+}
+
 .navigable:focus>.genericBtn {
     background-color: $color-off-yellow;
     color: $color-dark-grey;
