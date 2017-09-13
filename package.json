@@ -54,7 +54,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
-    "api-typescript-library": "file:../api-typescript-library",
+    "@dive-tv/api-typescript-library": "file:../api-typescript-library",
     "classnames": "^2.2.5",
     "memoizee": "^0.4.10",
     "react": "^15.6.1",
