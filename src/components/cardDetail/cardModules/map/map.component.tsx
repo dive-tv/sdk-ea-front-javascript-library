@@ -20,7 +20,9 @@ interface IMapProps {
         const container: MapVO | undefined = Helper.getContainer(card, 'map') as MapVO;
         if (container !== undefined &&
             container.data !== undefined &&
-            container.data.length > 0) {
+            container.data.length > 0 &&
+            container.data[0].latitude &&
+            container.data[0].longitude) {
             const Instantiated = navigable(Map);
             return (<Instantiated
                 {...props}
@@ -38,14 +40,17 @@ export class Map extends React.PureComponent<ICardModuleProps & IMapProps, {}> {
     public render(): any {
         const textTitle = this.getTitle();
         const {latitude, longitude, zoom } = this.props.mapData;
+        let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&size=300x168`;
+        const appliedZoom = parseInt(`${zoom}`, 10);
+        if (appliedZoom) {
+            mapUrl += `&zoom=${appliedZoom}`;
+        }
         return (
             <div className="cardModuleMap cardModule">
                 <div className="container">
                     {textTitle ? <div className="cardTitle">{textTitle}</div> : null}
                     <div className="map">
-                        <img
-                            // tslint:disable-next-line:max-line-length
-                            src={`https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=${zoom}&size=300x168`} className="mapThumbnail" />
+                        <img src={mapUrl} className="mapThumbnail" />
                     </div>
                 </div>
             </div>
