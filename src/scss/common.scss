@@ -1,6 +1,6 @@
-:host {
+:host, html, body {
     //Shadow DOM's root
-    font-size: 4px;
+    font-size: 4px !important;
 }
 
 .navigable:focus>.genericBtn {
