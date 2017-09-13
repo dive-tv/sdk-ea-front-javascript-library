@@ -16,6 +16,7 @@ export const cardModuleClasses: {
         Description: Text,
         Biography: Text,
         Reference: Text,
+        FullCuriosity: Text,
         Gallery: List,
         Specifications: Table,
         BasicInfo: Table,
