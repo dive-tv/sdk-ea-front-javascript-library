@@ -100,6 +100,9 @@
                 letter-spacing: pxToVw(.1);
                 flex-shrink: 1;
                 margin-bottom: pxToVh(7.5);
+                .navigable {
+                    color: $color-teal-green;           
+                }
             }
             .categories {
                 color: $color-teal-green;

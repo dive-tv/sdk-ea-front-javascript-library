@@ -79,9 +79,11 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
             // TODO: open card
             return (
                 <div className="subtitle">
-                    <NavigationContainer parent={this} columns={1}>{this.props.subtitle}</NavigationContainer>
+                    <NavigationContainer parent={this} columns={1}>
+                        {this.props.subtitle}
+                    </NavigationContainer>
                 </div>
-                    );
+            );
         } else if (this.props.subtitle) {
             return (<div className="subtitle">{this.props.subtitle}</div>);
         } else {
@@ -92,37 +94,37 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
         const subtitle = this.getSubtitle();
         return (
             <div className="header cardModule">
-                        <CardAndCategory card={this.props.card} />
-                        <div className="rightPart">
-                            <div className="info">
-                                <div className="titleContainer">
-                                    <p className="title">{this.props.title}</p>
-                                    {
-                                        this.props.titleParenthesis ?
-                                            <div className="titleParenthesis"> ({this.props.titleParenthesis})</div> :
-                                            null
-                                    }
-                                </div>
-                                {subtitle}
-                        {this.props.categories ? <div className="categories">{this.props.categories}</div> : null}
-                                {this.props.time ? (<div className="time">
-                                    <i className="clock"></i><span>{this.props.time}</span>
-                                </div>) : null}
-                                <div className="headerButtons">
-                                    <NavigationContainer
-                                        parent={this} columns={1}
-                                        className={`likeButton genericBtn`}
-                                    // clickAction={this.clickLike.bind(this)}
-                                    >
-                                        <div className="centeredContent">
-                                            <i className="icon like"></i>
-                                            <span>{Localize("CAROUSEL_CARD_SAVE")}</span>
-                                        </div>
-                                    </NavigationContainer>
-                                </div>
-                            </div>
+                <CardAndCategory card={this.props.card} />
+                <div className="rightPart">
+                    <div className="info">
+                        <div className="titleContainer">
+                            <p className="title">{this.props.title}</p>
+                            {
+                                this.props.titleParenthesis ?
+                                    <div className="titleParenthesis"> ({this.props.titleParenthesis})</div> :
+                                    null
+                            }
                         </div>
-                    </div >
-                    );
+                        {subtitle}
+                        {this.props.categories ? <div className="categories">{this.props.categories}</div> : null}
+                        {this.props.time ? (<div className="time">
+                            <i className="clock"></i><span>{this.props.time}</span>
+                        </div>) : null}
+                        <div className="headerButtons">
+                            <NavigationContainer
+                                parent={this} columns={1}
+                                className={`likeButton genericBtn`}
+                            // clickAction={this.clickLike.bind(this)}
+                            >
+                                <div className="centeredContent">
+                                    <i className="icon like"></i>
+                                    <span>{Localize("CAROUSEL_CARD_SAVE")}</span>
+                                </div>
+                            </NavigationContainer>
+                        </div>
+                    </div>
+                </div>
+            </div >
+        );
     }
 }
