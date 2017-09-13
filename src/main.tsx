@@ -1,11 +1,11 @@
-import * as React from 'react';
+ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
 import { store } from './store/store';
 import { App } from 'Containers';
-import { AccessToken, DiveAPIClass } from "api-typescript-library";
+import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;

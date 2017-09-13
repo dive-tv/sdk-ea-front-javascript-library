@@ -8,6 +8,8 @@ import {
     Helper,
     Image as ImageVO,
     ImageData as ImageDataVO,
+    Seasons as SeasonsVO,
+    SeasonsData as SeasonsDataVO,
     CardContainer,
     RelationModule,
     Single,
@@ -51,7 +53,7 @@ type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons
 @statics({
     moduleName: "list",
     validate: (card: Card, moduleType: string, parent: any, props: any) => {
-        const container: ImageVO | IListContainerType | Single | Duple | undefined = List.getContainer(card, moduleType);
+        const container: ImageVO | SeasonsVO | IListContainerType | Single | Duple | undefined = List.getContainer(card, moduleType);
 
         if (container !== undefined && container.data !== undefined && container.data.length > 0) {
             const Instantiated = navigable(List);
@@ -87,7 +89,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;
             case 'Cast':
                 return Helper.getRelation(card.relations, 'casting', 'content_type') as Duple;
-
+            case 'Seasons':
+                return Helper.getContainer(card, 'seasons') as SeasonsVO;
             default:
                 return undefined;
         }
@@ -124,6 +127,10 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return this.getFilmographyList();
             case 'Cast':
                 return this.getCastList();
+            /*case 'Directors':
+                return this.getRelSingleList();*/
+            case 'Seasons':
+                return this.getSeasonList();
         }
     }
 
@@ -178,11 +185,35 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 .props
                 .container
                 .data
-                .map((el: DupleData, i: number) => el.rel_type == 'plays' && this.getGenericElement(el.from.title, el.from.image ? el.from.image.thumb : null, i));
+                .filter((el: DupleData) => el.rel_type == 'plays' && el.from.image !== null)
+                .map((el: DupleData, i: number) => this.getGenericElement(el.from.title, el.from.image.thumb, i));
             return elements;
         }
         return null;
     }
+    /*private getRelSingleList = (): JSX.Element[] | null => {
+        if (this.props.container) {
+            const elements = this
+                .props
+                .container
+                .data
+                .map((el: SingleData, i: number) => this.getGenericElement(el.title, el.image.thumb, i));
+            return elements;
+        }
+        return null;
+    }*/
+    private getSeasonList = (): JSX.Element[] | null => {
+        if (this.props.container) {
+            const elements = this
+                .props
+                .container
+                .data
+                .map((el: SeasonsDataVO, i: number) => this.getGenericElement('Season ' + el.season_index, el.image.thumb, i));
+            return elements;
+        }
+        return null;
+    }
+
 
     private getGenericElement = (title: string, image: string, order: number): JSX.Element =>
         <NavigationContainer
