@@ -18,7 +18,7 @@
             background-image: url('#{$assets-path}carousel/ico-nophoto.png');
             background-position: 50% 50%;
             background-repeat: no-repeat;
-            background-size: pxToVw(40) pxToVh(40);
+            background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
             width: 100%;
             height: 100%;
             display: inline-block;
@@ -107,6 +107,7 @@
     .category {
         width: 100%;
         height: pxToVh(20);
+        line-height: pxToVh(20);
         padding-left: pxToVw(5);
         padding-right: pxToVw(5);
         position: relative;
@@ -119,7 +120,6 @@
         font-family: $font-lato;
         font-size: pxToEmZeplinX2(10);
         font-weight: 600;
-        line-height: 1.7;
         letter-spacing: .1px;
         color: $warm-grey;
         text-transform: capitalize;

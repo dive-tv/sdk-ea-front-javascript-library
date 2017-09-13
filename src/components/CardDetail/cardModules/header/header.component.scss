@@ -65,7 +65,7 @@
                 flex-wrap: wrap;
                 height: auto;
                 .title {
-                    font-size: pxToEmZeplinX2(12.5);
+                    font-size: pxToEmZeplinX2(6.25);
                     font-weight: bold;
                     line-height: 1.08;
                     text-align: left;
@@ -78,11 +78,12 @@
                     hyphens: auto;
                     text-align: left;
                     position: relative;
+                    padding-right: 4px;
                 }
                 .titleParenthesis {
                     // margin-left: 5px;
                     display: block;
-                    font-size: pxToEmZeplinX2(12.5);
+                    font-size: pxToEmZeplinX2(6.25);
                     font-weight: 300; // float: right;
                     // bottom: 0;
                     position: relative; // padding-left: 10px;
@@ -99,6 +100,9 @@
                 letter-spacing: pxToVw(.1);
                 flex-shrink: 1;
                 margin-bottom: pxToVh(7.5);
+                .navigable {
+                    color: $color-teal-green;           
+                }
             }
             .categories {
                 color: $color-teal-green;

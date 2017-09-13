@@ -34,7 +34,7 @@ export const UIActions: IUIActions = {
                 dispatch(UIActions.performOpenCard(card));
             })
             .catch((error: any) => {
-                console.error("Error gettinapig card", error);
+                console.error("Error getting card", error);
                 // TODO: display error?
             });
     },

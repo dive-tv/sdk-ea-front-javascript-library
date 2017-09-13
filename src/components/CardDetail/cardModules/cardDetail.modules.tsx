@@ -13,9 +13,11 @@ export const cardModuleClasses: {
 } = {
         Header,
         ButtonHeader: Header,
+        MovieHeader: Header,
         Description: Text,
         Biography: Text,
         Reference: Text,
+        FullCuriosity: Text,
         Gallery: List,
         Specifications: Table,
         BasicInfo: Table,
