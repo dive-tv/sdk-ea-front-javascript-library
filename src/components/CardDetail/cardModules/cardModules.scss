@@ -65,4 +65,7 @@
             }
         }
     }
+    & .navigable:focus > div {
+        border: none;
+    }
 }
