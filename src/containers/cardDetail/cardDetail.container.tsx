@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { DiveAPIClass, Card } from "Services";
+import { DiveAPIClass, Card, Helper } from "Services";
 import { Loading, CardDetail } from "Components";
 import { navigable } from "HOC";
 
@@ -8,6 +8,7 @@ declare const DiveAPI: DiveAPIClass;
 
 export interface ICardDetailContainerProps {
     cardId: string;
+    version: string;
 }
 export interface ICardDetailContainerState {
     status: "LOADING" | "LOADED";
@@ -21,8 +22,8 @@ export class CardDetailContainerClass extends
     }
     public componentDidMount() {
         if (this.state && this.state.status === "LOADING") {
-            DiveAPI.getCard({ cardId: this.props.cardId })
-                .then((card: Card) => {
+            DiveAPI.getCardVersion({ cardId: this.props.cardId, version: this.props.version, products: true })
+                .then((card: Card) => {              
                     this.setState({ ...this.state, status: "LOADED", card });
                 });
         }

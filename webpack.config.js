@@ -10,6 +10,7 @@ var outPath = path.join(__dirname, './dist');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
+const autoPrefixer = require('autoprefixer');
 
 module.exports = {
   context: sourcePath,
@@ -75,7 +76,7 @@ module.exports = {
               loader: 'css-loader',
               query: {
                 modules: true,
-                sourceMap: !isProduction,
+                sourceMap: true, //!isProduction,
                 importLoaders: 1,
                 localIdentName: '[local]__[hash:base64:5]'
               }
@@ -109,8 +110,9 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
+                sourceMap: true,
                 plugins: [
-                  require('autoprefixer')({
+                  autoPrefixer({
                     browsers: ['last 10 versions']
                   })
                 ]
@@ -159,7 +161,8 @@ module.exports = {
       }
     ),
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: 'index.html',
+      excludeChunks: ['styles']
     })
   ],
   devtool: (function () {

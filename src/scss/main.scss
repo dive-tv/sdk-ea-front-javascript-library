@@ -2,8 +2,9 @@
 @import 'text_sizes';
 @import 'colors';
 @import 'functions';
-$font-lato: 'Helvetica';
-$font-zona: 'Arial';
+$font-lato: Tiresias, sans-serif;
+$font-zona: 'Letter Gothic 12 Pitch';
+@import 'common';
 @import '../HOC/navigable/navigable.HOC';
 @import '../components/miniCard/miniCard.component';
 @import '../components/miniCard/miniCardButton/miniCardButton.component';

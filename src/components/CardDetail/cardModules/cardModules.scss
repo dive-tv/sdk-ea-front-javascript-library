@@ -3,7 +3,7 @@
 @import './table/table.component';
 @import './awards/awards.component';
 @import './list/list.component';
-html body .cardModulesContainer {
+.cardModulesContainer {
     white-space: nowrap;
     height: pxToVh(168);
     box-sizing: border-box;
@@ -55,33 +55,12 @@ html body .cardModulesContainer {
                 box-sizing: border-box;
                 display: inline-block;
                 border-right: 1px solid $color-warm-grey;
+                font-size: pxToEmZeplinX2(8.5);
                 // height: 100%; // pxToVh(168);
                 &>* {
                     //MODULE DIV
                     // border: 0 !important;
                     height: 100%;
-                }
-                & .container {
-                    display: table;
-                    width: pxToVw(200.5);
-                    height: 100%; // pxToVh(168);
-                    box-sizing: border-box;
-                    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.5);
-                    padding: pxToVw(10);
-                    margin: 0 pxToVw(10);
-                    background-color: $color-dark-grey-three;
-                    font-family: $font-lato;
-                    font-size: pxToEmZeplinX2(10);
-                    white-space: initial;
-                    $contentWidth: pxToVw(180.5);
-                    .cardTitle {
-                        text-transform: uppercase;
-                        line-height: 1;
-                        color: white;
-                        width: $contentWidth;
-                        margin-bottom: pxToVh(10.5);
-                        position: relative;
-                    }
                 }
             }
         }

@@ -61,5 +61,19 @@
     "dist",
     "build",
     "node_modules"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "babelOptions": {
+      "presets": [
+        [
+          "es2015",
+          {
+            "modules": false
+          }
+        ]
+      ],
+      "sourceMaps": true
+    }
+  }
 }
