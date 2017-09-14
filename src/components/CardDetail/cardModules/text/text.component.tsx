@@ -54,7 +54,7 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
             case 'biography':
                 return Localize('BIOGRAPHY');
             case 'overview':
-                return Localize('SYNOPSIS');
+                return Localize('OVERVIEW');
             case 'curiosity':
             case 'reference':
                 return Localize('CURIOSITY_TITLE');
