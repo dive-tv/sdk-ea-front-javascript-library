@@ -9,7 +9,8 @@ import { navigable, statics } from "HOC";
 
 interface IHeaderProps {
     title: string | null;
-    subtitle: string | null;
+    subtitle: string | JSX.Element | Element | null;
+    navigableSubtitle: boolean;
     time: string | null; // "2 h 13 m";
     titleParenthesis: string | null; // = "2017";
     categories: string | null; // "Bio, Adventure, Comedy";
@@ -19,10 +20,12 @@ interface IHeaderProps {
     moduleName: "header",
     validate: (card: Card, moduleType: string, parent: any, props: any) => {
         const title: string | null = card.title;
-        const subtitle = card.subtitle && card.subtitle !== "" ? card.subtitle : null;
+        let subtitle: string | JSX.Element | Element | null = card.subtitle && card.subtitle !== "" ?
+            card.subtitle : null;
         let time: string | null = null; // "2 h 13 m";
         let titleParenthesis: string | null = null; // = "2017";
         let categories: string | null = null; // "Bio, Adventure, Comedy";
+        let navigableSubtitle = false;
 
         switch (card.type) {
             case "movie":
@@ -48,6 +51,10 @@ interface IHeaderProps {
                     if (mediaData.genres && mediaData.genres.length > 0) {
                         categories = mediaData.genres.join(", ");
                     }
+                    if (mediaData.director && mediaData.director !== "") {
+                        subtitle = mediaData.director;
+                        navigableSubtitle = true;
+                    }
                 }
                 break;
         }
@@ -59,6 +66,7 @@ interface IHeaderProps {
             isScrollable={true}
             card={card} moduleType={moduleType}
             title={title} subtitle={subtitle}
+            navigableSubtitle={navigableSubtitle}
             time={time} titleParenthesis={titleParenthesis}
             categories={categories}
             {...props}
@@ -66,7 +74,24 @@ interface IHeaderProps {
     },
 })
 export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps, {}> {
+    public getSubtitle() {
+        if (this.props.navigableSubtitle && this.props.subtitle) {
+            // TODO: open card
+            return (
+                <div className="subtitle">
+                    <NavigationContainer parent={this} columns={1}>
+                        {this.props.subtitle}
+                    </NavigationContainer>
+                </div>
+            );
+        } else if (this.props.subtitle) {
+            return (<div className="subtitle">{this.props.subtitle}</div>);
+        } else {
+            return null;
+        }
+    }
     public render(): JSX.Element {
+        const subtitle = this.getSubtitle();
         return (
             <div className="header cardModule">
                 <CardAndCategory card={this.props.card} />
@@ -80,7 +105,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                                     null
                             }
                         </div>
-                        {this.props.subtitle ? <div className="subtitle">{this.props.subtitle}</div> : null}
+                        {subtitle}
                         {this.props.categories ? <div className="categories">{this.props.categories}</div> : null}
                         {this.props.time ? (<div className="time">
                             <i className="clock"></i><span>{this.props.time}</span>
@@ -88,6 +113,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                         <div className="headerButtons">
                             <NavigationContainer
                                 parent={this} columns={1}
+                                isDefault={true}
                                 className={`likeButton genericBtn`}
                             // clickAction={this.clickLike.bind(this)}
                             >

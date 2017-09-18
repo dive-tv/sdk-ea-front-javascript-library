@@ -77,3 +77,5 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             // console.log("STYLES", styles);
         });
 };
+
+init({selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test"});

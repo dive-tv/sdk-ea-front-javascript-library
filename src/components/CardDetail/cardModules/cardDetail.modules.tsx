@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Header, Text, Table, Awards, List } from 'CardModules';
+import { Header, Text, Table, Awards, List, Map } from 'CardModules';
 import { Card, CardContainerTypeEnum } from "Services";
 
 export interface ICardModuleProps {
@@ -14,10 +14,11 @@ export const cardModuleClasses: {
         Header,
         ButtonHeader: Header,
         MovieHeader: Header,
-        Overview: Text,
         Description: Text,
         Biography: Text,
         Reference: Text,
+        FullCuriosity: Text,
+        Overview: Text,
         Gallery: List,
         Shop: List,
         TravelShop: List,
@@ -30,4 +31,5 @@ export const cardModuleClasses: {
         Specifications: Table,
         BasicInfo: Table,
         AwardsModuleList: Awards,
+        MapModule: Map,
     };
