@@ -48,7 +48,7 @@ interface IListContainerType/*extends CardContainer*/ {
     content_type: string,
     data: Array<any>
 };
-type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'LocationOnScreen';
+type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation';
 
 @statics({
     moduleName: "list",
@@ -91,6 +91,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return Helper.getRelation(card.relations, 'casting', 'content_type') as Duple;
             case 'Seasons':
                 return Helper.getContainer(card, 'seasons') as SeasonsVO;
+            case 'AppearsInLocation':
+                return Helper.getRelation(card.relations, 'filmed_in', 'content_type') as Single;
             default:
                 return undefined;
         }
@@ -127,8 +129,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return this.getFilmographyList();
             case 'Cast':
                 return this.getCastList();
-            /*case 'Directors':
-                return this.getRelSingleList();*/
+            /*case 'Directors':*/
+            case 'AppearsInLocation':
+                return this.getRelSingleList();
             case 'Seasons':
                 return this.getSeasonList();
         }
@@ -191,17 +194,18 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
         }
         return null;
     }
-    /*private getRelSingleList = (): JSX.Element[] | null => {
+
+    private getRelSingleList = (): JSX.Element[] | null => {
         if (this.props.container) {
             const elements = this
                 .props
                 .container
                 .data
-                .map((el: SingleData, i: number) => this.getGenericElement(el.title, el.image.thumb, i));
+                .map((el: Card, i: number) => this.getGenericElement(el.title, el.image.thumb, i));
             return elements;
         }
         return null;
-    }*/
+    }
     private getSeasonList = (): JSX.Element[] | null => {
         if (this.props.container) {
             const elements = this

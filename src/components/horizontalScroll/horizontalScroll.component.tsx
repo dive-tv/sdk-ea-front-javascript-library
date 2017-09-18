@@ -65,7 +65,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
     public rightAction = () => {
         this.offset += this.props.itemsShown;
         if (this.props.children instanceof Array && (this.offset + this.props.itemsShown >= this.props.children.length)) {
-            this.offset = this.props.children.length - this.props.itemsShown - 1;
+            this.offset = this.props.children.length - this.props.itemsShown ;
         }
         this.forceUpdate();
     }

@@ -22,10 +22,20 @@ export class CardDetailContainerClass extends
     }
     public componentDidMount() {
         if (this.state && this.state.status === "LOADING") {
-            DiveAPI.getCardVersion({ cardId: this.props.cardId, version: this.props.version, products: true })
-                .then((card: Card) => {              
+            if (this.props.version != null) {
+                DiveAPI.getCardVersion({ cardId: this.props.cardId, version: this.props.version, products: true })
+                    .then((card: Card) => {
+                        console.log(`[card] ${card.title}: `, card);
+                        this.setState({ ...this.state, status: "LOADED", card });
+                    });
+            }else{
+                DiveAPI.getCard/*Versio*n*/({ cardId: this.props.cardId,/* version: this.props.version,*/ products: true })
+                .then((card: Card) => {
+                    console.log(`[card] ${card.title}: `, card);
                     this.setState({ ...this.state, status: "LOADED", card });
                 });
+            }
+            
         }
     }
 
