@@ -26,6 +26,7 @@ export const cardModuleClasses: {
         Filmography: List,
         Cast: List,
         AppearsInLocation: List,
+        CompleteTheDeco: List,
         Specifications: Table,
         BasicInfo: Table,
         AwardsModuleList: Awards,

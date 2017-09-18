@@ -52,6 +52,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
                     const newCards: any[] = [
                         { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
                         { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
+                        { card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
+                        
                     ];
                     response = [...newCards, ...response];
                     ReactDOM.render(

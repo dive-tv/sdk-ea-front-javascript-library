@@ -48,7 +48,7 @@ interface IListContainerType/*extends CardContainer*/ {
     content_type: string,
     data: Array<any>
 };
-type ListModuleType = 'Gallery' | 'Shop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation';
+type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco';
 
 @statics({
     moduleName: "list",
@@ -77,6 +77,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
             case 'Gallery':
                 return Helper.getContainer(card, 'image') as ImageVO;
             case 'Shop':
+            case 'TravelShop':
                 // console.log("Shop card: ", card);
                 const obj = {
                     content_type: 'products',
@@ -93,6 +94,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return Helper.getContainer(card, 'seasons') as SeasonsVO;
             case 'AppearsInLocation':
                 return Helper.getRelation(card.relations, 'filmed_in', 'content_type') as Single;
+            case 'CompleteTheDeco':
+                return Helper.getRelation(card.relations, 'home_deco', 'content_type') as Single;
             default:
                 return undefined;
         }
@@ -124,6 +127,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
             case 'Gallery':
                 return this.getGalleryList();
             case 'Shop':
+            case 'TravelShop':
                 return this.getShopList();
             case 'Filmography':
                 return this.getFilmographyList();
@@ -131,6 +135,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 return this.getCastList();
             /*case 'Directors':*/
             case 'AppearsInLocation':
+            case 'CompleteTheDeco':
                 return this.getRelSingleList();
             case 'Seasons':
                 return this.getSeasonList();
