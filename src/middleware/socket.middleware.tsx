@@ -53,28 +53,39 @@ const socketMiddleware = () => {
         // Parse the JSON message received on the websocket
         const data = evt;
         const status = data.status;
-        const timestamp = data.timestamp;
-        const timeRatio = data.time_ratio;
+        
         switch (status) {
-            case "ready":
+            case "authenticated":
                 // Dispatch an action that adds the received message to our state
-                store.dispatch(SocketActions.readyReceived({ timeRatio }));
+                store.dispatch(SocketActions.authReceived());
                 break;
-            case "playing":
+            case "unauthorized":
                 // Dispatch an action that adds the received message to our state
-                store.dispatch(SocketActions.playingReceived({ timestamp, timeRatio }));
+                store.dispatch(SocketActions.unauthReceived({message: data.message, code: data.code, type: data.type}));
                 break;
-            case "paused":
+            case "error":
                 // Dispatch an action that adds the received message to our state
-                store.dispatch(SocketActions.pausedReceived({ timestamp, timeRatio }));
+                store.dispatch(SocketActions.errorReceived({ status: data.status, description: data.description }));
                 break;
-            case "off":
+            case "movie_start":
                 // Dispatch an action that adds the received message to our state
-                store.dispatch(SocketActions.offReceived());
+                store.dispatch(SocketActions.movieStartReceived({movie_id: data.movie_id}));
                 break;
-            case "end":
+            case "movie_end":
                 // Dispatch an action that adds the received message to our state
-                store.dispatch(SocketActions.endReceived());
+                store.dispatch(SocketActions.movieEndRecieved());
+                break;
+            case "scene_start":
+                // Dispatch an action that adds the received message to our state
+                store.dispatch(SocketActions.sceneStartReceived({cards: data.cards}));
+                break;
+            case "scene_update":
+                // Dispatch an action that adds the received message to our state
+                store.dispatch(SocketActions.sceneUpdateReceived({cards: data.cards}));
+                break;
+            case "scene_end":
+                // Dispatch an action that adds the received message to our state
+                store.dispatch(SocketActions.sceneEndReceived());
                 break;
             default:
                 break;

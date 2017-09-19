@@ -3,7 +3,6 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { SyncActionTypes, ISyncAction } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
-import { ISocketDataTS } from "Actions";
 import { Card } from 'Services';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
@@ -30,7 +29,7 @@ export const syncCreateAction = (type: SyncActionTypes, payload: any): ReduxActi
 export const SyncActions: ISyncActions = {
     openCard: syncCreateAction("SYNC/OPEN_CARD", (cardId: string) => (cardId)),
     setMovie: syncCreateAction("SYNC/SET_MOVIE", (movieId: string) => (movieId)),
-    socketConnected: syncCreateAction("SOCKET/CONNECTED", (movieId: string) => (movieId)),
+    socketConnected: syncCreateAction("SOCKET/AUTHENTICATED", (movieId: string) => (movieId)),
     setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),
     setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE") => (syncType)),
     setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
