@@ -96,13 +96,14 @@ export class CarouselClass
 
     public componentWillUpdate(nextProps: Readonly<{ state: ISyncState; }
         & ISyncActions & INavigableProps & INavState>) {
-        if (nextProps.state.type === "SOCKET" && nextProps.state.socketStatus !== this.props.state.socketStatus
+        /*if (nextProps.state.type === "SOCKET" && nextProps.state.socketStatus !== this.props.state.socketStatus
             && nextProps.state.socketStatus === 'CONNECTED') {
             this.props.dataSync(nextProps.state.movieId);
-        }
+        }*/
     }
 
     public componentWillMount() {
+        this.props.syncChannel();
         this.activeFilters = [this.allCategoriesFilter];
         
     }

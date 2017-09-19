@@ -28,7 +28,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
       provide it through the initialization parameter 'clientId'`);
     }
     const APIinstance = new DiveAPIClass(
-        { env: "DEV", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+        { env: "PRE", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
     APIinstance.setLocale("es-ES");
     (window as any).DiveAPI = APIinstance;

@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { SocketActionTypes } from 'Actions';
-import {Card} from 'Services';
+import { Card } from 'Services';
 export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
 
 export interface ISyncState {
@@ -25,9 +25,9 @@ export interface ISyncAction extends Action {
 }
 
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |
-    "SYNC/SET_CARDS" | "SYNC/SET_SCENE" | "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" |
+    "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" |
     "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
-    "SOCKET/AUTHENTICATED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | SocketActionTypes;
+    "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | SocketActionTypes;
 
 export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncAction): ISyncState => {
     switch (action.type) {
@@ -42,15 +42,21 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
                 currentTime: calcTime(state, Date.now()),
                 lastUpdatedTime: Date.now(),
             };
-        case 'SYNC/SET_CARDS':
+        case 'SYNC/START_SCENE':
             if (state.cards instanceof Array && action.payload instanceof Array &&
                 state.cards.length !== action.payload.length) {
                 return { ...state, cards: action.payload };
             } else {
                 return state;
             }
-        case 'SYNC/SET_SCENE':
-                return { ...state, cards: [] };
+        case 'SYNC/UPDATE_SCENE':
+            if (action.payload instanceof Array && action.payload.length) {
+                return { ...state, cards: [...state.cards, ...action.payload] };
+            } else {
+                return state;
+            }
+        case 'SYNC/END_SCENE':
+            return { ...state, cards: [] };
 
         case 'SYNC/SET_TRAILER':
             return { ...state, demo: action.payload };
@@ -62,43 +68,6 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
                 lastUpdatedTime: initialSyncState.lastUpdatedTime,
             };
 
-        // SOCKET OPTIONS
-        /*case 'SOCKET/AUTHENTICATED':
-            return { ...state, socketStatus: 'CONNECTED' };
-        case 'SYNC/INIT_TIME':
-        case 'SOCKET/MOVIE_END':
-            // console.log('SOCKET/PLAYING_RECEIVED');
-            return {
-                ...state,
-                timeMovie: action.payload.timestamp * 1000,
-                timeRatio: action.payload.timeRatio,
-                timeMovieSynced: Date.now(),
-                currentTime: action.payload.timestamp * action.payload.timeRatio,
-                lastUpdatedTime: Date.now(),
-                channelStatus: "playing",
-            };
-        case "SOCKET/MOVIE_START":
-            return { ...state, channelStatus: "ready" };
-
-        case 'SOCKET/SCENE_START':
-            return { ...state, channelStatus: "paused" };
-        case 'SOCKET/SCENE_UPDATE':
-            return { ...state, channelStatus: "off" };
-        case 'SOCKET/SCENE_END':
-            return { ...state, channelStatus: "end" };*/
-
-        case 'SYNC/SET_TIME': // UPDATEA EL TIEMPO CON EL QUE NOSOTROS LE PASEMOS(en milis)
-            const calcedTime = calcTime(state, action.payload);
-            if (calcedTime !== state.currentTime) {
-                return {
-                    ...state,
-                    currentTime: calcTime(state, action.payload),
-                    lastUpdatedTime: Date.now(),
-                    timeMovieSynced: state.timeMovieSynced === 0 ? Date.now() : state.timeMovieSynced,
-                };
-            } else {
-                return state;
-            }
         case 'SYNC/SET_SELECTED_ON_SCENE_CHANGE':
             return { ...state, selectedOnSceneChange: action.payload };
 
@@ -116,7 +85,7 @@ const calcTime = (state: ISyncState, time: number) => {
 export const initialSyncState: ISyncState = {
     selectedOnSceneChange: true,
     socketStatus: 'INIT',
-    movieId: undefined,
+    movieId: "m00001",
     cards: [],
     demo: "",
     currentTime: 0,
