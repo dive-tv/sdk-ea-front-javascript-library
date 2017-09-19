@@ -49,7 +49,7 @@ export const SyncActions: ISyncActions = {
                 onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
                 onSceneStart: (scene: any) => {
                     console.log("[SOCKET] onSceneStart", scene);
-                    if (scene.cards) {
+                    if (scene && scene.cards) {
                         dispatch(SyncActions.startScene(scene.cards))
                     }
                 },
