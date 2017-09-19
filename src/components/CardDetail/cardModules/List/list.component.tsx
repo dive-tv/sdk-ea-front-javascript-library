@@ -77,15 +77,19 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
             case 'Gallery':
                 return Helper.getContainer(card, 'image') as ImageVO;
             case 'Shop':
-            case 'TravelShop':
-                // console.log("Shop card: ", card);
-                const obj = {
+                const objShop = {
                     content_type: 'products',
-                    data: card.products,
+                    data: card.products.filter(product => product.category !=  "travel"),
                     type: 'listing'
                 };
-                return obj as IListContainerType;
-
+                return objShop as IListContainerType;
+            case 'TravelShop':
+                const objTravelShop = {
+                    content_type: 'products',
+                    data: card.products.filter(product => product.category ==  "travel"),
+                    type: 'listing'
+                };
+                return objTravelShop as IListContainerType;
             case 'Filmography':
                 return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;
             case 'Cast':
@@ -222,7 +226,6 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
         }
         return null;
     }
-
 
     private getGenericElement = (title: string, image: string, order: number): JSX.Element =>
         <NavigationContainer
