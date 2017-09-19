@@ -46,36 +46,36 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             }
         })
         .then(() => {
-            APIinstance.getStaticMovieScene({ relations: true, clientMovieId: "m00001", timestamp: 4000 })
-                .then((response: Card[]) => {
-                    console.log("CARDS FROM MOVIE", response);
-                    const newCards: any[] = [
-                        { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-                        { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
-                        { card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
-                        
-                    ];
-                    response = [...newCards, ...response];
-                    ReactDOM.render(
-                        <ShadowDOM include={'styles.css'}>
-                            <div className="diveContainer">
-                                <Provider store={store}>
-                                    <App cards={response} />
-                                </Provider>
-                            </div>
-                        </ShadowDOM >,
-                        document.querySelector(params.selector),
-                    );
-                })
-                .catch((error) => {
-                    console.error("CARDS FROM MOVIE ERROR", error);
-                });
-            /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
-              console.warn(response);
-            });*/
-            //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
-            // console.log("STYLES", styles);
+            //APIinstance.getStaticMovieScene({ relations: true, clientMovieId: "m00001", timestamp: 4000 })
+            //.then((response: Card[]) => {
+            /*const newCards: any[] = [
+                { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
+                { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" *///},
+            //{ card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
+
+            //];
+            //response = [...newCards, ...response];
+            //console.log("response: ", response);
+            ReactDOM.render(
+                <ShadowDOM include={'styles.css'}>
+                    <div className="diveContainer">
+                        <Provider store={store}>
+                            <App />
+                        </Provider>
+                    </div>
+                </ShadowDOM >,
+                document.querySelector(params.selector),
+            );
+        })
+        .catch((error) => {
+            console.error("CARDS FROM MOVIE ERROR", error);
         });
+    /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
+      console.warn(response);
+    });*/
+    //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
+    // console.log("STYLES", styles);
+    //});
 };
 
-init({selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test"});
+init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });

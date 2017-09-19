@@ -1,6 +1,8 @@
 .containerCarousel {
     background-color: $dark-grey-two;
     position: relative;
+    height: 100%;
+    width: 100%;
     .filters {
         width: 100%;
         height: pxToVh(40);

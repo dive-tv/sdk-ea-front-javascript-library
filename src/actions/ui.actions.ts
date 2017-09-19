@@ -1,8 +1,9 @@
+import { IUIAction } from './../reducers/ui.reducer';
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { createAction } from 'redux-actions';
 
-import { IUIAction, UIActionTypes, IUIGroup } from 'Reducers';
+import { UIActionTypes, IUIGroup } from 'Reducers';
 import { Card, DiveAPIClass } from "Services";
 
 declare const DiveAPI: DiveAPIClass;
@@ -13,6 +14,7 @@ export interface IUIActions extends MapDispatchToPropsObject {
     performOpenCard: ActionCreator<IUIAction>;
     openSync: ActionCreator<IUIAction>;
     open: ActionCreator<void>;
+    addTestCards: ActionCreator<IUIAction>;
 }
 
 //
@@ -41,11 +43,8 @@ export const UIActions: IUIActions = {
     performOpenCard: uiCreateAction("UI/OPEN_CARD", (card: Card) => (card)),
     openSync: uiCreateAction("UI/OPEN_SYNC"),
     open: (group: IUIGroup) => (dispatch: any) => {
-        if (group.top === "YOUTUBE") {
-            dispatch(UIActions.openDemo());
-        } else {
             dispatch(UIActions.performOpen(group));
-        }
     },
     performOpen: uiCreateAction("UI/OPEN", (group: IUIGroup) => (group)),
+    addTestCards: uiCreateAction("UI/ADD_TEST_CARDS", (cards: Card[]) =>(cards)),
 };

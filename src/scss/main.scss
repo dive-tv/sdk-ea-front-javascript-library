@@ -6,7 +6,10 @@
 $font-lato: Tiresias, sans-serif;
 $font-zona: 'Letter Gothic 12 Pitch';
 @import 'common';
+@import '../containers/app/app';
 @import '../HOC/navigable/navigable.HOC';
+@import '../containers/cardDetail/cardDetail.container';
+@import '../containers/layout/layout.container';
 @import '../containers/carousel/carousel.container';
 @import '../components/miniCard/miniCard.component';
 @import '../components/miniCard/miniCardButton/miniCardButton.component';

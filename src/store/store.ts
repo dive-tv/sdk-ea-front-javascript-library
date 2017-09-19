@@ -1,7 +1,11 @@
-import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
+import socketMiddleware from '../middleware/socket.middleware';
 
-import { NavReducer } from 'Reducers';
+
+import {
+    INavState, NavReducer, ISyncState, SyncReducer, IUIState, UIReducer
+} from 'Reducers';
 
 declare const __ENV__: string;
 
@@ -14,13 +18,15 @@ const getMiddlewares = () => {
   //         predicate: () => (window as any).enableActionLogger,
   //     }),*/ thunk /*, persistedState*//*, socketMiddleware()*/);
   // } else {
-    return applyMiddleware(thunk /*, persistedState,*/ /*socketMiddleware()*/);
+    return applyMiddleware(thunk /*, persistedState,*/, socketMiddleware());
   // }
 };
 
 export const store = createStore(
   combineReducers({
     nav: NavReducer,
+    carousel: SyncReducer,
+    ui: UIReducer,
   }),
   composeEnhancers(getMiddlewares()),
 );

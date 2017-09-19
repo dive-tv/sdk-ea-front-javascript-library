@@ -99,32 +99,16 @@ export class CarouselClass
         if (nextProps.state.type === "SOCKET" && nextProps.state.socketStatus !== this.props.state.socketStatus
             && nextProps.state.socketStatus === 'CONNECTED') {
             this.props.dataSync(nextProps.state.movieId);
-        } else if (nextProps.state.type === "YOUTUBE"
-            && !this.chunkRequested) {
-            // Youtube
-            this.props.dataSync(nextProps.state.movieId);
-            this.chunkRequested = true;
         }
     }
 
     public componentWillMount() {
         this.activeFilters = [this.allCategoriesFilter];
-        const timer = () => {
-            const time: number = this.getState().lastUpdatedTime;
-            // if (time + 1000 < Date.now()) {
-            const dif: number = (Date.now() - time) / 1000;
-            if (!this.state.rewinded) {
-                this.props.updateTimeCards(undefined, this.getState().currentTime + dif);
-            }
-            // }
-        };
-        this.interval = setInterval(timer, 1000);
-        timer();
+        
     }
 
     public componentWillUnmount() {
-        clearInterval(this.interval);
-        this.props.setSelectedOnSceneChange(false);
+        // this.props.setSelectedOnSceneChange(false);
     }
 
     public getState = (): ISyncState => {

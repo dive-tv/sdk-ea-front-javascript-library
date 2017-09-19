@@ -9,6 +9,7 @@ declare const DiveAPI: DiveAPIClass;
 export interface ICardDetailContainerProps {
     cardId: string;
     version: string;
+    parent: any
 }
 export interface ICardDetailContainerState {
     status: "LOADING" | "LOADED";
@@ -28,21 +29,21 @@ export class CardDetailContainerClass extends
                         console.log(`[card] ${card.title}: `, card);
                         this.setState({ ...this.state, status: "LOADED", card });
                     });
-            }else{
+            } else {
                 DiveAPI.getCard/*Versio*n*/({ cardId: this.props.cardId,/* version: this.props.version,*/ products: true })
-                .then((card: Card) => {
-                    console.log(`[card] ${card.title}: `, card);
-                    this.setState({ ...this.state, status: "LOADED", card });
-                });
+                    .then((card: Card) => {
+                        console.log(`[card] ${card.title}: `, card);
+                        this.setState({ ...this.state, status: "LOADED", card });
+                    });
             }
-            
+
         }
     }
 
     public render(): any {
         const subcomponent = !this.state || this.state.status !== "LOADED" ?
             <Loading /> :
-            <CardDetail parent={this} card={this.state.card} columns={1} />;
+            <CardDetail parent={this} card={this.state.card} columns={1} navClass="cardDetailNav" isDefault={true} />;
         return subcomponent;
     }
 }
