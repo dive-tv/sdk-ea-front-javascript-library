@@ -146,6 +146,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+        __ENV__: JSON.stringify(process.env.NODE_ENV),
+        __DIVE_ENV__: JSON.stringify('PRE'),
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.bundle.js',

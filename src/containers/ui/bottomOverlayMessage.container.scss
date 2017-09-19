@@ -1,0 +1,120 @@
+.layoutBottom .bottomMessage {
+    position: absolute;
+    bottom: 0;
+    background: rgba(48, 49, 51, 0.65);
+    z-index: 2;
+    pointer-events: all;
+    .messageContainer {
+        right: 0;
+        height: 100%;
+        width: 71.6vw;
+        background: $color-dark-grey-three;
+        position: absolute;
+        box-shadow: -2px 0 1.5px 0 rgba(0, 0, 0, 0.6);
+        box-sizing: border-box;
+    }
+    .closeContainer {
+        position: absolute;
+        top: pxToVw(15);
+        left: pxToVw(15);
+    }
+    .carouselMessageContent {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        padding-left: pxToVw(51.5);
+        color: $color-white;
+        font-weight: 600;
+        box-sizing: border-box;
+        &.centeredMessage {
+            display: table;
+            display: flex;
+            align-items: center;
+            justify-content: center; // width: pxToVw(1175);
+            text-align: center;
+            vertical-align: middle;
+            .messageCenter {
+                display: table-cell;
+                vertical-align: middle;
+                height: auto;
+            }
+            h1 {
+                font-family: $font-zona-pro;
+                font-size: pxToEmZeplinX2(14);
+                font-weight: 600;
+                line-height: 1.07;
+                text-align: center;
+                color: $color-off-yellow;
+                margin-bottom: pxToVw(10);
+            }
+            p {
+                font-family: $font-lato;
+                font-size: pxToEmZeplinX2(15);
+                font-weight: 600;
+                line-height: 1.07;
+                letter-spacing: 1.2px;
+                text-align: center;
+                color: $color-white;
+            }
+            .buttonsContainer {
+                margin-top: pxToVh(30);
+                display: table;
+                display: flex;
+                align-items: center;
+                justify-content: center; // width: pxToVw(1175);
+                text-align: center;
+                vertical-align: middle;
+                width: pxToVw(142);
+                position: relative;
+                left: 50%;
+                margin-left: pxToVw(-142/2);
+            }
+        }
+    }
+    .adMessage {
+        background-image: url('#{$assets-path}carousel/banner-dive.png');
+        background-size: auto 100%;
+        background-position-x: right;
+        background-position-y: bottom;
+        background-repeat: no-repeat;
+        .adMessageLeft {
+            width: pxToVw(203.5);
+            margin-top: pxToVw(16.5);
+            margin-bottom: pxToVw(16.5);
+            * {
+                margin-bottom: pxToVw(14.5);
+            }
+            h1 {
+                font-family: $font-zona-pro;
+                font-size: pxToEmZeplinX2(14);
+                line-height: 1.07;
+                padding-top: pxToVw(1.5);
+            }
+            .text1 {
+                font-size: pxToEmZeplinX2(12.5);
+                line-height: 1.08;
+                font-weight: 600;
+                font-family: $font-lato;
+            }
+            .text2 {
+                font-size: pxToEmZeplinX2(15);
+                line-height: 1.33;
+                font-weight: 600;
+                font-family: $font-lato;
+            }
+        }
+        .adMessageRight {
+            text-align: right;
+            position: absolute;
+            bottom: pxToVh(51);
+            right: pxToVw(133);
+            width: pxToVw(190);
+            font-family: $font-zona-pro;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            color: $color-dark-grey-three;
+            font-size: pxToEmZeplinX2(21);
+        }
+    }
+}

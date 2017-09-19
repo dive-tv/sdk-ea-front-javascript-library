@@ -42,7 +42,7 @@ export class CardDetailContainerClass extends
     public render(): any {
         const subcomponent = !this.state || this.state.status !== "LOADED" ?
             <Loading /> :
-            <CardDetail parent={this} card={this.state.card} />;
+            <CardDetail parent={this} card={this.state.card} columns={1} />;
         return subcomponent;
     }
 }

@@ -21,6 +21,7 @@
     "@types/react-redux": "^4.4.47",
     "@types/react-router": "4.0.15",
     "@types/redux-actions": "1.2.8",
+    "@types/socket.io-client": "^1.4.30",
     "@types/webpack": "3.0.10",
     "@types/webpack-env": "1.13.0",
     "autoprefixer": "^7.1.4",
@@ -65,6 +66,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-thunk": "^2.2.0",
-    "sass-lint": "^1.11.1"
+    "sass-lint": "^1.11.1",
+    "socket.io-client": "^2.0.3"
   }
 }

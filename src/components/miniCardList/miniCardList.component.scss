@@ -1,0 +1,48 @@
+$minicard-width: pxToVw(92); // width: pxToVw(92); // width: auto;
+$card-expandedInfo-width: pxToVw(161.5);
+$computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);
+.miniCardList {
+    min-width: 100%;
+    width: 100%;
+    height: pxToVh(180);
+    white-space: nowrap;
+    // float: left;
+    padding-right: 200px;
+    box-sizing: border-box;
+    overflow: auto;
+    overflow-y: hidden;
+    >.navigable {
+        max-height: pxToVh(180);
+        height: auto;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        vertical-align: top;
+        margin-left: 4vh;
+        margin-left: pxToVw(15);
+        min-width: $minicard-width;
+        max-width: $computed-card-plus-expandedInfo;
+        width: $minicard-width;
+        //width: auto;
+        /*
+        @include animationHack();
+        transition-property: width;
+        transition-duration: 0s;
+        transition-delay: 0s;
+        */
+        &.childFocused {
+            width: $computed-card-plus-expandedInfo;
+            /*
+            transition-duration: .5s;
+            transition-delay: .1s;
+            */
+        }
+        li {
+            width: $minicard-width;
+            height: auto;
+            &.on {
+                width: $computed-card-plus-expandedInfo !important;
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ import { MapStateToPropsParam } from "react-redux";
 
 import { CardDetailContainer } from 'Containers';
 import { Card } from 'Services';
+import { navigable } from 'HOC';
 
 export namespace App {
   export interface IOwnProps {
@@ -19,7 +20,7 @@ export namespace App {
     /* empty */
   }
 }
-
+@navigable
 @connect(mapStateToProps, mapDispatchToProps, mergeProps)
 export class App extends React.Component<App.IOwnProps & App.IActionProps, App.IState> {
 

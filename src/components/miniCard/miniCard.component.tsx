@@ -15,9 +15,6 @@ export interface IMiniCardState {
     forceFirst?: boolean;
     forceOrder?: number;
     navigation?: Map<number, INavigable>;
-    parentId: number | undefined;
-    currentId: number | undefined;
-    hasParent: boolean;
 }
 
 export interface IMiniCardMethods {
@@ -35,7 +32,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     private openCard: Card;
 
     public render() {
-        const isRelation: boolean = this.props.hasParent;
+        const isRelation: boolean = false;
         const classes = classNames({
             minicard: true,
             relation: isRelation,

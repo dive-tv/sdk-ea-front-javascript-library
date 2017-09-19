@@ -9,14 +9,14 @@ import { NavActions, INavActions } from 'Actions';
 (window as any).currentNavId = 0;
 
 export interface INavigableProps {
-    parent: any;
-    idx?: number; // Identificador único del navigable
-    columns?: number; // Numero de columnas que hay en el entorno del elemento actual
-    tabIndex?: number; // Orden de tabulación
-    clickAction?: any;
-    name?: string; // Nombre identificativo
-    isDefault?: boolean; // Para que se seleccione ese elemento por defeto si no hay ningún otro  en ese listado.
-    groupName?: string; // Nombre de grupo perteneciente
+    parent: React.Component<any & INavigableProps, any>,
+    idx?: number, // Identificador único del navigable
+    columns?: number, // Numero de columnas que hay en el entorno del elemento actual
+    tabIndex?: number, // Orden de tabulación
+    clickAction?: any,
+    name?: string, // Nombre identificativo
+    isDefault?: boolean, //Para que se seleccione ese elemento por defeto si no hay ningún otro  en ese listado.
+    groupName?: string, // Nombre de grupo perteneciente
     onFocusCallback?: () => void;
     onFocusCallbackRepeat?: boolean;
     forceFirst?: boolean;
@@ -26,6 +26,7 @@ export interface INavigableProps {
     focusChainClass?: string;
     activeGroupClass?: string;
     isScrollable?: boolean; // Elemento sobre el que se hace un scroll.
+    navClass?: string;
     scrollPadding?: number;
 }
 
@@ -68,11 +69,13 @@ const NavigableClass = <TOriginalProps extends {}>(
 
         public componentDidUpdate() {
             if (this.getId() === this.props.selected) {
-                this.wrapper.focus();
                 if (this.wrapper) {
-                    // this.wrapper.scrollIntoView({ block: "start", behavior: "smooth" });
-                    //this.doSelftScroll();
-                    this.selfScroll();
+                    this.doSelfScroll(true, () => {
+                        setTimeout(() => {
+                            this.wrapper.focus();
+                        }, 10);
+
+                    });
                 }
             }
         }
@@ -187,7 +190,7 @@ const NavigableClass = <TOriginalProps extends {}>(
             const classes: any = {
                 navigable: true,
                 navActive: active,
-                scrollable: this.props.isScrollable,
+                // scrollable: this.props.isScrollable,
             };
 
             if (this.props.navClass) {
@@ -228,9 +231,6 @@ const NavigableClass = <TOriginalProps extends {}>(
                     onMouseDown={this.onClick}
                     onFocus={(e: any) => {
                         this.onFocus(e);
-                        if (this.wrapper) {
-                            //this.wrapper.scrollIntoView({ block: "start", behavior: "smooth" });
-                        }
                         return false;
                     }}
                     id={thisId.toString()}
@@ -288,7 +288,7 @@ const NavigableClass = <TOriginalProps extends {}>(
             // scroll if needed
             if (this.props.selectedNav !== undefined) {
                 if (this.props.selectedNav.id === id) {
-                    this.doSelftScroll();
+                    this.doSelfScroll(true);
                 }
             }
             // Call callback if set
@@ -344,7 +344,7 @@ const NavigableClass = <TOriginalProps extends {}>(
             return false;
         }
 
-
+        // Comprobamos si el elemento es scrollable o si alguno de sus padres lo es.
         private isScrollable = (): boolean => {
             if (this.isSelected()) {
                 let nav: INavigable | undefined = this.props.selectedNav;
@@ -365,6 +365,7 @@ const NavigableClass = <TOriginalProps extends {}>(
 
         private isSelected = (): boolean => this.props.selected === this.getId();
 
+        //Cogemos el elemento padre scrollable más cercano.
         private getScrollableElement = (): Element | null => {
             const element: HTMLElement | null = this.wrapper;
             if (element != null && element.closest instanceof Function) {
@@ -374,12 +375,13 @@ const NavigableClass = <TOriginalProps extends {}>(
             return null;
         }
 
-        private selfScroll = () => {
+        //Calculamos el nuevo scroll para cuando el elemento scrollable se sale de la pantalla.
+        private calculateScroll = (HTMLList: HTMLElement | null, HTMLScrollable: HTMLElement | null): number => {
             if (this.isScrollable() !== true) {
-                return;
+                return -1;
             }
 
-            const HTMLScrollable: HTMLElement | null = this.getScrollableElement() as HTMLElement;
+            // const HTMLScrollable: HTMLElement | null = this.getScrollableElement() as HTMLElement;
 
             if (document !== null && HTMLScrollable !== null) {
                 const HTMLList: HTMLElement | null = ReactDOM.findDOMNode(HTMLScrollable).parentElement;
@@ -397,21 +399,50 @@ const NavigableClass = <TOriginalProps extends {}>(
                     const parentRight: number = HTMLList.offsetWidth + HTMLList.offsetLeft;
                     const parentWidth: number = HTMLList.offsetWidth;
 
-                    const params = { parentLeft, parentRight, parentWidth, left, right, width };
-
-
+                    let val: number = 0;
                     if (right + margin > parentRight + HTMLList.scrollLeft) {
-                        HTMLList.scrollLeft = right - parentWidth + margin;
+                        // Si el elemento se sale por la derecha.
+                        val = right - parentWidth + margin;
                     } else if (left - margin < HTMLList.scrollLeft + parentLeft) {
-                        HTMLList.scrollLeft = left - margin;
+                        // Si el elemento se sale por la izquierda.
+                        val = left - margin;
+                        if (val < 0) {
+                            val = 0;
+                        }
+                    } else {
+                        val = HTMLList.scrollLeft;
                     }
+                    return val;
                 }
             }
+            return -1;
         }
-        private doSelftScroll = () => {
-            setTimeout(() => {
-                this.selfScroll();
-            }, 5);
+
+        // Ejecutamos el scroll teniendo en cuenta si se quiere asíncronamente o no y al final
+        // Llamamos a la función callback que se haya pasado como parámetro.
+        private doSelfScroll = (async: boolean, callback?: () => void) => {
+            const callbackOk: () => void = callback === undefined ? () => 0 : callback;
+            const HTMLItem: HTMLElement | null = this.getScrollableElement() as HTMLElement;
+            const HTMLList: HTMLElement | null = HTMLItem ? ReactDOM.findDOMNode(HTMLItem).parentElement : null;
+
+            const scroll: number = this.calculateScroll(HTMLList, HTMLItem);
+
+            if (scroll >= 0 && HTMLList != null) {
+                // Cuando es asíncrona la llamada.
+                if (async === true) {
+                    setTimeout(() => {
+                        HTMLList.scrollLeft = scroll;
+                        return callbackOk();
+                    }, 10);
+
+                } else {
+                    // Cuando es síncrona.
+                    HTMLList.scrollLeft = scroll;
+                    return callbackOk();
+                }
+            }
+
+            return callbackOk();
         }
 
         private inFocusChain(navigation?: INavigable): boolean {

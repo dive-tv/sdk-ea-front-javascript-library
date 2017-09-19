@@ -69,7 +69,6 @@ type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehic
     }
 })
 export class List extends React.PureComponent<ICardModuleProps & IListProps, {}> {
-    public static moduleName = "";
 
     public static getContainer(card: Card, moduleType: string): ImageVO | IListContainerType | Single | Duple | undefined {
         console.log("Filmography card: ", card);
@@ -77,7 +76,6 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
             case 'Gallery':
                 return Helper.getContainer(card, 'image') as ImageVO;
             case 'Shop':
-            case 'TravelShop':
                 // console.log("Shop card: ", card);
                 const obj = {
                     content_type: 'products',
@@ -85,6 +83,14 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                     type: 'listing'
                 };
                 return obj as IListContainerType;
+
+            case 'TravelShop':
+                const obj2 = {
+                    content_type: 'products',
+                    data: card.products,
+                    type: 'listing'
+                };
+                return obj2 as IListContainerType;
 
             case 'Filmography':
                 return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;

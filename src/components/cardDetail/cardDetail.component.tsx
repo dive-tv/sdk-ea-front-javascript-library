@@ -48,7 +48,8 @@ export class CardDetailClass
                     <NavigableCardModuleList
                         isDefault={true}
                         parent={this} columns={1}
-                        card={this.props.card} />
+                        card={this.props.card} 
+                        forceFirst={true}/>
                     : <Loading />}
             </div>
         );
