@@ -22,6 +22,7 @@ module.exports = {
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
     ],
     vendor: [
+      'babel-polyfill',
       'react',
       'react-dom',
       'react-redux',
