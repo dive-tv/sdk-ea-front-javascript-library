@@ -57,14 +57,15 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             //response = [...newCards, ...response];
             //console.log("response: ", response);
             ReactDOM.render(
-                <ShadowDOM include={'styles.css'}>
-                    <div className="diveContainer">
-                        <Provider store={store}>
-                            <App />
-                        </Provider>
-                    </div>
-                </ShadowDOM >,
-                document.querySelector(params.selector),
+                <ShadowDOM /*include={'styles.css'}*/>
+                  <div className="diveContainer">
+                    <link href="/styles.css" rel="stylesheet" />
+                    <Provider store={store}>
+                        <App />
+                    </Provider>
+                  </div>
+              </ShadowDOM >,
+              document.querySelector(params.selector),
             );
         })
         .catch((error) => {
@@ -79,3 +80,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
 };
 
 // init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+
+// index.html hot reload trick
+if (process.env.NODE_ENV !== 'production') {
+  require('file-loader!./index.html');
+}

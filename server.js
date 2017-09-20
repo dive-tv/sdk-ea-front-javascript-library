@@ -35,16 +35,27 @@ const path = require("path");
 const express = require("express");
 const webpack = require("webpack");
 const webpackDevMiddleware = require("webpack-dev-middleware");
-const config = require("./webpack.config.js");
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require("./webpack.config.js");
 
 const app = express(),
     DIST_DIR = path.join(__dirname, "dist"),
     PORT = 3000,
-    compiler = webpack(config);
+    compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
-    publicPath: DIST_DIR
+    hot: webpackConfig.devServer.hot,
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath,
+    silent: true,
+    stats: 'errors-only',
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 50
+    },
+    headers: { "Access-Control-Allow-Origin": "*" }
 }));
+app.use(webpackHotMiddleware(compiler));
 
 app.head('*', function (req, res) {
     console.log(req.hostname);

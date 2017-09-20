@@ -16,9 +16,12 @@ module.exports = {
   context: sourcePath,
   entry: {
     front: [
+      'eventsource-polyfill', // Necessary for hot reloading with IE
+      'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'main.tsx'),
     ],
     styles: [
+      'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
     ],
     vendor: [
@@ -60,17 +63,12 @@ module.exports = {
       // .ts, .tsx
       {
         test: /\.(ts|tsx)?$/,
-        use: isProduction
-          ? 'awesome-typescript-loader?module=es6&configFileName=tsconfig.json'
-          : [
-            'react-hot-loader',
-            'awesome-typescript-loader?configFileName=tsconfig.json'
-          ]
+        use: ['babel-loader', 'awesome-typescript-loader?configFileName=tsconfig.json'],
       },
       // css
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
@@ -96,10 +94,11 @@ module.exports = {
               }
             }
           ]
-        })
+        }))
       },
       {
         test: /\.scss?$/,
+        exclude: /node_modules/,
         use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //resolve-url-loader may be chained before sass-loader if necessary 
@@ -119,7 +118,7 @@ module.exports = {
                 ]
               }
             },
-            //'resolve-url-loader',
+            'resolve-url-loader',
             {
               loader: "sass-loader", // compiles Sass to CSS
               options: { sourceMap: true }
@@ -147,6 +146,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
     new webpack.DefinePlugin({
         __ENV__: JSON.stringify(process.env.NODE_ENV),
         __DIVE_ENV__: JSON.stringify('PRE'),
@@ -162,12 +162,13 @@ module.exports = {
     new webpack.optimize.AggressiveMergingPlugin(),
     new ExtractTextPlugin(
       '[name].css', {
-        allChunks: false
+        disable: false,
+        allChunks: true
       }
     ),
     new HtmlWebpackPlugin({
       template: 'index.html',
-      excludeChunks: ['styles']
+      // excludeChunks: ['styles']
     })
   ],
   devtool: (function () {
@@ -181,6 +182,7 @@ module.exports = {
   devServer: {
     contentBase: sourcePath,
     hot: true,
+    inline: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -195,5 +197,5 @@ module.exports = {
     // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
     fs: 'empty',
     net: 'empty'
-  }
+  },
 };
