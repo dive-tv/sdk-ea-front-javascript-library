@@ -168,7 +168,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin({
       template: 'index.html',
-      // excludeChunks: ['styles']
+      excludeChunks: ['styles']
     })
   ],
   devtool: (function () {

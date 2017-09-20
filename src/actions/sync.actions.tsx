@@ -48,15 +48,13 @@ export const SyncActions: ISyncActions = {
                 },
                 onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
                 onSceneStart: (scene: any) => {
-                    console.log("[SOCKET] onSceneStart", scene);
-                    if (scene && scene.cards) {
-                        dispatch(SyncActions.startScene(scene.cards))
+                    if (scene) {
+                        dispatch(SyncActions.startScene(scene));
                     }
                 },
                 onSceneUpdate: (scene: any) => {
-                    console.log("[SOCKET] onSceneUpdate", scene);
                     if (scene) {
-                        dispatch(SyncActions.updateScene(scene))
+                        dispatch(SyncActions.updateScene(scene));
                     }
                 },
                 onSceneEnd: () => { console.log("[SOCKET] onSceneEnd"); },

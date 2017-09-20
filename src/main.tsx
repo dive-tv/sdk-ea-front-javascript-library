@@ -57,19 +57,20 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             //response = [...newCards, ...response];
             //console.log("response: ", response);
             ReactDOM.render(
-                <ShadowDOM /*include={'styles.css'}*/>
+                //<ShadowDOM /*include={'styles.css'}*/>
                   <div className="diveContainer">
                     <link href="/styles.css" rel="stylesheet" />
                     <Provider store={store}>
                         <App />
                     </Provider>
                   </div>
-              </ShadowDOM >,
+              //</ShadowDOM >,
+              ,
               document.querySelector(params.selector),
             );
         })
         .catch((error) => {
-            console.error("CARDS FROM MOVIE ERROR", error);
+            console.error("ERROR LOADING", error);
         });
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
