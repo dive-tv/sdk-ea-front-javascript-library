@@ -45,13 +45,13 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         case 'SYNC/START_SCENE':
             if (state.cards instanceof Array && action.payload instanceof Array &&
                 state.cards.length !== action.payload.length) {
-                return { ...state, cards: action.payload };
+                return { ...state, cards: action.payload, selectedOnSceneChange: true };
             } else {
-                return state;
+                return { ...state, cards: [], selectedOnSceneChange: true };
             }
         case 'SYNC/UPDATE_SCENE':
             if (action.payload instanceof Array && action.payload.length) {
-                return { ...state, cards: [...state.cards, ...action.payload] };
+                return { ...state, cards: [ ...action.payload, ...state.cards] };
             } else {
                 return state;
             }

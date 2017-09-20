@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { navigable, INavigable } from 'HOC';
-import { Text, Card, Helper, Localize, RelationModule, Duple } from 'Services';
+import { Text, Card, Helper, Localize, RelationModule, Duple, Single } from 'Services';
 import { MiniCardButton, CardAndCategory } from 'Components';
 import * as classNames from 'classnames';
 import * as ReactDOM from "react-dom";
 
 export interface IMiniCardState {
     element: Card;
-    relations: RelationModule[];
+    // relations: RelationModule[];
     groupName: string;
     selectedNav?: INavigable;
     selected?: number;
@@ -80,6 +80,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
             </div>);
     }
 
+
     private expandedInfoText = (): JSX.Element => {
         let box: JSX.Element;
         let text: string = '';
@@ -94,9 +95,9 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 box = <div className="text alone">{text}</div>;
                 break;
             case 'character':
-                const relation: RelationModule | undefined = Helper.getRelation(this.props.relations, 'played_by');
+                const relation: RelationModule | undefined = Helper.getRelation(this.props.element.relations, 'played_by');
                 const duple = relation as Duple;
-                if (duple.data instanceof Array && duple.data.length > 0) {
+                if (duple && duple.data instanceof Array && duple.data.length > 0) {
                     const person = duple.data[0].from;
                     let title = this.props.element.title;
                     if (person !== undefined) {

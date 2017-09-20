@@ -148,7 +148,7 @@ export class CarouselClass
                                 getMovieTime={this.getCurrentTime}
                                 parent={this}
                                 columns={1}
-                                key={`${this.props.state.movieId}#${Date.now}`}
+                                // key={`${this.props.state.movieId}#${Date.now}`}
                                 groupName="MiniCardList"
                                 setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
                                 wasSelectedOnChangeScene={this.props.state.selectedOnSceneChange}
