@@ -2,7 +2,9 @@
     //Shadow DOM's root
     font-size: 4px !important;
 }
-
+.fillParent {
+    @include fillParent;
+}
 ::-webkit-scrollbar {
     display: none;
     background: rgba(0, 0, 0, .3);
