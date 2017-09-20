@@ -55,8 +55,8 @@ export const SyncActions: ISyncActions = {
                 },
                 onSceneUpdate: (scene: any) => {
                     console.log("[SOCKET] onSceneUpdate", scene);
-                    if (scene.cards) {
-                        dispatch(SyncActions.updateScene(scene.cards))
+                    if (scene) {
+                        dispatch(SyncActions.updateScene(scene))
                     }
                 },
                 onSceneEnd: () => { console.log("[SOCKET] onSceneEnd"); },

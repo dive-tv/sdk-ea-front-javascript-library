@@ -38,7 +38,7 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 const config = require("./webpack.config.js");
 
 const app = express(),
-    DIST_DIR = path.join(__dirname, "dist", "tizen"),
+    DIST_DIR = path.join(__dirname, "dist"),
     PORT = 3000,
     compiler = webpack(config);
 
@@ -47,14 +47,14 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.head('*', function (req, res) {
-    console.log(req.host);
+    console.log(req.hostname);
     res.set("Content-Type", "application/vnd.hbbtv.xhtml+xml;charset=UTF-8");
     res.status(200).send("OK");
 });
 
 app.use("/", express.static(DIST_DIR));
 
-/*
+
 app.get('*', (req, res) => {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
         if (err) {
@@ -64,5 +64,5 @@ app.get('*', (req, res) => {
         }
     });
 });
-*/
+
 app.listen(PORT); 
