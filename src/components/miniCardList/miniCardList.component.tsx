@@ -53,17 +53,22 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
     public getRelations = (card: Card): Card[] => {
         let rels: Card[] = [];
-        if (card.relations) {
-
-            card.relations.map((el: Single | Duple) => {
-                console.log("[MiniCard][getRelations] relations: ", el);
-                switch (el.content_type) {
-                    case 'home_deco':
-                        const rel = el as Single;
-                        rels.push(...el.data);
-
+        const limit = 3;
+        if (card.relations instanceof Array) {
+            //card.relations.map((el: Single | Duple, index: number) => {
+            let i = 0;
+            for(const el of card.relations){
+                if(i==3){
+                    break;
                 }
-            });
+                const rel = el as Single | Duple;
+                switch (rel.content_type) {
+                    case 'home_deco':
+                        const relSingle = el as Single;
+                        rels.push(...relSingle.data);
+                }
+                i++;
+            };
         }
         return rels;
     }
@@ -124,6 +129,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 getMovieTime={this.props.getMovieTime}
                 parent={this}
                 columns={1}
+                forceOrder={index+1}
                 // key={`${this.props.movieId}#${Date.now}`}
                 groupName="MiniCardList"
                 setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}

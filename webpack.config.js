@@ -21,7 +21,7 @@ module.exports = {
       path.resolve(__dirname, 'src', 'main.tsx'),
     ],
     styles: [
-      'webpack-hot-middleware/client?reload=true',
+      // 'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
     ],
     vendor: [
@@ -191,7 +191,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin({
       template: 'index.html',
-      excludeChunks: ['styles']
+      // excludeChunks: ['styles']
     })
   ],
   devtool: (function () {

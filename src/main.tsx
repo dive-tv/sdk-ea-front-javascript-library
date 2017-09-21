@@ -43,7 +43,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     }
 
     const APIinstance = new DiveAPIClass(
-        { env: "PRE", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+        { env: "PRO", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
     APIinstance.setLocale("es-ES");
     (window as any).DiveAPI = APIinstance;
@@ -74,7 +74,6 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer">
-                    <link href="/styles.css" rel="stylesheet" />
                     <Provider store={store}>
                         <App />
                     </Provider>

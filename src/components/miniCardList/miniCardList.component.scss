@@ -5,11 +5,10 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     min-width: 100%;
     width: 100%;
     height: pxToVh(180);
-    white-space: nowrap;
-    // float: left;
+    white-space: nowrap; // float: left;
     padding-right: 200px;
     box-sizing: border-box;
-    overflow: auto;
+    overflow-x: auto;
     overflow-y: hidden;
     >.navigable {
         max-height: pxToVh(180);
@@ -22,8 +21,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
         margin-left: pxToVw(15);
         min-width: $minicard-width;
         max-width: $computed-card-plus-expandedInfo;
-        width: $minicard-width;
-        //width: auto;
+        width: $minicard-width; //width: auto;
         /*
         @include animationHack();
         transition-property: width;
