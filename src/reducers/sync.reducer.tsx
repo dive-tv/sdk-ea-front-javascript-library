@@ -3,12 +3,14 @@ import { SocketActionTypes } from 'Actions';
 import { Card } from 'Services';
 export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
 
+export type CardRender = ICardRelation | ICardAndRelations;
+
 export interface ISyncState {
     type?: "SOCKET" | "YOUTUBE";
     socketStatus: string;
     //chunkStatus: ServiceStatus;
     movieId?: string;
-    cards: Card[];
+    cards: CardRender[];
     demo: string;
     currentTime: number; // Time in seconds
     timeMovie: number; // Time of socket (milis)
@@ -23,6 +25,19 @@ export interface ISyncAction extends Action {
     type: SyncActionTypes;
     payload?: any;
 }
+
+export interface ICardRelation extends Card {
+    parentId: string | null,
+    childIndex: number | null,
+}
+
+export interface ICardAndRelations {
+    type: string;
+    card: Card;
+    cards: Card[];
+}
+
+
 
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |
     "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" |
@@ -51,7 +66,7 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
             }
         case 'SYNC/UPDATE_SCENE':
             if (action.payload instanceof Array && action.payload.length) {
-                return { ...state, cards: [ ...action.payload, ...state.cards] };
+                return { ...state, cards: [...action.payload, ...state.cards] };
             } else {
                 return state;
             }

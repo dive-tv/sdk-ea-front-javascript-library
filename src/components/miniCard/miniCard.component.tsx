@@ -95,25 +95,24 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 box = <div className="text alone">{text}</div>;
                 break;
             case 'character':
-                const relation: RelationModule | undefined = Helper.getRelation(this.props.element.relations, 'played_by');
-                const duple = relation as Duple;
-                if (duple && duple.data instanceof Array && duple.data.length > 0) {
-                    const person = duple.data[0].from;
+                console.log("[MiniCard][expandedInfoText] character: ", this.props.element)
+                const person: Card | null = Helper.getRelationCard(this.props.element.relations, 'played_by', 'content_type')
+                if (person) {
                     let title = this.props.element.title;
-                    if (person !== undefined) {
-                        // Cambios la ref de card que se debe abrir
-                        this.openCard = person;
-                        // Montamos el nombre con el nombre del personaje 'as' nombre del actor
-                        if (person.title !== undefined) {
-                            title = person.title + ' as ' + title;
-                        }
 
-                        // Cogemos la descripción del actor
-                        const textPersonContainer: Text = Helper.getContainer(person, 'text') as Text;
-                        if (textPersonContainer !== undefined && textPersonContainer.data.length > 0) {
-                            text = textPersonContainer.data[0].text;
-                        }
+                    // Cambios la ref de card que se debe abrir
+                    this.openCard = person;
+                    // Montamos el nombre con el nombre del personaje 'as' nombre del actor
+                    if (person.title !== undefined) {
+                        title = person.title + ' as ' + title;
                     }
+
+                    // Cogemos la descripción del actor
+                    const textPersonContainer: Text = Helper.getContainer(person, 'text') as Text;
+                    if (textPersonContainer !== undefined && textPersonContainer.data.length > 0) {
+                        text = textPersonContainer.data[0].text;
+                    }
+
 
                     // TODO: coger relación actor/personaje para pintar el título.
                     box = <div className="text">

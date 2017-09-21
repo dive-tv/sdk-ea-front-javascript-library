@@ -50,7 +50,6 @@ export interface IMenuState {
 type DividerSize = 0 | 60 | 100;
 
 export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): IUIState => {
-    console.log("UIReducer: ", action);
     switch (action.type) {
         case "UI/SET_DIVIDER":
             console.log("UI/SET_DIVIDER", action.payload);
