@@ -35,7 +35,7 @@ module.exports = {
   },
   output: {
     path: outPath,
-    publicPath: '/',
+    publicPath: '/api-front-library-react/',
     filename: 'DiveSDK.[name].js',
     library: ['DiveSDK', "[name]"],
     libraryTarget: 'umd',
