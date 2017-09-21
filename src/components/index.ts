@@ -9,3 +9,4 @@ export * from './miniCard/miniCardButton/miniCardButton.component';
 export * from './miniCardList/miniCardList.component';
 export * from './miniCard/miniCard.component';
 export * from './loading/loading.component';
+export * from './moreRelations/moreRelations.component';
