@@ -33,14 +33,14 @@
 
 <body onload="initApp()" style="background-color: black">
 	<!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
+    <object xmlns="http://www.w3.org/1999/xhtml" id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+    <object xmlns="http://www.w3.org/1999/xhtml" id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
 	<div id="root"></div>
 	<script>
 		function init() {
 			DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
 		}
 	</script>
-	<object xmlns="http://www.w3.org/1999/xhtml" id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-    <object xmlns="http://www.w3.org/1999/xhtml" id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
     <script type="text/javascript">
         function setKeyset(mask) {
             var elemcfg, app;

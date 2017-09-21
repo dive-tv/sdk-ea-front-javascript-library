@@ -118,17 +118,16 @@ http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
 
                 // const cards: Card[] | {card_id: string, version?:string}[]  = [...this.props.ui.testCards, ...this.props.sceneCards];
                 // console.log('cards', cards);
-                return this.props.ui.testCards.map((card: Card | { card_id: string, version?: string }, idx: number) => {
-                    return <CardDetailContainer
-                        cardId={card.card_id}
-                        version={card.version}
-                        key={`cardDetail_${idx}`}
+                return (<CardDetailContainer
+                        cardId={this.props.ui.card.card_id}
+                        version={this.props.ui.card.version}
+                        key={`cardDetail_${this.props.ui.card.card_id}`}
                         navClass="cardDetailNav"
                         parent={this}
                         columns={1}
                         isDefault={true}
-                    />;
-                });
+                    />
+                );
 
             default:
                 return null;
