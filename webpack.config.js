@@ -128,8 +128,31 @@ module.exports = {
       },
       // static assets
       { test: /\.html$/, use: 'html-loader' },
-      { test: /\.png$/, use: 'url-loader?limit=10000' },
-      { test: /\.jpg$/, use: 'file-loader' },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        exclude: [/node_modules/, path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
+        loaders: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            query: {
+              mozjpeg: {
+                progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 4,
+              },
+              pngquant: {
+                quality: '75-90',
+                speed: 3,
+              },
+            },
+          },
+        ],
+      },/*
       {
         test: /\.(svg)$/,
         exclude: ['node_modules', path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
@@ -141,15 +164,15 @@ module.exports = {
             }
           }
         ]
-      },
+      },*/
       { test: /\.json$/, use: 'json-loader' }
     ],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
     new webpack.DefinePlugin({
-        __ENV__: JSON.stringify(process.env.NODE_ENV),
-        __DIVE_ENV__: JSON.stringify('PRE'),
+      __ENV__: JSON.stringify(process.env.NODE_ENV),
+      __DIVE_ENV__: JSON.stringify('PRE'),
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -198,4 +221,5 @@ module.exports = {
     fs: 'empty',
     net: 'empty'
   },
+  target: 'web', // Make web variables accessible to webpack, e.g. window,
 };

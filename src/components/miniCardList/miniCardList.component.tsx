@@ -111,7 +111,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 clickActionLike={this.clickActionLike.bind(this)(card)}
                 // trackVisibility={this.trackVisibility.bind(this)(card)}
                 onFocusCallback={this.onFocusCallback.bind(this)(card)}
-                key={card.card_id + '#' + card.version + '=' + card.relations.length}
+                key={card.card_id + '#' + card.version}
                 id={`${key}`}
                 isScrollable={true}
                 // scrollPadding={100}

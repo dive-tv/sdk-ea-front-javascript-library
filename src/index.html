@@ -21,15 +21,15 @@
             padding: 0;
             margin: 0;
         }
-	</style>
-	<!--
+    </style>
+    <!--
 	<script type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
-	</script>
-	-->
+    </script>
+    -->
 </head>
 
 <body onload="initApp()" style="background-color: black">
@@ -67,6 +67,7 @@
             try {
                 app = document.getElementById('appmgr').getOwnerApplication(document);
                 app.privateData.keyset.setValue(mask);
+                console.log("KEYS OK FOR HBBTV 1.0");
             } catch (e) {
                 // ignore
                 console.error("error keys", e);

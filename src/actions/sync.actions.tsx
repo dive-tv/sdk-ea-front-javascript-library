@@ -36,9 +36,10 @@ export const SyncActions: ISyncActions = {
     setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE") => (syncType)),
     setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
     syncChannel: (tvEvent: any/*TvEventResponse*/) => (dispatch: any) => {
-        console.log("[SOCKET]"); 
+        console.log("[SOCKET]");
         dispatch(SyncActions.setSyncType("SOCKET"));
         DiveAPI.syncWithMovieStreaming({
+            protocol: "http",
             channelId: "la2", callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
@@ -48,16 +49,20 @@ export const SyncActions: ISyncActions = {
                 },
                 onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
                 onSceneStart: (scene: any) => {
-                    if (scene) {
-                        dispatch(SyncActions.startScene(scene));
+                    if (scene && scene.cards) {
+                        dispatch(SyncActions.startScene(scene.cards));
+                    } else {
+                        dispatch(SyncActions.startScene([]));
                     }
                 },
                 onSceneUpdate: (scene: any) => {
-                    if (scene) {
-                        dispatch(SyncActions.updateScene(scene));
+                    if (scene && scene.cards) {
+                        dispatch(SyncActions.updateScene(scene.cards));
+                    } else {
+                        // dispatch(SyncActions.updateScene([]));
                     }
                 },
-                onSceneEnd: () => { console.log("[SOCKET] onSceneEnd"); },
+                onSceneEnd: () => { dispatch(SyncActions.endScene()); },
                 onPauseStart: () => { console.log("[SOCKET] onPauseStart"); },
                 onPauseEnd: () => { console.log("[SOCKET] onPauseEnd"); },
             }
@@ -65,8 +70,6 @@ export const SyncActions: ISyncActions = {
     },
     dataSync: (movieId: string) => (dispatch: any) => {
         dispatch(SyncActions.setChunkStatus("LOADING"));
-        // dispatch(SyncActions.setMovie(movieId));
-        // dispatch(SyncActions.updateTime(5555)); // Esto hay que quitarlo. es para probar.
     },
     startScene: syncCreateAction("SYNC/START_SCENE", (cards: Array<Card>[]) => (cards)),
     updateScene: syncCreateAction("SYNC/UPDATE_SCENE", (cards: Array<Card>[]) => (cards)),

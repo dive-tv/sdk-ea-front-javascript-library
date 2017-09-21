@@ -5,6 +5,7 @@ import { connect, ComponentDecorator } from 'react-redux';
 
 import { INavState, IState } from 'Reducers';
 import { NavActions, INavActions } from 'Actions';
+import { KeyMap } from 'Services';
 
 (window as any).currentNavId = 0;
 
@@ -318,24 +319,24 @@ const NavigableClass = <TOriginalProps extends {}>(
         public onKeyPressDown = (e: any) => {
             e.preventDefault();
             e.stopPropagation();
+            const km: any = KeyMap;
 
-            if (e.keyCode === 13) {
-                (ReactDOM.findDOMNode(this.refComponent) as any).click();
-                this.onClick(e);
-            }
-
-            switch (e.key) {
-                case 'ArrowUp':
+            switch (e.keyCode) {
+                case km.UP:
                     this.props.moveVertical(-1);
                     break;
-                case 'ArrowRight':
+                case km.RIGHT:
                     this.props.moveHorizontal(1);
                     break;
-                case 'ArrowLeft':
+                case km.LEFT:
                     this.props.moveHorizontal(-1);
                     break;
-                case 'ArrowDown':
+                case km.DOWN:
                     this.props.moveVertical(1);
+                    break;
+                case km.ENTER:
+                    (ReactDOM.findDOMNode(this.refComponent) as any).click();
+                    this.onClick(e);
                     break;
                 default:
                     break;

@@ -7,7 +7,9 @@ import ShadowDOM from 'react-shadow';
 import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
-import { Card } from 'Services';
+import { Card, KeyMap } from 'Services';
+
+declare const KeyEvent: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -27,6 +29,19 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     }
+    try {
+        if (KeyEvent) {
+            const km: any = KeyMap;
+            km.UP = KeyEvent.VK_UP;
+            km.DOWN = KeyEvent.VK_DOWN;
+            km.LEFT = KeyEvent.VK_LEFT;
+            km.RIGHT = KeyEvent.VK_RIGHT;
+            km.ENTER = KeyEvent.VK_ENTER;
+        }
+    } catch (e) {
+        console.error("NO KEYMAP FOUND");
+    }
+
     const APIinstance = new DiveAPIClass(
         { env: "PRE", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
@@ -58,15 +73,15 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             //console.log("response: ", response);
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
-                  <div className="diveContainer">
+                <div className="diveContainer">
                     <link href="/styles.css" rel="stylesheet" />
                     <Provider store={store}>
                         <App />
                     </Provider>
-                  </div>
-              //</ShadowDOM >,
-              ,
-              document.querySelector(params.selector),
+                </div>
+                //</ShadowDOM >,
+                ,
+                document.querySelector(params.selector),
             );
         })
         .catch((error) => {
@@ -84,5 +99,5 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
 
 // index.html hot reload trick
 if (process.env.NODE_ENV !== 'production') {
-  require('file-loader!./index.html');
+    require('file-loader!./index.html');
 }

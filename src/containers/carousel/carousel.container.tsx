@@ -105,7 +105,6 @@ export class CarouselClass
     public componentWillMount() {
         this.props.syncChannel();
         this.activeFilters = [this.allCategoriesFilter];
-        
     }
 
     public componentWillUnmount() {
