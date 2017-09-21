@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
 import { Loading, NavigationContainer, MiniCardList } from 'Components';
-import { IState, ISyncState, INavState } from 'Reducers';
+import { IState, ISyncState, INavState, CardRender } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
 import { Localize, Card, RelationModule } from 'Services';
 import { SUPPORTED_CARD_TYPES } from 'Constants';
@@ -116,12 +116,12 @@ export class CarouselClass
     }
 
     public render(): any {
-        let cards: Array<Card | RelationModule> =
+        let cards: CardRender[] =
             this.props.state.cards !== undefined ? this.props.state.cards : [];
         // const scene: IChunkScene = this.props.state.scene;
 
         // Filter by offset and getting relation cards to the first level.
-        cards = cards.filter((card: Card) => {
+        cards = cards.filter((card: CardRender) => {
             return card && card.type &&
                 SUPPORTED_CARD_TYPES.indexOf(card.type) > -1 &&
                 card.type !== 'person';
