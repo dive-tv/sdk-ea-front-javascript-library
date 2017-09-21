@@ -79,8 +79,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const { el, key, count, index, parent } = params;
         const card: Card = params.el;
 
-        
-
         let result: JSX.Element = (
             <MiniCard
                 focusChainClass="childFocused"
