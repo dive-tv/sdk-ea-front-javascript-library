@@ -15,11 +15,14 @@ const autoPrefixer = require('autoprefixer');
 module.exports = {
   context: sourcePath,
   entry: {
-    front: [
-      'eventsource-polyfill', // Necessary for hot reloading with IE
-      'webpack-hot-middleware/client?reload=true',
-      path.resolve(__dirname, 'src', 'main.tsx'),
-    ],
+    front: isProduction ?
+      [
+        'eventsource-polyfill', // Necessary for hot reloading with IE
+        'webpack-hot-middleware/client?reload=true',
+        path.resolve(__dirname, 'src', 'main.tsx')
+      ] :
+      [ path.resolve(__dirname, 'src', 'main.tsx') ]
+    ,
     styles: [
       // 'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
@@ -169,7 +172,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
+    isProduction ? new webpack.HotModuleReplacementPlugin() : undefined, // Tell webpack we want hot reloading
     new webpack.DefinePlugin({
       __ENV__: JSON.stringify(process.env.NODE_ENV),
       __DIVE_ENV__: JSON.stringify('PRE'),
@@ -195,12 +198,11 @@ module.exports = {
     })
   ],
   devtool: (function () {
-    // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'dev') {
-    return 'inline-source-map';
-    // }
-    // else {
-    //   return 'source-map';
-    // }
+    if (!isProduction) {
+      return 'inline-source-map';
+    } else {
+      return 'source-map';
+    }
   })(),
   devServer: {
     contentBase: sourcePath,

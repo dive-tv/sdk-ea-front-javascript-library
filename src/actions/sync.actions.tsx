@@ -39,7 +39,7 @@ export const SyncActions: ISyncActions = {
         console.log("[SOCKET]");
         dispatch(SyncActions.setSyncType("SOCKET"));
         DiveAPI.syncWithMovieStreaming({
-            protocol: "http",
+            protocol: "https",
             channelId: "dive", callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
@@ -50,9 +50,9 @@ export const SyncActions: ISyncActions = {
                 onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
                 onSceneStart: (scene: any) => {
                     if (scene && scene.cards) {
-                        dispatch(SyncActions.startScene(scene.cards))
+                        dispatch(SyncActions.startScene(scene.cards));
                     } else {
-                        dispatch(SyncActions.startScene([]))
+                        dispatch(SyncActions.startScene([]));
                     }
                 },
                 onSceneUpdate: (scene: any) => {
