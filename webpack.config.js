@@ -12,17 +12,48 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 
-module.exports = {
+const publicPath = isProduction ? '/api-front-library-react/' : '/';
+
+const frontEntry = isProduction ?
+  [path.resolve(__dirname, 'src', 'main.tsx')] :
+  [
+    'eventsource-polyfill', // Necessary for hot reloading with IE
+    'webpack-hot-middleware/client?reload=true',
+    path.resolve(__dirname, 'src', 'main.tsx')
+  ];
+console.log("IS PRODUCTION? ", isProduction);
+const devtool = isProduction ? 'source-map' : 'inline-source-map';
+const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
+plugins.push(
+  new webpack.DefinePlugin({
+    __ENV__: JSON.stringify(process.env.NODE_ENV),
+    __DIVE_ENV__: JSON.stringify('PRE'),
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    filename: 'vendor.bundle.js',
+    minChunks: function (module) {
+      // this assumes your vendor imports exist in the node_modules directory
+      return module.resource && (/node_modules/).test(module.resource);
+    }
+  }),
+  new webpack.optimize.AggressiveMergingPlugin(),
+  new ExtractTextPlugin(
+    '[name].css', {
+      disable: false,
+      allChunks: true
+    }
+  ),
+  new HtmlWebpackPlugin({
+    template: 'index.html',
+    // excludeChunks: ['styles']
+  })
+);
+
+const config = {
   context: sourcePath,
   entry: {
-    front: isProduction ?
-      [
-        'eventsource-polyfill', // Necessary for hot reloading with IE
-        'webpack-hot-middleware/client?reload=true',
-        path.resolve(__dirname, 'src', 'main.tsx')
-      ] :
-      [ path.resolve(__dirname, 'src', 'main.tsx') ]
-    ,
+    front: frontEntry,
     styles: [
       // 'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
@@ -38,7 +69,6 @@ module.exports = {
   },
   output: {
     path: outPath,
-    publicPath: '/api-front-library-react/',
     filename: 'DiveSDK.[name].js',
     library: ['DiveSDK', "[name]"],
     libraryTarget: 'umd',
@@ -171,43 +201,10 @@ module.exports = {
       { test: /\.json$/, use: 'json-loader' }
     ],
   },
-  plugins: [
-    isProduction ? new webpack.HotModuleReplacementPlugin() : undefined, // Tell webpack we want hot reloading
-    new webpack.DefinePlugin({
-      __ENV__: JSON.stringify(process.env.NODE_ENV),
-      __DIVE_ENV__: JSON.stringify('PRE'),
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.bundle.js',
-      minChunks: function (module) {
-        // this assumes your vendor imports exist in the node_modules directory
-        return module.resource && (/node_modules/).test(module.resource);
-      }
-    }),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new ExtractTextPlugin(
-      '[name].css', {
-        disable: false,
-        allChunks: true
-      }
-    ),
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-      // excludeChunks: ['styles']
-    })
-  ],
-  devtool: (function () {
-    if (!isProduction) {
-      return 'inline-source-map';
-    } else {
-      return 'source-map';
-    }
-  })(),
+  plugins: plugins,
+  devtool,
   devServer: {
     contentBase: sourcePath,
-    hot: true,
-    inline: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -225,3 +222,9 @@ module.exports = {
   },
   target: 'web', // Make web variables accessible to webpack, e.g. window,
 };
+if (isProduction) {
+  config.output.publicPath = publicPath;
+  config.devServer.hot = true;
+  config.devServer.inline = true;
+}
+module.exports = config;

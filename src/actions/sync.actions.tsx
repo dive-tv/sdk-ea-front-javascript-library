@@ -39,7 +39,7 @@ export const SyncActions: ISyncActions = {
         console.log("[SOCKET]");
         dispatch(SyncActions.setSyncType("SOCKET"));
         DiveAPI.syncWithMovieStreaming({
-            protocol: "https",
+            protocol: "http",
             channelId: "dive", callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
