@@ -1,6 +1,12 @@
 declare const KeyEvent: any;
 // tslint:disable-next-line:variable-name
-const KeyMap_HBBTV = {};
+const KeyMap_HBBTV = {
+    UP: 38,
+    DOWN: 40,
+    LEFT: 37,
+    RIGHT: 39,
+    ENTER: 13,
+};
 
 export const loadHbbtvKeys = () => {
     if (!KeyEvent) {

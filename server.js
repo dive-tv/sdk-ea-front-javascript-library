@@ -37,14 +37,14 @@ const webpack = require("webpack");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require("./webpack.config.js");
+const isProduction = process.argv.indexOf('-p') >= 0;
 
 const app = express(),
     DIST_DIR = path.join(__dirname, "dist"),
     PORT = 3000,
     compiler = webpack(webpackConfig);
 
-app.use(webpackDevMiddleware(compiler, {
-    hot: webpackConfig.devServer.hot,
+const webpackDevOptions = {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath,
     silent: true,
@@ -54,8 +54,14 @@ app.use(webpackDevMiddleware(compiler, {
         poll: 50
     },
     headers: { "Access-Control-Allow-Origin": "*" }
-}));
-app.use(webpackHotMiddleware(compiler));
+};
+
+app.use(webpackDevMiddleware(compiler, webpackDevOptions));
+
+if (!isProduction) {
+    webpackDevOptions.hot = webpackConfig.devServer.hot;
+    app.use(webpackHotMiddleware(compiler));
+}
 
 app.head('*', function (req, res) {
     console.log(req.hostname);
@@ -76,4 +82,6 @@ app.get('*', (req, res) => {
     });
 });
 
-app.listen(PORT); 
+app.listen(PORT, () => {
+    console.log("Webpack dev server (Custom for HBBTV) listening on port", PORT);
+}); 

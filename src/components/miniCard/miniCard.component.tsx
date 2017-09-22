@@ -95,7 +95,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 box = <div className="text alone">{text}</div>;
                 break;
             case 'character':
-                console.log("[MiniCard][expandedInfoText] character: ", this.props.element)
+                // console.log("[MiniCard][expandedInfoText] character: ", this.props.element)
                 const person: Card | null = Helper.getRelationCard(this.props.element.relations, 'played_by', 'content_type')
                 if (person) {
                     let title = this.props.element.title;

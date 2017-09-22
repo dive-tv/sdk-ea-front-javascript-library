@@ -56,9 +56,9 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const limit = 3;
         if (card.relations instanceof Array) {
             //card.relations.map((el: Single | Duple, index: number) => {
-            for(const el of card.relations){
+            for (const el of card.relations){
                 const rel = el as Single | Duple;
-                console.log("[MiniCardList][getRelations]: ", rel);
+                // console.log("[MiniCardList][getRelations]: ", rel);
                 switch (rel.content_type) {
                     case 'home_deco':
                         const relSingle = el as Single;
@@ -74,7 +74,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
 
     public render() {
-        console.log("Elements: ", this.props.elements);
+        // console.log("Elements: ", this.props.elements);
         return (
             <ul className="miniCardList" >
                 {

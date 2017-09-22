@@ -320,6 +320,7 @@ const NavigableClass = <TOriginalProps extends {}>(
             e.preventDefault();
             e.stopPropagation();
             const km: any = KeyMap;
+            console.log("Key", e.key, e.code, e.keyCode);
 
             switch (e.keyCode) {
                 case km.UP:

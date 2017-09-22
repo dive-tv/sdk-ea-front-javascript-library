@@ -97,6 +97,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
 // init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
 
 // index.html hot reload trick
-if (process.env.NODE_ENV !== 'production') {
+/*declare const __ENV__: any;
+if (__ENV__ !== 'production') {
     require('file-loader!./index.html');
-}
+}*/
