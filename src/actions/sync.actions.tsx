@@ -1,9 +1,10 @@
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
-import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations } from 'Reducers';
+import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple } from 'Services';
+import { SUPPORTED_CARD_TYPES } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -86,24 +87,33 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
 
     for (const card of cards) {
+        if(card.type === 'person'){
+            continue;
+        }
+
         relCards = [...relCards, card as ICardRelation];
 
         if (card.relations) {
             for (const rel of card.relations) {
                 let childrenCards: ICardRelation[];
+                //Cogemos todas las relaciones dentro del mismo tipo 
                 childrenCards = Helper.getRelationCardsFromRelation(rel).map((el: Card, i: number) => {
                     return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
                 });
+                //Metemos a primer nivel un número igual a {limit}
                 relCards = [...relCards, ...childrenCards.slice(0, limit)];
                 if (childrenCards.length > limit) {
                     relCards = [...relCards, { type: 'moreRelations', card: card, cards: childrenCards }]
                 }
             }
         }
-
     }
-
-    return relCards;
+    
+    //Filtramos por las cards soportables.
+    return relCards.filter((card: CardRender) => {
+        return card && card.type &&
+            (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1 || card.type === 'moreRelations')
+    });;
 
 }
 
