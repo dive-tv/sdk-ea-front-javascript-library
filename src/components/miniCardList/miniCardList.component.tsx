@@ -5,13 +5,14 @@ import { connect } from "react-redux";
 
 import { navigable } from 'HOC';
 import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
-import { MiniCard } from 'Components';
+import { MiniCard, MoreRelations } from 'Components';
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
+import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
 
 declare const DiveAPI: DiveAPIClass;
 
 export interface IMiniCardListState {
-    elements: Array<Card | RelationModule>;
+    elements: Array<CardRender>;
     movieId: string | undefined;
     wasSelectedOnChangeScene: boolean;
     idx?: number;
@@ -51,38 +52,15 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         }
     }
 
-    public getRelations = (card: Card): Card[] => {
-        let rels: Card[] = [];
-        const limit = 3;
-        if (card.relations instanceof Array) {
-            //card.relations.map((el: Single | Duple, index: number) => {
-            for(const el of card.relations){
-                const rel = el as Single | Duple;
-                console.log("[MiniCardList][getRelations]: ", rel);
-                switch (rel.content_type) {
-                    case 'home_deco':
-                        const relSingle = el as Single;
-                        rels.push(...relSingle.data);
-                        break;
-                    case 'wears':
-                        //console.log("[MiniCardList][getRelations]wears: ", rel);
-                        break;
-                }
-            };
-        }
-        return rels;
-    }
-
     public render() {
         console.log("Elements: ", this.props.elements);
         return (
             <ul className="miniCardList" >
                 {
                     this.props.elements.map(
-                        (sceneCard: Card, i: number, sceneCards: Card[]) => {
+                        (sceneCard: CardRender, i: number, sceneCards: CardRender[]) => {
                             return this.element({
                                 el: sceneCard,
-                                key: sceneCard.card_id + '#' + sceneCard.version,
                                 count: sceneCards.length,
                                 index: i,
                                 parent,
@@ -95,49 +73,63 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
 
     private element(params: {
-        el: Card, key: number | string,
+        el: CardRender,
         count: number, index: number, parent: any,
-    }): JSX.Element[] {
-        const { el, key, count, index, parent } = params;
-        const card: Card = params.el;
+    }): JSX.Element {
+        const { el, count, index, parent } = params;
+        const cardRender: CardRender = params.el;
 
-        const relatedCards: Card[] = this.getRelations(card);
+        if (cardRender.type != "moreRelations") {
 
-        let result: JSX.Element[] = [(
-            <MiniCard
-                focusChainClass="childFocused"
-                activeGroupClass="activeGroup"
-                groupName={(el.card_id + '' + el.version).toString()}
-                element={card}
+            const card = cardRender as ICardRelation
+            console.log("ELEMENT Card ----->", card)
+
+            return (
+                <MiniCard
+                    focusChainClass="childFocused"
+                    activeGroupClass="activeGroup"
+                    groupName={(card.card_id + '' + card.version).toString()}
+                    element={card}
+                    parent={this}
+                    forceFirst={true}
+                    forceOrder={index}
+                    clickActionMore={this.clickActionMore.bind(this)(card)}
+                    clickActionLike={this.clickActionLike.bind(this)(card)}
+                    // trackVisibility={this.trackVisibility.bind(this)(card)}
+                    onFocusCallback={this.onFocusCallback.bind(this)(card)}
+                    key={card.card_id + '#' + card.version}
+                    id={card.card_id + '#' + card.version}
+                    isScrollable={true}
+                    // scrollPadding={100}
+                    navClass="scrollable"
+                />);
+
+        } else {
+
+            const moreRelations = cardRender as ICardAndRelations
+
+            console.log("ELEMENT Relations ----->", moreRelations)
+
+            const actionOnClick = () => {
+                this.clickMoreRelations(moreRelations);
+            };
+
+            return (<MoreRelations
                 parent={this}
+                focusChainClass="childFocused moreRelations"
                 forceFirst={true}
                 forceOrder={index}
-                clickActionMore={this.clickActionMore.bind(this)(card)}
-                clickActionLike={this.clickActionLike.bind(this)(card)}
-                // trackVisibility={this.trackVisibility.bind(this)(card)}
-                onFocusCallback={this.onFocusCallback.bind(this)(card)}
-                key={card.card_id + '#' + card.version}
-                id={`${key}`}
+                //onFocusCallback={this.onFocusCallback.bind(this)(card)}
+                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations'}
                 isScrollable={true}
-                // scrollPadding={100}
                 navClass="scrollable"
-            />)];
+                clickAction={actionOnClick}
+        />);
+            }
+    }
 
-        if (relatedCards.length > 0) {
-            result.push(<MiniCardList elements={relatedCards}
-                movieId={this.props.movieId}
-                getMovieTime={this.props.getMovieTime}
-                parent={this}
-                columns={1}
-                forceOrder={index+1}
-                // key={`${this.props.movieId}#${Date.now}`}
-                groupName="MiniCardList"
-                setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
-                wasSelectedOnChangeScene={this.props.wasSelectedOnChangeScene}
-            />);
-        }
-
-        return result;
+    private clickMoreRelations(card: ICardAndRelations) {    
+        //Logic to expand relations
     }
 
     private clickActionLike(originalCard: Card) {
