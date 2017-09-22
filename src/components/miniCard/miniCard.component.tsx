@@ -4,9 +4,10 @@ import { Text, Card, Helper, Localize, RelationModule, Duple, Single } from 'Ser
 import { MiniCardButton, CardAndCategory } from 'Components';
 import * as classNames from 'classnames';
 import * as ReactDOM from "react-dom";
+import { ICardRelation } from 'Reducers';
 
 export interface IMiniCardState {
-    element: Card;
+    element: ICardRelation;
     // relations: RelationModule[];
     groupName: string;
     selectedNav?: INavigable;
@@ -32,10 +33,10 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     private openCard: Card;
 
     public render() {
-        const isRelation: boolean = false;
+        const isRelation: boolean = this.props.element.parentId != null;
         const classes = classNames({
             minicard: true,
-            relation: isRelation,
+            relation: isRelation
         });
 
         return (
