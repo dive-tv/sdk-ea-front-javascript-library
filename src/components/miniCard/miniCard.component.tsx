@@ -32,7 +32,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     private openCard: Card;
 
     public render() {
-        const isRelation: boolean = false;
+        const isRelation: boolean = (this.props.element as any).parentId;
         const classes = classNames({
             minicard: true,
             relation: isRelation,

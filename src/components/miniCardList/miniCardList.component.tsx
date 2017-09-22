@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { navigable } from 'HOC';
 import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
-import { MiniCard } from 'Components';
+import { MiniCard, MoreRelations } from 'Components';
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
 
 declare const DiveAPI: DiveAPIClass;
@@ -51,28 +51,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         }
     }
 
-    public getRelations = (card: Card): Card[] => {
-        let rels: Card[] = [];
-        const limit = 3;
-        if (card.relations instanceof Array) {
-            //card.relations.map((el: Single | Duple, index: number) => {
-            for (const el of card.relations){
-                const rel = el as Single | Duple;
-                // console.log("[MiniCardList][getRelations]: ", rel);
-                switch (rel.content_type) {
-                    case 'home_deco':
-                        const relSingle = el as Single;
-                        rels.push(...relSingle.data);
-                        break;
-                    case 'wears':
-                        //console.log("[MiniCardList][getRelations]wears: ", rel);
-                        break;
-                }
-            };
-        }
-        return rels;
-    }
-
     public render() {
         // console.log("Elements: ", this.props.elements);
         return (
@@ -97,13 +75,11 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     private element(params: {
         el: Card, key: number | string,
         count: number, index: number, parent: any,
-    }): JSX.Element[] {
+    }): JSX.Element {
         const { el, key, count, index, parent } = params;
         const card: Card = params.el;
 
-        const relatedCards: Card[] = this.getRelations(card);
-
-        let result: JSX.Element[] = [(
+        let result: JSX.Element = (
             <MiniCard
                 focusChainClass="childFocused"
                 activeGroupClass="activeGroup"
@@ -121,23 +97,20 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 isScrollable={true}
                 // scrollPadding={100}
                 navClass="scrollable"
-            />)];
-
-        if (relatedCards.length > 0) {
-            result.push(<MiniCardList elements={relatedCards}
-                movieId={this.props.movieId}
-                getMovieTime={this.props.getMovieTime}
-                parent={this}
-                columns={1}
-                forceOrder={index+1}
-                // key={`${this.props.movieId}#${Date.now}`}
-                groupName="MiniCardList"
-                setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
-                wasSelectedOnChangeScene={this.props.wasSelectedOnChangeScene}
             />);
-        }
 
         return result;
+
+        // return (<MoreRelations
+        //         parent={this}
+        //         focusChainClass="childFocused moreRelations"
+        //         forceFirst={true}
+        //         forceOrder={index}
+        //         onFocusCallback={this.onFocusCallback.bind(this)(card)}
+        //         key={card.card_id + '#' + card.version}
+        //         isScrollable={true}
+        //         navClass="scrollable"
+        // />);
     }
 
     private clickActionLike(originalCard: Card) {

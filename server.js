@@ -84,4 +84,5 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
     console.log("Webpack dev server (Custom for HBBTV) listening on port", PORT);
+    console.log("Waiting for webpack build");
 }); 
