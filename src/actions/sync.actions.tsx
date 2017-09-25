@@ -87,7 +87,10 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
 
     for (const card of cards) {
-        if(card.type === 'person'){
+        //Casos en los que no hay que pintar la card.
+        if (card == null || card.type === undefined ||
+            card.type === 'person' ||
+            !(SUPPORTED_CARD_TYPES.indexOf(card.type) > -1)) {
             continue;
         }
 
@@ -96,10 +99,14 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
         if (card.relations) {
             for (const rel of card.relations) {
                 let childrenCards: ICardRelation[];
-                //Cogemos todas las relaciones dentro del mismo tipo 
-                childrenCards = Helper.getRelationCardsFromRelation(rel).map((el: Card, i: number) => {
+
+                //Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
+                childrenCards = Helper.getRelationCardsFromRelation(rel).filter((el: Card) => {
+                    return el && (SUPPORTED_CARD_TYPES.indexOf(el.type) > -1)
+                }).map((el: Card, i: number) => {
                     return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
                 });
+
                 //Metemos a primer nivel un número igual a {limit}
                 relCards = [...relCards, ...childrenCards.slice(0, limit)];
                 if (childrenCards.length > limit) {
@@ -108,12 +115,13 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
             }
         }
     }
-    
+
     //Filtramos por las cards soportables.
-    return relCards.filter((card: CardRender) => {
+    return relCards;
+    /*return relCards.filter((card: CardRender) => {
         return card && card.type &&
             (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1 || card.type === 'moreRelations')
-    });;
+    });;*/
 
 }
 
