@@ -1,2 +1,2 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.styles=t():(e.DiveSDK=e.DiveSDK||{},e.DiveSDK.styles=t())}(this,function(){return webpackJsonpDiveSDK__name_([1],{620:function(e,t,o){e.exports=o(621)},621:function(e,t,o){}},[620])});
+!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.styles=t():(e.DiveSDK=e.DiveSDK||{},e.DiveSDK.styles=t())}(this,function(){return webpackJsonpDiveSDK__name_([1],{621:function(e,t,o){e.exports=o(622)},622:function(e,t){}},[621])});
 //# sourceMappingURL=DiveSDK.styles.js.map

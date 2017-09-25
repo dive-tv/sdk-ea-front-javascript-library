@@ -7,9 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env DEBUG='express:*' && webpack-dev-server --debug --output-pathinfo --history-api-fallback --hot --inline --progress --colors --port 3000 --open",
-    "build": "cross-env NODE_ENV=production webpack -p --progress --colors",
+    "build": "cross-env NODE_ENV=production webpack -p --colors -w",
     "update_texts": "node ./scripts/updateDiveLiterals.js",
-    "hbbtv-server": "concurrently -k \"webpack -w\" \"node server.js\""
+    "hbbtv-server": "node server.js",
+    "hbbtv-server-pro": "cross-env NODE_ENV=production concurrently -k \"npm run build\" \"node server.js\""
   },
   "license": "MIT",
   "devDependencies": {

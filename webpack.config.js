@@ -2,16 +2,18 @@ const webpack = require('webpack');
 const path = require('path');
 
 // variables
-const isProduction = process.argv.indexOf('-p') >= 0;
+const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production";
 const sourcePath = path.join(__dirname, './src');
 const outPath = path.join(__dirname, './dist');
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 
+console.log("WP IS PRODUCTION? ", isProduction);
 const publicPath = isProduction ? '/api-front-library-react/' : '/';
 
 const frontEntry = isProduction ?
@@ -21,7 +23,34 @@ const frontEntry = isProduction ?
     'webpack-hot-middleware/client?reload=true',
     path.resolve(__dirname, 'src', 'main.tsx')
   ];
-console.log("IS PRODUCTION? ", isProduction);
+
+const sassEntry = ExtractTextPlugin.extract({
+  fallback: 'style-loader',
+  //resolve-url-loader may be chained before sass-loader if necessary 
+  use: [
+    {
+      loader: "css-loader", // translates CSS into CommonJS
+      options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
+    },
+    {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: true,
+        plugins: [
+          autoPrefixer({
+            browsers: ['last 10 versions']
+          })
+        ]
+      }
+    },
+    'resolve-url-loader',
+    {
+      loader: "sass-loader", // compiles Sass to CSS
+      options: { sourceMap: true }
+    }
+  ]
+});
+
 const devtool = isProduction ? 'source-map' : 'inline-source-map';
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
 plugins.push(
@@ -49,6 +78,33 @@ plugins.push(
     // excludeChunks: ['styles']
   })
 );
+const sourceMapPath = "file:///";
+if (process.env.NODE_ENV === "production") {
+    plugins.push(
+        new UglifyJSPlugin({
+            sourceMap: {
+                base: "file:///",
+            },
+            warnings: "verbose",
+            // Eliminate comments
+            comments: true,
+            // Compression specific options
+            compress: {
+                join_vars: true,
+                if_return: true,
+                unused: true,
+                loops: true,
+                booleans: true,
+                conditionals: true,
+                dead_code: true,
+                // remove warnings
+                warnings: false,
+                // Drop console statements
+                drop_console: true
+            },
+        })
+    );
+}
 
 const config = {
   context: sourcePath,
@@ -101,63 +157,12 @@ const config = {
       // css
       {
         test: /\.css$/,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                sourceMap: true, //!isProduction,
-                importLoaders: 1,
-                localIdentName: '[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [
-                  require('postcss-import')({ addDependencyTo: webpack }),
-                  require('postcss-url')(),
-                  require('postcss-cssnext')(),
-                  require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({ disabled: isProduction }),
-                ]
-              }
-            }
-          ]
-        }))
+        use: 'css-loader',
       },
       {
         test: /\.scss?$/,
         exclude: /node_modules/,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          //resolve-url-loader may be chained before sass-loader if necessary 
-          use: [
-            {
-              loader: "css-loader", // translates CSS into CommonJS
-              options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-                plugins: [
-                  autoPrefixer({
-                    browsers: ['last 10 versions']
-                  })
-                ]
-              }
-            },
-            'resolve-url-loader',
-            {
-              loader: "sass-loader", // compiles Sass to CSS
-              options: { sourceMap: true }
-            }
-          ]
-        }))
+        use: isProduction ? sassEntry : ['css-hot-loader'].concat(sassEntry),
       },
       // static assets
       { test: /\.html$/, use: 'html-loader' },
@@ -203,7 +208,19 @@ const config = {
   },
   plugins: plugins,
   devtool,
-  devServer: {
+  node: {
+    // workaround for webpack-dev-server issue
+    // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
+    fs: 'empty',
+    net: 'empty'
+  },
+  target: 'web', // Make web variables accessible to webpack, e.g. window,
+};
+if (!isProduction) {
+  config.output.publicPath = publicPath;
+  config.devServer = {
+    hot: true,
+    inline: true,
     contentBase: sourcePath,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -213,18 +230,7 @@ const config = {
     stats: {
       warnings: false
     },
-  },
-  node: {
-    // workaround for webpack-dev-server issue
-    // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
-    fs: 'empty',
-    net: 'empty'
-  },
-  target: 'web', // Make web variables accessible to webpack, e.g. window,
-};
-if (isProduction) {
-  config.output.publicPath = publicPath;
-  config.devServer.hot = true;
-  config.devServer.inline = true;
+  };
 }
+
 module.exports = config;
