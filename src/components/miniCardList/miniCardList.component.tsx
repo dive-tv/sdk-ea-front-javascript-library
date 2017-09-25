@@ -46,7 +46,15 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
-            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length > 0) {
+
+            if(this.props.elements.length > 0 && nextProps.elements.length === 0){
+                if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+                    this.props.setSelectedOnSceneChange(true);
+                }
+            }
+            
+
+            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length === 0 && nextProps.elements.length > 0) {
                 this.props.setSelectedOnSceneChange(false);
             }
         }
@@ -71,6 +79,12 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             </ul >
         );
     }
+
+    /*public componentWillUnmount() {
+        if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+            this.props.setSelectedOnSceneChange(true);
+        }
+    }*/
 
     private element(params: {
         el: CardRender,
@@ -121,11 +135,11 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 isScrollable={true}
                 navClass="scrollable"
                 clickAction={actionOnClick}
-        />);
-            }
+            />);
+        }
     }
 
-    private clickMoreRelations(card: ICardAndRelations) {    
+    private clickMoreRelations(card: ICardAndRelations) {
         //Logic to expand relations
     }
 
