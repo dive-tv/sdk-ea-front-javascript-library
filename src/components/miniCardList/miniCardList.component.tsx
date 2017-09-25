@@ -81,8 +81,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
         if (cardRender.type != "moreRelations") {
 
-            const card = cardRender as ICardRelation
-            console.log("ELEMENT Card ----->", card)
+            const card = cardRender as ICardRelation;
 
             return (
                 <MiniCard
@@ -106,9 +105,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
         } else {
 
-            const moreRelations = cardRender as ICardAndRelations
-
-            console.log("ELEMENT Relations ----->", moreRelations)
+            const moreRelations = cardRender as ICardAndRelations;
 
             const actionOnClick = () => {
                 this.clickMoreRelations(moreRelations);
@@ -139,7 +136,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 return;
             }
             // tslint:disable-next-line:no-console
-            console.log("LIKE", card.card_id);
             this.props.userActions.likeCard(card)
                 .then(() => {
                     console.log("Liked success");
@@ -171,7 +167,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (!card) {
                 return;
             }
-            console.log("Card clicked", card);
             this.props.uiActions.openCard(card.card_id, "offmovie");
         };
     }
