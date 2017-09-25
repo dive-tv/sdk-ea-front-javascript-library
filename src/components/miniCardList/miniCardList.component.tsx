@@ -101,10 +101,9 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const { el, count, index, parent } = params;
         const cardRender: CardRender = params.el;
 
-        if (cardRender.type != "moreRelations") {
+        if (cardRender.type !== "moreRelations") {
 
             const card = cardRender as ICardRelation;
-            // console.log("ELEMENT Card ----->", card);
 
             return (
                 <MiniCard
@@ -128,7 +127,8 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
         } else {
 
-            const moreRelations = cardRender as ICardAndRelations
+            const moreRelations = cardRender as ICardAndRelations;
+
             const actionOnClick = () => {
                 this.clickMoreRelations(moreRelations);
             };
@@ -140,7 +140,10 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 activeGroupClass="activeGroup"
                 forceFirst={true}
                 forceOrder={index}
-                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length}
+                key={
+                    // tslint:disable-next-line:max-line-length
+                    moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length
+                }
                 isScrollable={true}
                 navClass="scrollable"
                 clickAction={actionOnClick}
@@ -163,7 +166,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 return;
             }
             // tslint:disable-next-line:no-console
-            console.log("LIKE", card.card_id);
             this.props.userActions.likeCard(card)
                 .then(() => {
                     console.log("Liked success");
@@ -195,7 +197,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (!card) {
                 return;
             }
-            console.log("Card clicked", card);
             this.props.uiActions.openCard(card.card_id, "offmovie");
         };
     }

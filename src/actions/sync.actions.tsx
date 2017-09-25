@@ -102,9 +102,11 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
 
                 // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
                 childrenCards = Helper.getRelationCardsFromRelation(rel).filter((el: Card) => {
-                    return el && (SUPPORTED_CARD_TYPES.indexOf(el.type) > -1);
-                }).map((el: Card, i: number) => {
-                    return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation;
+                    return el && el.type === 'look' || (SUPPORTED_CARD_TYPES.indexOf(el.type) > -1);
+                }) as ICardRelation[];
+
+                childrenCards = formatFashion(childrenCards).map((el: Card, i: number) => {
+                    return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
                 });
 
                 // Metemos a primer nivel un número igual a {limit}
@@ -115,12 +117,23 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
             }
         }
     }
-
     // Filtramos por las cards soportables.
     return relCards;
-    /*return relCards.filter((card: CardRender) => {
-        return card && card.type &&
-            (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1 || card.type === 'moreRelations')
-    });;*/
+};
 
+const formatFashion = (children: ICardRelation[]): ICardRelation[] => {
+
+    let filtered: ICardRelation[] = [];
+
+    for (const rel of children) {
+        // console.log("relCards: ", rel);
+        if (rel.type !== 'look') {
+            filtered = [...filtered, rel];
+            continue;
+        }
+        console.log("relCards2: ", rel);
+        filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]
+    }
+
+    return filtered;
 };
