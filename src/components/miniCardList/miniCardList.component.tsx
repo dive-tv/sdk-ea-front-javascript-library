@@ -88,7 +88,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 <MiniCard
                     focusChainClass="childFocused"
                     activeGroupClass="activeGroup"
-                    groupName={(card.card_id + '' + card.version).toString()}
+                    groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
                     element={card}
                     parent={this}
                     forceFirst={true}
@@ -114,6 +114,8 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             return (<MoreRelations
                 parent={this}
                 focusChainClass="childFocused moreRelations"
+                groupName={(moreRelations.card.card_id + '' + moreRelations.card.version).toString()}
+                activeGroupClass="activeGroup"
                 forceFirst={true}
                 forceOrder={index}
                 key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length}
