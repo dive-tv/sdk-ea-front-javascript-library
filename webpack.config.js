@@ -170,7 +170,12 @@ const config = {
         test: /\.(jpe?g|png|gif|svg)$/,
         exclude: [/node_modules/, path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
         loaders: [
-          'file-loader',
+          { 
+            loader: 'file-loader',
+            query: {
+              name: 'assets/[hash].[ext]',
+            }
+          },
           {
             loader: 'image-webpack-loader',
             query: {
