@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 
 import { CardDetail } from 'Components';
 import { Carousel, CardDetailContainer } from 'Containers';
@@ -25,13 +26,21 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             const bottomStyle: React.CSSProperties = { height: `${100 - this.props.ui.divider}%` };
             return (
                 <div className="containerLayout">
-                    <div className="layoutTop" style={topStyle}>
-                        {this.getTop(topType)}
-                    </div>
+                    <Switch>
+                        <Route exact path='/' render={() => {
+                            return (
+                                <div id="route">
+                                    <div className="layoutTop" style={topStyle}>
+                                        {this.getTop(topType)}
+                                    </div>
 
-                    <div className="layoutBottom" style={bottomStyle}>
-                        {this.getBottom(bottomType)}
-                    </div>
+                                    <div className="layoutBottom" style={bottomStyle}>
+                                        {this.getBottom(bottomType)}
+                                    </div>
+                                </div>
+                            );
+                        }}/>
+                    </Switch>
                 </div>
             );
         } else {

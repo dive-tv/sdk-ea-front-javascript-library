@@ -3,6 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import ShadowDOM from 'react-shadow';
+import { HashHistory } from 'react-history';
+import { HashRouter } from 'react-router-dom';
 
 import { store } from './store/store';
 import { App } from 'Containers';
@@ -75,7 +77,16 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer">
                     <Provider store={store}>
-                        <App />
+                        <HashRouter>
+                            <HashHistory
+                                basename=""               // The base URL of the app (see below) 
+                                hashType="slash"          // The hash type to use (see below) 
+                            // A function to use to confirm navigation with the user (see below) 
+                            // getUserConfirmation={(message, callback) => callback(window.confirm(message))}
+                            >
+                                    <App />
+                            </HashHistory>
+                        </HashRouter>
                     </Provider>
                 </div>
                 //</ShadowDOM >,

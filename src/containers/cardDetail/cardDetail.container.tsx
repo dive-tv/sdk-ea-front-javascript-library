@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Push, Back } from "react-history";
 
 import { DiveAPIClass, Card, Helper } from "Services";
 import { Loading, CardDetail } from "Components";
@@ -9,7 +10,7 @@ declare const DiveAPI: DiveAPIClass;
 export interface ICardDetailContainerProps {
     cardId: string;
     version: string;
-    parent: any
+    parent: any;
 }
 export interface ICardDetailContainerState {
     status: "LOADING" | "LOADED";
@@ -30,7 +31,7 @@ export class CardDetailContainerClass extends
                         this.setState({ ...this.state, status: "LOADED", card });
                     });
             } else {
-                DiveAPI.getCard/*Versio*n*/({ cardId: this.props.cardId,/* version: this.props.version,*/ products: true })
+                DiveAPI.getCard/*Version*/({ cardId: this.props.cardId,/* version: this.props.version,*/ products: true })
                     .then((card: Card) => {
                         console.log(`[card] ${card.title}: `, card);
                         this.setState({ ...this.state, status: "LOADED", card });
@@ -44,7 +45,14 @@ export class CardDetailContainerClass extends
         const subcomponent = !this.state || this.state.status !== "LOADED" ?
             <Loading /> :
             <CardDetail parent={this} card={this.state.card} columns={1} navClass="cardDetailNav" isDefault={true} />;
-        return subcomponent;
+        return (
+            <div id="cardDetailContainer">
+                <Push location={{
+                        hash: '#card',
+                    }}/>
+                    <Back/>
+                    {subcomponent}
+            </div>);
     }
 }
 

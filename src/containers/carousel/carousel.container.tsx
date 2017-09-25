@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect, MapDispatchToPropsObject } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Push } from "react-history";
 
 import { navigable, INavigableProps } from 'HOC';
 import { Loading, NavigationContainer, MiniCardList } from 'Components';
@@ -129,6 +130,9 @@ export class CarouselClass
 
         return (
             <div className="containerCarousel fillParent">
+                <Push location={{
+                    hash: '#carousel',
+                }}/>
                 <NavigationContainer key="buttonContainer"
                     ref={(el: any) => { if (el) { this.buttonsContainer = el.getWrappedInstance().refComponent; } }}
                     propagateParent={false}
