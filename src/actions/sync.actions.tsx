@@ -4,7 +4,7 @@ import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRen
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple } from 'Services';
-import { SUPPORTED_CARD_TYPES } from 'Constants';
+import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -41,7 +41,7 @@ export const SyncActions: ISyncActions = {
         dispatch(SyncActions.setSyncType("SOCKET"));
         DiveAPI.syncWithMovieStreaming({
             protocol: "http",
-            channelId: "dive", callbacks: {
+            channelId: TESTING_CHANNEL, callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
                     if (movie && movie.movie_id) {

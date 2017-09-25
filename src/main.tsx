@@ -8,6 +8,7 @@ import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
+import { DIVE_ENVIRONMENT } from 'Constants';
 
 declare const KeyEvent: any;
 
@@ -43,7 +44,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     }
 
     const APIinstance = new DiveAPIClass(
-        { env: "PRO", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+        { env: DIVE_ENVIRONMENT, storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
     APIinstance.setLocale("es-ES");
     (window as any).DiveAPI = APIinstance;
