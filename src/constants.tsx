@@ -7,12 +7,18 @@ declare const __ENABLE_AWS__: boolean;
 declare const __ENABLE_SEGMENT__: boolean;
 declare const __ENABLE_WHY__: boolean;
 declare const __DIVE_ENV__: "DEV" | "PRE" | "PRO";
-declare const __DIVE_VERSION__: string;
-declare const __CHUNK_VERSION__: string;
 const environment: "DEV" | "PRE" | "PRO" = __DIVE_ENV__;
-// const rollbarKey: string = getRollbarKey();
+let testingChannel: string;
+switch (environment) {
+    case "PRE":
+        testingChannel = "la2";
+        break;
+    case "PRO":
+        testingChannel = "dive";
+        break;
+}
 const enableRollbar: boolean = false;
-
+export const TESTING_CHANNEL = testingChannel;
 export const SESSION_STORAGE_KEY = 'DiveState';
 /*export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")
     .map((event: KeyboardEvent) => event.keyCode);

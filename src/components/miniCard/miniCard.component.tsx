@@ -36,7 +36,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
         const isRelation: boolean = this.props.element.parentId != null;
         const classes = classNames({
             minicard: true,
-            relation: isRelation
+            relation: isRelation,
         });
 
         return (
@@ -80,8 +80,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 </div>
             </div>);
     }
-
-
     private expandedInfoText = (): JSX.Element => {
         let box: JSX.Element;
         let text: string = '';
@@ -96,7 +94,11 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 box = <div className="text alone">{text}</div>;
                 break;
             case 'character':
-                const person: Card | null = Helper.getRelationCard(this.props.element.relations, 'played_by', 'content_type')
+                const person: Card | null = Helper.getRelationCard(
+                    this.props.element.relations,
+                    'played_by',
+                    'content_type',
+                );
                 if (person) {
                     let title = this.props.element.title;
 
@@ -112,8 +114,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                     if (textPersonContainer !== undefined && textPersonContainer.data.length > 0) {
                         text = textPersonContainer.data[0].text;
                     }
-
-
                     // TODO: coger relación actor/personaje para pintar el título.
                     box = <div className="text">
                         <div className="title">{title}</div>

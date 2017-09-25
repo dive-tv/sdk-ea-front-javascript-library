@@ -60,8 +60,30 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         }
     }
 
+    public getRelations = (card: Card): Card[] => {
+        const rels: Card[] = [];
+        const limit = 3;
+        if (card.relations instanceof Array) {
+            // card.relations.map((el: Single | Duple, index: number) => {
+            for(const el of card.relations){
+                const rel = el as Single | Duple;
+                // console.log("[MiniCardList][getRelations]: ", rel);
+                switch (rel.content_type) {
+                    case 'home_deco':
+                        const relSingle = el as Single;
+                        rels.push(...relSingle.data);
+                        break;
+                    case 'wears':
+                        // console.log("[MiniCardList][getRelations]wears: ", rel);
+                        break;
+                }
+            };
+        }
+        return rels;
+    }
+
     public render() {
-        console.log("Elements: ", this.props.elements);
+        // console.log("Elements: ", this.props.elements);
         return (
             <ul className="miniCardList" >
                 {
@@ -93,7 +115,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const { el, count, index, parent } = params;
         const cardRender: CardRender = params.el;
 
-        if (cardRender.type != "moreRelations") {
+        if (cardRender.type !== "moreRelations") {
 
             const card = cardRender as ICardRelation;
 
@@ -101,7 +123,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 <MiniCard
                     focusChainClass="childFocused"
                     activeGroupClass="activeGroup"
-                    groupName={(card.card_id + '' + card.version).toString()}
+                    groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
                     element={card}
                     parent={this}
                     forceFirst={true}
@@ -128,10 +150,14 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             return (<MoreRelations
                 parent={this}
                 focusChainClass="childFocused moreRelations"
+                groupName={(moreRelations.card.card_id + '' + moreRelations.card.version).toString()}
+                activeGroupClass="activeGroup"
                 forceFirst={true}
                 forceOrder={index}
-                //onFocusCallback={this.onFocusCallback.bind(this)(card)}
-                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations'}
+                key={
+                    // tslint:disable-next-line:max-line-length
+                    moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length
+                }
                 isScrollable={true}
                 navClass="scrollable"
                 clickAction={actionOnClick}
@@ -140,7 +166,11 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
 
     private clickMoreRelations(card: ICardAndRelations) {
-        //Logic to expand relations
+
+        if (!card) {
+            return;
+        }
+        this.props.uiActions.openAllRelations(card);
     }
 
     private clickActionLike(originalCard: Card) {

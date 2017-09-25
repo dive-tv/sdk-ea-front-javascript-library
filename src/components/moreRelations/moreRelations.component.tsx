@@ -14,7 +14,6 @@ export interface IMoreRelationsState {
     navigation?: Map<number, INavigable>;
 }
 
-
 type MoreRelationsProps = IMoreRelationsState;
 
 export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, {}> {
@@ -27,24 +26,18 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
 
     private moreRelation = (): JSX.Element => {
         return (
-            <div className="minicard">
+            <div className="minicard relation">
+                <div className="relationBar"/>
                 <div className="cardLeft">
                     <div className="cardAndCategory">
                         <div className={`image`}>
-                            <div className={`icon`} />
+                            <div className={`showMore`}>+</div>
                         </div>
                         <div className="category">Explore More</div>
                     </div>
                 </div>
             </div>
         );
-
-
-
-        // return (
-        //     <div className="cardLeft" onMouseOver={() => this.props.setNodeById(this.props.idx)}>
-        //         <CardAndCategory card={this.props.element} />
-        //     </div>);
     }
 }
 

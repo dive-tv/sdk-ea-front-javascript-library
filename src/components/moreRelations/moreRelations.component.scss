@@ -4,3 +4,13 @@
         width: $minicard-width !important;
     }
 }
+
+.minicard.relation .showMore {
+    top: 50%;
+    width: 100%;
+    transform: translate(0, -50%);
+    position: absolute;
+    font-size: 17.09259em;
+    left: 0;
+    color: blue;
+}

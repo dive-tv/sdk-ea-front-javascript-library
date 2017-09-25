@@ -1,14 +1,15 @@
+import { ICardAndRelations } from './sync.reducer';
 import { Action } from 'redux';
 import { Card, Localize } from 'Services';
 //
 //  Actions
 //
 export type UIActionTypes = "UI/SET_DIVIDER" | "UI/UI_BACK" | "UI/OPEN_SYNC" |
-    "UI/OPEN_CARD" | "UI/OPEN" | "UI/ADD_TEST_CARDS";
+    "UI/OPEN_CARD" | "UI/OPEN" | "UI/ADD_TEST_CARDS" | "UI/OPEN_ALL_RELATIONS";
 
 export type UILayerTopTypes = "TV" | "EMPTY";
 export type UILayerBottomTypes = "CAROUSEL" | "CARD" | "CARDS" |
-    "PROFILE" | "HELP" | "ERROR" | "EMPTY";
+    "PROFILE" | "HELP" | "ERROR" | "EMPTY" | "ALL_RELATIONS";
 
 type KeyArrows = "UP" | "DOWN" | "RIGHT" | "LEFT";
 export type MenuVisualState = "VISIBLE" | "HIDE";
@@ -25,6 +26,7 @@ export interface IUIState {
     divider: DividerSize;
     card?: Card;
     testCards: Array<{ card_id: string, version?: string }>;
+    allRelations?: ICardAndRelations;
 }
 
 //
@@ -85,6 +87,9 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
         case 'UI/ADD_TEST_CARDS':
 
             return { ...state, testCards: [...state.testCards, action.payload] }
+        case 'UI/OPEN_ALL_RELATIONS':
+            const allRelationsContainer: IUIContainer[] = [state.containers[0], { component: "ALL_RELATIONS" }];
+            return { ...state, divider: 60, containers: allRelationsContainer, allRelations: action.payload };
 
         default:
             return state;
@@ -101,6 +106,7 @@ export const initialUIState: IUIState = {
         },
     ],
     card: undefined,
+    allRelations: undefined,
     testCards: [
         { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
         { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */ },

@@ -1,3 +1,4 @@
+import { ICardAndRelations } from './../reducers/sync.reducer';
 import { IUIAction } from './../reducers/ui.reducer';
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
@@ -15,6 +16,7 @@ export interface IUIActions extends MapDispatchToPropsObject {
     openSync: ActionCreator<IUIAction>;
     open: ActionCreator<void>;
     addTestCards: ActionCreator<IUIAction>;
+    openAllRelations: ActionCreator<IUIAction>;
 }
 
 //
@@ -47,4 +49,5 @@ export const UIActions: IUIActions = {
     },
     performOpen: uiCreateAction("UI/OPEN", (group: IUIGroup) => (group)),
     addTestCards: uiCreateAction("UI/ADD_TEST_CARDS", (cards: Card[]) =>(cards)),
+    openAllRelations: uiCreateAction("UI/OPEN_ALL_RELATIONS", (cards: ICardAndRelations) =>(cards))
 };
