@@ -40,8 +40,8 @@ export interface ICardAndRelations {
 
 
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |
-    "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" |
-    "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
+    "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/PAUSE_START" | "SYNC/PAUSE_END" |
+    "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" | "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
     "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | SocketActionTypes;
 
 export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncAction): ISyncState => {
@@ -72,6 +72,10 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
             }
         case 'SYNC/END_SCENE':
             return { ...state, cards: [] };
+        case 'SYNC/PAUSE_START':
+            return { ...state, channelStatus: "paused" };
+        case 'SYNC/PAUSE_END':
+            return { ...state, channelStatus: "playing" };
 
         case 'SYNC/SET_TRAILER':
             return { ...state, demo: action.payload };

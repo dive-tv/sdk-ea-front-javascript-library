@@ -25,7 +25,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
 //
 //  Action Creators
 //
-export const syncCreateAction = (type: SyncActionTypes, payload: any): ReduxActions.ActionFunction0<Action> => {
+export const syncCreateAction = (type: SyncActionTypes, payload?: any): ReduxActions.ActionFunction0<Action> => {
     return createAction(type, payload);
 };
 
@@ -64,8 +64,8 @@ export const SyncActions: ISyncActions = {
                     }
                 },
                 onSceneEnd: () => { dispatch(SyncActions.endScene()); },
-                onPauseStart: () => { console.log("[SOCKET] onPauseStart"); },
-                onPauseEnd: () => { console.log("[SOCKET] onPauseEnd"); },
+                onPauseStart: () => { dispatch(SyncActions.broadcastPause()); },
+                onPauseEnd: () => { dispatch(SyncActions.broadcastPauseEnd()); },
             },
         });
     },
@@ -74,6 +74,8 @@ export const SyncActions: ISyncActions = {
     },
     startScene: syncCreateAction("SYNC/START_SCENE", (cards: Array<Card>[]) => (cards)),
     updateScene: syncCreateAction("SYNC/UPDATE_SCENE", (cards: Array<Card>[]) => (cards)),
+    broadcastPause: syncCreateAction("SYNC/PAUSE_START"),
+    broadcastPauseEnd: syncCreateAction("SYNC/PAUSE_END"),
     endScene: syncCreateAction("SYNC/END_SCENE", (cards: Array<Card>[]) => (cards)),
     setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
 };
