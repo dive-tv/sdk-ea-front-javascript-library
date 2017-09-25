@@ -27,7 +27,8 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
 
     private moreRelation = (): JSX.Element => {
         return (
-            <div className="minicard">
+            <div className="minicard relation">
+                <div className="relationBar"/>
                 <div className="cardLeft">
                     <div className="cardAndCategory">
                         <div className={`image`}>
@@ -38,13 +39,6 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
                 </div>
             </div>
         );
-
-
-
-        // return (
-        //     <div className="cardLeft" onMouseOver={() => this.props.setNodeById(this.props.idx)}>
-        //         <CardAndCategory card={this.props.element} />
-        //     </div>);
     }
 }
 

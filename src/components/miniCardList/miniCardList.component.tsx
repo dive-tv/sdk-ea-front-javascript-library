@@ -107,9 +107,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         } else {
 
             const moreRelations = cardRender as ICardAndRelations
-
-            console.log("ELEMENT Relations ----->", moreRelations)
-
             const actionOnClick = () => {
                 this.clickMoreRelations(moreRelations);
             };
@@ -119,17 +116,20 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 focusChainClass="childFocused moreRelations"
                 forceFirst={true}
                 forceOrder={index}
-                //onFocusCallback={this.onFocusCallback.bind(this)(card)}
-                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations'}
+                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length}
                 isScrollable={true}
                 navClass="scrollable"
                 clickAction={actionOnClick}
-        />);
-            }
+            />);
+        }
     }
 
-    private clickMoreRelations(card: ICardAndRelations) {    
-        //Logic to expand relations
+    private clickMoreRelations(card: ICardAndRelations) {
+
+        if (!card) {
+            return;
+        }
+        this.props.uiActions.openAllRelations(card)
     }
 
     private clickActionLike(originalCard: Card) {

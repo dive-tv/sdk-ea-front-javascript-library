@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { CardDetail } from 'Components';
-import { Carousel, CardDetailContainer } from 'Containers';
+import { Carousel, CardDetailContainer, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
 import { navigable } from 'HOC';
@@ -71,7 +71,13 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                         isDefault={true}
                     />;
                 });
-
+            case 'ALL_RELATIONS':
+            return <AllRelationsContainer 
+            cards={this.props.ui.allRelations}
+            parent= {this}
+            columns={1}
+            isDefault={true}
+            />
             default:
                 return null;
         }
