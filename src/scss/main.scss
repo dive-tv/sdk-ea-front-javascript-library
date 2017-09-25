@@ -5,6 +5,7 @@
 @import 'functions';
 $font-lato: Tiresias, sans-serif;
 $font-zona: 'Letter Gothic 12 Pitch';
+$font-zona-pro: 'Letter Gothic 12 Pitch';
 @import 'common';
 @import '../containers/app/app';
 @import '../HOC/navigable/navigable.HOC';
@@ -23,3 +24,4 @@ $font-zona: 'Letter Gothic 12 Pitch';
 @import '../components/horizontalScroll/horizontalScroll.component';
 @import '../components/directionButtonList/directionButtonList.component';
 @import '../components/directionButtonList/directionButton/directionButton.component';
+@import '../containers/ui/bottomOverlayMessage.container';
