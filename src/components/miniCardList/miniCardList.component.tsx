@@ -7,11 +7,12 @@ import { navigable } from 'HOC';
 import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
 import { MiniCard, MoreRelations } from 'Components';
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
+import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
 
 declare const DiveAPI: DiveAPIClass;
 
 export interface IMiniCardListState {
-    elements: Array<Card | RelationModule>;
+    elements: Array<CardRender>;
     movieId: string | undefined;
     wasSelectedOnChangeScene: boolean;
     idx?: number;
@@ -79,10 +80,9 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             <ul className="miniCardList" >
                 {
                     this.props.elements.map(
-                        (sceneCard: Card, i: number, sceneCards: Card[]) => {
+                        (sceneCard: CardRender, i: number, sceneCards: CardRender[]) => {
                             return this.element({
                                 el: sceneCard,
-                                key: sceneCard.card_id + '#' + sceneCard.version,
                                 count: sceneCards.length,
                                 index: i,
                                 parent,
@@ -95,44 +95,65 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
 
     private element(params: {
-        el: Card, key: number | string,
+        el: CardRender,
         count: number, index: number, parent: any,
     }): JSX.Element {
-        const { el, key, count, index, parent } = params;
-        const card: Card = params.el;
+        const { el, count, index, parent } = params;
+        const cardRender: CardRender = params.el;
 
-        let result: JSX.Element = (
-            <MiniCard
-                focusChainClass="childFocused"
-                activeGroupClass="activeGroup"
-                groupName={(el.card_id + '' + el.version).toString()}
-                element={card}
+        if (cardRender.type != "moreRelations") {
+
+            const card = cardRender as ICardRelation;
+            // console.log("ELEMENT Card ----->", card);
+
+            return (
+                <MiniCard
+                    focusChainClass="childFocused"
+                    activeGroupClass="activeGroup"
+                    groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
+                    element={card}
+                    parent={this}
+                    forceFirst={true}
+                    forceOrder={index}
+                    clickActionMore={this.clickActionMore.bind(this)(card)}
+                    clickActionLike={this.clickActionLike.bind(this)(card)}
+                    // trackVisibility={this.trackVisibility.bind(this)(card)}
+                    onFocusCallback={this.onFocusCallback.bind(this)(card)}
+                    key={card.card_id + '#' + card.version}
+                    id={card.card_id + '#' + card.version}
+                    isScrollable={true}
+                    // scrollPadding={100}
+                    navClass="scrollable"
+                />);
+
+        } else {
+
+            const moreRelations = cardRender as ICardAndRelations
+            const actionOnClick = () => {
+                this.clickMoreRelations(moreRelations);
+            };
+
+            return (<MoreRelations
                 parent={this}
+                focusChainClass="childFocused moreRelations"
+                groupName={(moreRelations.card.card_id + '' + moreRelations.card.version).toString()}
+                activeGroupClass="activeGroup"
                 forceFirst={true}
                 forceOrder={index}
-                clickActionMore={this.clickActionMore.bind(this)(card)}
-                clickActionLike={this.clickActionLike.bind(this)(card)}
-                // trackVisibility={this.trackVisibility.bind(this)(card)}
-                onFocusCallback={this.onFocusCallback.bind(this)(card)}
-                key={card.card_id + '#' + card.version}
-                id={`${key}`}
+                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length}
                 isScrollable={true}
-                // scrollPadding={100}
                 navClass="scrollable"
+                clickAction={actionOnClick}
             />);
+        }
+    }
 
-        return result;
+    private clickMoreRelations(card: ICardAndRelations) {
 
-        // return (<MoreRelations
-        //         parent={this}
-        //         focusChainClass="childFocused moreRelations"
-        //         forceFirst={true}
-        //         forceOrder={index}
-        //         onFocusCallback={this.onFocusCallback.bind(this)(card)}
-        //         key={card.card_id + '#' + card.version}
-        //         isScrollable={true}
-        //         navClass="scrollable"
-        // />);
+        if (!card) {
+            return;
+        }
+        this.props.uiActions.openAllRelations(card);
     }
 
     private clickActionLike(originalCard: Card) {

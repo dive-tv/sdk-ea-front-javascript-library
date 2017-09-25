@@ -4,9 +4,10 @@ import { Text, Card, Helper, Localize, RelationModule, Duple, Single } from 'Ser
 import { MiniCardButton, CardAndCategory } from 'Components';
 import * as classNames from 'classnames';
 import * as ReactDOM from "react-dom";
+import { ICardRelation } from 'Reducers';
 
 export interface IMiniCardState {
-    element: Card;
+    element: ICardRelation;
     // relations: RelationModule[];
     groupName: string;
     selectedNav?: INavigable;
@@ -32,7 +33,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     private openCard: Card;
 
     public render() {
-        const isRelation: boolean = (this.props.element as any).parentId;
+        const isRelation: boolean = this.props.element.parentId != null;
         const classes = classNames({
             minicard: true,
             relation: isRelation,
@@ -79,8 +80,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                 </div>
             </div>);
     }
-
-
     private expandedInfoText = (): JSX.Element => {
         let box: JSX.Element;
         let text: string = '';
@@ -116,8 +115,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                     if (textPersonContainer !== undefined && textPersonContainer.data.length > 0) {
                         text = textPersonContainer.data[0].text;
                     }
-
-
                     // TODO: coger relación actor/personaje para pintar el título.
                     box = <div className="text">
                         <div className="title">{title}</div>

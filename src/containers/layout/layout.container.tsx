@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { CardDetail } from 'Components';
-import { Carousel, CardDetailContainer } from 'Containers';
+import { Carousel, CardDetailContainer, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
 import { navigable } from 'HOC';
@@ -128,7 +128,13 @@ http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
                         isDefault={true}
                     />
                 );
-
+            case 'ALL_RELATIONS':
+                return (<AllRelationsContainer 
+                cards={this.props.ui.allRelations}
+                parent= {this}
+                columns={1}
+                isDefault={true}
+                />);
             default:
                 return null;
         }

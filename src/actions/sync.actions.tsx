@@ -1,9 +1,10 @@
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
-import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations } from 'Reducers';
+import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple } from 'Services';
+import { SUPPORTED_CARD_TYPES } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -84,23 +85,40 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
 
     for (const card of cards) {
+        //Casos en los que no hay que pintar la card.
+        if (card == null || card.type === undefined ||
+            card.type === 'person' ||
+            !(SUPPORTED_CARD_TYPES.indexOf(card.type) > -1)) {
+            continue;
+        }
+
         relCards = [...relCards, card as ICardRelation];
 
         if (card.relations) {
             for (const rel of card.relations) {
                 let childrenCards: ICardRelation[];
-                childrenCards = Helper.getRelationCardsFromRelation(rel).map((el: Card, i: number) => {
-                    return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation;
+
+                // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
+                childrenCards = Helper.getRelationCardsFromRelation(rel).filter((el: Card) => {
+                    return el && (SUPPORTED_CARD_TYPES.indexOf(el.type) > -1)
+                }).map((el: Card, i: number) => {
+                    return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
                 });
+
+                // Metemos a primer nivel un número igual a {limit}
                 relCards = [...relCards, ...childrenCards.slice(0, limit)];
                 if (childrenCards.length > limit) {
                     relCards = [...relCards, { type: 'moreRelations', card, cards: childrenCards }];
                 }
             }
         }
-
     }
 
+    //Filtramos por las cards soportables.
     return relCards;
+    /*return relCards.filter((card: CardRender) => {
+        return card && card.type &&
+            (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1 || card.type === 'moreRelations')
+    });;*/
 
 };
