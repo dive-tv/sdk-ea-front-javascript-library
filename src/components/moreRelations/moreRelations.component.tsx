@@ -31,7 +31,7 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
                 <div className="cardLeft">
                     <div className="cardAndCategory">
                         <div className={`image`}>
-                            <div className={`icon`} />
+                            <div className={`showMore`}>+</div>
                         </div>
                         <div className="category">Explore More</div>
                     </div>
