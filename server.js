@@ -16,10 +16,10 @@ app.head('*', function (req, res) {
 
 if (!isProduction) {
     const webpack = require("webpack");
+    const webpackConfig = require("./webpack.config.js");
     const compiler = webpack(webpackConfig);
     const webpackDevMiddleware = require("webpack-dev-middleware");
     const webpackHotMiddleware = require('webpack-hot-middleware');
-    const webpackConfig = require("./webpack.config.js");
     const webpackDevOptions = {
         noInfo: true,
         publicPath: webpackConfig.output.publicPath,
