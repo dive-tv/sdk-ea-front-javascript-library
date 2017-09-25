@@ -9,11 +9,15 @@
 <!DOCTYPE html PUBLIC "-//HbbTV//1.1.1//EN" "http://www.hbbtv.org/dtd/HbbTV-1.1.1.dtd">
 <!-- Required XML-namespace as described in the HbbTV-standard: A.2.6.2. -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" test="1">
+
 <head>
-	<meta http-equiv="content-type" content="application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
+    <meta http-equiv="content-type" content="application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
     <title>Dive SDK</title>
     <style>
-        html, body, .diveContainer, #root{
+        html,
+        body,
+        .diveContainer,
+        #root {
             width: 100%;
             height: 100%;
             position: relative;
@@ -32,36 +36,38 @@
 </head>
 
 <body onload="initApp()" style="background-color: black">
-	<!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
-    <object xmlns="http://www.w3.org/1999/xhtml" id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-    <object xmlns="http://www.w3.org/1999/xhtml" id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-	<div id="root"></div>
-	<script>
-		function init() {
-			DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
-		}
-	</script>
+    <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
+    <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
+        <object type="application/oipfApplicationManager" id="oipfAppMan" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+        <object type="application/oipfConfiguration" id="oipfConfig" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+    </div>
+    <div id="root"></div>
+    <script>
+        function init() {
+            DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+        }
+    </script>
     <script type="text/javascript">
         function setKeyset(mask) {
             var elemcfg, app;
             // for HbbTV 0.5:
-            try {
-                elemcfg = document.getElementById('oipfcfg');
-                elemcfg.keyset.value = mask;
-            } catch (e) {
-                // ignore
-                console.error("error keys", e);
-            }
-            try {
-                elemcfg = document.getElementById('oipfcfg');
-                elemcfg.keyset.setValue(mask);
-            } catch (e) {
-                // ignore
-                console.error("error keys", e);
-            }
+            // try {
+            //     elemcfg = document.getElementById('oipfcfg');
+            //     elemcfg.keyset.value = mask;
+            // } catch (e) {
+            //     // ignore
+            //     console.error("error keys", e);
+            // }
+            // try {
+            //     elemcfg = document.getElementById('oipfcfg');
+            //     elemcfg.keyset.setValue(mask);
+            // } catch (e) {
+            //     // ignore
+            //     console.error("error keys", e);
+            // }
             // for HbbTV 1.0:
             try {
-                app = document.getElementById('appmgr').getOwnerApplication(document);
+                app = document.getElementById('oipfAppMan').getOwnerApplication(document);
                 app.privateData.keyset.setValue(mask);
                 console.log("KEYS OK FOR HBBTV 1.0");
             } catch (e) {
@@ -74,11 +80,11 @@
                 console.log("HBBTV TIMEOUT TRIGGERED");
                 try {
                     console.log("LOADING HBBTV");
-                    document.getElementById("appmgr").getOwnerApplication(document).show();
+                    document.getElementById("oipfAppMan").getOwnerApplication(document).show();
                     console.log("LOADED HBBTV");
                     setKeyset(0x1 + 0x2 + 0x4 + 0x8 + 0x10);
-					console.log("KEYS SETUP");
-					init();
+                    console.log("KEYS SETUP");
+                    init();
                 } catch (e) {
                     console.log("ERROR HBBTV", e);
                     var el = document.getElementById("body");

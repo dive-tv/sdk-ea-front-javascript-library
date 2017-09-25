@@ -17,17 +17,19 @@
 }
 
 @mixin ellipsisMultiline($lines) {
+    line-clamp: $lines;
     -webkit-line-clamp: $lines;
     overflow: hidden;
     display: -webkit-box;
     text-overflow: ellipsis;
+    box-orient: vertical;
     -webkit-box-orient: vertical;
     white-space: normal;
 }
 
 @mixin animationHack {
-    -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000; // -webkit-transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+    perspective: 1000; // -webkit-transform: translate3d(0,0,0);
     /* or */
     // -webkit-transform: translateZ(0);
     // transition: none !important;
