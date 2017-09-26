@@ -19,9 +19,9 @@ class HelperClass {
             : undefined;
     }
 
-    public getRelation = (relations: Array<RelationModule>, value: string, field: string = 'type'): RelationModule | null => {
+    public getRelation = (relations: Array<RelationModule>, value: string | null, field: string = 'type'): RelationModule | null => {
         return relations
-            ? relations.filter((el: RelationModule | any) => el[field] as any === value)[0]
+            ? relations.filter((el: RelationModule | any) => value === null || el[field] as any === value)[0]
             : undefined;
     }
 
@@ -65,7 +65,7 @@ class HelperClass {
     /**
  * Devuelve la card del tipo de relación seleccionada pasándole el array de relaciones.
  */
-    public getRelationCards = (relations: Array<RelationModule>, value: string, field: string = 'type'): Card[] | null => {
+    public getRelationCards = (relations: Array<RelationModule>, value: string | null = null, field: string = 'type'): Card[] | null => {
         const relation: Single | Duple | null = Helper.getRelation(relations, value, field) as Single | Duple | null;
         if (relation != null) {
             return Helper.getRelationCardsFromRelation(relation);

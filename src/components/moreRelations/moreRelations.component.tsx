@@ -14,7 +14,6 @@ export interface IMoreRelationsState {
     navigation?: Map<number, INavigable>;
 }
 
-
 type MoreRelationsProps = IMoreRelationsState;
 
 export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, {}> {

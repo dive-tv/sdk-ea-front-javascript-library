@@ -21,9 +21,6 @@
       "dom"
     ],
     "paths": {
-      "*": [
-        "./types/*"
-      ],
       "Components": [
         "./src/components/index"
       ],
@@ -54,8 +51,7 @@
     }
   },
   "include": [
-    "./src/**/*",
-    "./types/**"
+    "./src/**/*"
   ],
   "exclude": [
     "dist",

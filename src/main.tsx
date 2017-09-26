@@ -7,7 +7,10 @@ import ShadowDOM from 'react-shadow';
 import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
-import { Card } from 'Services';
+import { Card, KeyMap } from 'Services';
+import { DIVE_ENVIRONMENT } from 'Constants';
+
+declare const KeyEvent: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -27,8 +30,21 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     }
+    try {
+        if (KeyEvent) {
+            const km: any = KeyMap;
+            km.UP = KeyEvent.VK_UP;
+            km.DOWN = KeyEvent.VK_DOWN;
+            km.LEFT = KeyEvent.VK_LEFT;
+            km.RIGHT = KeyEvent.VK_RIGHT;
+            km.ENTER = KeyEvent.VK_ENTER;
+        }
+    } catch (e) {
+        console.error("NO KEYMAP FOUND");
+    }
+
     const APIinstance = new DiveAPIClass(
-        { env: "PRE", storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+        { env: DIVE_ENVIRONMENT, storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
     APIinstance.setLocale("es-ES");
     (window as any).DiveAPI = APIinstance;
@@ -57,18 +73,19 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             //response = [...newCards, ...response];
             //console.log("response: ", response);
             ReactDOM.render(
-                <ShadowDOM include={'styles.css'}>
-                    <div className="diveContainer">
-                        <Provider store={store}>
-                            <App />
-                        </Provider>
-                    </div>
-                </ShadowDOM >,
+                //<ShadowDOM /*include={'styles.css'}*/>
+                <div className="diveContainer">
+                    <Provider store={store}>
+                        <App />
+                    </Provider>
+                </div>
+                //</ShadowDOM >,
+                ,
                 document.querySelector(params.selector),
             );
         })
         .catch((error) => {
-            console.error("CARDS FROM MOVIE ERROR", error);
+            console.error("ERROR LOADING", error);
         });
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
@@ -78,4 +95,11 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     //});
 };
 
-init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+// init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+
+// index.html hot reload trick
+/* DISABLED FOR WINDOWS
+declare const __ENV__: any;
+if (__ENV__ !== 'production') {
+    require('file-loader!./index.html');
+}*/

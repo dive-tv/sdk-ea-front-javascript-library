@@ -46,14 +46,44 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
-            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length > 0) {
+
+            if (this.props.elements.length > 0 && nextProps.elements.length === 0) {
+                if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+                    this.props.setSelectedOnSceneChange(true);
+                }
+            }
+
+
+            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length === 0 && nextProps.elements.length > 0) {
                 this.props.setSelectedOnSceneChange(false);
             }
         }
     }
 
+    public getRelations = (card: Card): Card[] => {
+        const rels: Card[] = [];
+        const limit = 3;
+        if (card.relations instanceof Array) {
+            // card.relations.map((el: Single | Duple, index: number) => {
+            for (const el of card.relations) {
+                const rel = el as Single | Duple;
+                // console.log("[MiniCardList][getRelations]: ", rel);
+                switch (rel.content_type) {
+                    case 'home_deco':
+                        const relSingle = el as Single;
+                        rels.push(...relSingle.data);
+                        break;
+                    case 'wears':
+                        // console.log("[MiniCardList][getRelations]wears: ", rel);
+                        break;
+                }
+            };
+        }
+        return rels;
+    }
+
     public render() {
-        console.log("Elements: ", this.props.elements);
+        // console.log("Elements: ", this.props.elements);
         return (
             <ul className="miniCardList" >
                 {
@@ -72,6 +102,12 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         );
     }
 
+    /*public componentWillUnmount() {
+        if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+            this.props.setSelectedOnSceneChange(true);
+        }
+    }*/
+
     private element(params: {
         el: CardRender,
         count: number, index: number, parent: any,
@@ -79,10 +115,9 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const { el, count, index, parent } = params;
         const cardRender: CardRender = params.el;
 
-        if (cardRender.type != "moreRelations") {
+        if (cardRender.type !== "moreRelations") {
 
-            const card = cardRender as ICardRelation
-            console.log("ELEMENT Card ----->", card)
+            const card = cardRender as ICardRelation;
 
             return (
                 <MiniCard
@@ -106,7 +141,8 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
         } else {
 
-            const moreRelations = cardRender as ICardAndRelations
+            const moreRelations = cardRender as ICardAndRelations;
+
             const actionOnClick = () => {
                 this.clickMoreRelations(moreRelations);
             };
@@ -118,7 +154,10 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 activeGroupClass="activeGroup"
                 forceFirst={true}
                 forceOrder={index}
-                key={moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length}
+                key={
+                    // tslint:disable-next-line:max-line-length
+                    moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length
+                }
                 isScrollable={true}
                 navClass="scrollable"
                 clickAction={actionOnClick}
@@ -131,7 +170,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         if (!card) {
             return;
         }
-        this.props.uiActions.openAllRelations(card)
+        this.props.uiActions.openAllRelations(card);
     }
 
     private clickActionLike(originalCard: Card) {
@@ -141,7 +180,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 return;
             }
             // tslint:disable-next-line:no-console
-            console.log("LIKE", card.card_id);
             this.props.userActions.likeCard(card)
                 .then(() => {
                     console.log("Liked success");
@@ -173,7 +211,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (!card) {
                 return;
             }
-            console.log("Card clicked", card);
             this.props.uiActions.openCard(card.card_id, "offmovie");
         };
     }
