@@ -4,7 +4,7 @@ import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRen
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple } from 'Services';
-import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL } from 'Constants';
+import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, SUPPORTED_CARD_TYPES_RELATIONS } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -97,12 +97,13 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
         relCards = [...relCards, card as ICardRelation];
 
         if (card.relations) {
+
             for (const rel of card.relations) {
                 let childrenCards: ICardRelation[];
 
                 // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
                 childrenCards = Helper.getRelationCardsFromRelation(rel).filter((el: Card) => {
-                    return el && el.type === 'look' || (SUPPORTED_CARD_TYPES.indexOf(el.type) > -1);
+                    return el && (SUPPORTED_CARD_TYPES_RELATIONS.indexOf(el.type) > -1);
                 }) as ICardRelation[];
 
                 childrenCards = formatFashion(childrenCards).map((el: Card, i: number) => {
@@ -126,13 +127,15 @@ const formatFashion = (children: ICardRelation[]): ICardRelation[] => {
     let filtered: ICardRelation[] = [];
 
     for (const rel of children) {
-        // console.log("relCards: ", rel);
+        
         if (rel.type !== 'look') {
             filtered = [...filtered, rel];
             continue;
         }
-        console.log("relCards2: ", rel);
-        filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]
+
+        if(rel.relations && rel.relations.length > 0) {
+            filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]    
+        }
     }
 
     return filtered;
