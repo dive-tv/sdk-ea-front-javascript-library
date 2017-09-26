@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import socketMiddleware from '../middleware/socket.middleware';
+import undoable, { includeAction } from 'redux-undo';
 
 
 import {

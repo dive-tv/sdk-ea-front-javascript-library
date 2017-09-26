@@ -38,25 +38,34 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         return false;
     }
 
-    public componentWillUpdate(nextProps: MiniCardListProps) {
-        // console.log("[MiniCard][componentWillUpdate] ", nextProps);
-        // Esto es para que en el cambio de escena, si el foco está en alguna minicard, se cargue la nueva escena
-        // seleccionando el primer elemento.
+    public componentDidMount() {
         if (this.props.wasSelectedOnChangeScene) {
+            console.log("[MiniCardListClass][componentWillMount]");
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
-
-            if (this.props.elements.length > 0 && nextProps.elements.length === 0) {
-                if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
-                    this.props.setSelectedOnSceneChange(true);
-                }
-            }
-
-
-            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length === 0 && nextProps.elements.length > 0) {
+            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length > 0) {
                 this.props.setSelectedOnSceneChange(false);
             }
+            this.forceUpdate();
+        }
+    }
+
+    public componentWillUnmount() {
+        if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+            console.log("[MiniCardListClass][componentWillUnmount]");
+            this.props.setSelectedOnSceneChange(true);
+        }
+    }
+
+    public componentDidUpdate(prevProps: MiniCardListProps) {
+
+        if (this.props.setSelectedOnSceneChange !== undefined && prevProps.elements.length === 0 && this.props.elements.length > 0) {
+            if (this.props.setNodeById && this.props.idx) {
+                this.props.setNodeById(this.props.idx);
+            }
+            this.props.setSelectedOnSceneChange(false);
+            this.forceUpdate();
         }
     }
 
@@ -126,7 +135,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                     groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
                     element={card}
                     parent={this}
-                    forceFirst={true}
+                    // forceFirst={true}
                     forceOrder={index}
                     clickActionMore={this.clickActionMore.bind(this)(card)}
                     clickActionLike={this.clickActionLike.bind(this)(card)}
