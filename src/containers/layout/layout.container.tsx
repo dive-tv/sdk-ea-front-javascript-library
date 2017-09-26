@@ -131,6 +131,7 @@ http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
             case 'ALL_RELATIONS':
                 return (<AllRelationsContainer 
                 cards={this.props.ui.allRelations}
+                openSync={this.props.openSync}
                 parent= {this}
                 columns={1}
                 isDefault={true}
@@ -153,6 +154,7 @@ http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
 const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ } => {
     return { ui: state.ui, };
 };
+
 
 export const Layout = navigable(connect(
     mapStateToProps,

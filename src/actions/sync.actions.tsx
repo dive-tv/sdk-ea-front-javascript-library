@@ -81,7 +81,7 @@ export const SyncActions: ISyncActions = {
 };
 
 const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> => {
-    const limit = 2;
+    const limit = 3;
     if (cards == null) return [];
     cards = cards.reverse();
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
@@ -127,13 +127,15 @@ const formatFashion = (children: ICardRelation[]): ICardRelation[] => {
     let filtered: ICardRelation[] = [];
 
     for (const rel of children) {
-        // console.log("relCards: ", rel);
+        
         if (rel.type !== 'look') {
             filtered = [...filtered, rel];
             continue;
         }
-        console.log("relCards2: ", rel);
-        filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]
+
+        if(rel.relations && rel.relations.length > 0) {
+            filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]    
+        }
     }
 
     return filtered;

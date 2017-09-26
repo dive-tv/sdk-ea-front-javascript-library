@@ -4,14 +4,22 @@ import { DiveAPIClass, Card, Helper } from "Services";
 import { Loading, MiniCardList, NavigationContainer } from "Components";
 import { navigable } from "HOC";
 import { ICardAndRelations } from 'Reducers';
+import { IUIActions } from 'Actions';
 
 declare const DiveAPI: DiveAPIClass;
 
 export interface IAllRelationsContainerProps {
     cards: ICardAndRelations;
+    openSync: ()=>any;
 }
 
 export class AllRelationsContainerClass extends React.PureComponent<IAllRelationsContainerProps> {
+
+    public constructor () {
+        super();
+
+        this.closeAllRelations = this.closeAllRelations.bind(this);
+    }
 
     public render(): any {
         return (
@@ -35,12 +43,12 @@ export class AllRelationsContainerClass extends React.PureComponent<IAllRelation
                 <NavigationContainer key="carouselClose" className="carouselButton bctButton close"
                     forceOrder={0}
                     parent={this}
-                    onClick={this.closeCarousel}/>
+                    onClick={this.closeAllRelations}/>
             </div>);
     }
 
-    private closeCarousel() {
-        //this.props.uiActions.open({ top: "TV", bottom: "GRID" });
+    private closeAllRelations() {
+        this.props.openSync();
     }
 
 }
