@@ -46,7 +46,15 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
-            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length > 0) {
+
+            if (this.props.elements.length > 0 && nextProps.elements.length === 0) {
+                if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+                    this.props.setSelectedOnSceneChange(true);
+                }
+            }
+
+
+            if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length === 0 && nextProps.elements.length > 0) {
                 this.props.setSelectedOnSceneChange(false);
             }
         }
@@ -57,7 +65,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const limit = 3;
         if (card.relations instanceof Array) {
             // card.relations.map((el: Single | Duple, index: number) => {
-            for(const el of card.relations){
+            for (const el of card.relations) {
                 const rel = el as Single | Duple;
                 // console.log("[MiniCardList][getRelations]: ", rel);
                 switch (rel.content_type) {
@@ -93,6 +101,12 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             </ul >
         );
     }
+
+    /*public componentWillUnmount() {
+        if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
+            this.props.setSelectedOnSceneChange(true);
+        }
+    }*/
 
     private element(params: {
         el: CardRender,

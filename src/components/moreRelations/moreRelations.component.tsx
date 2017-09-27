@@ -33,7 +33,7 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
                         <div className={`image`}>
                             <div className={`showMore`}>+</div>
                         </div>
-                        <div className="category">Explore More</div>
+                        <div className="category">{Localize("CAROUSEL_EXPLORE_MORE")}</div>
                     </div>
                 </div>
             </div>
