@@ -25,9 +25,8 @@ export class AllRelationsContainerClass extends React.PureComponent<IAllRelation
                         groupName="MiniCardList"/>
                 </div>
             </div >
-        )
+        );
     }
-
 
     private getButtons(): JSX.Element {
         return (

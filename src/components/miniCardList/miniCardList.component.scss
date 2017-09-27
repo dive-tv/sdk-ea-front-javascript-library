@@ -2,7 +2,6 @@ $minicard-width: pxToVw(92); // width: pxToVw(92); // width: auto;
 $card-expandedInfo-width: pxToVw(161.5);
 $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);
 .miniCardList {
-    min-width: 100%;
     width: 100%;
     height: pxToVh(180);
     white-space: nowrap; // float: left;
@@ -13,7 +12,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     vertical-align: top;
     >.navigable {
         max-height: pxToVh(180);
-        height: auto;
+        height: 100%;
         display: inline-block;
         vertical-align: top;
         position: relative;

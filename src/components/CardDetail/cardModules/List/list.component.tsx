@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import {
     Card,
@@ -14,17 +15,18 @@ import {
     RelationModule,
     Single,
     Duple,
-    DupleData
+    DupleData,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
 import { navigable, statics } from "HOC";
+import { UIActions, IUIActions } from 'Actions';
 
 interface IListProps {
-    itemsShown: number,
-    container: IListContainerType,
-    card: Card,
-    moduleType: ListModuleType
+    itemsShown: number;
+    container: IListContainerType;
+    card: Card;
+    moduleType: ListModuleType;
 }
 
 /*interface ITempProduct {
@@ -45,18 +47,20 @@ interface IListProps {
 }*/
 
 interface IListContainerType/*extends CardContainer*/ {
-    content_type: string,
-    data: Array<any>
-};
-type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehicles' | 'Seasons' | 'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco';
+    content_type: string;
+    data: any[];
+}
+type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehicles' | 'Seasons' |
+    'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco';
 
 @statics({
     moduleName: "list",
     validate: (card: Card, moduleType: string, parent: any, props: any) => {
-        const container: ImageVO | SeasonsVO | IListContainerType | Single | Duple | undefined = List.getContainer(card, moduleType);
+        const container: ImageVO | SeasonsVO | IListContainerType |
+            Single | Duple | undefined = List.getContainer(card, moduleType);
 
         if (container !== undefined && container.data !== undefined && container.data.length > 0) {
-            const Instantiated = navigable(List);
+            const Instantiated = navigable(connect(undefined, List.mapDispatchToProps)(List as any)) as any;
             return (<Instantiated
                 itemsShown={2}
                 container={container}
@@ -66,11 +70,17 @@ type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehic
                 moduleType={moduleType as ListModuleType} />);
         }
         return null;
-    }
+    },
 })
-export class List extends React.PureComponent<ICardModuleProps & IListProps, {}> {
+export class List extends React.PureComponent<ICardModuleProps & IListProps & IUIActions, {}> {
+    public static mapDispatchToProps(dispatch: any) {
+        return {
+            uiActions: UIActions,
+        };
+    }
 
-    public static getContainer(card: Card, moduleType: string): ImageVO | IListContainerType | Single | Duple | undefined {
+    public static getContainer(card: Card, moduleType: string):
+        ImageVO | IListContainerType | Single | Duple | undefined {
         console.log("Filmography card: ", card);
         switch (moduleType as ListModuleType) {
             case 'Gallery':
@@ -80,7 +90,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 const obj = {
                     content_type: 'products',
                     data: card.products,
-                    type: 'listing'
+                    type: 'listing',
                 };
                 return obj as IListContainerType;
 
@@ -88,7 +98,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 const obj2 = {
                     content_type: 'products',
                     data: card.products,
-                    type: 'listing'
+                    type: 'listing',
                 };
                 return obj2 as IListContainerType;
 
@@ -126,7 +136,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
         );
     }
 
-    private getList = (): JSX.Element[] | null => {
+    private getList(): JSX.Element[] | null {
         const type: ListModuleType = this.props.moduleType;
 
         switch (type) {
@@ -175,7 +185,11 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 .props
                 .container
                 .data
-                .map((el: Product, i: number) => this.getGenericElement(el.price.toString() + el.currency, el.image, i));
+                .map((el: Product, i: number) => {
+                    return this.getGenericElement(
+                        { title: el.price.toString() + el.currency, image: el.image, order: i },
+                    );
+                });
             return elements;
         }
         return null;
@@ -187,7 +201,16 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 .props
                 .container
                 .data
-                .map((el: DupleData, i: number) => this.getGenericElement(el.from.title, el.from.image ? el.from.image.thumb : null, i));
+                .map((el: DupleData, i: number) => {
+                    return this.getGenericElement(
+                        {
+                            title: el.from.title,
+                            image: el.from.image ? el.from.image.thumb : null,
+                            order: i,
+                            onClick: this.props.uiActions,
+                        },
+                    );
+                });
             return elements;
         }
         return null;
@@ -199,8 +222,17 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 .props
                 .container
                 .data
-                .filter((el: DupleData) => el.rel_type == 'plays' && el.from.image !== null)
-                .map((el: DupleData, i: number) => this.getGenericElement(el.from.title, el.from.image.thumb, i));
+                .filter((el: DupleData) => el.rel_type === 'plays' && el.from.image !== null)
+                .map((el: DupleData, i: number) => {
+                    return this.getGenericElement(
+                        {
+                            title: el.from.title,
+                            image: el.from.image.thumb,
+                            order: i,
+                            onClick: this.props.openCard() as any,
+                        },
+                    );
+                });
             return elements;
         }
         return null;
@@ -212,37 +244,51 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps, {}>
                 .props
                 .container
                 .data
-                .map((el: Card, i: number) => this.getGenericElement(el.title, el.image.thumb, i));
+                .map((el: Card, i: number) => {
+                    return this.getGenericElement(
+                        { title: el.title, image: el.image.thumb, order: i, onClick: null },
+                    );
+                });
             return elements;
         }
         return null;
     }
+
     private getSeasonList = (): JSX.Element[] | null => {
         if (this.props.container) {
             const elements = this
                 .props
                 .container
                 .data
-                .map((el: SeasonsDataVO, i: number) => this.getGenericElement('Season ' + el.season_index, el.image.thumb, i));
+                .map((el: SeasonsDataVO, i: number) => {
+                    return this.getGenericElement(
+                        { title: 'Season ' + el.season_index, image: el.image.thumb, order: i },
+                    );
+                });
             return elements;
         }
         return null;
     }
 
+    private getGenericElement(params:
+        { title: string, image: string, order: number, onClick?: () => void },
+    ): JSX.Element {
+        const { title, image, order, onClick } = params;
+        return (
+            <NavigationContainer
+                key={this.props.container!.content_type + '_show_' + order}
+                clickAction={onClick}
+                parent={this}
+                forceOrder={order % this.props.itemsShown}
+                columns={2}
+                className="horizontalElement listElement">
+                <div className="image focusable"><img src={image} /></div>
+                <div className="title focusable">{title}</div>
+            </NavigationContainer>
+        );
+    }
 
-    private getGenericElement = (title: string, image: string, order: number): JSX.Element =>
-        <NavigationContainer
-            key={this.props.container!.content_type + '_show_' + order}
-            parent={this}
-            forceOrder={order % this.props.itemsShown}
-            columns={2}
-            className="horizontalElement listElement">
-            <div className="image focusable"><img src={image} /></div>
-            <div className="title focusable">{title}</div>
-        </NavigationContainer>
-
-
-    private getTitle = () => {
+    private getTitle() {
         switch (this.props.container!.content_type) {
             case 'gallery':
                 return Localize('GALLERY');

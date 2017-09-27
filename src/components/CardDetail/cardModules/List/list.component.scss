@@ -41,6 +41,8 @@
             text-align: center;
             padding-top: 7%;
             bottom: 0px;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
      :focus {
