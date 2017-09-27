@@ -195,7 +195,9 @@ export class CarouselClass
     }
 
     private closeCarousel() {
-        this.props.uiActions.open({ top: "TV", bottom: "GRID" });
+        //this.props.uiActions.open({ top: "TV", bottom: "GRID" });
+
+        this.props.uiActions.goBack();
     }
 
     private getMessageForCarousel() {

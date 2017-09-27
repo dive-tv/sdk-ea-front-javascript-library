@@ -87,7 +87,7 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                         if (index >= 0) {
                             const children = [...deleteNavParent.children[i]];
                             children.splice(index, 1);
-                            if (children.length >= 0) {
+                            if (children.length > 0) {
                                 deleteNavParent.children[i] = children;
                             } else if (i > 0) {
                                 deleteNavParent.children.splice(i, 1);
