@@ -22,7 +22,7 @@
         bottom: 0;
         position: absolute;
         overflow: hidden;
-        overflow-y: scroll;
+        box-sizing: border-box;
     }
     >::-webkit-scrollbar-thumb,
     >::-webkit-scrollbar {
