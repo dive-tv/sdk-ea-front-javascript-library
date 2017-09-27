@@ -60,18 +60,18 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         case 'SYNC/START_SCENE':
             if (state.cards instanceof Array && action.payload instanceof Array &&
                 state.cards.length !== action.payload.length) {
-                return { ...state, cards: action.payload, selectedOnSceneChange: true };
+                return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing" };
             } else {
-                return { ...state, cards: [], selectedOnSceneChange: true };
+                return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing" };
             }
         case 'SYNC/UPDATE_SCENE':
             if (action.payload instanceof Array && action.payload.length) {
-                return { ...state, cards: [...action.payload, ...state.cards] };
+                return { ...state, cards: [...action.payload, ...state.cards], channelStatus: "playing" };
             } else {
                 return state;
             }
         case 'SYNC/END_SCENE':
-            return { ...state, cards: [] };
+            return { ...state, cards: [], channelStatus: "playing" };
         case 'SYNC/PAUSE_START':
             return { ...state, channelStatus: "paused" };
         case 'SYNC/PAUSE_END':
