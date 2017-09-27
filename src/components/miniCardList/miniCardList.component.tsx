@@ -40,7 +40,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
     public componentDidMount() {
         if (this.props.wasSelectedOnChangeScene) {
-            console.log("[MiniCardListClass][componentWillMount]");
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
@@ -53,7 +52,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
     public componentWillUnmount() {
         if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
-            console.log("[MiniCardListClass][componentWillUnmount]");
             this.props.setSelectedOnSceneChange(true);
         }
     }
