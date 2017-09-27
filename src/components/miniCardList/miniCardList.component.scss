@@ -10,6 +10,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     box-sizing: border-box;
     overflow-x: auto;
     overflow-y: hidden;
+    vertical-align: top;
     >.navigable {
         max-height: pxToVh(180);
         height: auto;

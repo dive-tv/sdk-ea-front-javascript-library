@@ -1,9 +1,9 @@
 .cardAndCategory {
     $card-inside-width: pxToVw(86);
     width: $card-inside-width;
+    height: pxToVh(133);
     .image {
         width: 100%;
-        height: 100%;
         height: pxToVh(133);
         border: solid 2px $warm-grey;
         opacity: .8;
@@ -22,17 +22,14 @@
             background-image: url('#{$assets-path}carousel/ico-nophoto.png');
             background-position: 50% 50%;
             background-repeat: no-repeat;
-            background-size: 50%;
+            // background-size: 50%;
             background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
-            line-height: 100%;
+            font-size: pxToVw(40);
             width: 100%;
-            height: 100%;
+            height: pxToVh(133);
             // display: block;
             text-align: center;
-            display: inline-block;
-            &:after {
-                content:"";
-            }
+            display: block;
         }
         >img {
             /*width: pxToVw(82);
@@ -46,10 +43,10 @@
         &.ost {
             padding-top: pxToVh(30);
             >.icon {
-                width: pxToVw(26);
+                // width: pxToVw(26);
                 height: pxToVh(33);
                 background-image: url('#{$assets-path}carousel/ico-music-inactive@2x.png');
-                background-size: 100% 100%;
+                background-size: pxToVw(30) pxToVw(30); // width based but guarantees square format
             }
             >.title {
                 display: inline-block;

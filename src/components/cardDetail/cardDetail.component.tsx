@@ -36,9 +36,7 @@ export class CardDetailClass
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"
                             parent={this}
-                            clickAction={() => {
-                                return "";
-                            } /*this.closeAllCards.bind(this)*/}
+                            clickAction={this.closeAllCards.bind(this)}
                             columns={1}
                         >
                         </NavigationContainer>
@@ -48,8 +46,8 @@ export class CardDetailClass
                     <NavigableCardModuleList
                         isDefault={true}
                         parent={this} columns={1}
-                        card={this.props.card} 
-                        forceFirst={true}/>
+                        card={this.props.card}
+                        forceFirst={true} />
                     : <Loading />}
             </div>
         );
