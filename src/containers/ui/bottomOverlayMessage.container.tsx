@@ -6,6 +6,7 @@ import { navigable } from 'HOC';
 interface IBOMProps {
     navigationParent: any;
     setNodeByName?: (name:string)=>any;
+    closePausedMsg: () =>any;
 };
 export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { hidden: boolean }> {
     constructor(props: IBOMProps) {
@@ -15,6 +16,7 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { 
     public render(): any {
         return this.state && this.state.hidden ? null : this.getChildren();
     }
+
     private getChildren() {
         return (
             <div className="bottomMessage fillParent">
@@ -26,7 +28,7 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { 
                             isDefault={true}
                             columns={1}
                             onClick={() => {
-                                this.setState({ hidden: true });
+                                this.props.closePausedMsg();
                                 if (this.props.setNodeByName) {
                                     this.props.setNodeByName("CAROUSEL");
                                 }

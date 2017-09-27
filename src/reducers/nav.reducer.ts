@@ -370,6 +370,10 @@ const isOutOfModal = (navigation: Map<number, INavigable>, id: number, newId: nu
     if (idModal >= 0) {
         do {
             nav = navigation.get(newId) as INavigable;
+
+            if (!nav) {
+                continue;
+            }
             if (nav.id === idModal) {
                 return false;
             }
