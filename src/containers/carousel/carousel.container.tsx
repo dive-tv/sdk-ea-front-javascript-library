@@ -217,6 +217,9 @@ export class CarouselClass
             return (
                 <BottomOverlayMessage
                     key={`bottomMessage#${this.props.state.timeMovieSynced}#${channelStatus}`}
+                    parent={this}
+                    columns={1}
+                    navClass={"pauseContainer"}
                     navigationParent={this}>
                     {messageContent}
                 </BottomOverlayMessage>

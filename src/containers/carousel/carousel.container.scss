@@ -3,6 +3,11 @@
     position: relative;
     height: 100%;
     width: 100%;
+
+    .pauseContainer {
+        position: absolute;
+        top: 0;
+    }
     .filters {
         width: 100%;
         height: pxToVh(40);
