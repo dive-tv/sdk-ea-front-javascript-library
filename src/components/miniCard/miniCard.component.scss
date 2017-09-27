@@ -74,8 +74,9 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
                     width: 100%;
                     font-size: pxToEmZeplinX2(11);
                     color: $pale-grey;
-                    @include ellipsis;
-                    height: pxToVh(16);
+                    // @include ellipsis;
+                    height: auto; //
+                    max-height: pxToVh(48);
                 }
                 .desc {
                     width: 100%;
