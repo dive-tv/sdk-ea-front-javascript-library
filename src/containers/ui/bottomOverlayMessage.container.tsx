@@ -5,8 +5,8 @@ import { navigable } from 'HOC';
 
 interface IBOMProps {
     navigationParent: any;
-    setNodeByName?: (name:string)=>any;
-    closePausedMsg: () =>any;
+    setNodeByName?: (name: string) => any;
+    closePausedMsg: () => any;
 };
 export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { hidden: boolean }> {
     constructor(props: IBOMProps) {
@@ -15,6 +15,15 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { 
     }
     public render(): any {
         return this.state && this.state.hidden ? null : this.getChildren();
+    }
+
+    public componentWillUnmount() {
+        if (this.props.setNodeByName) {
+            setTimeout(() => {
+                console.log("PLATANO");
+                this.props.setNodeByName("CAROUSEL");
+            }, 50);
+        }
     }
 
     private getChildren() {
@@ -29,13 +38,10 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps, { 
                             columns={1}
                             onClick={() => {
                                 this.props.closePausedMsg();
-                                if (this.props.setNodeByName) {
-                                    this.props.setNodeByName("CAROUSEL");
-                                }
                             }}
                         />
                     </div>
-                    {this.props.children}
+                    <div>{this.props.children}</div>
                 </div>
             </div>);
     }
