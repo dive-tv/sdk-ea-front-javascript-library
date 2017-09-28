@@ -25,12 +25,14 @@
             margin: 0;
         }
     </style>
+    <!--
 	<script type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
     </script>
+    -->
 </head>
 
 <body onload="initApp()" style="background-color: grey">
@@ -40,12 +42,28 @@
         <object type="application/oipfConfiguration" id="oipfConfig" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
     </div>
     <div id="root"></div>
-    <script>
+    <script crossorigin="anonymous"  type="text/javascript">
         function init() {
-            DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+            /*function fetchData() {
+                var URL = 'https://api.github.com';
+                var xhr = new XMLHttpRequest();
+                //xhr.setRequestHeader("origin", window.location.protocol + "//" + window.location.host);
+                xhr.onreadystatechange = function () {
+                    document.body.innerHTML = JSON.stringify(xhr);
+                }
+                xhr.open('GET', URL)
+                xhr.send()
+            }
+            fetchData();*/
+            try {
+                DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+                console.log("APP REALLY INITIALIZED");
+            } catch(e) {
+                console.error("Error initializing app", e);
+            }
         }
     </script>
-    <script type="text/javascript">
+    <script crossorigin="anonymous" type="text/javascript">
         function setKeyset(mask) {
             var elemcfg, app;
             // for HbbTV 0.5:
@@ -83,6 +101,7 @@
                     setKeyset(0x1 + 0x2 + 0x4 + 0x8 + 0x10);
                     console.log("KEYS SETUP");
                     init();
+                    console.log("APP INITIALIZED");
                 } catch (e) {
                     console.log("ERROR HBBTV", e);
                     var el = document.getElementById("body");

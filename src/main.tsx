@@ -46,6 +46,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     const APIinstance = new DiveAPIClass(
         { env: DIVE_ENVIRONMENT, storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
     );
+    console.log("BP", APIinstance.basePath);
     APIinstance.setLocale("es-ES");
     (window as any).DiveAPI = APIinstance;
     APIinstance.postTokenAndSave({ deviceId: this.deviceId, grantType: "device_credentials" })

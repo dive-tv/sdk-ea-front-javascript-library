@@ -21,6 +21,7 @@ import { ICardModuleProps } from "CardModules";
 import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
 import { navigable, statics } from "HOC";
 import { UIActions, IUIActions } from 'Actions';
+import { bindActionCreators } from 'redux';
 
 interface IListProps {
     itemsShown: number;
@@ -75,7 +76,8 @@ type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehic
 export class List extends React.PureComponent<ICardModuleProps & IListProps & IUIActions, {}> {
     public static mapDispatchToProps(dispatch: any) {
         return {
-            uiActions: UIActions,
+            // userActions: bindActionCreators(UserActions, dispatch),
+            uiActions: bindActionCreators(UIActions, dispatch),
         };
     }
 
@@ -207,7 +209,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.from.title,
                             image: el.from.image ? el.from.image.thumb : null,
                             order: i,
-                            onClick: this.props.uiActions,
+                            onClick: () => { (this.props.uiActions as any).openCard(el.from.card_id, "offmovie"); },
                         },
                     );
                 });
@@ -229,7 +231,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.from.title,
                             image: el.from.image.thumb,
                             order: i,
-                            onClick: this.props.openCard() as any,
+                            onClick: () => { (this.props.uiActions as any).openCard(el.from.card_id, "offmovie"); },
                         },
                     );
                 });
@@ -246,7 +248,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .data
                 .map((el: Card, i: number) => {
                     return this.getGenericElement(
-                        { title: el.title, image: el.image.thumb, order: i, onClick: null },
+                        { title: el.title, image: el.image.thumb, order: i, onClick: this.props.openCard() as any },
                     );
                 });
             return elements;

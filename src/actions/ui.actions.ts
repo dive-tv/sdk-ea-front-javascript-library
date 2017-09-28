@@ -31,23 +31,26 @@ export const UIActions: IUIActions = {
     setDivider: uiCreateAction("UI/SET_DIVIDER", (divider: number) => (divider)),
     openCard: (cardId: string, relations: string) => (dispatch: any) => {
         if (cardId && cardId.length > 0) {
-            dispatch(UIActions.performOpenCard());
+            // dispatch(UIActions.performOpenCard());
         }
+        /*
         DiveAPI.getCard({ cardId })
             .then((card: Card) => {
-                dispatch(UIActions.performOpenCard(card));
+                dispatch(UIActions.performOpenCard({card_id: cardId}));
             })
             .catch((error: any) => {
                 console.error("Error getting card", error);
                 // TODO: display error?
             });
+            */
+        dispatch(UIActions.performOpenCard({ card_id: cardId }));
     },
     performOpenCard: uiCreateAction("UI/OPEN_CARD", (card: Card) => (card)),
     openSync: uiCreateAction("UI/OPEN_SYNC"),
     open: (group: IUIGroup) => (dispatch: any) => {
-            dispatch(UIActions.performOpen(group));
+        dispatch(UIActions.performOpen(group));
     },
     performOpen: uiCreateAction("UI/OPEN", (group: IUIGroup) => (group)),
-    addTestCards: uiCreateAction("UI/ADD_TEST_CARDS", (cards: Card[]) =>(cards)),
-    openAllRelations: uiCreateAction("UI/OPEN_ALL_RELATIONS", (cards: ICardAndRelations) =>(cards))
+    addTestCards: uiCreateAction("UI/ADD_TEST_CARDS", (cards: Card[]) => (cards)),
+    openAllRelations: uiCreateAction("UI/OPEN_ALL_RELATIONS", (cards: ICardAndRelations) => (cards))
 };

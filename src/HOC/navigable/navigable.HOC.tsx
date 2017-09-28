@@ -276,9 +276,11 @@ const NavigableClass = <TOriginalProps extends {}>(
                 this.props.setActivated(nav.id);
                 eventConsumed = true;
             }
-            if (this.props.clickAction) {
+            if (this.props.clickAction as any instanceof Function) {
                 this.props.clickAction();
                 eventConsumed = true;
+            } else {
+                console.log("ClickAction is not a function");
             }
             return eventConsumed;
         }
