@@ -25,16 +25,18 @@ export const cardDetailInitialState: ICardDetailState = {
 export class CardDetailClass
     extends React.PureComponent<CardDetailProps, ICardDetailState> {
     private cardModules: JSX.Element[] = [];
-    constructor(props: CardDetailProps) {
-        super(props);
+
+    constructor() {
+        super();
         this.state = cardDetailInitialState;
     }
+
     public render(): any {
-        return (
+        return this.state.status === "DONE" && this.props.card ? (
             <div className="cardDetail fillParent">
                 <div className="bottomContainerTopButtons">
                     <div className="cardDetailBtn">
-                        <NavigationContainer key="carouselClose" className="bctButton close"
+                        <NavigationContainer key="cdClose" className="bctButton close"
                             parent={this}
                             clickAction={() => {
                                 this.closeAllCards();
@@ -44,15 +46,12 @@ export class CardDetailClass
                         </NavigationContainer>
                     </div>
                 </div>
-                {this.props.card ?
-                    <NavigableCardModuleList
-                        isDefault={true}
-                        parent={this} columns={1}
-                        card={this.props.card}
-                        forceFirst={true} />
-                    : <Loading />}
+                <NavigableCardModuleList
+                    isDefault={true}
+                    parent={this} columns={1}
+                    card={this.props.card} />
             </div>
-        );
+        ) : <Loading />;
     }
 
     public closeAllCards() {
@@ -60,6 +59,12 @@ export class CardDetailClass
         // TODO: logic to close all cards
         //this.props.uiActions.openSync();
         this.props.uiActions.goBack();
+    }
+
+    public componentDidMount() {
+        setTimeout(() => {
+            this.forceUpdate();
+        }, 100);
     }
 
     public componentDidUpdate() {
