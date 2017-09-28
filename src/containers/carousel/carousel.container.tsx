@@ -18,80 +18,11 @@ export class CarouselClass
     private buttonsContainer: any;
     private activeFilters: any[];
     private currentSceneText = Localize("CURRENT_SCENE");
-    private adMessageContent: JSX.Element;
-    private endMessageContent: JSX.Element;
-    private offMessageContent: JSX.Element;
-    private readyMessageContent: JSX.Element;
     constructor(props: any) {
         super(props);
         this.state = { rewinded: false };
         this.closeCarousel = this.closeCarousel.bind(this);
         this.getCurrentTime = this.getCurrentTime.bind(this);
-        this.adMessageContent = (
-            <div key="adMessageContent" className="fillParent adMessage carouselMessageContent">
-                <div className="adMessageLeft">
-                    <h1>{Localize("PIZZA_OR_POP_CORN")}</h1>
-                    <p className="text1">{Localize("WE_RECOMMEND")}</p>
-                    <p className="text2">{Localize("MAKE_POP_CORN")}</p>
-                </div>
-                <div className="adMessageRight">
-                    <h1>{Localize("TVGRID_COMMERCIAL_TXT")}</h1>
-                </div>
-            </div>
-        );
-
-        this.endMessageContent = (
-            <div key="endMessageContent" className="fillParent endMessage carouselMessageContent centeredMessage">
-                <div className="messageCenter">
-                    <h1>{Localize("EVERYTHING_END")}</h1>
-                    <p className="text1">{Localize("MOVIE_ENDED")}</p>
-                    <div className="buttonsContainer">
-                        <NavigationContainer
-                            className="genericBtn"
-                            parent={this}
-                            isDefault={true}
-                            columns={1}
-                            key="messageCloseCarousel"
-                            onClick={() => {
-                                this.props.uiActions.open({ top: "TV", bottom: "GRID" });
-                            }}
-                        >{Localize("OKAY")}</NavigationContainer>
-                    </div>
-                </div>
-            </div>
-        );
-
-        this.offMessageContent = (
-            <div key="offMessageContent"
-                className="fillParent offMessageContent carouselMessageContent centeredMessage">
-                <div className="messageCenter">
-                    <h1>{Localize("EVERYTHING_END")}</h1>
-                    <p className="text1">{Localize("MOVIE_OFF")}</p>
-                    <div className="buttonsContainer">
-                        <NavigationContainer
-                            className="genericBtn"
-                            key="messageCloseCarousel"
-                            parent={this}
-                            isDefault={true}
-                            columns={1}
-                            onClick={() => {
-                                this.props.uiActions.open({ top: "TV", bottom: "GRID" });
-                            }}
-                        >{Localize("OKAY")}</NavigationContainer>
-                    </div>
-                </div>
-            </div>
-        );
-
-        this.readyMessageContent = (
-            <div key="offMessageContent"
-                className="fillParent readyMessageContent carouselMessageContent centeredMessage">
-                <div className="messageCenter">
-                    <h1>{Localize("LIGHTS_CAMERA")}</h1>
-                    <p className="text1">{Localize("WE_ARE_LOADING")}</p>
-                </div>
-            </div>
-        );
     }
 
     public componentWillUpdate(nextProps: Readonly<{ state: ISyncState; }
@@ -201,17 +132,20 @@ export class CarouselClass
     }
 
     private getMessageForCarousel() {
-        let messageContent;
+        let messageContent: boolean = false;
         const channelStatus = this.getState().channelStatus;
-        if (this.props.state.showPausedMsg) {
-            messageContent = this.adMessageContent;
-        } else if (channelStatus === "end") {
-            messageContent = this.endMessageContent;
-        } else if (channelStatus === "off") {
-            messageContent = this.offMessageContent;
-        } else if (channelStatus === "ready") {
-            messageContent = this.readyMessageContent;
+        if (this.props.state.showInfoMsg) {
+
+            switch (channelStatus) {
+                case "paused":
+                case "end":
+                case "off":
+                case "ready":
+                    messageContent = true;
+                break;
+            }    
         }
+
         // TODO: Message Logic
         // Show message only if not has been closed before,
         // and if the carousel its synced on the correct time (not rewind)
@@ -219,9 +153,12 @@ export class CarouselClass
             return (
                 <BottomOverlayMessage
                     key={`bottomMessage#${this.props.state.timeMovieSynced}#${channelStatus}`}
-                    closePausedMsg= {this.props.closePausedMsg}
+                    closeInfoMsg= {this.props.closeInfoMsg}
                     parent={this}
                     columns={1}
+                    channelStatus={channelStatus}
+                    modal={true}
+                    isDefault={true}
                     navClass={"pauseContainer"}
                     navigationParent={this}>
                     {messageContent}
