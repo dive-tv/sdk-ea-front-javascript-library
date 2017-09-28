@@ -3,6 +3,8 @@
     position: relative;
     height: 100%;
     width: 100%;
+    vertical-align: top;
+    overflow: hidden;
 
     .pauseContainer {
         position: absolute;
@@ -18,8 +20,12 @@
         position: absolute;
         bottom: 0;
         overflow: hidden;
+        display: block;
+        vertical-align: top;
         > .navigable {
             height: pxToVh(180);
+            vertical-align: top;
+            overflow: hidden;
         }
     }
     .prevSceneIcon {

@@ -233,6 +233,8 @@ const NavigableClass = <TOriginalProps extends {}>(
                     onMouseDown={this.onClick}
                     onFocus={(e: any) => {
                         this.onFocus(e);
+                        e.preventDefault();
+                        e.stopPropagation();
                         return false;
                     }}
                     id={thisId.toString()}
@@ -437,12 +439,14 @@ const NavigableClass = <TOriginalProps extends {}>(
                 if (async === true) {
                     setTimeout(() => {
                         HTMLList.scrollLeft = scroll;
+                        HTMLList.scrollTop = 0;
                         return callbackOk();
                     }, 10);
 
                 } else {
                     // Cuando es síncrona.
                     HTMLList.scrollLeft = scroll;
+                    HTMLList.scrollTop = 0;
                     return callbackOk();
                 }
             }
