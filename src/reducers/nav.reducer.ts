@@ -87,7 +87,7 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                         if (index >= 0) {
                             const children = [...deleteNavParent.children[i]];
                             children.splice(index, 1);
-                            if (children.length >= 0) {
+                            if (children.length > 0) {
                                 deleteNavParent.children[i] = children;
                             } else if (i > 0) {
                                 deleteNavParent.children.splice(i, 1);
@@ -257,6 +257,10 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
             }
 
         case 'NAV/SELECT_BY_ID':
+            if (isOutOfModal(state.navigation, state.selected, action.payload)) {
+                return state;
+            }
+
             const selectionById: number = getFirstLeaf(state, action.payload);
             if (selectionById !== undefined) {
                 return {
@@ -347,7 +351,7 @@ const isOutOfModal = (navigation: Map<number, INavigable>, id: number, newId: nu
     let nav: INavigable;
     // Miramos si la selección actual tiene algún padre modal
     do {
-        nav = navigation.get(id)  as INavigable;
+        nav = navigation.get(id) as INavigable;
         if (nav === undefined) {
             break;
         }
@@ -365,7 +369,11 @@ const isOutOfModal = (navigation: Map<number, INavigable>, id: number, newId: nu
     // Miramos si en la nueva selección está el padre modal, si se ha encontrado uno previamente.
     if (idModal >= 0) {
         do {
-            nav = navigation.get(newId)  as INavigable;
+            nav = navigation.get(newId) as INavigable;
+
+            if (!nav) {
+                continue;
+            }
             if (nav.id === idModal) {
                 return false;
             }

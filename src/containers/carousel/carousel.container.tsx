@@ -195,13 +195,15 @@ export class CarouselClass
     }
 
     private closeCarousel() {
-        this.props.uiActions.open({ top: "TV", bottom: "GRID" });
+        //this.props.uiActions.open({ top: "TV", bottom: "GRID" });
+
+        this.props.uiActions.goBack();
     }
 
     private getMessageForCarousel() {
         let messageContent;
         const channelStatus = this.getState().channelStatus;
-        if (channelStatus === "paused") {
+        if (this.props.state.showPausedMsg) {
             messageContent = this.adMessageContent;
         } else if (channelStatus === "end") {
             messageContent = this.endMessageContent;
@@ -217,6 +219,10 @@ export class CarouselClass
             return (
                 <BottomOverlayMessage
                     key={`bottomMessage#${this.props.state.timeMovieSynced}#${channelStatus}`}
+                    closePausedMsg= {this.props.closePausedMsg}
+                    parent={this}
+                    columns={1}
+                    navClass={"pauseContainer"}
                     navigationParent={this}>
                     {messageContent}
                 </BottomOverlayMessage>

@@ -135,6 +135,7 @@ const NavigableClass = <TOriginalProps extends {}>(
                 id: thisId,
                 columns: this.props.columns,
                 // defaultName: this.props.defaultName,
+                name: this.props.name,
                 groupName: this.props.groupName,
                 forceFirst: this.props.forceFirst,
                 forceOrder: this.props.forceOrder,

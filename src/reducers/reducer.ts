@@ -17,7 +17,7 @@ import {
 export interface IState {
     nav: INavState;
     carousel: ISyncState,
-    ui: IUIState,
+    ui: { present: IUIState },
 }
 /*
 const getMiddlewares = () => {

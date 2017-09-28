@@ -36,7 +36,9 @@ export class CardDetailClass
                     <div className="cardDetailBtn">
                         <NavigationContainer key="carouselClose" className="bctButton close"
                             parent={this}
-                            clickAction={() => {this.closeAllCards();}}
+                            clickAction={() => {
+                                this.closeAllCards();
+                            }}
                             columns={1}
                         >
                         </NavigationContainer>
@@ -56,7 +58,8 @@ export class CardDetailClass
     public closeAllCards() {
         console.log("CLOSE ALL CARDS");
         // TODO: logic to close all cards
-        this.props.uiActions.openSync();
+        //this.props.uiActions.openSync();
+        this.props.uiActions.goBack();
     }
 
     public componentDidUpdate() {

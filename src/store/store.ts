@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import socketMiddleware from '../middleware/socket.middleware';
+import undoable, { includeAction } from 'redux-undo';
 
 
 import {
@@ -26,7 +27,12 @@ export const store = createStore(
   combineReducers({
     nav: NavReducer,
     carousel: SyncReducer,
-    ui: UIReducer,
+    ui: undoable(UIReducer, {
+        filter: includeAction('UI/OPEN'), // see `Filtering Actions` section
+        initTypes: ['@@redux/INIT', '@@INIT'], // history will be (re)set upon init action type
+        limit: 50, // false, // set to a number to turn on a limit for the history
+        undoType: "UI/UI_BACK", // define a custom action type for this undo action
+    }),
   }),
   composeEnhancers(getMiddlewares()),
 );

@@ -5,7 +5,7 @@ import { Card, Localize } from 'Services';
 //  Actions
 //
 export type UIActionTypes = "UI/SET_DIVIDER" | "UI/UI_BACK" | "UI/OPEN_SYNC" |
-    "UI/OPEN_CARD" | "UI/OPEN" | "UI/ADD_TEST_CARDS" | "UI/OPEN_ALL_RELATIONS";
+    "UI/OPEN_CARD" | "UI/CLOSE_CARD" | "UI/OPEN" | "UI/ADD_TEST_CARDS" | "UI/OPEN_ALL_RELATIONS";
 
 export type UILayerTopTypes = "TV" | "EMPTY";
 export type UILayerBottomTypes = "CAROUSEL" | "CARD" | "CARDS" |
@@ -25,6 +25,7 @@ export interface IUIState {
     containers: IUIContainer[];
     divider: DividerSize;
     card?: Card;
+    prevCards?: Card[];
     testCards: Array<{ card_id: string, version?: string }>;
     allRelations?: ICardAndRelations;
 }
@@ -80,10 +81,24 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
                 return state;
             }
 
+        case 'UI/UI_BACK':
+            return { ...state, card: undefined, prevCards: [] }
+
         case 'UI/OPEN_CARD':
             const newContainers3: IUIContainer[] = [state.containers[0], { component: "CARD" }];
-            return { ...state, divider: 60, containers: newContainers3, card: action.payload };
+            let prevCards: Card[] = state.prevCards;
+            if (state.card !== undefined) {
+                prevCards = [...state.prevCards, state.card];
+            }
+            return { ...state, divider: 60, containers: newContainers3, card: action.payload, prevCards };
 
+        case 'UI/CLOSE_CARD':
+            if (state.prevCards.length === 0) {
+                return state;
+            }
+            const [last] = state.prevCards.slice(-1);
+            const restCards = state.prevCards.slice(0, -1);
+            return { ...state, prevCards: restCards, card: last };
         case 'UI/ADD_TEST_CARDS':
 
             return { ...state, testCards: [...state.testCards, action.payload] }

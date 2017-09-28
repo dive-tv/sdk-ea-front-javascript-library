@@ -87,6 +87,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-thunk": "^2.2.0",
+    "redux-undo": "^0.6.1",
     "sass-lint": "^1.11.1",
     "socket.io-client": "^2.0.3"
   }

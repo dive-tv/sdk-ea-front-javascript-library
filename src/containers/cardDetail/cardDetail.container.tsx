@@ -9,7 +9,7 @@ declare const DiveAPI: DiveAPIClass;
 export interface ICardDetailContainerProps {
     cardId: string;
     version: string;
-    parent: any
+    parent: any;
 }
 export interface ICardDetailContainerState {
     status: "LOADING" | "LOADED";

@@ -12,6 +12,7 @@ declare const DiveAPI: DiveAPIClass;
 export interface IUIActions extends MapDispatchToPropsObject {
     goBack: ActionCreator<IUIAction>;
     openCard: ActionCreator<void>;
+    closeCard: ActionCreator<void>;
     performOpenCard: ActionCreator<IUIAction>;
     openSync: ActionCreator<IUIAction>;
     open: ActionCreator<void>;
@@ -31,20 +32,19 @@ export const UIActions: IUIActions = {
     setDivider: uiCreateAction("UI/SET_DIVIDER", (divider: number) => (divider)),
     openCard: (cardId: string, relations: string) => (dispatch: any) => {
         if (cardId && cardId.length > 0) {
-            // dispatch(UIActions.performOpenCard());
+            dispatch(UIActions.performOpenCard());
         }
-        /*
         DiveAPI.getCard({ cardId })
             .then((card: Card) => {
-                dispatch(UIActions.performOpenCard({card_id: cardId}));
+                dispatch(UIActions.performOpenCard(card));
             })
             .catch((error: any) => {
                 console.error("Error getting card", error);
                 // TODO: display error?
             });
-            */
         dispatch(UIActions.performOpenCard({ card_id: cardId }));
     },
+    closeCard: () => uiCreateAction("UI/CLOSE_CARD"),
     performOpenCard: uiCreateAction("UI/OPEN_CARD", (card: Card) => (card)),
     openSync: uiCreateAction("UI/OPEN_SYNC"),
     open: (group: IUIGroup) => (dispatch: any) => {

@@ -19,7 +19,7 @@ export interface ISyncState {
     lastUpdatedTime: number;
     channelStatus?: ChannelStatus;
     selectedOnSceneChange: boolean;
-    // timeNow: number;
+    showPausedMsg: boolean;
 }
 export interface ISyncAction extends Action {
     type: SyncActionTypes;
@@ -42,7 +42,7 @@ export interface ICardAndRelations {
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |
     "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/PAUSE_START" | "SYNC/PAUSE_END" |
     "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" | "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
-    "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | SocketActionTypes;
+    "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | "SYNC/CLOSE_PAUSED_MSG" | SocketActionTypes;
 
 export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncAction): ISyncState => {
     switch (action.type) {
@@ -73,9 +73,13 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         case 'SYNC/END_SCENE':
             return { ...state, cards: [], channelStatus: "playing" };
         case 'SYNC/PAUSE_START':
-            return { ...state, channelStatus: "paused" };
+            
+            return { ...state, channelStatus: "paused", showPausedMsg: true};
         case 'SYNC/PAUSE_END':
-            return { ...state, channelStatus: "playing" };
+            return { ...state, channelStatus: "playing", showPausedMsg: false};
+
+        case 'SYNC/CLOSE_PAUSED_MSG':
+            return { ...state, showPausedMsg: false};
 
         case 'SYNC/SET_TRAILER':
             return { ...state, demo: action.payload };
@@ -112,4 +116,5 @@ export const initialSyncState: ISyncState = {
     timeMovieSynced: 0,
     timeRatio: 1,
     lastUpdatedTime: 0,
+    showPausedMsg: false,
 };
