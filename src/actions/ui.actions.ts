@@ -30,19 +30,22 @@ export const uiCreateAction = (type: UIActionTypes, payload?: any): ReduxActions
 export const UIActions: IUIActions = {
     goBack: uiCreateAction("UI/UI_BACK", () => (0)),
     setDivider: uiCreateAction("UI/SET_DIVIDER", (divider: number) => (divider)),
-    openCard: (cardId: string, relations: string) => (dispatch: any) => {
+    openCard: (cardId: string, relations: string, first?: boolean) => (dispatch: any) => {
         if (cardId && cardId.length > 0) {
             dispatch(UIActions.performOpenCard());
         }
         DiveAPI.getCard({ cardId })
             .then((card: Card) => {
                 dispatch(UIActions.performOpenCard(card));
+                if (first) {
+                    dispatch(UIActions.open({ top: "TV", bottom: "CARD" }));
+                }
             })
             .catch((error: any) => {
                 console.error("Error getting card", error);
                 // TODO: display error?
             });
-        dispatch(UIActions.performOpenCard({ card_id: cardId }));
+        // dispatch(UIActions.performOpenCard({ card_id: cardId }));
     },
     closeCard: () => uiCreateAction("UI/CLOSE_CARD"),
     performOpenCard: uiCreateAction("UI/OPEN_CARD", (card: Card) => (card)),

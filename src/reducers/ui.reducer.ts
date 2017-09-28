@@ -26,7 +26,6 @@ export interface IUIState {
     divider: DividerSize;
     card?: Card;
     prevCards?: Card[];
-    testCards: Array<{ card_id: string, version?: string }>;
     allRelations?: ICardAndRelations;
 }
 
@@ -82,15 +81,15 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
             }
 
         case 'UI/UI_BACK':
-            return { ...state, card: undefined, prevCards: [] }
+            return { ...state, card: undefined, prevCards: [] };
 
         case 'UI/OPEN_CARD':
-            const newContainers3: IUIContainer[] = [state.containers[0], { component: "CARD" }];
+            // const newContainers3: IUIContainer[] = [state.containers[0], { component: "CARD" }];
             let prevCards: Card[] = state.prevCards;
             if (state.card !== undefined) {
                 prevCards = [...state.prevCards, state.card];
             }
-            return { ...state, divider: 60, containers: newContainers3, card: action.payload, prevCards };
+            return { ...state, divider: 60, /*containers: newContainers3,*/ card: action.payload, prevCards };
 
         case 'UI/CLOSE_CARD':
             if (state.prevCards.length === 0) {
@@ -99,9 +98,6 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
             const [last] = state.prevCards.slice(-1);
             const restCards = state.prevCards.slice(0, -1);
             return { ...state, prevCards: restCards, card: last };
-        case 'UI/ADD_TEST_CARDS':
-
-            return { ...state, testCards: [...state.testCards, action.payload] }
         case 'UI/OPEN_ALL_RELATIONS':
             const allRelationsContainer: IUIContainer[] = [state.containers[0], { component: "ALL_RELATIONS" }];
             return { ...state, divider: 60, containers: allRelationsContainer, allRelations: action.payload };
@@ -122,22 +118,6 @@ export const initialUIState: IUIState = {
     ],
     card: undefined,
     allRelations: undefined,
-    testCards: [
-        { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */ },
-        { card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */ },
-        { "card_id": "df5b9dd1-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "f266ee0a-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "de57c239-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "f0913395-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        /*{ "card_id": "f1c7c9d4-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "f2f4f7ff-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "efedb82c-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "e13fdc41-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "4f59462f-7ce9-11e5-b7c2-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "6e4559b7-740b-11e5-b7c2-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-        { "card_id": "eec95ac4-1e76-11e6-97ac-0684985cbbe3", "version": "0jOeUIeLCaOcSI4FSebNj4+E7VZ" }*/
-
-    ],
+    prevCards: [],
     divider: 60,
 };

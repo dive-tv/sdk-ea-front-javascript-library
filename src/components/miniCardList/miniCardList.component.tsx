@@ -218,7 +218,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (!card) {
                 return;
             }
-            this.props.uiActions.openCard(card.card_id, "offmovie");
+            this.props.uiActions.openCard(card.card_id, "offmovie", true);
         };
     }
 
