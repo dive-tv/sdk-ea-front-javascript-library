@@ -20,7 +20,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
     setSyncType: ActionCreator<ISyncAction>;
     setChunkStatus: ActionCreator<ISyncAction>;
     setSelectedOnSceneChange: ActionCreator<ISyncAction>;
-    closePausedMsg: ActionCreator<ISyncAction>;
+    closeInfoMsg: ActionCreator<ISyncAction>;
 };
 
 //
@@ -79,7 +79,7 @@ export const SyncActions: ISyncActions = {
     broadcastPauseEnd: syncCreateAction("SYNC/PAUSE_END"),
     endScene: syncCreateAction("SYNC/END_SCENE", (cards: Array<Card>[]) => (cards)),
     setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
-    closePausedMsg: syncCreateAction("SYNC/CLOSE_PAUSED_MSG")
+    closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG")
 };
 
 const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> => {
