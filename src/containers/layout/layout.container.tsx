@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { CardDetail } from 'Components';
+import { CardDetail, Loading } from 'Components';
 import { Carousel, CardDetailContainer, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
@@ -118,6 +118,9 @@ http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
 
                 // const cards: Card[] | {card_id: string, version?:string}[]  = [...this.props.ui.testCards, ...this.props.sceneCards];
                 // console.log('cards', cards);
+                if(this.props.ui.card === undefined){
+                    return <Loading />;
+                }
                 return (<CardDetailContainer
                         cardId={this.props.ui.card.card_id}
                         version={this.props.ui.card.version}
