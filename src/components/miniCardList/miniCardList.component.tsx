@@ -1,3 +1,4 @@
+import * as lodash from 'lodash';
 import * as React from 'react';
 import * as ReactDOM from "react-dom";
 import { bindActionCreators } from "redux";
@@ -91,10 +92,11 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
     public render() {
         // console.log("Elements: ", this.props.elements);
+        const cardsToRender = lodash.uniqBy(this.props.elements, "card_id");
         return (
             <ul className="miniCardList" >
                 {
-                    this.props.elements.map(
+                    cardsToRender.map(
                         (sceneCard: CardRender, i: number, sceneCards: CardRender[]) => {
                             return this.element({
                                 el: sceneCard,

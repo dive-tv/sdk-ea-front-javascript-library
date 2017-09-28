@@ -58,12 +58,14 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
                 lastUpdatedTime: Date.now(),
             };
         case 'SYNC/START_SCENE':
+            let cards = state.cards;
             if (state.cards instanceof Array && action.payload instanceof Array &&
                 state.cards.length !== action.payload.length) {
-                return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing" };
+                cards = action.payload;
             } else {
-                return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing" };
+                cards = [];
             }
+            return { ...state, cards, selectedOnSceneChange: true, channelStatus: "playing" };
         case 'SYNC/UPDATE_SCENE':
             if (action.payload instanceof Array && action.payload.length) {
                 return { ...state, cards: [...action.payload, ...state.cards], channelStatus: "playing" };

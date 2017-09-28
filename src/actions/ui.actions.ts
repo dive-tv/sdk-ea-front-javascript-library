@@ -34,12 +34,12 @@ export const UIActions: IUIActions = {
         if (cardId && cardId.length > 0) {
             dispatch(UIActions.performOpenCard());
         }
+        if (first) {
+            dispatch(UIActions.open({ top: "TV", bottom: "CARD" }));
+        }
         DiveAPI.getCard({ cardId })
             .then((card: Card) => {
                 dispatch(UIActions.performOpenCard(card));
-                if (first) {
-                    dispatch(UIActions.open({ top: "TV", bottom: "CARD" }));
-                }
             })
             .catch((error: any) => {
                 console.error("Error getting card", error);

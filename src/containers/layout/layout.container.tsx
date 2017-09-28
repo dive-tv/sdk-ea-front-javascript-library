@@ -85,16 +85,19 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     public getTop(componentType: UILayerTopTypes): JSX.Element | null {
+        // tslint:disable-next-line:max-line-length
         const styled: any = "position: relative; left: 700px; top: 300px; width: 320px; height: 180px; background-color:red;";
         /*
         http://demo.dive.tv:8079
-http://demo.dive.tv:8095/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
-http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
-*/
+        http://demo.dive.tv:8095/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
+        http://demo.dive.tv:8096/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000
+        */
         return (
-            <div id="videoContainer" dangerouslySetInnerHTML={
+            <div id="videoContainer"
+                key="videoHBBTV" dangerouslySetInnerHTML={
                 {
-                    __html: `<object xmlns="http://www.w3.org/1999/xhtml" id="video1" type="video/mpeg" style="position: relative; top: 0; width: 100%; height: 100%;"></object>`
+                    // tslint:disable-next-line:max-line-length
+                    __html: `<object xmlns="http://www.w3.org/1999/xhtml" id="video1" type="video/mpeg" style="position: relative; top: 0; width: 100%; height: 100%;"></object>`,
                 }
             }>
             </div>
