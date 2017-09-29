@@ -90,15 +90,15 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
             case 'Shop':
                 const objShop = {
                     content_type: 'products',
-                    data: card.products.filter(product => product.category !=  "travel"),
-                    type: 'listing'
+                    data: card.products.filter((product) => product.category !==  "travel"),
+                    type: 'listing',
                 };
                 return objShop as IListContainerType;
             case 'TravelShop':
                 const objTravelShop = {
                     content_type: 'products',
-                    data: card.products.filter(product => product.category ==  "travel"),
-                    type: 'listing'
+                    data: card.products.filter((product) => product.category ===  "travel"),
+                    type: 'listing',
                 };
                 return objTravelShop as IListContainerType;
             case 'Filmography':
