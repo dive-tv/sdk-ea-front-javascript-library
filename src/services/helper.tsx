@@ -5,8 +5,15 @@ import {
     RelationModule,
     Duple,
     Single,
-    DupleData
+    DupleData,
+    CardTypeEnum,
+    SingleContentTypeEnum,
+    DupleContentTypeEnum
 } from 'Services';
+
+export interface ApiRelationModule extends RelationModule{
+    content_type: SingleContentTypeEnum | DupleContentTypeEnum;
+}
 
 // tslint:disable-next-line:no-internal-module
 // tslint:disable-next-line:no-namespace
@@ -50,6 +57,32 @@ class HelperClass {
                 }));
         }
         return [];
+    }
+
+    
+    public getRelationCardsFromRelationCarousel = (parentType: CardTypeEnum, relation: ApiRelationModule): Card[] | null => {
+        switch (parentType) {
+            case "character":
+            case "person":
+                switch (relation.content_type) {
+                    case 'wears':
+                        return this.getRelationCardsFromRelation(relation);
+                }
+                break;
+            case "home":
+                switch (relation.content_type) {
+                    case 'home_deco':
+                        return this.getRelationCardsFromRelation(relation);
+                }
+                break;
+            case "location":
+                switch (relation.content_type) {
+                    case 'featured_in':
+                        return this.getRelationCardsFromRelation(relation);
+                }
+                break;
+        }
+        return null;
     }
 
     /**

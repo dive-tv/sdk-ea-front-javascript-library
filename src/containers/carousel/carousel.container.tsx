@@ -51,12 +51,6 @@ export class CarouselClass
             this.props.state.cards !== undefined ? this.props.state.cards : [];
         // const scene: IChunkScene = this.props.state.scene;
 
-        // Filter by offset and getting relation cards to the first level.
-        cards = cards.filter((card: CardRender) => {
-            return card && card.type &&
-                card.type !== 'person';
-        });
-
         return (
             <div className="containerCarousel fillParent">
                 <NavigationContainer key="buttonContainer"

@@ -3,8 +3,8 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
-import { Card, DiveAPIClass, Helper, Single, Duple } from 'Services';
-import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, SUPPORTED_CARD_TYPES_RELATIONS } from 'Constants';
+import { Card, DiveAPIClass, Helper, Single, Duple, ApiRelationModule } from 'Services';
+import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -101,21 +101,25 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
         if (card.relations) {
 
             for (const rel of card.relations) {
-                let childrenCards: ICardRelation[];
 
-                // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
-                childrenCards = Helper.getRelationCardsFromRelation(rel).filter((el: Card) => {
-                    return el && (SUPPORTED_CARD_TYPES_RELATIONS.indexOf(el.type) > -1);
-                }) as ICardRelation[];
+                let childrenCards: ICardRelation[] = Helper.getRelationCardsFromRelationCarousel(card.type, rel as ApiRelationModule) as ICardRelation[];
 
-                childrenCards = formatFashion(childrenCards).map((el: Card, i: number) => {
-                    return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
-                });
+                if (childrenCards) {
 
-                // Metemos a primer nivel un número igual a {limit}
-                relCards = [...relCards, ...childrenCards.slice(0, limit)];
-                if (childrenCards.length > limit) {
-                    relCards = [...relCards, { type: 'moreRelations', card, cards: childrenCards }];
+                    // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
+                    childrenCards = Helper.getRelationCardsFromRelationCarousel(card.type, rel as ApiRelationModule).filter((el: Card) => {
+                        return el && (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1);
+                    }) as ICardRelation[];
+
+                    childrenCards = formatFashion(childrenCards).map((el: Card, i: number) => {
+                        return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
+                    });
+
+                    // Metemos a primer nivel un número igual a {limit}
+                    relCards = [...relCards, ...childrenCards.slice(0, limit)];
+                    if (childrenCards.length > limit) {
+                        relCards = [...relCards, { type: 'moreRelations', card, cards: childrenCards }];
+                    }
                 }
             }
         }
@@ -129,14 +133,14 @@ const formatFashion = (children: ICardRelation[]): ICardRelation[] => {
     let filtered: ICardRelation[] = [];
 
     for (const rel of children) {
-        
+
         if (rel.type !== 'look') {
             filtered = [...filtered, rel];
             continue;
         }
 
-        if(rel.relations && rel.relations.length > 0) {
-            filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]    
+        if (rel.relations && rel.relations.length > 0) {
+            filtered = [...filtered, ...Helper.getRelationCards(rel.relations) as ICardRelation[]]
         }
     }
 
