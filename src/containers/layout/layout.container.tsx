@@ -43,7 +43,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     public onKeyPressUp(e: any) {
-        console.log("Key in layout: ", e.keyCode);
         const km: any = KeyMap;
         if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
             switch (e.keyCode) {
