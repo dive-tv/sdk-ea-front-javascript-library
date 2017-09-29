@@ -206,7 +206,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.from.title,
                             image: el.from.image ? el.from.image.thumb : null,
                             order: i,
-                            onClick: () => { (this.props.uiActions as any).openCard(el.from.card_id, "offmovie"); },
+                            onClick: el.from ? () => {
+                                return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie");
+                            } : null,
                         },
                     );
                 });
@@ -228,7 +230,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.from.title,
                             image: el.from.image.thumb,
                             order: i,
-                            onClick: () => { (this.props.uiActions as any).openCard(el.from.card_id, "offmovie"); },
+                            onClick: el.from ? () => {
+                                return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie");
+                            } : null
                         },
                     );
                 });
@@ -245,7 +249,14 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .data
                 .map((el: Card, i: number) => {
                     return this.getGenericElement(
-                        { title: el.title, image: el.image.thumb, order: i, onClick: this.props.openCard() as any },
+                        {
+                            title: el.title,
+                            image: el.image.thumb,
+                            order: i,
+                            onClick: el.card_id ? () => {
+                                return (this.props.uiActions as any).openCard(el.card_id, "offmovie");
+                            } : null,
+                        },
                     );
                 });
             return elements;

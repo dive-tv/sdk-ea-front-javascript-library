@@ -6,6 +6,7 @@ const KeyMap_HBBTV = {
     LEFT: 37,
     RIGHT: 39,
     ENTER: 13,
+    BACK: 27,
 };
 
 export const loadHbbtvKeys = () => {
@@ -18,6 +19,7 @@ export const loadHbbtvKeys = () => {
     km.LEFT = KeyEvent.VK_LEFT;
     km.RIGHT = KeyEvent.VK_RIGHT;
     km.ENTER = KeyEvent.VK_ENTER;
+    km.BACK = KeyEvent.VK_BACK;
 };
 
 export const KeyMap = KeyMap_HBBTV;

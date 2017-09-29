@@ -26,12 +26,13 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     .expandedInfoContainer {
         overflow: hidden;
         float: left;
-        width: $card-expandedInfo-width;
+        width: 0; //$card-expandedInfo-width;
         height: 30vh;
         box-sizing: border-box;
         position: relative;
     }
     .expandedInfo {
+        display: none;
         @include animationHack();
         transition-property: transform;
         transform: translate3d(0, 0, 0) translateX(-100%);
@@ -73,8 +74,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
                 .title {
                     width: 100%;
                     font-size: pxToEmZeplinX2(11);
-                    color: $pale-grey;
-                    // @include ellipsis;
+                    color: $pale-grey; // @include ellipsis;
                     height: auto; //
                     max-height: pxToVh(48);
                 }
@@ -108,14 +108,18 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
                 color: $pale-grey;
             }
         }
-        .expandedInfo {
-            transform: translateX(0);
-            transition-duration: .3s;
-            transition-delay: 0.05s; // display: inline-block;
-            border: solid 2px $off-yellow; //display: block;
+        .expandedInfoContainer {
             width: $card-expandedInfo-width;
-            z-index: 1;
-            position: relative;
+            .expandedInfo {
+                display: block;
+                transform: translateX(0);
+                transition-duration: .3s;
+                transition-delay: 0.05s; // display: inline-block;
+                border: solid 2px $off-yellow; //display: block;
+                width: $card-expandedInfo-width;
+                z-index: 1;
+                position: relative;
+            }
         }
     }
     &.relation {

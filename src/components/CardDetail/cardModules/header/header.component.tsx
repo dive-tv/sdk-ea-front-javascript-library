@@ -112,7 +112,8 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                         </div>) : null}
                         <div className="headerButtons">
                             <NavigationContainer
-                                parent={this} columns={1}
+                                parent={this}
+                                columns={1}
                                 isDefault={true}
                                 className={`likeButton genericBtn`}
                             // clickAction={this.clickLike.bind(this)}
