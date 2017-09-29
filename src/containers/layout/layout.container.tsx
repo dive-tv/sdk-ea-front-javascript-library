@@ -6,9 +6,10 @@ import { Carousel, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
 import { navigable } from 'HOC';
-import { Card } from "Services";
+import { Card, KeyMap } from "Services";
+import { bindActionCreators } from 'redux';
 
-type LayoutProps = { ui: IUIState/*, error: IErrorState*/, testCards: Card[] } & IUIActions;
+type LayoutProps = { ui: IUIState/*, error: IErrorState*/, testCards: Card[] } & { uiActions: IUIActions };
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private lastTimeMenuClicked: number;
 
@@ -24,7 +25,9 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
             const bottomStyle: React.CSSProperties = { height: `${100 - this.props.ui.divider}%` };
             return (
-                <div className="containerLayout">
+                <div className="containerLayout"
+                    onKeyUp={(e) => { this.onKeyPressUp(e); }}
+                >
                     <div className="layoutTop" style={topStyle}>
                         {this.getTop(topType)}
                     </div>
@@ -36,6 +39,26 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             );
         } else {
             return null;
+        }
+    }
+
+    public onKeyPressUp(e: any) {
+        console.log("Key in layout: ", e.keyCode);
+        const km: any = KeyMap;
+        if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
+            switch (e.keyCode) {
+                case km.BACK:
+                    switch (this.props.ui.containers[1].component) {
+                        case "CARD":
+                            if (this.props.ui.prevCards && this.props.ui.prevCards.length > 0) {
+                                this.props.uiActions.closeCard();
+                            } else {
+                                this.props.uiActions.goBack();
+                            }
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
@@ -51,15 +74,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                     columns={1}
                     name="CAROUSEL" groupName="CAROUSEL" isDefault={true} />;
             case 'CARD':
-                /*return <CardDetail key={"cardDetail"}
-                    card={this.props.ui.card}
-                    parent={this}
-                    columns={1}
-                    isDefault={true}
-                />;*/
-
-                // const cards: Card[] | {card_id: string, version?:string}[]  = [...this.props.ui.testCards, ...this.props.sceneCards];
-                // console.log('cards', cards);
                 if (this.props.ui.card === undefined) {
                     return <Loading />;
                 }
@@ -75,7 +89,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             case 'ALL_RELATIONS':
                 return (<AllRelationsContainer
                     cards={this.props.ui.allRelations}
-                    openSync={this.props.openSync}
+                    openSync={this.props.uiActions.openSync}
                     parent={this}
                     columns={1}
                     isDefault={true}
@@ -87,7 +101,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
 
     public componentWillMount() {
         console.log("[Layout] componentWillMount:", this.props);
-        this.props.setDivider(this.props.ui.divider);
+        this.props.uiActions.setDivider(this.props.ui.divider);
     }
 
     public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
@@ -99,8 +113,13 @@ const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ 
     return { ui: state.ui.present };
 };
 
+const mapDispatchToProps = (dispatch: any): any => {
+    return {
+        uiActions: bindActionCreators(UIActions, dispatch),
+    };
+};
 
 export const Layout = navigable(connect(
     mapStateToProps,
-    UIActions,
+    mapDispatchToProps,
 )(LayoutClass));

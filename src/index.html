@@ -44,17 +44,6 @@
     <div id="root"></div>
     <script crossorigin="anonymous"  type="text/javascript">
         function init() {
-            /*function fetchData() {
-                var URL = 'https://api.github.com';
-                var xhr = new XMLHttpRequest();
-                //xhr.setRequestHeader("origin", window.location.protocol + "//" + window.location.host);
-                xhr.onreadystatechange = function () {
-                    document.body.innerHTML = JSON.stringify(xhr);
-                }
-                xhr.open('GET', URL)
-                xhr.send()
-            }
-            fetchData();*/
             try {
                 DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
                 console.log("APP REALLY INITIALIZED");
