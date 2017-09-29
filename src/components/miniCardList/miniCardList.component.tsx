@@ -135,7 +135,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                     groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
                     element={card}
                     parent={this}
-                    // forceFirst={true}
+                    forceFirst={true}
                     forceOrder={index}
                     clickActionMore={this.clickActionMore.bind(this)(card)}
                     clickActionLike={this.clickActionLike.bind(this)(card)}

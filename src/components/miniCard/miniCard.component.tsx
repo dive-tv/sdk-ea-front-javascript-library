@@ -52,11 +52,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
 
     public componentWillMount() {
         this.openCard = this.props.element;
-        /*console.log("Setting open id to",
-            this.props.element.type,
-            this.props.element.title,
-            this.props.element.card_id,
-        );*/
     }
 
     private miniCard = (): JSX.Element => {
