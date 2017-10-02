@@ -4,7 +4,7 @@ import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRen
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple, ApiRelationModule } from 'Services';
-import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL } from 'Constants';
+import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, FilterType } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -21,6 +21,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
     setChunkStatus: ActionCreator<ISyncAction>;
     setSelectedOnSceneChange: ActionCreator<ISyncAction>;
     closeInfoMsg: ActionCreator<ISyncAction>;
+    changeFilter: ActionCreator<ISyncAction>;
 };
 
 //
@@ -79,7 +80,8 @@ export const SyncActions: ISyncActions = {
     broadcastPauseEnd: syncCreateAction("SYNC/PAUSE_END"),
     endScene: syncCreateAction("SYNC/END_SCENE", (cards: Array<Card>[]) => (cards)),
     setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
-    closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG")
+    closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG"),
+    changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterType) => filter)
 };
 
 const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> => {

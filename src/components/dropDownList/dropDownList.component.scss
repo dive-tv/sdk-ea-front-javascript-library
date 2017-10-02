@@ -17,13 +17,16 @@
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: pxToVw(9.2);
+    
 
     .dropdownList{
+        height: 0px;
         max-height: pxToVh(160);
         width: 100%;
         background-color: $color-dark-grey-three;
         color: $color-warm-grey;
         box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.5);
+        overflow: hidden;
         
         .dropDownListChildren{
             height: pxToVh(20);
@@ -31,7 +34,15 @@
     }
 }
 
-:focus {
-    color: white;
-    border: none;
+.dropDownActive > .dropdownContainer {
+    .dropdownList {
+        height: initial;
+        overflow: auto;
+        .dropDownListChildren {    
+            :focus .dropDownListChildrenNav {
+                color: white !important;
+                border: none !important;
+            }
+        }
+    }
 }

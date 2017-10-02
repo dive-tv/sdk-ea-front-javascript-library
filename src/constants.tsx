@@ -57,6 +57,10 @@ export const SUPPORTED_CARD_TYPES = [
     "chapter", // 28 - Serie chapter
     // "action_emotion", // 29 - Action or emotion shown onscreen
 ];
+
+export enum FilterType {
+     All = "All", CastAndCharacter = "Cast", FashionAndBeauty = "Fashion", Music = "Music", PlacesAndTravel = "Places", CarsAndMore = "Cars", FunFacts = "Fun", Other = "Other"
+    };
 /*function getKeyAlias(): IKeysToMap {
     if (__PLATFORM__ === "orsay") {
         return OrsayKeysMapped;

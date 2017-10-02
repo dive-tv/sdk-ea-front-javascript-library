@@ -1,8 +1,9 @@
 import { Action } from 'redux';
 import { SocketActionTypes } from 'Actions';
 import { Card } from 'Services';
-export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
+import { FilterType } from 'Constants';
 
+export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
 export type CardRender = ICardRelation | ICardAndRelations;
 
 export interface ISyncState {
@@ -11,6 +12,7 @@ export interface ISyncState {
     //chunkStatus: ServiceStatus;
     movieId?: string;
     cards: CardRender[];
+    filter: FilterType;
     demo: string;
     currentTime: number; // Time in seconds
     timeMovie: number; // Time of socket (milis)
@@ -42,7 +44,8 @@ export interface ICardAndRelations {
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |
     "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/PAUSE_START" | "SYNC/PAUSE_END" |
     "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" | "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
-    "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | "SYNC/CLOSE_INFO_MSG" | SocketActionTypes;
+    "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | "SYNC/CLOSE_INFO_MSG" |
+    "SYNC/CHANGE_FILTER" |  SocketActionTypes;
 
 export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncAction): ISyncState => {
     switch (action.type) {
@@ -96,6 +99,9 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         case 'SYNC/SET_SELECTED_ON_SCENE_CHANGE':
             return { ...state, selectedOnSceneChange: action.payload };
 
+        case 'SYNC/CHANGE_FILTER':
+            return { ...state, filter: action.payload };
+
         default:
             return state;
     }
@@ -112,6 +118,7 @@ export const initialSyncState: ISyncState = {
     socketStatus: 'INIT',
     movieId: "m00001",
     cards: [],
+    filter: FilterType.All,
     demo: "",
     currentTime: 0,
     timeMovie: 0,

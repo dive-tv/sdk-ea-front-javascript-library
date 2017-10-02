@@ -7,7 +7,7 @@ import { Loading, NavigationContainer, MiniCardList, DropDownList } from 'Compon
 import { IState, ISyncState, INavState, CardRender } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
 import { Localize, Card, RelationModule } from 'Services';
-import { SUPPORTED_CARD_TYPES } from 'Constants';
+import { SUPPORTED_CARD_TYPES, FilterType } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
@@ -35,7 +35,6 @@ export class CarouselClass
 
     public componentWillMount() {
         this.props.syncChannel();
-        this.activeFilters = [this.allCategoriesFilter];
     }
 
     public componentWillUnmount() {
@@ -46,10 +45,15 @@ export class CarouselClass
         return this.props.state;
     }
 
+    private filterCards (cards: CardRender[]): CardRender[] {
+        console.log(this.props.state.filter);
+        return cards;
+    }
+
     public render(): any {
-        let cards: CardRender[] =
-            this.props.state.cards !== undefined ? this.props.state.cards : [];
-        // const scene: IChunkScene = this.props.state.scene;
+        let cards: CardRender[] = this.props.state.cards !== undefined ? this.props.state.cards : [];
+
+        cards = this.filterCards(cards);
 
         return (
             <div className="containerCarousel fillParent">
@@ -71,6 +75,7 @@ export class CarouselClass
                                 getMovieTime={this.getCurrentTime}
                                 parent={this}
                                 columns={1}
+                                name="miniCardListCarousel"
                                 // key={`${this.props.state.movieId}#${Date.now}`}
                                 groupName="MiniCardList"
                                 setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
@@ -113,15 +118,25 @@ export class CarouselClass
         >
         </NavigationContainer>);
 
-        console.log("NAVIGATION", this.props.selectedNav && this.props.selectedNav ? this.props.selectedNav : "NULL")
-
-        const elements: string[] = ["Uno", "Dos", "Tres"];
+        const elements: string [] = [];
+        let index: number = 0;
+        let i: number = 0;
+        for (let item in FilterType) {
+            if (item === this.props.state.filter) {
+                index = i;
+            }
+            elements.push(item);
+            i++;
+        }
+        
         buttonsToRender.push(<DropDownList
             key={"dropdown#" + this.getState().movieId}
             elements={elements}
-            selectedGroupName={this.props.selectedNav && this.props.selectedNav.groupName ? this.props.selectedNav.groupName : ""}
-            groupName="dropDownGroup"
-            parent={this}
+            activeGroupClass="dropDownActive"
+            groupName="dropDownFilter"
+            parent={this.buttonsContainer}
+            selected={index}
+            
             />);
 
 
@@ -171,11 +186,6 @@ export class CarouselClass
                 </BottomOverlayMessage>
             );
         }
-    }
-
-    // CAROUSEL FILTERS
-    private allCategoriesFilter() {
-        return true;
     }
 }
 
