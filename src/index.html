@@ -38,46 +38,46 @@
 <body onload="initApp()" style="background-color: grey">
     <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
     <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
-        <object type="application/oipfApplicationManager" id="oipfAppMan" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-        <object type="application/oipfConfiguration" id="oipfConfig" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+        <object type="application/oipfApplicationManager" id="appmgr" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+        <object type="application/oipfConfiguration" id="oipfcfg" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
     </div>
     <div id="root"></div>
-    <script crossorigin="anonymous"  type="text/javascript">
+    <script crossorigin="anonymous" type="text/javascript">
         function init() {
             try {
-                DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
-                console.log("APP REALLY INITIALIZED");
-            } catch(e) {
+                if (DiveSDK.front && DiveSDK.front.init) {
+                    console.log("TEST INIT 6");
+                    DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+                    console.log("APP REALLY INITIALIZED");
+                    clearInterval(initInterval);
+                }                
+            } catch (e) {
                 console.error("Error initializing app", e);
             }
         }
     </script>
     <script crossorigin="anonymous" type="text/javascript">
+        var initInterval;
         function setKeyset(mask) {
-            var elemcfg, app;
             // for HbbTV 0.5:
-            // try {
-            //     elemcfg = document.getElementById('oipfcfg');
-            //     elemcfg.keyset.value = mask;
-            // } catch (e) {
-            //     // ignore
-            //     console.error("error keys", e);
-            // }
-            // try {
-            //     elemcfg = document.getElementById('oipfcfg');
-            //     elemcfg.keyset.setValue(mask);
-            // } catch (e) {
-            //     // ignore
-            //     console.error("error keys", e);
-            // }
-            // for HbbTV 1.0:
             try {
-                app = document.getElementById('oipfAppMan').getOwnerApplication(document);
-                app.privateData.keyset.setValue(mask);
-                console.log("KEYS OK FOR HBBTV 1.0");
+                elemcfg = document.getElementById('oipfcfg');
+                elemcfg.keyset.value = mask;
             } catch (e) {
                 // ignore
-                console.error("error keys", e);
+            }
+            try {
+                elemcfg = document.getElementById('oipfcfg');
+                elemcfg.keyset.setValue(mask);
+            } catch (e) {
+                // ignore
+            }
+            // for HbbTV 1.0:
+            try {
+                app = document.getElementById('appmgr').getOwnerApplication(document);
+                app.privateData.keyset.setValue(mask);
+            } catch (e) {
+                // ignore
             }
         }
         function initApp() {
@@ -85,10 +85,11 @@
                 console.log("HBBTV TIMEOUT TRIGGERED");
                 try {
                     console.log("LOADING HBBTV");
-                    document.getElementById("oipfAppMan").getOwnerApplication(document).show();
+                    document.getElementById("appmgr").getOwnerApplication(document).show();
                     console.log("LOADED HBBTV");
                     setKeyset(0x1 + 0x2 + 0x4 + 0x8 + 0x10);
                     console.log("KEYS SETUP");
+                    initInterval = setInterval(init, 1000);
                     init();
                     console.log("APP INITIALIZED");
                 } catch (e) {
