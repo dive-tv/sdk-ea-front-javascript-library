@@ -88,6 +88,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         .catch((error) => {
             console.error("ERROR LOADING", error);
         });
+
+        
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
     });*/
@@ -96,7 +98,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     //});
 };
 
-// init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS

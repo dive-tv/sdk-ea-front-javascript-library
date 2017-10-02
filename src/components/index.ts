@@ -11,4 +11,5 @@ export * from './hbbtvLiveStream/hbbtvLiveStream.component';
 export * from './miniCard/miniCard.component';
 export * from './moreRelations/moreRelations.component';
 export * from './loading/loading.component';
+export * from './dropDownList/dropDownList.component';
 export * from './moreRelations/moreRelations.component';

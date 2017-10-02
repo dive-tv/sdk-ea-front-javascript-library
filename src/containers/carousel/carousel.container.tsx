@@ -3,7 +3,7 @@ import { connect, MapDispatchToPropsObject } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
-import { Loading, NavigationContainer, MiniCardList } from 'Components';
+import { Loading, NavigationContainer, MiniCardList, DropDownList } from 'Components';
 import { IState, ISyncState, INavState, CardRender } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
 import { Localize, Card, RelationModule } from 'Services';
@@ -108,11 +108,23 @@ export class CarouselClass
             + `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
         const buttonsToRender = [];
         buttonsToRender.push(<NavigationContainer key="carouselClose" className="carouselButton bctButton close"
-            forceOrder={0}
             parent={this.buttonsContainer}
             onClick={this.closeCarousel}
         >
         </NavigationContainer>);
+
+        console.log("NAVIGATION", this.props.selectedNav && this.props.selectedNav ? this.props.selectedNav : "NULL")
+
+        const elements: string[] = ["Uno", "Dos", "Tres"];
+        buttonsToRender.push(<DropDownList
+            key={"dropdown#" + this.getState().movieId}
+            elements={elements}
+            selectedGroupName={this.props.selectedNav && this.props.selectedNav.groupName ? this.props.selectedNav.groupName : ""}
+            groupName="dropDownGroup"
+            parent={this}
+            />);
+
+
         return (
             <div id="carouselButtons" className="bottomContainerTopButtons">
                 {buttonsToRender}
@@ -136,8 +148,8 @@ export class CarouselClass
                 case "off":
                 case "ready":
                     messageContent = true;
-                break;
-            }    
+                    break;
+            }
         }
 
         // TODO: Message Logic
@@ -147,7 +159,7 @@ export class CarouselClass
             return (
                 <BottomOverlayMessage
                     key={`bottomMessage#${this.props.state.timeMovieSynced}#${channelStatus}`}
-                    closeInfoMsg= {this.props.closeInfoMsg}
+                    closeInfoMsg={this.props.closeInfoMsg}
                     parent={this}
                     columns={1}
                     channelStatus={channelStatus}
