@@ -35,7 +35,7 @@ export interface IUIState {
 export interface IUIGroup {
     top: UILayerTopTypes;
     bottom: UILayerBottomTypes;
-};
+}
 
 export interface IUIContainer {
     component: UILayerTopTypes | UILayerBottomTypes;
@@ -45,6 +45,7 @@ export interface IUIAction extends Action {
     type: UIActionTypes;
     payload?: any | IUIGroup;
 }
+
 export interface IMenuState {
     elements: Array<{ title: string, sections: IUIGroup, icon: string }>;
 }

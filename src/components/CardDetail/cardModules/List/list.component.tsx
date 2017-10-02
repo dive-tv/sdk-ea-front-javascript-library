@@ -116,7 +116,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         }
     }
 
-    public render(): any {
+    public render(): JSX.Element {
         const textTitle = this.getTitle();
         return (
             <div className="cardModuleList cardModule">
