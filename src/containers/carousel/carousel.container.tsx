@@ -71,8 +71,9 @@ export class CarouselClass
                                 parent={this}
                                 columns={1}
                                 name="miniCardListCarousel"
-                                // key={`${this.props.state.movieId}#${Date.now}`}
+                                //key={"carouselList"}
                                 groupName="MiniCardList"
+                                activeFilter={this.props.state.filter}
                                 setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
                                 wasSelectedOnChangeScene={this.props.state.selectedOnSceneChange}
                             />
@@ -97,7 +98,7 @@ export class CarouselClass
             case FilterTypeEnum.CastAndCharacter:
                 return this.filterCards(cards, ["character", "person"]);
             case FilterTypeEnum.FashionAndBeauty:
-                return this.filterCards(cards, ["character", "person"], ["fashion"]);
+                return this.filterCards(cards, ["character", "person"], true, ["fashion"]);
             case FilterTypeEnum.Music:
                 return this.filterCards(cards, ["song", "ost"]);
             case FilterTypeEnum.PlacesAndTravel:
@@ -113,14 +114,11 @@ export class CarouselClass
         return cards;
     }
 
-    private filterCards(cards: CardRender[], type: CardTypeEnum [], relationType?: CardTypeEnum []): CardRender[] {
+    private filterCards(cards: CardRender[], type: CardTypeEnum [], obligatoryChildren: boolean = false, relationType?: CardTypeEnum []): CardRender[] {
 
         const filterdCards: CardRender[] = [];
         var parentCard: CardRender | undefined = undefined;
         var childrenCount: number = 0;
-        
-
-        console.log("cards to filter ---->", cards)
 
         for (let card of cards) {
 
@@ -129,40 +127,39 @@ export class CarouselClass
                 const cardRelation: ICardRelation = card as ICardRelation;
                 if (!cardRelation.parentId && type.indexOf(cardRelation.type) > -1) {
 
-                    if (parentCard) {
-                        console.log("append parentCard", parentCard);
+                    if ((!obligatoryChildren && parentCard) || (parentCard && obligatoryChildren && childrenCount !== 0)) {
                         filterdCards.push(parentCard);
                     }
 
                     parentCard = cardRelation;
                     childrenCount = 0;
+                    continue;
 
-                } else if (relationType && relationType.indexOf(cardRelation.type) > -1) {
+                } else if ((cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1)) {
 
                     if (parentCard) {
-                        console.log("append parentCard", parentCard)
                         filterdCards.push(parentCard);
                         parentCard = undefined;
                     }
 
-                    console.log("append children", cardRelation)
                     filterdCards.push(cardRelation);
                     childrenCount++;
+                    continue;
                 }
+
             } else if (childrenCount === LIMIT_FOR_RELATIONS) {
                 
                 const cardRelation: ICardAndRelations = card as ICardAndRelations;
                 cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
-                console.log("append MORE", cardRelation.cards)
                 filterdCards.push(cardRelation);
             }
         }
 
-        if (parentCard) {
-            console.log("append parentCard", parentCard)
+        if ((!obligatoryChildren && parentCard) || (parentCard && obligatoryChildren && childrenCount !== 0)) {
+            //console.log("append parentCard", parentCard)
             filterdCards.push(parentCard);
         }
-        console.log("filtered cards ---->", filterdCards)
+        //console.log("filtered cards ---->", filterdCards)
 
         return filterdCards;
     }

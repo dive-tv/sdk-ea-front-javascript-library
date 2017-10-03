@@ -9,6 +9,7 @@ import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
 import { MiniCard, MoreRelations } from 'Components';
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
 import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
+import { FilterTypeEnum } from 'Constants';
 
 declare const DiveAPI: DiveAPIClass;
 
@@ -18,6 +19,7 @@ export interface IMiniCardListState {
     wasSelectedOnChangeScene: boolean;
     idx?: number;
     getMovieTime: () => void;
+    activeFilter: FilterTypeEnum
 }
 
 export interface IMiniCardListMethods {
@@ -30,10 +32,13 @@ type MiniCardListProps = IMiniCardListState & IMiniCardListMethods &
     { uiActions: IUIActions, userActions: IUserActions };
 
 export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
+
     public shouldComponentUpdate(nextProps: MiniCardListProps) {
         if (typeof this.props.elements !== typeof nextProps.elements) {
             return true;
         } else if (nextProps.elements && nextProps.elements.length !== this.props.elements.length) {
+            return true;
+        } else if (nextProps.activeFilter !== this.props.activeFilter) {
             return true;
         }
         return false;
