@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { DirectionButton, NavigationContainer, DirectionButtonList } from "Components";
 import { navigable, INavigable } from "HOC";
+import { Localize } from 'Services';
 
 export interface IDropDownListProps {
     elements: string[];
@@ -29,7 +30,7 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
     public render(): any {
         return (
             <div className="dropdownContainer">
-                {this.props.selectedItem}
+                {Localize(this.props.selectedItem)}
                 <div className="dropdownList">
                     {this.renderChildren()}
                 </div>
@@ -60,7 +61,7 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
 
 
             children.push(<div className={classes} key={"element#" + element}>
-                <NavigationContainer className="dropDownListChildrenNav" parent={this} columns={1} groupName={this.props.groupName} clickAction={actionOnClick}>{element}</NavigationContainer>
+                <NavigationContainer className="dropDownListChildrenNav" parent={this} columns={1} groupName={this.props.groupName} clickAction={actionOnClick}>{Localize(element)}</NavigationContainer>
             </div>);
         })
 

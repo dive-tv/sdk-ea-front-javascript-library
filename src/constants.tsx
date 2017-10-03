@@ -59,14 +59,14 @@ export const SUPPORTED_CARD_TYPES = [
 ];
 
 export enum FilterTypeEnum {
-    All = "All",
-    CastAndCharacter = "Cast",
-    FashionAndBeauty = "Fashion",
-    Music = "Music",
-    PlacesAndTravel = "Places",
-    CarsAndMore = "Cars",
-    FunFacts = "Fun",
-    Other = "Other"
+    All = "FILTER_ALL",
+    CastAndCharacter = "FILTER_CAST",
+    FashionAndBeauty = "FILTER_FASHION",
+    Music = "FILTER_MUSIC",
+    PlacesAndTravel = "FILTER_PLACES",
+    CarsAndMore = "FILTER_CARS",
+    FunFacts = "FILTER_FUN",
+    Other = "FILTER_OTHER"
 };
 
 export const LIMIT_FOR_RELATIONS: number = 3;
