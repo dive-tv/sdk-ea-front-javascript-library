@@ -16,7 +16,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
     private offset: number = 0;
     private btns: HTMLElement;
 
-    public render(): any {
+    public render(): JSX.Element {
         return (
             <div className="horizontalScroll">
                 <div className="scrollBox" ref={(el) => { if (el) { this.scrollBox = el; } }}>
