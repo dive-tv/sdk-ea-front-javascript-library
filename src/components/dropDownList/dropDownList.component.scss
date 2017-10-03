@@ -35,10 +35,17 @@
 }
 
 .dropDownActive > .dropdownContainer {
+    background-color: $color-off-yellow;
+    color: $color-dark-grey;
     .dropdownList {
         height: initial;
         overflow: auto;
-        .dropDownListChildren {    
+        .dropDownListChildren {
+            
+            &.selected {
+                color: $color-off-yellow;
+            }
+
             :focus .dropDownListChildrenNav {
                 color: white !important;
                 border: none !important;

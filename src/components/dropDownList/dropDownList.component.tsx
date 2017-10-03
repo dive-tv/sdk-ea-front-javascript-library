@@ -5,9 +5,11 @@ import { navigable, INavigable } from "HOC";
 
 export interface IDropDownListProps {
     elements: string[];
-    selected: number;
+    selectedItem: string;
     groupName: string;
     setNodeByName?: (name: string) => any;
+    nameForNode?: string;
+    setElement: (element: string) => void;
 }
 
 export interface IDropDownListState {
@@ -27,29 +29,37 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
     public render(): any {
         return (
             <div className="dropdownContainer">
-                {this.props.elements[this.props.selected]}
+                {this.props.selectedItem}
                 <div className="dropdownList">
                     {this.renderChildren()}
                 </div>
             </div>)
     }
 
-    private selectOption(option: number) {
-        this.setState({ ...this.state, selected: option });
-        this.props.setNodeByName("miniCardListCarousel");
+    private selectOption(option: string) {
+        this.props.setElement(option);
+
+        if (this.props.nameForNode && this.props.setNodeByName) {
+            this.props.setNodeByName(this.props.nameForNode);
+        }
     }
 
     private renderChildren(): JSX.Element[] {
 
         const children: JSX.Element[] = [];
 
-        this.props.elements.map((element: string, index: number) => {
-            
+        this.props.elements.map((element: string) => {
+
             const actionOnClick = () => {
-                this.selectOption(index);
+                this.selectOption(element);
             };
 
-            children.push(<div className="dropDownListChildren" key={"element#" + element}>
+            const classes = classNames({
+                selected: element === this.props.selectedItem
+            }, "dropDownListChildren")
+
+
+            children.push(<div className={classes} key={"element#" + element}>
                 <NavigationContainer className="dropDownListChildrenNav" parent={this} columns={1} groupName={this.props.groupName} clickAction={actionOnClick}>{element}</NavigationContainer>
             </div>);
         })

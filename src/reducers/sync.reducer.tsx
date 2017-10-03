@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { SocketActionTypes } from 'Actions';
 import { Card } from 'Services';
-import { FilterType } from 'Constants';
+import { FilterTypeEnum } from 'Constants';
 
 export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
 export type CardRender = ICardRelation | ICardAndRelations;
@@ -12,7 +12,7 @@ export interface ISyncState {
     //chunkStatus: ServiceStatus;
     movieId?: string;
     cards: CardRender[];
-    filter: FilterType;
+    filter: FilterTypeEnum;
     demo: string;
     currentTime: number; // Time in seconds
     timeMovie: number; // Time of socket (milis)
@@ -118,7 +118,7 @@ export const initialSyncState: ISyncState = {
     socketStatus: 'INIT',
     movieId: "m00001",
     cards: [],
-    filter: FilterType.All,
+    filter: FilterTypeEnum.All,
     demo: "",
     currentTime: 0,
     timeMovie: 0,

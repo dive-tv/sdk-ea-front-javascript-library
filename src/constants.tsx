@@ -58,9 +58,18 @@ export const SUPPORTED_CARD_TYPES = [
     // "action_emotion", // 29 - Action or emotion shown onscreen
 ];
 
-export enum FilterType {
-     All = "All", CastAndCharacter = "Cast", FashionAndBeauty = "Fashion", Music = "Music", PlacesAndTravel = "Places", CarsAndMore = "Cars", FunFacts = "Fun", Other = "Other"
-    };
+export enum FilterTypeEnum {
+    All = "All",
+    CastAndCharacter = "Cast",
+    FashionAndBeauty = "Fashion",
+    Music = "Music",
+    PlacesAndTravel = "Places",
+    CarsAndMore = "Cars",
+    FunFacts = "Fun",
+    Other = "Other"
+};
+
+export const LIMIT_FOR_RELATIONS: number = 3;
 /*function getKeyAlias(): IKeysToMap {
     if (__PLATFORM__ === "orsay") {
         return OrsayKeysMapped;

@@ -4,7 +4,7 @@ import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRen
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple, ApiRelationModule } from 'Services';
-import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, FilterType } from 'Constants';
+import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -81,11 +81,11 @@ export const SyncActions: ISyncActions = {
     endScene: syncCreateAction("SYNC/END_SCENE", (cards: Array<Card>[]) => (cards)),
     setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
     closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG"),
-    changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterType) => filter)
+    changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterTypeEnum) => filter)
 };
 
 const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> => {
-    const limit = 3;
+
     if (cards == null) return [];
     cards = cards.reverse();
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
@@ -118,8 +118,8 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
                     });
 
                     // Metemos a primer nivel un número igual a {limit}
-                    relCards = [...relCards, ...childrenCards.slice(0, limit)];
-                    if (childrenCards.length > limit) {
+                    relCards = [...relCards, ...childrenCards.slice(0, LIMIT_FOR_RELATIONS)];
+                    if (childrenCards.length > LIMIT_FOR_RELATIONS) {
                         relCards = [...relCards, { type: 'moreRelations', card, cards: childrenCards }];
                     }
                 }

@@ -4,10 +4,10 @@ import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
 import { Loading, NavigationContainer, MiniCardList, DropDownList } from 'Components';
-import { IState, ISyncState, INavState, CardRender } from 'Reducers';
+import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
-import { Localize, Card, RelationModule } from 'Services';
-import { SUPPORTED_CARD_TYPES, FilterType } from 'Constants';
+import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
+import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
@@ -45,15 +45,10 @@ export class CarouselClass
         return this.props.state;
     }
 
-    private filterCards (cards: CardRender[]): CardRender[] {
-        console.log(this.props.state.filter);
-        return cards;
-    }
-
     public render(): any {
         let cards: CardRender[] = this.props.state.cards !== undefined ? this.props.state.cards : [];
 
-        cards = this.filterCards(cards);
+        cards = this.performFilter(cards);
 
         return (
             <div className="containerCarousel fillParent">
@@ -92,6 +87,86 @@ export class CarouselClass
         return this.props.state.currentTime;
     }
 
+    private performFilter(cards: CardRender[]): CardRender[] {
+
+        console.log("filter ---->", this.props.state.filter);
+
+        const otherFilter : CardTypeEnum[]  = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
+
+        switch (this.props.state.filter) {
+            case FilterTypeEnum.CastAndCharacter:
+                return this.filterCards(cards, ["character", "person"]);
+            case FilterTypeEnum.FashionAndBeauty:
+                return this.filterCards(cards, ["character", "person"], ["fashion"]);
+            case FilterTypeEnum.Music:
+                return this.filterCards(cards, ["song", "ost"]);
+            case FilterTypeEnum.PlacesAndTravel:
+                return this.filterCards(cards, ["location"]);
+            case FilterTypeEnum.CarsAndMore:
+                return this.filterCards(cards, ["vehicle"]);
+            case FilterTypeEnum.FunFacts:
+                return this.filterCards(cards, ["trivia", "reference", "quote"]);
+            case FilterTypeEnum.Other:
+                return this.filterCards(cards, otherFilter);
+        }
+
+        return cards;
+    }
+
+    private filterCards(cards: CardRender[], type: CardTypeEnum [], relationType?: CardTypeEnum []): CardRender[] {
+
+        const filterdCards: CardRender[] = [];
+        var parentCard: CardRender | undefined = undefined;
+        var childrenCount: number = 0;
+        
+
+        console.log("cards to filter ---->", cards)
+
+        for (let card of cards) {
+
+            if (card as ICardRelation) {
+
+                const cardRelation: ICardRelation = card as ICardRelation;
+                if (!cardRelation.parentId && type.indexOf(cardRelation.type) > -1) {
+
+                    if (parentCard) {
+                        console.log("append parentCard", parentCard);
+                        filterdCards.push(parentCard);
+                    }
+
+                    parentCard = cardRelation;
+                    childrenCount = 0;
+
+                } else if (relationType && relationType.indexOf(cardRelation.type) > -1) {
+
+                    if (parentCard) {
+                        console.log("append parentCard", parentCard)
+                        filterdCards.push(parentCard);
+                        parentCard = undefined;
+                    }
+
+                    console.log("append children", cardRelation)
+                    filterdCards.push(cardRelation);
+                    childrenCount++;
+                }
+            } else if (childrenCount === LIMIT_FOR_RELATIONS) {
+                
+                const cardRelation: ICardAndRelations = card as ICardAndRelations;
+                cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
+                console.log("append MORE", cardRelation.cards)
+                filterdCards.push(cardRelation);
+            }
+        }
+
+        if (parentCard) {
+            console.log("append parentCard", parentCard)
+            filterdCards.push(parentCard);
+        }
+        console.log("filtered cards ---->", filterdCards)
+
+        return filterdCards;
+    }
+
     private getButtons(): JSX.Element {
         let currentTimeInSecs = this.props.state.currentTime;
         const hours = Math.floor(currentTimeInSecs / 3600);
@@ -118,32 +193,38 @@ export class CarouselClass
         >
         </NavigationContainer>);
 
-        const elements: string [] = [];
-        let index: number = 0;
-        let i: number = 0;
-        for (let item in FilterType) {
-            if (item === this.props.state.filter) {
-                index = i;
+        const elements: string[] = [];
+        let selectedItem: string = "";
+
+        for (let item in FilterTypeEnum) {
+
+            if (FilterTypeEnum[item]  === this.props.state.filter) {
+                selectedItem = FilterTypeEnum[item];
             }
-            elements.push(item);
-            i++;
+            
+            elements.push(FilterTypeEnum[item]);
         }
-        
+
         buttonsToRender.push(<DropDownList
             key={"dropdown#" + this.getState().movieId}
             elements={elements}
+            selectedItem={selectedItem}
             activeGroupClass="dropDownActive"
             groupName="dropDownFilter"
             parent={this.buttonsContainer}
-            selected={index}
-            
-            />);
+            //nameForNode="miniCardListCarousel"
+            setElement={this.setFilter.bind(this)}
+        />);
 
 
         return (
             <div id="carouselButtons" className="bottomContainerTopButtons">
                 {buttonsToRender}
             </div>);
+    }
+
+    private setFilter(filterName: FilterTypeEnum) {
+        this.props.changeFilter(filterName);
     }
 
     private closeCarousel() {
