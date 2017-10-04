@@ -97,6 +97,10 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                                 deleteNavParent.children[i] = children;
                             } else if (i >= 0) {
                                 deleteNavParent.children.splice(i, 1);
+
+                                if (deleteNavParent.children[0] == undefined) {
+                                    deleteNavParent.children[0] = [];
+                                }
                             }
                             break;
                         }
@@ -304,7 +308,7 @@ const getRecursiveChildren = (navigation: Map<number, INavigable>, id: number): 
 const getFirstLeaf = (state: INavState, id: number): number => {
     let current: INavigable | undefined = state.navigation.get(id);
     let looping = true;
-    while (current !== undefined && current.children && looping) {
+    while (current !== undefined && looping) {
         if (current.children[0].length > 0) {
             current = state.navigation.get(current.children[0][0]) as INavigable;
         } else {
