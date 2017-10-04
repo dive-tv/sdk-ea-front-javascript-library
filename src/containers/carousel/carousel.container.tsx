@@ -3,7 +3,7 @@ import { connect, MapDispatchToPropsObject } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
-import { Loading, NavigationContainer, MiniCardList, DropDownList } from 'Components';
+import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButtonsContainer } from 'Components';
 import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
@@ -11,11 +11,10 @@ import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Const
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
-    extends React.PureComponent<{ state: ISyncState } & ISyncActions & INavigableProps & INavState &
+    extends React.Component<{ state: ISyncState } & ISyncActions & INavigableProps & INavState &
     { uiActions: MapDispatchToPropsObject }, { rewinded: boolean }> {
     private interval: any;
     private chunkRequested: boolean = false;
-    private buttonsContainer: any;
     private activeFilters: any[];
     private currentSceneText = Localize("CURRENT_SCENE");
     constructor(props: any) {
@@ -39,6 +38,7 @@ export class CarouselClass
 
     public componentWillUnmount() {
         // this.props.setSelectedOnSceneChange(false);
+        console.log("CAROUSEL componentWillUnmount")
     }
 
     public getState = (): ISyncState => {
@@ -52,14 +52,7 @@ export class CarouselClass
 
         return (
             <div className="containerCarousel fillParent">
-                <NavigationContainer key="buttonContainer"
-                    ref={(el: any) => { if (el) { this.buttonsContainer = el.getWrappedInstance().refComponent; } }}
-                    propagateParent={false}
-                    parent={this}
-                    forceFirst={true}
-                    columns={1}>
-                    {this.buttonsContainer ? this.getButtons() : ""}
-                </NavigationContainer>
+                {this.getButtons()}
                 <div className="cards">
                     {
                         cards.length === 0 ?
@@ -90,9 +83,9 @@ export class CarouselClass
 
     private performFilter(cards: CardRender[]): CardRender[] {
 
-        console.log("filter ---->", this.props.state.filter);
+        //console.log("filter ---->", this.props.state.filter);
 
-        const otherFilter : CardTypeEnum[]  = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
+        const otherFilter: CardTypeEnum[] = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
 
         switch (this.props.state.filter) {
             case FilterTypeEnum.CastAndCharacter:
@@ -114,7 +107,7 @@ export class CarouselClass
         return cards;
     }
 
-    private filterCards(cards: CardRender[], type: CardTypeEnum [], obligatoryChildren: boolean = false, relationType?: CardTypeEnum []): CardRender[] {
+    private filterCards(cards: CardRender[], type: CardTypeEnum[], obligatoryChildren: boolean = false, relationType?: CardTypeEnum[]): CardRender[] {
 
         const filterdCards: CardRender[] = [];
         var parentCard: CardRender | undefined = undefined;
@@ -150,8 +143,8 @@ export class CarouselClass
                 }
 
             } else if (childrenCount === LIMIT_FOR_RELATIONS) {
-                
-                
+
+
                 cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
                 filterdCards.push(cardRelation);
             }
@@ -167,59 +160,15 @@ export class CarouselClass
     }
 
     private getButtons(): JSX.Element {
-        let currentTimeInSecs = this.props.state.currentTime;
-        const hours = Math.floor(currentTimeInSecs / 3600);
-        currentTimeInSecs %= 3600;
-        const minutes = Math.floor(currentTimeInSecs / 60);
-        const seconds = parseInt((currentTimeInSecs % 60).toFixed(0), 10);
-
-        let buttonCount = 7;
-        if (0) { // TODO: Check if prev button needed
-            buttonCount--;
-        }
-        if (0) { // TODO: Check if next button needed
-            buttonCount--;
-        }
-        if (this.state.rewinded === false) {
-            buttonCount--;
-        }
-        const timeFormatted = `${hours < 10 ? "0" + hours : hours}:`
-            + `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-        const buttonsToRender = [];
-        buttonsToRender.push(<NavigationContainer key="carouselClose" className="carouselButton bctButton close"
-            parent={this.buttonsContainer}
-            onClick={this.closeCarousel}
-        >
-        </NavigationContainer>);
-
-        const elements: string[] = [];
-        let selectedItem: string = "";
-
-        for (let item in FilterTypeEnum) {
-
-            if (FilterTypeEnum[item]  === this.props.state.filter) {
-                selectedItem = FilterTypeEnum[item];
-            }
-            
-            elements.push(FilterTypeEnum[item]);
-        }
-
-        buttonsToRender.push(<DropDownList
-            key={"dropdown#" + this.getState().movieId}
-            elements={elements}
-            selectedItem={selectedItem}
-            activeGroupClass="dropDownActive"
-            groupName="dropDownFilter"
-            parent={this.buttonsContainer}
-            //nameForNode="miniCardListCarousel"
-            setElement={this.setFilter.bind(this)}
-        />);
-
-
-        return (
-            <div id="carouselButtons" className="bottomContainerTopButtons">
-                {buttonsToRender}
-            </div>);
+        return ( <CarouselButtonsContainer 
+        parent={this}      
+        columns={1}
+        forceFirst={true}
+        movieId={this.getState().movieId}
+        filter={this.props.state.filter}
+        setFilter={this.setFilter.bind(this)}
+        closeCarousel={this.closeCarousel.bind(this)}
+        />)
     }
 
     private setFilter(filterName: FilterTypeEnum) {
