@@ -304,7 +304,7 @@ const getRecursiveChildren = (navigation: Map<number, INavigable>, id: number): 
 const getFirstLeaf = (state: INavState, id: number): number => {
     let current: INavigable | undefined = state.navigation.get(id);
     let looping = true;
-    while (current !== undefined && looping) {
+    while (current !== undefined && current.children && looping) {
         if (current.children[0].length > 0) {
             current = state.navigation.get(current.children[0][0]) as INavigable;
         } else {
