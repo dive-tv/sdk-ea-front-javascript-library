@@ -122,7 +122,9 @@ export class CarouselClass
 
         for (let card of cards) {
 
-            if (card as ICardRelation) {
+            const cardRelation: ICardAndRelations = card as ICardAndRelations;
+
+            if (!cardRelation.cards) {
 
                 const cardRelation: ICardRelation = card as ICardRelation;
                 if (!cardRelation.parentId && type.indexOf(cardRelation.type) > -1) {
@@ -149,7 +151,7 @@ export class CarouselClass
 
             } else if (childrenCount === LIMIT_FOR_RELATIONS) {
                 
-                const cardRelation: ICardAndRelations = card as ICardAndRelations;
+                
                 cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
                 filterdCards.push(cardRelation);
             }
