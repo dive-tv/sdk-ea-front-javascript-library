@@ -86,7 +86,7 @@ export class CarouselClass
         //console.log("filter ---->", this.props.state.filter);
 
         const otherFilter: CardTypeEnum[] = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
-
+        // dependiendo del filtro activo se utilizan distintos tipos para el filtrado
         switch (this.props.state.filter) {
             case FilterTypeEnum.CastAndCharacter:
                 return this.filterCards(cards, ["character", "person"]);
@@ -117,19 +117,24 @@ export class CarouselClass
 
             const cardRelation: ICardAndRelations = card as ICardAndRelations;
 
+            // si no tiene cards significa que es una card normal
             if (!cardRelation.cards) {
 
                 const cardRelation: ICardRelation = card as ICardRelation;
+                // si es un card
                 if (!cardRelation.parentId && type.indexOf(cardRelation.type) > -1) {
 
+                    // en caso de que la card anterior este guardada se pushea al array para no perderla. Si obligatory children es true se comprueba que esa card tiene relaciones validas
                     if ((!obligatoryChildren && parentCard) || (parentCard && obligatoryChildren && childrenCount !== 0)) {
                         filterdCards.push(parentCard);
                     }
 
+                    // se guarda la card
                     parentCard = cardRelation;
                     childrenCount = 0;
                     continue;
 
+                    // si es una relacion
                 } else if ((cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1)) {
 
                     if (parentCard) {
@@ -142,9 +147,11 @@ export class CarouselClass
                     continue;
                 }
 
+                // Es una card de "ver mas", solo se muestra si el numero de relacciones es igual al limite de cards. Se comprueba 
+                // por si hay relaciones de distinto tipo del que se quiere filtrar
             } else if (childrenCount === LIMIT_FOR_RELATIONS) {
 
-
+                // se filtran las cards del ver mas por el tipo filtrado
                 cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
                 filterdCards.push(cardRelation);
             }
@@ -160,14 +167,14 @@ export class CarouselClass
     }
 
     private getButtons(): JSX.Element {
-        return ( <CarouselButtonsContainer 
-        parent={this}      
-        columns={1}
-        forceFirst={true}
-        movieId={this.getState().movieId}
-        filter={this.props.state.filter}
-        setFilter={this.setFilter.bind(this)}
-        closeCarousel={this.closeCarousel.bind(this)}
+        return (<CarouselButtonsContainer
+            parent={this}
+            columns={1}
+            forceFirst={true}
+            movieId={this.getState().movieId}
+            filter={this.props.state.filter}
+            setFilter={this.setFilter.bind(this)}
+            closeCarousel={this.closeCarousel.bind(this)}
         />)
     }
 
