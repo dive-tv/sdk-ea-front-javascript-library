@@ -5,13 +5,13 @@ import { bindActionCreators } from "redux";
 import { navigable, INavigableProps } from 'HOC';
 import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButtonsContainer } from 'Components';
 import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
-import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
+import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'Actions';
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
 import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
-    extends React.Component<{ state: ISyncState } & ISyncActions & INavigableProps & INavState &
+    extends React.Component<{ state: ISyncState } & ISyncActions & INavigableProps & INavState & INavActions &
     { uiActions: MapDispatchToPropsObject }, { rewinded: boolean }> {
     private interval: any;
     private chunkRequested: boolean = false;
@@ -38,7 +38,8 @@ export class CarouselClass
 
     public componentWillUnmount() {
         // this.props.setSelectedOnSceneChange(false);
-        console.log("CAROUSEL componentWillUnmount")
+        // console.log("CAROUSEL componentWillUnmount");
+        // this.props.deleteNode(this.props.idx);
     }
 
     public getState = (): ISyncState => {
@@ -52,7 +53,16 @@ export class CarouselClass
 
         return (
             <div className="containerCarousel fillParent">
-                {this.getButtons()}
+                <CarouselButtonsContainer
+                    key='CAROUSEL_BUTTONS'
+                    parent={this}
+                    columns={1}
+                    forceFirst={true}
+                    movieId={this.getState().movieId}
+                    filter={this.props.state.filter}
+                    setFilter={this.setFilter.bind(this)}
+                    closeCarousel={this.closeCarousel.bind(this)}
+                />
                 <div className="cards">
                     {
                         cards.length === 0 ?
@@ -164,18 +174,6 @@ export class CarouselClass
         //console.log("filtered cards ---->", filterdCards)
 
         return filterdCards;
-    }
-
-    private getButtons(): JSX.Element {
-        return (<CarouselButtonsContainer
-            parent={this}
-            columns={1}
-            forceFirst={true}
-            movieId={this.getState().movieId}
-            filter={this.props.state.filter}
-            setFilter={this.setFilter.bind(this)}
-            closeCarousel={this.closeCarousel.bind(this)}
-        />)
     }
 
     private setFilter(filterName: FilterTypeEnum) {
