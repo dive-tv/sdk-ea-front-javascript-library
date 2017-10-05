@@ -97,6 +97,10 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                                 deleteNavParent.children[i] = children;
                             } else if (i >= 0) {
                                 deleteNavParent.children.splice(i, 1);
+
+                                if (deleteNavParent.children[0] == undefined) {
+                                    deleteNavParent.children[0] = [];
+                                }
                             }
                             break;
                         }
