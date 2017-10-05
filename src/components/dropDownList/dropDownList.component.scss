@@ -1,9 +1,12 @@
 .dropdownContainer {
 
     position: relative;
-    width: pxToVw(90);
+    /*width: pxToVw(90);
     height: pxToVh(20);
-    left: 1vw;
+    left: 1vw;*/
+    width: 100%;
+    height: 100%;
+    // left:1%;
     background-color: $color-dark-grey-three;
     border: 1px solid $color-warm-grey;
     color: $color-warm-grey;
@@ -16,12 +19,12 @@
     box-sizing: border-box;
     background-repeat: no-repeat;
     background-position: 50%;
-    background-size: pxToVw(9.2);
+    // background-size: pxToVw(9.2);
     
 
     .dropdownList{
         height: 0px;
-        max-height: pxToVh(160);
+        max-height: 800%;
         width: 100%;
         background-color: $color-dark-grey-three;
         color: $color-warm-grey;

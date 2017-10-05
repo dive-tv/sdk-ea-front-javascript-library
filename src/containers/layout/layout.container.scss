@@ -18,11 +18,18 @@
     }
     .layoutBottom {
         width: 100%;
-        height: 50%;
+        height: 0;
+        padding-bottom: 22.5%;
         bottom: 0;
         position: absolute;
         overflow: hidden;
-        box-sizing: border-box;
+        .layoutBottomSub{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+        }
     }
     >::-webkit-scrollbar-thumb,
     >::-webkit-scrollbar {
