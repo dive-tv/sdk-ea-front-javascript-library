@@ -31,14 +31,13 @@ export namespace App {
 
 /*@navigable
 @connect(mapStateToProps, maDispatchToProps, mergeProps)*/
-export class AppClass extends React.Component<App.IOwnProps & App.IActionProps, App.IState> {
-    public componentWillMount(){
-    }
+export class AppClass extends React.Component<{}, {}>{//<App.IOwnProps & App.IActionProps, App.IState> {
 
     public render(): any {
+        console.log("Render APP");
         return (
             <div className="app">
-                <Layout columns={1} parent={this}/>
+                <Layout columns={1} parent={null} />
             </div>
         );
     }

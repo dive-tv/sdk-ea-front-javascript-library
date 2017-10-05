@@ -44,11 +44,14 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     }
 
     const APIinstance = new DiveAPIClass(
-        { env: DIVE_ENVIRONMENT, storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+        { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
     );
+    APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.17.47:3000/proxy?url=https");
     console.log("BP", APIinstance.basePath);
     APIinstance.setLocale("es-ES");
+    console.log("Setted locale");
     (window as any).DiveAPI = APIinstance;
+    console.log("global instance");
     APIinstance.postTokenAndSave({ deviceId: this.deviceId, grantType: "device_credentials" })
         .then((response: AccessToken) => {
             console.log("Authorized!");
@@ -57,10 +60,11 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
             if (typeof params.selector !== "string") {
                 console.error(`You should provide a selector that resolves to an existing DOM Element
-        in the initialization parameter 'selector'`);
+                    in the initialization parameter 'selector'`);
                 throw new Error(`You should provide a selector that resolves to an existing DOM Element
-        in the initialization parameter 'selector'`);
+                    in the initialization parameter 'selector'`);
             }
+            return true;
         })
         .then(() => {
             //APIinstance.getStaticMovieScene({ relations: true, clientMovieId: "m00001", timestamp: 4000 })
@@ -72,7 +76,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
 
             //];
             //response = [...newCards, ...response];
-            //console.log("response: ", response);
+            console.log("MOUNTING REACT");
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer">
@@ -96,7 +100,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     //});
 };
 
-// init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS

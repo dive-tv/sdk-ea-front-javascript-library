@@ -100,7 +100,7 @@ if (process.env.NODE_ENV === "production") {
                 // remove warnings
                 warnings: false,
                 // Drop console statements
-                drop_console: true
+                drop_console: false
             },
         })
     );

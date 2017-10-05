@@ -25,14 +25,12 @@
             margin: 0;
         }
     </style>
-    <!--
 	<script type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
     </script>
-    -->
 </head>
 
 <body onload="initApp()" style="background-color: grey">
@@ -43,10 +41,12 @@
     </div>
     <div id="root"></div>
     <script crossorigin="anonymous" type="text/javascript">
+        localStorage.debug = '*';
         function init() {
             try {
                 if (DiveSDK.front && DiveSDK.front.init) {
                     console.log("TEST INIT 6");
+                    console.log = () => {};
                     DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
                     console.log("APP REALLY INITIALIZED");
                     clearInterval(initInterval);

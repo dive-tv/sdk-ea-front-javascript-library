@@ -13,6 +13,11 @@ type LayoutProps = { ui: IUIState/*, error: IErrorState*/, testCards: Card[] } &
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private lastTimeMenuClicked: number;
 
+    // constructor(props: any) {
+    //     super(props);
+    //     this.props.uiActions.openCard("28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", "offmovie", true);
+    // }
+
     public render(): any {
         console.log("[LayoutClass] Render ", this.props.ui);
         if (this.props && this.props.ui) {

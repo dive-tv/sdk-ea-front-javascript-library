@@ -220,8 +220,16 @@ const NavigableClass = <TOriginalProps extends {}>(
                 navigation, lastKey, selected, selectedNav, lastSelected,
                 activated, lastActivated, navNames, ...childProps,
             } = noNavOwnProps;
+            // childProps = childProps || {};
+            // const castedProps = Object.assign({}, childProps) as any;
+            // const passedProps = castedProps && Object.keys(castedProps).length > 0 ? castedProps : {a: 0};
 
             const ChildComponent: any = InnerComponent;
+            // try {
+            //     console.log("PASSED PROPS", cp);
+            // } catch(e) {
+            //     console.error("ERror feo", e);
+            // }
 
             return (
                 <div ref={(el) => { if (el) { this.wrapper = el; } }} className={classesApplied} tabIndex={-1}
@@ -240,7 +248,7 @@ const NavigableClass = <TOriginalProps extends {}>(
                     id={thisId.toString()}
                 /*autoFocus={focus}*/>
                     <ChildComponent
-                        // navComponent = {this.wrapper}
+                        navComponent = {this.wrapper}
                         ref={
                             (refComponent: typeof InnerComponent) => {
                                 if (refComponent) {
@@ -248,7 +256,7 @@ const NavigableClass = <TOriginalProps extends {}>(
                                 }
                             }
                         }
-                        {...childProps as any }
+                        { ...childProps as any }
                         idx={thisId}
                     />
                 </div>);
@@ -317,6 +325,7 @@ const NavigableClass = <TOriginalProps extends {}>(
         public getId = (): number => this.navId;
 
         public onKeyPress = (e: any) => {
+            console.log("kp", e.keyCode);
             e.preventDefault();
             return false;
         }
