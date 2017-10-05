@@ -132,29 +132,32 @@ export class CarouselClass
 
                 const cardRelation: ICardRelation = card as ICardRelation;
                 // si es un card
-                if (!cardRelation.parentId && type.indexOf(cardRelation.type) > -1) {
-
-                    // en caso de que la card anterior este guardada se pushea al array para no perderla. Si obligatory children es true se comprueba que esa card tiene relaciones validas
-                    if ((!obligatoryChildren && parentCard) || (parentCard && obligatoryChildren && childrenCount !== 0)) {
+                if (!cardRelation.parentId) {
+                    
+                    // en caso de que la card anterior este guardada se pushea al array para no perderla en caso de que no sea obligatorio tener relacciones asociadas.
+                    if (!obligatoryChildren && parentCard && childrenCount === 0) {
                         filterdCards.push(parentCard);
                     }
 
-                    // se guarda la card
-                    parentCard = cardRelation;
-                    childrenCount = 0;
-                    continue;
-
-                    // si es una relacion
-                } else if ((cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1)) {
-
-                    if (parentCard) {
-                        filterdCards.push(parentCard);
+                    // es de tipo valido
+                    if (type.indexOf(cardRelation.type) > -1) {
+                        // se guarda la card
+                        parentCard = cardRelation;
+                        childrenCount = 0;
+                    } else if (parentCard) {
                         parentCard = undefined;
+                    }
+
+
+                    // si es una relacion y hay un parent card
+                } else if (parentCard && cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1) {
+
+                    if (parentCard && childrenCount === 0) {
+                        filterdCards.push(parentCard);
                     }
 
                     filterdCards.push(cardRelation);
                     childrenCount++;
-                    continue;
                 }
 
                 // Es una card de "ver mas", solo se muestra si el numero de relacciones es igual al limite de cards. Se comprueba 
@@ -167,11 +170,9 @@ export class CarouselClass
             }
         }
 
-        if ((!obligatoryChildren && parentCard) || (parentCard && obligatoryChildren && childrenCount !== 0)) {
-            //console.log("append parentCard", parentCard)
+        if (!obligatoryChildren && parentCard && childrenCount === 0 ) {
             filterdCards.push(parentCard);
         }
-        //console.log("filtered cards ---->", filterdCards)
 
         return filterdCards;
     }
