@@ -67,7 +67,12 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
             if (navState === undefined) {
                 state.navigation.set(nav.id, nav);
             } else {
-                state.navigation.set(nav.id, { ...nav, ...navState, parentId: nav.parentId });
+                state.navigation.set(nav.id, {
+                    ...nav, ...navState,
+                    parentId: nav.parentId,
+                    groupName: nav.groupName,
+                    name: nav.name,
+                });
             }
 
             if (nav.name !== undefined) {
@@ -81,6 +86,7 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
             // DELETE FROM PARENT
             if (deleteNav !== undefined && deleteNav.parentId >= 0) {
                 const deleteNavParent: INavigable | undefined = state.navigation.get(deleteNav.parentId);
+                
                 if (deleteNavParent !== undefined) {
                     for (let i = 0; i < deleteNavParent.children.length; i++) {
                         const index = indexOf(deleteNavParent.children[i], action.payload);
@@ -89,8 +95,12 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                             children.splice(index, 1);
                             if (children.length > 0) {
                                 deleteNavParent.children[i] = children;
-                            } else if (i > 0) {
+                            } else if (i >= 0) {
                                 deleteNavParent.children.splice(i, 1);
+
+                                if (deleteNavParent.children[0] == undefined) {
+                                    deleteNavParent.children[0] = [];
+                                }
                             }
                             break;
                         }
@@ -278,7 +288,6 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
 
 // Get children recursively and return all of them in an array
 const getRecursiveChildren = (navigation: Map<number, INavigable>, id: number): number[] => {
-    // DELETE RECURSIVE CHILDS
     let before: number[] = [];
     const node: INavigable | undefined = navigation.get(id);
     if (node !== undefined) {

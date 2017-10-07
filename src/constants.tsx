@@ -58,12 +58,18 @@ export const SUPPORTED_CARD_TYPES = [
     // "action_emotion", // 29 - Action or emotion shown onscreen
 ];
 
-export const SUPPORTED_CARD_TYPES_RELATIONS = [
-    "home", // 13 - Home and deco item
-    "location", // 7 - Real or fictional location
-    "look", // 6 - Fashion item
-];
+export enum FilterTypeEnum {
+    All = "FILTER_ALL",
+    CastAndCharacter = "FILTER_CAST",
+    FashionAndBeauty = "FILTER_FASHION",
+    Music = "FILTER_MUSIC",
+    PlacesAndTravel = "FILTER_PLACES",
+    CarsAndMore = "FILTER_CARS",
+    FunFacts = "FILTER_FUN",
+    Other = "FILTER_OTHER"
+};
 
+export const LIMIT_FOR_RELATIONS: number = 3;
 /*function getKeyAlias(): IKeysToMap {
     if (__PLATFORM__ === "orsay") {
         return OrsayKeysMapped;

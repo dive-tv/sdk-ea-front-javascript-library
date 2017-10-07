@@ -48,7 +48,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     public onKeyPressUp(e: any) {
-        console.log("Key in layout: ", e.keyCode);
         const km: any = KeyMap;
         if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
             switch (e.keyCode) {
@@ -74,11 +73,15 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     public getBottom(componentType: UILayerBottomTypes) {
         switch (componentType) {
             case 'CAROUSEL':
-                return <Carousel key={`carousel#${this.lastTimeMenuClicked}`}
+                return <Carousel
+                    key={`carousel#${this.lastTimeMenuClicked}`}
+                    // key="CAROUSEL"
                     parent={this}
                     columns={1}
-                    name="CAROUSEL" groupName="CAROUSEL" isDefault={true} />;
+                    name="CAROUSEL" 
+                    groupName="CAROUSEL" isDefault={true} />;
             case 'CARD':
+                this.lastTimeMenuClicked = Date.now();
                 if (this.props.ui.card === undefined) {
                     return <Loading />;
                 }

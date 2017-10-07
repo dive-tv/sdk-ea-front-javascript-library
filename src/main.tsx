@@ -92,6 +92,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         .catch((error) => {
             console.error("ERROR LOADING", error);
         });
+
+        
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
     });*/

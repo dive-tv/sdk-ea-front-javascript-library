@@ -88,22 +88,19 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
             case 'Gallery':
                 return Helper.getContainer(card, 'image') as ImageVO;
             case 'Shop':
-                // console.log("Shop card: ", card);
-                const obj = {
+                const objShop = {
                     content_type: 'products',
-                    data: card.products,
+                    data: card.products.filter((product) => product.category !==  "travel"),
                     type: 'listing',
                 };
-                return obj as IListContainerType;
-
+                return objShop as IListContainerType;
             case 'TravelShop':
-                const obj2 = {
+                const objTravelShop = {
                     content_type: 'products',
-                    data: card.products,
+                    data: card.products.filter((product) => product.category ===  "travel"),
                     type: 'listing',
                 };
-                return obj2 as IListContainerType;
-
+                return objTravelShop as IListContainerType;
             case 'Filmography':
                 return Helper.getRelation(card.relations, 'filmography', 'content_type') as Duple;
             case 'Cast':
@@ -119,7 +116,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         }
     }
 
-    public render(): any {
+    public render(): JSX.Element {
         const textTitle = this.getTitle();
         return (
             <div className="cardModuleList cardModule">

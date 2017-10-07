@@ -12,7 +12,7 @@ declare const DiveAPI: DiveAPIClass;
 export interface IUIActions extends MapDispatchToPropsObject {
     goBack: ActionCreator<IUIAction>;
     openCard: ActionCreator<void>;
-    closeCard: ActionCreator<void>;
+    closeCard: ActionCreator<IUIAction>;
     performOpenCard: ActionCreator<IUIAction>;
     openSync: ActionCreator<IUIAction>;
     open: ActionCreator<void>;
@@ -47,7 +47,7 @@ export const UIActions: IUIActions = {
             });
         // dispatch(UIActions.performOpenCard({ card_id: cardId }));
     },
-    closeCard: () => uiCreateAction("UI/CLOSE_CARD"),
+    closeCard: uiCreateAction("UI/CLOSE_CARD"),
     performOpenCard: uiCreateAction("UI/OPEN_CARD", (card: Card) => (card)),
     openSync: uiCreateAction("UI/OPEN_SYNC"),
     open: (group: IUIGroup) => (dispatch: any) => {

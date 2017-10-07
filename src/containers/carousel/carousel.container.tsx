@@ -3,19 +3,18 @@ import { connect, MapDispatchToPropsObject } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
-import { Loading, NavigationContainer, MiniCardList } from 'Components';
-import { IState, ISyncState, INavState, CardRender } from 'Reducers';
-import { SyncActions, ISyncActions, UIActions, IUIActions } from 'Actions';
-import { Localize, Card, RelationModule } from 'Services';
-import { SUPPORTED_CARD_TYPES } from 'Constants';
+import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButtonsContainer } from 'Components';
+import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
+import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'Actions';
+import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
+import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
-    extends React.PureComponent<{ state: ISyncState } & ISyncActions & INavigableProps & INavState &
+    extends React.Component<{ state: ISyncState } & ISyncActions & INavigableProps & INavState & INavActions &
     { uiActions: MapDispatchToPropsObject }, { rewinded: boolean }> {
     private interval: any;
     private chunkRequested: boolean = false;
-    private buttonsContainer: any;
     private activeFilters: any[];
     private currentSceneText = Localize("CURRENT_SCENE");
     constructor(props: any) {
@@ -35,11 +34,12 @@ export class CarouselClass
 
     public componentWillMount() {
         this.props.syncChannel();
-        this.activeFilters = [this.allCategoriesFilter];
     }
 
     public componentWillUnmount() {
         // this.props.setSelectedOnSceneChange(false);
+        // console.log("CAROUSEL componentWillUnmount");
+        // this.props.deleteNode(this.props.idx);
     }
 
     public getState = (): ISyncState => {
@@ -47,26 +47,22 @@ export class CarouselClass
     }
 
     public render(): any {
-        let cards: CardRender[] =
-            this.props.state.cards !== undefined ? this.props.state.cards : [];
-        // const scene: IChunkScene = this.props.state.scene;
+        let cards: CardRender[] = this.props.state.cards !== undefined ? this.props.state.cards : [];
 
-        // Filter by offset and getting relation cards to the first level.
-        cards = cards.filter((card: CardRender) => {
-            return card && card.type &&
-                card.type !== 'person';
-        });
+        cards = this.performFilter(cards);
 
         return (
             <div className="containerCarousel fillParent">
-                <NavigationContainer key="buttonContainer"
-                    ref={(el: any) => { if (el) { this.buttonsContainer = el.getWrappedInstance().refComponent; } }}
-                    propagateParent={false}
+                <CarouselButtonsContainer
+                    key='CAROUSEL_BUTTONS'
                     parent={this}
+                    columns={1}
                     forceFirst={true}
-                    columns={1}>
-                    {this.buttonsContainer ? this.getButtons() : ""}
-                </NavigationContainer>
+                    movieId={this.getState().movieId}
+                    filter={this.props.state.filter}
+                    setFilter={this.setFilter.bind(this)}
+                    closeCarousel={this.closeCarousel.bind(this)}
+                />
                 <div className="cards">
                     {
                         cards.length === 0 ?
@@ -77,8 +73,10 @@ export class CarouselClass
                                 getMovieTime={this.getCurrentTime}
                                 parent={this}
                                 columns={1}
-                                // key={`${this.props.state.movieId}#${Date.now}`}
+                                name="miniCardListCarousel"
+                                //key={"carouselList"}
                                 groupName="MiniCardList"
+                                activeFilter={this.props.state.filter}
                                 setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
                                 wasSelectedOnChangeScene={this.props.state.selectedOnSceneChange}
                             />
@@ -93,36 +91,94 @@ export class CarouselClass
         return this.props.state.currentTime;
     }
 
-    private getButtons(): JSX.Element {
-        let currentTimeInSecs = this.props.state.currentTime;
-        const hours = Math.floor(currentTimeInSecs / 3600);
-        currentTimeInSecs %= 3600;
-        const minutes = Math.floor(currentTimeInSecs / 60);
-        const seconds = parseInt((currentTimeInSecs % 60).toFixed(0), 10);
+    private performFilter(cards: CardRender[]): CardRender[] {
 
-        let buttonCount = 7;
-        if (0) { // TODO: Check if prev button needed
-            buttonCount--;
+        //console.log("filter ---->", this.props.state.filter);
+
+        const otherFilter: CardTypeEnum[] = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
+        // dependiendo del filtro activo se utilizan distintos tipos para el filtrado
+        switch (this.props.state.filter) {
+            case FilterTypeEnum.CastAndCharacter:
+                return this.filterCards(cards, ["character", "person"]);
+            case FilterTypeEnum.FashionAndBeauty:
+                return this.filterCards(cards, ["character", "person"], true, ["fashion"]);
+            case FilterTypeEnum.Music:
+                return this.filterCards(cards, ["song", "ost"]);
+            case FilterTypeEnum.PlacesAndTravel:
+                return this.filterCards(cards, ["location"]);
+            case FilterTypeEnum.CarsAndMore:
+                return this.filterCards(cards, ["vehicle"]);
+            case FilterTypeEnum.FunFacts:
+                return this.filterCards(cards, ["trivia", "reference", "quote"]);
+            case FilterTypeEnum.Other:
+                return this.filterCards(cards, otherFilter);
         }
-        if (0) { // TODO: Check if next button needed
-            buttonCount--;
+
+        return cards;
+    }
+
+    private filterCards(cards: CardRender[], type: CardTypeEnum[], obligatoryChildren: boolean = false, relationType?: CardTypeEnum[]): CardRender[] {
+
+        const filterdCards: CardRender[] = [];
+        var parentCard: CardRender | undefined = undefined;
+        var childrenCount: number = 0;
+
+        for (let card of cards) {
+
+            const cardRelation: ICardAndRelations = card as ICardAndRelations;
+
+            // si no tiene cards significa que es una card normal
+            if (!cardRelation.cards) {
+
+                const cardRelation: ICardRelation = card as ICardRelation;
+                // si es un card
+                if (!cardRelation.parentId) {
+                    
+                    // en caso de que la card anterior este guardada se pushea al array para no perderla en caso de que no sea obligatorio tener relacciones asociadas.
+                    if (!obligatoryChildren && parentCard && childrenCount === 0) {
+                        filterdCards.push(parentCard);
+                    }
+
+                    // es de tipo valido
+                    if (type.indexOf(cardRelation.type) > -1) {
+                        // se guarda la card
+                        parentCard = cardRelation;
+                        childrenCount = 0;
+                    } else if (parentCard) {
+                        parentCard = undefined;
+                    }
+
+
+                    // si es una relacion y hay un parent card
+                } else if (parentCard && cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1) {
+
+                    if (parentCard && childrenCount === 0) {
+                        filterdCards.push(parentCard);
+                    }
+
+                    filterdCards.push(cardRelation);
+                    childrenCount++;
+                }
+
+                // Es una card de "ver mas", solo se muestra si el numero de relacciones es igual al limite de cards. Se comprueba 
+                // por si hay relaciones de distinto tipo del que se quiere filtrar
+            } else if (childrenCount === LIMIT_FOR_RELATIONS) {
+
+                // se filtran las cards del ver mas por el tipo filtrado
+                cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
+                filterdCards.push(cardRelation);
+            }
         }
-        if (this.state.rewinded === false) {
-            buttonCount--;
+
+        if (!obligatoryChildren && parentCard && childrenCount === 0 ) {
+            filterdCards.push(parentCard);
         }
-        const timeFormatted = `${hours < 10 ? "0" + hours : hours}:`
-            + `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-        const buttonsToRender = [];
-        buttonsToRender.push(<NavigationContainer key="carouselClose" className="carouselButton bctButton close"
-            forceOrder={0}
-            parent={this.buttonsContainer}
-            onClick={this.closeCarousel}
-        >
-        </NavigationContainer>);
-        return (
-            <div id="carouselButtons" className="bottomContainerTopButtons">
-                {buttonsToRender}
-            </div>);
+
+        return filterdCards;
+    }
+
+    private setFilter(filterName: FilterTypeEnum) {
+        this.props.changeFilter(filterName);
     }
 
     private closeCarousel() {
@@ -142,8 +198,8 @@ export class CarouselClass
                 case "off":
                 case "ready":
                     messageContent = true;
-                break;
-            }    
+                    break;
+            }
         }
 
         // TODO: Message Logic
@@ -153,7 +209,7 @@ export class CarouselClass
             return (
                 <BottomOverlayMessage
                     key={`bottomMessage#${this.props.state.timeMovieSynced}#${channelStatus}`}
-                    closeInfoMsg= {this.props.closeInfoMsg}
+                    closeInfoMsg={this.props.closeInfoMsg}
                     parent={this}
                     columns={1}
                     channelStatus={channelStatus}
@@ -165,11 +221,6 @@ export class CarouselClass
                 </BottomOverlayMessage>
             );
         }
-    }
-
-    // CAROUSEL FILTERS
-    private allCategoriesFilter() {
-        return true;
     }
 }
 
