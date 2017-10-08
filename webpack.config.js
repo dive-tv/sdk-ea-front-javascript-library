@@ -17,7 +17,14 @@ console.log("WP IS PRODUCTION? ", isProduction);
 const publicPath = isProduction ? '/api-front-library-react/' : '/';
 
 const frontEntry = isProduction ?
-  [path.resolve(__dirname, 'src', 'main.tsx')] :
+  [
+    'babel-polyfill',
+    'react',
+    'react-dom',
+    'react-redux',
+    'react-router',
+    'redux',
+    path.resolve(__dirname, 'src', 'main.tsx')] :
   [
     'eventsource-polyfill', // Necessary for hot reloading with IE
     'webpack-hot-middleware/client?reload=true',
@@ -58,6 +65,7 @@ plugins.push(
     __ENV__: JSON.stringify(process.env.NODE_ENV),
     __DIVE_ENV__: JSON.stringify('PRO'),
   }),
+  /*
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     filename: 'vendor.bundle.js',
@@ -65,17 +73,17 @@ plugins.push(
       // this assumes your vendor imports exist in the node_modules directory
       return module.resource && (/node_modules/).test(module.resource);
     }
-  }),
+  }),*/
   new webpack.optimize.AggressiveMergingPlugin(),
   new ExtractTextPlugin(
-    '[name].css', {
+    'DiveSDK.[name].css', {
       disable: false,
       allChunks: true
     }
   ),
   new HtmlWebpackPlugin({
     template: 'index.html',
-    // excludeChunks: ['styles']
+    excludeChunks: ['styles']
   })
 );
 const sourceMapPath = "file:///";
@@ -113,7 +121,7 @@ const config = {
     styles: [
       // 'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
-    ],
+    ],/*
     vendor: [
       'babel-polyfill',
       'react',
@@ -121,7 +129,7 @@ const config = {
       'react-redux',
       'react-router',
       'redux'
-    ]
+    ]*/
   },
   output: {
     path: outPath,

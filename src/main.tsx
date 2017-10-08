@@ -46,7 +46,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     const APIinstance = new DiveAPIClass(
         { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
     );
-    APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.17.47:3000/proxy?url=https");
+    // APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.17.47:3000/proxy?url=https");
     console.log("BP", APIinstance.basePath);
     APIinstance.setLocale("es-ES");
     console.log("Setted locale");

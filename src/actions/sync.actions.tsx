@@ -16,13 +16,15 @@ export interface ISyncActions extends MapDispatchToPropsObject {
     startScene: ActionCreator<ISyncAction>;
     updateScene: ActionCreator<ISyncAction>;
     setMovie: ActionCreator<ISyncAction>;
+    staticVOD: ActionCreator<void>;
+    syncVOD: ActionCreator<void>;
     syncChannel: ActionCreator<void>;
     setSyncType: ActionCreator<ISyncAction>;
     setChunkStatus: ActionCreator<ISyncAction>;
     setSelectedOnSceneChange: ActionCreator<ISyncAction>;
     closeInfoMsg: ActionCreator<ISyncAction>;
     changeFilter: ActionCreator<ISyncAction>;
-};
+}
 
 //
 //  Action Creators
@@ -38,6 +40,18 @@ export const SyncActions: ISyncActions = {
     setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),
     setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE") => (syncType)),
     setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
+    staticVOD: (params: { movieId: string, timestamp: number }) => (dispatch: any) => {
+        // dispatch(SyncActions.setSyncType("SOCKET"));
+        // dispatch(SyncActions.setMovie(params.movieId));
+        DiveAPI.getStaticMovieScene({ relations: true, clientMovieId: params.movieId, timestamp: params.timestamp })
+        .then((cards: Card[]) => {
+            dispatch(SyncActions.startScene(processCard(cards)));
+        });
+    },
+    syncVOD: (params: { movieId: string, timestamp: number }) => (dispatch: any) => {
+        dispatch(SyncActions.setSyncType("SOCKET"));
+        DiveAPI.syncWithMovieVOD({ ...params });
+    },
     syncChannel: (tvEvent: any/*TvEventResponse*/) => (dispatch: any) => {
         console.log("[SOCKET]");
         dispatch(SyncActions.setSyncType("SOCKET"));

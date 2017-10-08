@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { CardDetail, Loading, HbbtvLiveStream } from 'Components';
+import { CardDetail, Loading, HbbtvLiveStream, VODvideo } from 'Components';
 import { Carousel, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
@@ -66,11 +66,25 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
         }
     }
 
-    public getTop(componentType: UILayerTopTypes): JSX.Element | null {
-        return <HbbtvLiveStream />;
+    public componentWillMount() {
+        console.log("[Layout] componentWillMount:", this.props);
+        this.props.uiActions.setDivider(this.props.ui.divider);
     }
 
-    public getBottom(componentType: UILayerBottomTypes) {
+    public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
+        this.lastTimeMenuClicked = Date.now();
+    }
+
+    private getTop(componentType: UILayerTopTypes): JSX.Element | null {
+        switch (componentType) {
+            case 'VODVIDEO':
+                return <VODvideo key="vodVideo" />;
+            default:
+                return <HbbtvLiveStream key="liveStream" />;
+        }
+    }
+
+    private getBottom(componentType: UILayerBottomTypes) {
         switch (componentType) {
             case 'CAROUSEL':
                 return <Carousel
@@ -78,7 +92,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                     // key="CAROUSEL"
                     parent={this}
                     columns={1}
-                    name="CAROUSEL" 
+                    name="CAROUSEL"
                     groupName="CAROUSEL" isDefault={true} />;
             case 'CARD':
                 this.lastTimeMenuClicked = Date.now();
@@ -107,14 +121,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
         }
     }
 
-    public componentWillMount() {
-        console.log("[Layout] componentWillMount:", this.props);
-        this.props.uiActions.setDivider(this.props.ui.divider);
-    }
-
-    public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
-        this.lastTimeMenuClicked = Date.now();
-    }
 }
 
 const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ } => {

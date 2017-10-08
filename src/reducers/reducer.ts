@@ -2,7 +2,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import socketMiddleware from '../middleware/socket.middleware';
 
-
 import {
     /*UIReducer, TvReducer, CardReducer, SyncReducer, IUIState, ITvState, IAppConfig,
     ConfigReducer, GridReducer, IGridState, ICardState,*/ INavState, NavReducer, ISyncState, IUIState,
@@ -16,8 +15,8 @@ import {
 
 export interface IState {
     nav: INavState;
-    carousel: ISyncState,
-    ui: { present: IUIState },
+    carousel: ISyncState;
+    ui: { present: IUIState };
 }
 /*
 const getMiddlewares = () => {
@@ -31,5 +30,4 @@ export const store = createStore(
   composeEnhancers(getMiddlewares()),
 );
 */
-(window as any).enableActionLogger = false;
 declare const __ENV__: string;

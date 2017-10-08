@@ -25,15 +25,20 @@
             margin: 0;
         }
     </style>
-	<script type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
+    <script async type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
     </script>
+    <link rel="stylesheet" type="text/css" href="DiveSDK.styles.css">
 </head>
 
 <body onload="initApp()" style="background-color: grey">
+    <video id="video1" style="width: 600px; max-width: 100%; position: absolute; top: 0; left: 0; z-index: 3; height: auto;" controls="">
+        <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+        <source src="https://media.w3.org/2010/05/sintel/trailer.ogg" type="video/ogg"> Your browser does not support HTML5 video.
+    </video>
     <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
     <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
         <object type="application/oipfApplicationManager" id="appmgr" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
@@ -41,16 +46,15 @@
     </div>
     <div id="root"></div>
     <script crossorigin="anonymous" type="text/javascript">
-        localStorage.debug = '*';
-        function init() {
+        window.init = function () {
             try {
                 if (DiveSDK.front && DiveSDK.front.init) {
                     console.log("TEST INIT 6");
-                    console.log = () => {};
-                    DiveSDK.front.init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+                    console.log = () => { };
+                    DiveSDK.front.init({ selector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test" });
                     console.log("APP REALLY INITIALIZED");
                     clearInterval(initInterval);
-                }                
+                }
             } catch (e) {
                 console.error("Error initializing app", e);
             }
@@ -96,45 +100,6 @@
                     console.log("ERROR HBBTV", e);
                     var el = document.getElementById("body");
                     var msg = e.toString().substr(20);
-                }
-                try {
-                    var loadJS = function (url, implementationCode, location) {
-                        //url is URL of external file, implementationCode is the code
-                        //to be called from the file, location is the location to 
-                        //insert the <script> element
-                        console.log("CREATING SCRIPT");
-                        var scriptTag = document.createElement('script');
-                        console.log("CREATED SCRIPT");
-                        scriptTag.src = url;
-                        console.log("CREATED SCRIPT 2");
-                        scriptTag.type = "text/javascript";
-                        console.log("CREATED SCRIPT 3");
-                        scriptTag.onload = implementationCode;
-                        console.log("CREATED SCRIPT 4");
-                        //scriptTag.onreadystatechange = implementationCode;
-                        console.log("VOY A APENDAR", url);
-                        location.appendChild(scriptTag);
-                        console.log("APPENDED", url);
-                    };
-                    var yourCodeToBeCalled = function () {
-                        //your code goes here
-                        console.log("LOADED");
-                    }
-                    var loadOtherScripts = function (a) {
-                        //your code goes here
-                        console.log("LOADED", a);
-                        console.log("LOADING2");
-                        setTimeout(function () {
-                            loadJS('/DiveSDK.main.js', yourCodeToBeCalled, document.body);
-                            console.log("LOADING3");
-                            //loadJS('/DiveSDK.styles.js', yourCodeToBeCalled, document.body);
-                        }, 1000);
-                    }
-                    console.log("LOADING");
-                    //loadJS('/vendor.bundle.js', loadOtherScripts, document.body);
-                }
-                catch (e) {
-                    console.error("ERRROR LOADIIIING", e);
                 }
             }, 2000);
         }

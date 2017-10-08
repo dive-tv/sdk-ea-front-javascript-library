@@ -7,7 +7,7 @@ import { Card, Localize } from 'Services';
 export type UIActionTypes = "UI/SET_DIVIDER" | "UI/UI_BACK" | "UI/OPEN_SYNC" |
     "UI/OPEN_CARD" | "UI/CLOSE_CARD" | "UI/OPEN" | "UI/ADD_TEST_CARDS" | "UI/OPEN_ALL_RELATIONS";
 
-export type UILayerTopTypes = "TV" | "EMPTY";
+export type UILayerTopTypes = "TV" | "EMPTY" | "VODVIDEO";
 export type UILayerBottomTypes = "CAROUSEL" | "CARD" | "CARDS" |
     "PROFILE" | "HELP" | "ERROR" | "EMPTY" | "ALL_RELATIONS";
 
@@ -75,7 +75,7 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
             }
             if (dividerVal !== state.divider ||
                 state.containers[0].component !== newContainers2[0].component ||
-                state.containers[0].component !== newContainers2[1].component) {
+                state.containers[1].component !== newContainers2[1].component) {
                 return { ...state, divider: dividerVal, containers: newContainers2 };
             } else {
                 return state;
