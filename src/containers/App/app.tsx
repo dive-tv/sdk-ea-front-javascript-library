@@ -34,9 +34,8 @@ export namespace App {
 export class AppClass extends React.Component<{}, {}>{//<App.IOwnProps & App.IActionProps, App.IState> {
 
     public render(): any {
-        console.log("Render APP");
         return (
-            <div className="app">
+            <div id="diveApp" className="app">
                 <Layout columns={1} parent={null} />
             </div>
         );

@@ -9,6 +9,7 @@ import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
 import { DIVE_ENVIRONMENT } from 'Constants';
+import * as css from './scss/main.scss';
 
 declare const KeyEvent: any;
 
@@ -79,7 +80,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             console.log("MOUNTING REACT");
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
-                <div className="diveContainer">
+                <div className="diveContainer" style={{ width: "100%", height: "100%"}}>
+                    <style scoped>{css[0][1]}</style>
                     <Provider store={store}>
                         <App />
                     </Provider>
@@ -93,7 +95,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             console.error("ERROR LOADING", error);
         });
 
-        
+
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
     });*/

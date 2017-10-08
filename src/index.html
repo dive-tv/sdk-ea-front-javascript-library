@@ -12,7 +12,7 @@
 
 <head>
     <meta http-equiv="content-type" content="application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
-    <title>Dive SDK</title>
+    <title>Dive SDK (running)</title>
     <style>
         html,
         body,
@@ -31,14 +31,13 @@
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
     </script>
-    <link rel="stylesheet" type="text/css" href="DiveSDK.styles.css">
 </head>
 
 <body onload="initApp()" style="background-color: grey">
-    <video id="video1" style="width: 600px; max-width: 100%; position: absolute; top: 0; left: 0; z-index: 3; height: auto;" controls="">
+    <!-- VOD TEST --<video id="video1" style="width: 600px; max-width: 100%; position: absolute; top: 0; left: 0; z-index: 3; height: auto;" controls="">
         <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
         <source src="https://media.w3.org/2010/05/sintel/trailer.ogg" type="video/ogg"> Your browser does not support HTML5 video.
-    </video>
+    </video>-->
     <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
     <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
         <object type="application/oipfApplicationManager" id="appmgr" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>

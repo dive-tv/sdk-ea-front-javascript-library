@@ -31,18 +31,30 @@ const frontEntry = isProduction ?
     path.resolve(__dirname, 'src', 'main.tsx')
   ];
 
-const sassEntry = ExtractTextPlugin.extract({
+const sassEntry = /*ExtractTextPlugin.extract({
   fallback: 'style-loader',
   //resolve-url-loader may be chained before sass-loader if necessary 
-  use: [
+  use:*/ [
+    /*{
+      loader: "style-loader", // creates style nodes from JS strings
+      options: {
+        attrs: {id: "estilos"}
+      }
+    },*/
+    /*
     {
-      loader: "css-loader", // translates CSS into CommonJS
-      options: { sourceMap: true /*process.env.NODE_ENV !== 'production'*/ }
+      loader: "style-loader", // creates style nodes from JS strings
+      options: {
+        insertInto: 'html::shadow #root',
+        attrs: {id: "estilos"}
+      }
+    },*/
+    {
+      loader: "css-loader" // translates CSS into CommonJS
     },
     {
       loader: 'postcss-loader',
       options: {
-        sourceMap: true,
         plugins: [
           autoPrefixer({
             browsers: ['last 10 versions']
@@ -53,10 +65,9 @@ const sassEntry = ExtractTextPlugin.extract({
     'resolve-url-loader',
     {
       loader: "sass-loader", // compiles Sass to CSS
-      options: { sourceMap: true }
     }
   ]
-});
+//});
 
 const devtool = isProduction ? 'source-map' : 'inline-source-map';
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
@@ -75,43 +86,42 @@ plugins.push(
     }
   }),*/
   new webpack.optimize.AggressiveMergingPlugin(),
-  new ExtractTextPlugin(
+  /*new ExtractTextPlugin(
     'DiveSDK.[name].css', {
       disable: false,
       allChunks: true
     }
-  ),
+  ),*/
   new HtmlWebpackPlugin({
     template: 'index.html',
-    excludeChunks: ['styles']
   })
 );
 const sourceMapPath = "file:///";
 if (process.env.NODE_ENV === "production") {
-    plugins.push(
-        new UglifyJSPlugin({
-            sourceMap: {
-                base: "file:///",
-            },
-            warnings: "verbose",
-            // Eliminate comments
-            comments: true,
-            // Compression specific options
-            compress: {
-                join_vars: true,
-                if_return: true,
-                unused: true,
-                loops: true,
-                booleans: true,
-                conditionals: true,
-                dead_code: true,
-                // remove warnings
-                warnings: false,
-                // Drop console statements
-                drop_console: false
-            },
-        })
-    );
+  plugins.push(
+    new UglifyJSPlugin({
+      sourceMap: {
+        base: "file:///",
+      },
+      warnings: "verbose",
+      // Eliminate comments
+      comments: true,
+      // Compression specific options
+      compress: {
+        join_vars: true,
+        if_return: true,
+        unused: true,
+        loops: true,
+        booleans: true,
+        conditionals: true,
+        dead_code: true,
+        // remove warnings
+        warnings: false,
+        // Drop console statements
+        drop_console: false
+      },
+    })
+  );
 }
 
 const config = {
@@ -135,7 +145,7 @@ const config = {
     path: outPath,
     filename: 'DiveSDK.[name].js',
     library: ['DiveSDK', "[name]"],
-    libraryTarget: 'umd',
+    libraryTarget: "var",
   },
   target: 'web',
   resolve: {
@@ -165,7 +175,13 @@ const config = {
       // css
       {
         test: /\.css$/,
-        use: 'css-loader',
+        use: {
+          loader: "style-loader", // creates style nodes from JS strings
+          options: {
+            insertInto: '#root',
+            attrs: {id: "estilos"}
+          }
+        }
       },
       {
         test: /\.scss?$/,
@@ -178,7 +194,7 @@ const config = {
         test: /\.(jpe?g|png|gif|svg)$/,
         exclude: [/node_modules/, path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
         loaders: [
-          { 
+          {
             loader: 'file-loader',
             query: {
               name: 'assets/[hash].[ext]',
@@ -246,7 +262,7 @@ if (!isProduction) {
   };
 }
 
-config.stats =  "verbose"; /*{
+config.stats = "minimal"; /*{
   // Add asset Information
   assets: true,
   // Sort assets by a field
