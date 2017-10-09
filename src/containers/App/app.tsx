@@ -58,4 +58,3 @@ function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOw
 }
 
 export const App = connect(mapStateToProps, mapDispatchToProps, mergeProps)(AppClass);
-

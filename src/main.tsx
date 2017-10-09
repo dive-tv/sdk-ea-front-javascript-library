@@ -81,7 +81,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer" style={{ width: "100%", height: "100%"}}>
-                    <style scoped>{css[0][1]}</style>
+                    <style scoped={true}>{css[0][1]}</style>
                     <Provider store={store}>
                         <App />
                     </Provider>

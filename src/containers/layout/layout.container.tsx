@@ -28,7 +28,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
 
             // Bottom configuration
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
-            const bottomStyle: React.CSSProperties = { height: `${100 - this.props.ui.divider}%` };
+            const bottomStyle: React.CSSProperties = { /*height: `${100 - this.props.ui.divider}%`*/ };
             return (
                 <div className="containerLayout"
                     onKeyUp={(e) => { this.onKeyPressUp(e); }}
@@ -53,7 +53,9 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                     </div>
 
                     <div className="layoutBottom" style={bottomStyle}>
-                        {this.getBottom(bottomType)}
+                        <div className="layoutBottomSub">
+                            {this.getBottom(bottomType)}
+                        </div>
                     </div>
                 </div>
             );
@@ -93,7 +95,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private getTop(componentType: UILayerTopTypes): JSX.Element | null {
         switch (componentType) {
             case 'VODVIDEO':
-                return <VODvideo key="vodVideo" />;
+                return <VODvideo key="vodVideo" containerHeight={this.props.ui.divider} />;
             default:
                 return null; // <HbbtvLiveStream key="liveStream" />;
         }

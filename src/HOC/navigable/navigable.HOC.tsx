@@ -333,30 +333,38 @@ const NavigableClass = <TOriginalProps extends {}>(
         }
 
         public onKeyPressDown = (e: any) => {
-            e.preventDefault();
-            e.stopPropagation();
             const km: any = KeyMap;
+            let consumed = false;
             console.log("Key", e.key, e.code, e.keyCode);
 
             switch (e.keyCode) {
                 case km.UP:
                     this.props.moveVertical(-1);
+                    consumed = true;
                     break;
                 case km.RIGHT:
                     this.props.moveHorizontal(1);
+                    consumed = true;
                     break;
                 case km.LEFT:
                     this.props.moveHorizontal(-1);
+                    consumed = true;
                     break;
                 case km.DOWN:
                     this.props.moveVertical(1);
+                    consumed = true;
                     break;
                 case km.ENTER:
                     (ReactDOM.findDOMNode(this.refComponent) as any).click();
                     this.onClick(e);
+                    consumed = true;
                     break;
                 default:
                     break;
+            }
+            if (consumed) {
+                e.preventDefault();
+                e.stopPropagation();
             }
 
             return false;

@@ -1,14 +1,21 @@
-:host, :scope {
-    /*, html, body*/
-    //Shadow DOM's root
-    font-size: 4px !important;
-    user-select: none;
+/*:host,*/
+ /*:scope*/
+.diveContainer {
     @import 'normalizer';
+    font-size: 4px !important;
+    * {
+        outline: none;
+    }
+    pointer-events: none;
+    user-select: none;
+    visibility: visible !important;
+
     @import 'variables';
     @import 'text_sizes';
     @import 'colors';
     @import 'functions';
-    $font-lato: Tiresias, sans-serif;
+    $font-lato: Tiresias,
+    sans-serif;
     $font-zona: 'Letter Gothic 12 Pitch';
     $font-zona-pro: 'Letter Gothic 12 Pitch';
     @import 'common';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 export interface IVODvideoProps {
-    // TODO: Fill the component props:  any;
+    containerHeight: number;
 }
 interface IVideoRefs {
     el: HTMLVideoElement; parent: HTMLElement; parentHTML: string; style?: string;
@@ -14,9 +14,6 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
     private videoParent: HTMLElement;
     private videoContainer: HTMLElement;
     private videoInterval: number;
-    public static defaultProps: IVODvideoProps = {
-        // TODO: Fill the component props: ,
-    };
 
     public componentDidMount() {
         this.videoContainer = document.getElementById("VODvideocontainer");
@@ -33,10 +30,30 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
 
     public render(): any {
         return (
-            <div className="fillParent" key="vodVideoContainerParent" dangerouslySetInnerHTML={
-                {
-                    __html: `<div id="VODvideocontainer" class="fillParent"></div>`,
-                }} />
+            <div className="fillParent">
+                <style>
+                    {`
+                    body > * {
+                        visibility: none !important;
+                    }
+                    video {
+                        visibility: visible !important;
+                    }
+                    /*RTVE*/
+                    .botones {
+                        display: none !important;
+                    }
+                    .textRel {
+                        display: none !important;
+                    }
+                    `}
+                </style>
+
+                <div className="fillParent" key="vodVideoContainerParent" dangerouslySetInnerHTML={
+                    {
+                        __html: `<div id="VODvideocontainer" class="fillParent"></div>`,
+                    }} />
+            </div>
         );
     }
 
@@ -55,8 +72,8 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
         if (video) {
             // this.videoContainer.appendChild(video);
             // tslint:disable-next-line:max-line-length
-            video.setAttribute("style", `position: fixed; top: 0; left: 50%; height: ${document.getElementsByClassName(".layoutTop")[0].clientHeight}`);
-            // video.play();
+            video.setAttribute("style", `position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; height: ${(document.getElementsByClassName("layoutTop")[0] as HTMLElement).offsetHeight}px; z-index:99999;`);
+            video.play();
         }
     }
 

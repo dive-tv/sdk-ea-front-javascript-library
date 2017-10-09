@@ -77,6 +77,12 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
             if (["GRID", "CAROUSEL", "HOME", "CARDS", "CARD", "PROFILE", "HELP"].indexOf(action.payload.bottom) >= 0) {
                 dividerVal = 60;
             }
+            // HACK FOR TOOGLE VOD
+            if ( state.containers[0].component === "VODVIDEO" && newContainers2[0].component === "VODVIDEO") {
+                newContainers2[0].component = "EMPTY";
+                newContainers2[1].component = "EMPTY";
+                dividerVal = 100;
+            }
             if (dividerVal !== state.divider ||
                 state.containers[0].component !== newContainers2[0].component ||
                 state.containers[1].component !== newContainers2[1].component) {
@@ -147,7 +153,7 @@ export const initialUIState: IUIState = {
             title: Localize('MENU_SETTINGS'),
             sections: {
                 top: 'TV',
-                bottom: 'EMPTY',// HELP
+                bottom: 'EMPTY', // HELP
             },
             icon: 'HELP',
         },
@@ -156,7 +162,7 @@ export const initialUIState: IUIState = {
             title: Localize('MENU_CARDS'),
             sections: {
                 top: 'TV',
-                bottom: 'EMPTY',// CARDS
+                bottom: 'EMPTY', // CARDS
             },
             icon: 'CARDS',
         },
@@ -165,7 +171,7 @@ export const initialUIState: IUIState = {
             title: Localize('MENU_SYNC'),
             sections: {
                 top: 'VODVIDEO',
-                bottom: 'CAROUSEL',//'GRID',
+                bottom: 'CAROUSEL', // 'GRID',
             },
             icon: 'GRID',
         },
