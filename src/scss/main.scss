@@ -1,6 +1,6 @@
 /*:host,*/
  /*:scope*/
-.diveContainer {
+body .diveContainer {
     @import 'normalizer';
     font-size: 4px !important;
     * {
@@ -9,6 +9,7 @@
     pointer-events: none;
     user-select: none;
     visibility: visible !important;
+    display: block !important;
 
     @import 'variables';
     @import 'text_sizes';

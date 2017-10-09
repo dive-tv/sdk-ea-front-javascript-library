@@ -34,17 +34,11 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
                 <style>
                     {`
                     body > * {
-                        visibility: none !important;
+                        visibility: hidden !important;
                     }
-                    video {
+                    body video {
                         visibility: visible !important;
-                    }
-                    /*RTVE*/
-                    .botones {
-                        display: none !important;
-                    }
-                    .textRel {
-                        display: none !important;
+                        pointer-events: all;
                     }
                     `}
                 </style>
