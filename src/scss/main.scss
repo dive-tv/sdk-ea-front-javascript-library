@@ -1,7 +1,17 @@
+body .diveContainer {
+    @import 'normalizer';
+}
+@import 'colors';
+@import 'variables';
+@import 'functions';
+$font-lato: Tiresias,
+sans-serif;
+$font-zona: 'Letter Gothic 12 Pitch';
+$font-zona-pro: 'Letter Gothic 12 Pitch';
+@import 'common';
 /*:host,*/
  /*:scope*/
 body .diveContainer {
-    @import 'normalizer';
     font-size: 4px !important;
     * {
         outline: none;
@@ -11,15 +21,7 @@ body .diveContainer {
     visibility: visible !important;
     display: block !important;
 
-    @import 'variables';
     @import 'text_sizes';
-    @import 'colors';
-    @import 'functions';
-    $font-lato: Tiresias,
-    sans-serif;
-    $font-zona: 'Letter Gothic 12 Pitch';
-    $font-zona-pro: 'Letter Gothic 12 Pitch';
-    @import 'common';
     @import '../containers/app/app';
     @import '../HOC/navigable/navigable.HOC';
     @import '../containers/cardDetail/cardDetail.container';
@@ -32,7 +34,6 @@ body .diveContainer {
     @import '../components/miniCard/miniCardButton/miniCardButton.component';
     @import '../components/cardDetail/cardDetail.component';
     @import '../components/moreRelations/moreRelations.component';
-    @import '../components/cardAndCategory/cardAndCategory.component';
     @import '../components/cardDetail/cardModules/cardModules';
     @import '../components/verticalScroll/verticalScroll.component';
     @import '../components/horizontalScroll/horizontalScroll.component';
@@ -44,3 +45,4 @@ body .diveContainer {
     @import '../components/menu/menuItem/menuItem.component';
     @import '../components/VODvideo/VODvideo.component';
 }
+@import '../components/cardAndCategory/cardAndCategory.component';

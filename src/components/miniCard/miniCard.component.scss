@@ -34,6 +34,7 @@ $computed-card-plus-expandedInfo: 30%;
         height: 100%;
         box-sizing: border-box;
         position: absolute;
+        padding-left: 100%;
     }
     .expandedInfo {
         display: none;
@@ -42,7 +43,8 @@ $computed-card-plus-expandedInfo: 30%;
         transform: translate3d(0, 0, 0) translateX(-100%);
         transition-duration: 0s;
         transition-delay: 0s;
-        top: pxToVh(14);
+        // top: pxToVh(14);
+        top: 9%;
         background-color: $dark-grey-three;
         width: 100%; // $card-expandedInfo-width; // width: 159px;
         height: 84%; //pxToVh(135); // margin-top: 1vh;
@@ -54,16 +56,19 @@ $computed-card-plus-expandedInfo: 30%;
         position: absolute;
         .expandedInfoInside {
             transform: translate3d(0, 0, 0);
-            padding: pxToVh(10);
+            // padding: pxToVh(10);
+            padding: 6%;
             width: 100%; // pxToVw(161.5);
             height: 100%; //pxToVh(135); // margin-top: 1vh;
             box-sizing: border-box;
             position: relative;
             .text {
                 width: 100%;
-                height: pxToVh(58);
+                // height: pxToVh(58);
+                height: 50%;
                 position: relative;
-                margin-bottom: pxToVh(5);
+                // margin-bottom: pxToVh(5);
+                margin-bottom: 3.5%;
                 text-align: left;
                 font-family: $font-lato;
                 white-space: normal;
@@ -80,7 +85,8 @@ $computed-card-plus-expandedInfo: 30%;
                     font-size: pxToEmZeplinX2(11);
                     color: $pale-grey; // @include ellipsis;
                     height: auto; //
-                    max-height: pxToVh(48);
+                    // max-height: pxToVh(48);
+                    max-height: 170%;
                 }
                 .desc {
                     width: 100%;
@@ -94,8 +100,10 @@ $computed-card-plus-expandedInfo: 30%;
             }
             .btn {
                 width: 100%;
-                height: pxToVh(22);
-                margin-bottom: pxToVh(5);
+                // height: pxToVh(22);
+                height: 19%;
+                // margin-bottom: pxToVh(5);
+                margin-bottom: 3.3%;
             }
         }
     }
@@ -118,7 +126,6 @@ $computed-card-plus-expandedInfo: 30%;
         }
         .expandedInfoContainer {
             width: 290%;
-            padding-left: 100%;
             .expandedInfo {
                 display: block;
                 transform: translateX(0);
@@ -133,12 +140,15 @@ $computed-card-plus-expandedInfo: 30%;
     &.relation {
         .relationBar {
             background-color: $warm-grey;
-            width: 1.5625vw;
-            margin-left: -2.7037vh;
-            width: pxToVw(20);
-            height: pxToVh(5);
+            //margin-left: -2.7037vh;
+            // width: pxToVw(20);
+            margin-left: -15%;
+            width: 20%;
+            // height: pxToVh(5);
+            height: 3%;
             position: absolute;
-            top: pxToVh(70);
+            // top: pxToVh(70);
+            top: 46%;
             z-index: 0;
             .activeGroup & {
                 background-color: $off-yellow;
