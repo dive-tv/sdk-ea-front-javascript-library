@@ -1,9 +1,9 @@
-$minicard-width: pxToVw(92); // width: pxToVw(92); // width: auto;
-$card-expandedInfo-width: pxToVw(161.5);
-$computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);
+$minicard-width: 100%; // width: pxToVw(92); // width: auto;
+$card-expandedInfo-width: 20%;
+$computed-card-plus-expandedInfo: 30%;
 .miniCardList {
     width: 100%;
-    height: pxToVh(180);
+    height: 92%;
     white-space: nowrap; // float: left;
     padding-right: 200px;
     box-sizing: border-box;
@@ -12,7 +12,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     vertical-align: top;
     display: block;
     >.navigable {
-        max-height: pxToVh(180);
+        max-height: 100%;
         height: 100%;
         display: inline-block;
         vertical-align: top;
@@ -20,17 +20,19 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
         vertical-align: top;
         margin-left: 4vh;
         margin-left: pxToVw(15);
-        min-width: $minicard-width;
-        max-width: $computed-card-plus-expandedInfo;
-        width: $minicard-width; //width: auto;
+        min-width: 10.6%;
+        max-width: 30%;
+        width: 10.6%; //width: auto;
+        box-sizing: initial;
         /*
         @include animationHack();
         transition-property: width;
         transition-duration: 0s;
         transition-delay: 0s;
         */
-        &.childFocused {
-            width: $computed-card-plus-expandedInfo;
+        &.childFocused:not(.moreRelations) {
+            // width: $computed-card-plus-expandedInfo;
+            padding-right: 20%;
             /*
             transition-duration: .5s;
             transition-delay: .1s;
@@ -38,7 +40,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
         }
         li {
             width: $minicard-width;
-            height: auto;
+            height: 100%;
             display: inline-block;
             vertical-align: top;
             &.on {

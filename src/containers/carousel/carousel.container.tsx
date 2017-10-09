@@ -62,6 +62,7 @@ export class CarouselClass
                     filter={this.props.state.filter}
                     setFilter={this.setFilter.bind(this)}
                     closeCarousel={this.closeCarousel.bind(this)}
+                    navClass="carouselButtonsContainer"
                 />
                 <div className="cards">
                     {

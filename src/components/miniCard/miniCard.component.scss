@@ -1,16 +1,20 @@
-$minicard-width: pxToVw(92);
-$card-expandedInfo-width: pxToVw(161.5);
-$computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);
+/*$minicard-width: pxToVw(92);
+$card-expandedInfo-width: 30%;
+$computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-expandedInfo-width);*/
+$minicard-width: 10%;
+$card-expandedInfo-width: 20%;
+$computed-card-plus-expandedInfo: 30%;
+
 .minicard {
     width: auto; // background: $off-yellow;
-    min-width: $minicard-width;
-    height: 30vh;
+    min-width: 100%;
+    height: 100%;
     position: relative; // overflow: hidden;
     border: none !important;
     .cardLeft {
         position: relative;
-        width: $minicard-width;
-        height: pxToVh(162.5);
+        width: 100%;
+        height: 100%;
         overflow: hidden;
         background-color: $dark-grey;
         box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, .5);
@@ -25,11 +29,11 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     }
     .expandedInfoContainer {
         overflow: hidden;
-        float: left;
+        // float: left;
         width: 0; //$card-expandedInfo-width;
-        height: 30vh;
+        height: 100%;
         box-sizing: border-box;
-        position: relative;
+        position: absolute;
     }
     .expandedInfo {
         display: none;
@@ -40,19 +44,19 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
         transition-delay: 0s;
         top: pxToVh(14);
         background-color: $dark-grey-three;
-        width: $card-expandedInfo-width; // width: 159px;
-        height: pxToVh(135); // margin-top: 1vh;
+        width: 100%; // $card-expandedInfo-width; // width: 159px;
+        height: 84%; //pxToVh(135); // margin-top: 1vh;
         margin-left: -2px;
         box-sizing: border-box; // display: none;
         overflow: hidden;
         display: inline-block;
         vertical-align: top;
-        position: relative;
+        position: absolute;
         .expandedInfoInside {
             transform: translate3d(0, 0, 0);
             padding: pxToVh(10);
-            width: pxToVw(161.5);
-            height: pxToVh(135); // margin-top: 1vh;
+            width: 100%; // pxToVw(161.5);
+            height: 100%; //pxToVh(135); // margin-top: 1vh;
             box-sizing: border-box;
             position: relative;
             .text {
@@ -100,8 +104,12 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
         transition-duration: .5s;
         transition-delay: 0.1s;*/
         //width: pxToVw(252); // background: $off-yellow;
+        .minicard{
+            width: 35.3%;
+        }
         width: $computed-card-plus-expandedInfo; //unquote("#{$computed}vw");
         .cardLeft {
+            width:100%;
             .image,
             .category {
                 border: solid 2px $off-yellow;
@@ -109,14 +117,14 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
             }
         }
         .expandedInfoContainer {
-            width: $card-expandedInfo-width;
+            width: 290%;
+            padding-left: 100%;
             .expandedInfo {
                 display: block;
                 transform: translateX(0);
                 transition-duration: .3s;
                 transition-delay: 0.05s; // display: inline-block;
                 border: solid 2px $off-yellow; //display: block;
-                width: $card-expandedInfo-width;
                 z-index: 1;
                 position: relative;
             }
