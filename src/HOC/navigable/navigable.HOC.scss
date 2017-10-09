@@ -1,9 +1,15 @@
+.layoutBottom .navigable {
+    pointer-events: all;
+    * {
+        pointer-events: all;
+    }
+}
+
 .navigable {
     position: relative;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    pointer-events: all;
     
     &:focus > div {
         border: solid $color-off-yellow 1px;

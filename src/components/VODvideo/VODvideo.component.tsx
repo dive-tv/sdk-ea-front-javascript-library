@@ -35,6 +35,7 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
                     {`
                     body > * {
                         visibility: hidden !important;
+                        pointer-events: none;
                     }
                     body video {
                         visibility: visible !important;
