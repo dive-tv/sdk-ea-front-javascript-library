@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
-import socketMiddleware from '../middleware/socket.middleware';
+// import socketMiddleware from '../middleware/socket.middleware';
 import undoable, { includeAction } from 'redux-undo';
 import {createLogger} from 'redux-logger';
 
@@ -12,15 +12,15 @@ declare const __ENV__: string;
 
 const windowIfDefined = typeof window === 'undefined' ? null : window as any;
 const composeEnhancers = windowIfDefined.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-(window as any).enableActionLogger = true;
+(window as any).enableActionLogger = false; // true;
 const getMiddlewares = () => {
   if (__ENV__ !== "production") {
     console.log("NO PROD MIDDLEWARES");
     return applyMiddleware(createLogger({
            predicate: () => (window as any).enableActionLogger,
-       }), thunk /*, persistedState*/, socketMiddleware());
+       }), thunk /*, persistedState*//*, socketMiddleware()*/);
   } else {
-    return applyMiddleware(thunk /*, persistedState,*/, socketMiddleware());
+    return applyMiddleware(thunk /*, persistedState,*//*, socketMiddleware()*/);
   }
 };
 

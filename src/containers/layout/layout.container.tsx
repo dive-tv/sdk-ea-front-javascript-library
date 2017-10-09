@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { CardDetail, Loading, HbbtvLiveStream, VODvideo } from 'Components';
+import { CardDetail, Loading, HbbtvLiveStream, VODvideo, Menu } from 'Components';
 import { Carousel, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
@@ -34,6 +34,21 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                     onKeyUp={(e) => { this.onKeyPressUp(e); }}
                 >
                     <div className="layoutTop" style={topStyle}>
+                        <div className="layoutMenu">
+                            <Menu title="Menu"
+                                focusChainClass="navActivating"
+                                open={this.props.uiActions.open}
+                                addMenuId={this.props.uiActions.addMenuId}
+                                removeMenuId={this.props.uiActions.removeMenuId}
+                                setMenuActivated={this.props.uiActions.setMenuActivated}
+                                menuActivated={this.props.ui.menuActivated}
+                                menuIds={this.props.ui.menuIds}
+                                elements={this.props.ui.menu}
+                                menuVisualState={this.props.ui.menuVisualState}
+                                parent={this}
+                                columns={1}
+                            />
+                        </div>
                         {this.getTop(topType)}
                     </div>
 
@@ -80,7 +95,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             case 'VODVIDEO':
                 return <VODvideo key="vodVideo" />;
             default:
-                return <HbbtvLiveStream key="liveStream" />;
+                return null; // <HbbtvLiveStream key="liveStream" />;
         }
     }
 

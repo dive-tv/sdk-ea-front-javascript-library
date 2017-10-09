@@ -38,10 +38,10 @@ export const SyncActions: ISyncActions = {
     setMovie: syncCreateAction("SYNC/SET_MOVIE", (movieId: string) => (movieId)),
     //socketConnected: syncCreateAction("SOCKET/AUTHENTICATED", (movieId: string) => (movieId)),
     setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),
-    setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE") => (syncType)),
+    setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE" | "STATIC_VOD") => (syncType)),
     setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
     staticVOD: (params: { movieId: string, timestamp: number }) => (dispatch: any) => {
-        // dispatch(SyncActions.setSyncType("SOCKET"));
+        dispatch(SyncActions.setSyncType("STATIC_VOD"));
         // dispatch(SyncActions.setMovie(params.movieId));
         DiveAPI.getStaticMovieScene({ relations: true, clientMovieId: params.movieId, timestamp: params.timestamp })
         .then((cards: Card[]) => {

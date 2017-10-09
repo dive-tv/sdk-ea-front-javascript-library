@@ -26,7 +26,7 @@ $computed-card-plus-expandedInfo: to-number($minicard-width)+to-number($card-exp
     .expandedInfoContainer {
         overflow: hidden;
         float: left;
-        width: 0; //$card-expandedInfo-width;
+        width: $card-expandedInfo-width;
         height: 30vh;
         box-sizing: border-box;
         position: relative;

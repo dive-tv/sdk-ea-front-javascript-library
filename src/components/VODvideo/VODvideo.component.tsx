@@ -20,9 +20,11 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
 
     public componentDidMount() {
         this.videoContainer = document.getElementById("VODvideocontainer");
-        this.videoRefs = this.findVideo();
-        this.moveVideo(this.videoRefs.el);
-        this.videoInterval = window.setInterval(this.getVideoStatus.bind(this), 500);
+        // tslint:disable-next-line:no-conditional-assignment
+        if (this.videoRefs = this.findVideo()) {
+            this.moveVideo(this.videoRefs.el);
+            this.videoInterval = window.setInterval(this.getVideoStatus.bind(this), 500);
+        }
     }
 
     public componentWillUnmount() {
@@ -40,32 +42,35 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
 
     private findVideo(): IVideoRefs {
         const el = document.getElementsByTagName('video')[0];
-        const parent = el.parentElement;
-        const parentHTML = parent.innerHTML;
-        const style = el.getAttribute("style");
-        const time = el.currentTime;
-        return { el, parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
+        if (el) {
+            const parent = el.parentElement;
+            const parentHTML = parent.innerHTML;
+            const style = el.getAttribute("style");
+            const time = el.currentTime;
+            return { el, parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
+        }
     }
 
     private moveVideo(video: HTMLVideoElement) {
         if (video) {
-            this.videoContainer.appendChild(video);
-            video.setAttribute("style", "");
-            video.play();
+            // this.videoContainer.appendChild(video);
+            // tslint:disable-next-line:max-line-length
+            video.setAttribute("style", `position: fixed; top: 0; left: 50%; height: ${document.getElementsByClassName(".layoutTop")[0].clientHeight}`);
+            // video.play();
         }
     }
 
     private releaseVideo(videoRefs: IVideoRefs) {
         if (videoRefs) {
             videoRefs.el.setAttribute("style", videoRefs.style);
-            videoRefs.parent.appendChild(videoRefs.el);
-            if (videoRefs.parent.tagName.toLocaleLowerCase() !== "body") {
-                console.log("PARENT VOD TAG", videoRefs.parent.tagName);
-                videoRefs.parent.innerHTML = videoRefs.parentHTML;
-            }
-            const videoRefs2 = this.findVideo();
-            videoRefs2.el.currentTime = videoRefs.time;
-            videoRefs2.el.play();
+            // videoRefs.parent.appendChild(videoRefs.el);
+            // if (videoRefs.parent.tagName.toLocaleLowerCase() !== "body") {
+            //     console.log("PARENT VOD TAG", videoRefs.parent.tagName);
+            //     videoRefs.parent.innerHTML = videoRefs.parentHTML;
+            // }
+            // const videoRefs2 = this.findVideo();
+            // videoRefs2.el.currentTime = videoRefs.time;
+            // videoRefs2.el.play();
         }
         clearInterval(this.videoInterval);
     }

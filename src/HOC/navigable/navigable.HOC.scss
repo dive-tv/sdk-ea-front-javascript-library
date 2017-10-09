@@ -5,7 +5,7 @@
     box-sizing: border-box;
     
     &:focus > div {
-        border: solid yellow 1px;
+        border: solid $color-off-yellow 1px;
         /*box-sizing: border-box;*/
     }
     

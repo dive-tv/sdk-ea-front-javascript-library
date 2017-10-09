@@ -1,0 +1,30 @@
+$icon-width: 6vh;
+
+.menu {
+    box-sizing: border-box;
+    position: relative;
+    height: 100%;
+    width: auto;
+    // @include menu-font;
+    &.selected {
+        //border-color: $menu-btn-selected;
+       // width: 18vh;
+    }
+     >.list {
+        z-index: 1;
+        >li {
+        }
+    }
+    .closed {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        &.show {
+            display: block;
+        }
+    }
+}
+
+

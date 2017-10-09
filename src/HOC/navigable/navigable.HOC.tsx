@@ -248,7 +248,7 @@ const NavigableClass = <TOriginalProps extends {}>(
                     id={thisId.toString()}
                 /*autoFocus={focus}*/>
                     <ChildComponent
-                        navComponent = {this.wrapper}
+                        navComponent={this.wrapper}
                         ref={
                             (refComponent: typeof InnerComponent) => {
                                 if (refComponent) {
@@ -276,8 +276,6 @@ const NavigableClass = <TOriginalProps extends {}>(
         }
 
         public onClick = (e: any): any => {
-            e.stopPropagation();
-            e.preventDefault();
             if (e.buttons !== 1 && !e.keyCode) {
                 return;
             }
@@ -292,6 +290,10 @@ const NavigableClass = <TOriginalProps extends {}>(
                 eventConsumed = true;
             } else {
                 console.log("ClickAction is not a function");
+            }
+            if (eventConsumed) {
+                e.stopPropagation();
+                e.preventDefault();
             }
             return eventConsumed;
         }

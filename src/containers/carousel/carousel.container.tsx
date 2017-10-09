@@ -22,9 +22,6 @@ export class CarouselClass
         this.state = { rewinded: false };
         this.closeCarousel = this.closeCarousel.bind(this);
         this.getCurrentTime = this.getCurrentTime.bind(this);
-        // this.props.syncChannel();
-        // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
-        this.props.staticVOD({movieId: "ts0001s01e01", timestamp: 1000});
     }
 
     public componentWillUpdate(nextProps: Readonly<{ state: ISyncState; }
@@ -33,6 +30,12 @@ export class CarouselClass
             && nextProps.state.socketStatus === 'CONNECTED') {
             this.props.dataSync(nextProps.state.movieId);
         }*/
+    }
+
+    public componentWillMount() {
+        // this.props.syncChannel();
+        // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
+        this.props.staticVOD({movieId: "ts0001s01e01", timestamp: 1000});
     }
 
     public componentWillUnmount() {

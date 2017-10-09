@@ -15,3 +15,5 @@ export * from './loading/loading.component';
 export * from './dropDownList/dropDownList.component';
 export * from './carouselButtonsContainer/carouselButtonsContainer.component';
 export * from './moreRelations/moreRelations.component';
+export * from './menu/menu.component';
+export * from './menu/menuItem/menuItem.component';

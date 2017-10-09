@@ -55,5 +55,8 @@ export const UIActions: IUIActions = {
     },
     performOpen: uiCreateAction("UI/OPEN", (group: IUIGroup) => (group)),
     addTestCards: uiCreateAction("UI/ADD_TEST_CARDS", (cards: Card[]) => (cards)),
-    openAllRelations: uiCreateAction("UI/OPEN_ALL_RELATIONS", (cards: ICardAndRelations) => (cards))
+    openAllRelations: uiCreateAction("UI/OPEN_ALL_RELATIONS", (cards: ICardAndRelations) => (cards)),
+    addMenuId: uiCreateAction("UI/ADD_MENU_ID", (id: number) => (id)),
+    removeMenuId: uiCreateAction("UI/REMOVE_MENU_ID", (id: number) => (id)),
+    setMenuActivated: uiCreateAction("UI/SET_MENU_ACTIVATED", (id: number) => (id)),
 };

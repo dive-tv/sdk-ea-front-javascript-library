@@ -14,7 +14,7 @@ const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 
 console.log("WP IS PRODUCTION? ", isProduction);
-const publicPath = isProduction ? '/api-front-library-react/' : '/';
+const publicPath = 'http://localhost:3000' + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
 
 const frontEntry = isProduction ?
   [
@@ -50,11 +50,15 @@ const sassEntry = /*ExtractTextPlugin.extract({
       }
     },*/
     {
-      loader: "css-loader" // translates CSS into CommonJS
+      loader: "css-loader", // translates CSS into CommonJS
+      options: {
+        sourceMap: true,
+      }
     },
     {
       loader: 'postcss-loader',
       options: {
+        sourceMap: true,
         plugins: [
           autoPrefixer({
             browsers: ['last 10 versions']
@@ -65,11 +69,14 @@ const sassEntry = /*ExtractTextPlugin.extract({
     'resolve-url-loader',
     {
       loader: "sass-loader", // compiles Sass to CSS
+      options: {
+        sourceMap: true,
+      }
     }
   ]
 //});
 
-const devtool = isProduction ? 'source-map' : 'inline-source-map';
+const devtool = isProduction ? 'source-map' : 'cheap-module-source-map' /*'inline-source-map'*/;
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
 plugins.push(
   new webpack.DefinePlugin({
@@ -146,6 +153,7 @@ const config = {
     filename: 'DiveSDK.[name].js',
     library: ['DiveSDK', "[name]"],
     libraryTarget: "var",
+    publicPath: publicPath,
   },
   target: 'web',
   resolve: {
@@ -178,6 +186,7 @@ const config = {
         use: {
           loader: "style-loader", // creates style nodes from JS strings
           options: {
+            sourceMap: true,
             insertInto: '#root',
             attrs: {id: "estilos"}
           }
@@ -246,7 +255,6 @@ const config = {
   target: 'web', // Make web variables accessible to webpack, e.g. window,
 };
 if (!isProduction) {
-  config.output.publicPath = publicPath;
   config.devServer = {
     hot: true,
     inline: true,

@@ -1,20 +1,18 @@
-#videoContainer, #video1 {
+#videoContainer,
+#video1 {
     height: 100%;
     width: 100%;
 }
+
 * {
     outline: none;
 }
 
-:host, html, body {
-    //Shadow DOM's root
-    font-size: 4px !important;
-    user-select: none;
-}
 .fillParent {
     @include fillParent;
 }
-::-webkit-scrollbar {
+
+ ::-webkit-scrollbar {
     display: none;
     background: rgba(0, 0, 0, .3);
     width: 10px;
@@ -23,12 +21,13 @@
     box-sizing: border-box;
     margin: 0;
 }
+
  ::-webkit-scrollbar-thumb {
     background: #8c8c8c;
     display: none;
 }
 
-::-webkit-scrollbar-track {
+ ::-webkit-scrollbar-track {
     display: none;
 }
 

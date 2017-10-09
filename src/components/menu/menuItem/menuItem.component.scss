@@ -1,0 +1,181 @@
+$menu-element-width: 10.3vw;
+$menu-element-bkg: #f4f6f9;
+$menu-element-bkg-selected: #f7d73b;
+$menu-element-bkg-activated: #303133;
+@mixin menu-font {
+    font-family: $font-lato;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 3px;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.menuElement {
+    height: 100%;
+    position: absolute;
+    background-color: $menu-element-bkg;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .25);
+    text-align: left;
+    top: 0;
+    transition-property: width;
+    transition-duration: .5s;
+    transition-delay: 0s;
+    width: $menu-element-width; //&:hover,
+    /*&:focus {
+        
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .25);
+        width: 100%;
+    }*/
+    .icon {
+        width: 7vh;
+        height: 100%;
+        position: relative;
+        display: inline-block;
+        background-size: 50%;
+        background-repeat: no-repeat;
+        // background-position: center 2rem; // margin-left: 0.5vh; incluído en la img
+        background-position: 50%;
+        &.help {
+            background-image: url('#{$assets-path}menu/ico-config.svg');
+        }
+        &.demo {
+            background-image: url('#{$assets-path}menu/ico-menu-demo.png'); //@include sprite($ico-menu-demo);
+        }
+        &.profile {
+            background-image: url('#{$assets-path}menu/ico-menu-profile.png');
+        }
+        &.cards {
+            background-image: url('#{$assets-path}menu/ico-menu-like.png');
+        }
+        &.sync {
+            background-image: url('#{$assets-path}menu/ico-menu-dive.png');
+            /*
+            background-size: 85%;
+            background-position: center 1.2rem;
+            */
+            background-position-x: 50%;
+            background-position-y: 90%;
+            background-size: 77%;
+        }
+    }
+    .title {
+        @include menu-font;
+        line-height: 7vh;
+        vertical-align: middle;
+        display: inline;
+        position: absolute;
+        display: inline-block;
+        text-align: left;
+        width: 12vh;
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        vertical-align: top; // padding-left: .7rem; va incluído en la img
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        transition-property: width;
+        transition-duration: .5s;
+        transition-delay: 0;
+    }
+}
+
+.navigable:focus
+{
+    > .menuElement {
+        border: none !important;
+        background-color: $menu-element-bkg-selected !important;
+        color: $menu-element-bkg-activated !important;
+        padding-right: 7px;
+        z-index: 3;
+        box-shadow: 0 -1px 6px 0 rgba(0, 0, 0, .25);
+        top: 0;
+        &::after {
+            content: "";
+            background-image: url('#{$assets-path}menu/edge-menu-active.png');
+            width: 7px;
+            height: 7px;
+            top: -7px;
+            position: absolute;
+            background-size: 100%;
+            background-repeat: no-repeat; //box-shadow: inset 0 7px 0px 0 rgba(0, 0, 0, 0.25);
+            filter: brightness(73%);
+            right: 0;
+        }
+        &.help::after {
+            top: initial;
+            transform: rotate(180deg) scaleX(-1);
+            height: 14%;
+            bottom: -9px;
+        }
+        .icon {
+            &.help {
+                background-image: url('#{$assets-path}menu/ico-config.svg') !important;
+            }
+            &.demo {
+                background-image: url('#{$assets-path}menu/ico-menu-demo.png') !important;
+            }
+            &.profile {
+                background-image: url('#{$assets-path}menu/ico-menu-profile.png') !important;
+            }
+            &.cards {
+                background-image: url('#{$assets-path}menu/ico-menu-like.png') !important;
+            }
+            &.sync {
+                background-image: url('#{$assets-path}menu/ico-menu-dive.png') !important;
+            }
+        }
+    }
+}
+
+.layoutMenu>div:not(.navActivating) .menuElement {
+    transition-property: width;
+    transition-duration: .5s;
+    transition-delay: 0s;
+    width: 0;
+    overflow: hidden;
+    >.title {
+        transition: opacity 1s;
+        opacity: 0;
+    }
+    &.navActive {
+        transition-property: width;
+        transition-duration: .5s;
+        transition-delay: 0s;
+        padding-right: 1rem;
+        width: 7vh !important;
+        box-shadow: 1px -1px 4px 0 #5f5f5f;
+        .title {
+            transition-property: width;
+            transition-duration: .8s;
+            transition-delay: 0;
+            width: 0;
+        }
+    }
+}
+
+.navActive.menuElement {
+    background-color: $menu-element-bkg-activated;
+    color: $menu-element-bkg-selected;
+    border: none !important;
+    z-index: 2;
+    box-shadow: 0 -1px 6px 0 rgba(0, 0, 0, .25);
+    .icon {
+        &.help {
+            background-image: url('#{$assets-path}menu/ico-config-active.svg');
+            background-position: center 1.9rem;
+            background-size: 55%;
+            left: 2px;
+        }
+        &.demo {
+            background-image: url('#{$assets-path}menu/ico-menu-demo-active.png');
+        }
+        &.profile {
+            background-image: url('#{$assets-path}menu/ico-menu-profile-active.png');
+        }
+        &.cards {
+            background-image: url('#{$assets-path}menu/ico-menu-like-active.png');
+        }
+    }
+}
