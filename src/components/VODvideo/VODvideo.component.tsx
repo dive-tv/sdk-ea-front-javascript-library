@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { VOD_SELECTOR } from 'Constants';
 
 export interface IVODvideoProps {
     containerHeight: number;
@@ -37,7 +38,7 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
                         visibility: hidden !important;
                         pointer-events: none;
                     }
-                    body video {
+                    body video, body object {
                         visibility: visible !important;
                         pointer-events: all;
                     }
@@ -53,13 +54,26 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
     }
 
     private findVideo(): IVideoRefs {
-        const el = document.getElementsByTagName('video')[0];
+        let el: Element = document.querySelector((VOD_SELECTOR ? VOD_SELECTOR : "video"));
+        // Fallback for video
+        if (!el) {
+            el = document.querySelector("video");
+        }
         if (el) {
             const parent = el.parentElement;
             const parentHTML = parent.innerHTML;
             const style = el.getAttribute("style");
-            const time = el.currentTime;
-            return { el, parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
+            const time = (el as HTMLVideoElement).currentTime;
+            // tslint:disable-next-line:max-line-length
+            return { el: (el as HTMLVideoElement), parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
+        } else {
+            el = document.getElementsByTagName('object')[0];
+            const parent = el.parentElement;
+            const parentHTML = parent.innerHTML;
+            const style = el.getAttribute("style");
+            const time = (el as any).playTime;
+            // tslint:disable-next-line:max-line-length
+            return { el: (el as HTMLVideoElement), parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
         }
     }
 
@@ -67,8 +81,12 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
         if (video) {
             // this.videoContainer.appendChild(video);
             // tslint:disable-next-line:max-line-length
-            video.setAttribute("style", `position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; height: ${(document.getElementsByClassName("layoutTop")[0] as HTMLElement).offsetHeight}px; z-index:99999;`);
-            video.play();
+            video.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; width: 100%; height: ${(document.getElementsByClassName("layoutTop")[0] as HTMLElement).offsetHeight}px; z-index:899;`);
+            try {
+                video.play();
+            } catch (e) {
+                console.error("Error playing video, ", e);
+            }
         }
     }
 

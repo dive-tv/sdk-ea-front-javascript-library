@@ -6,6 +6,7 @@ $icon-width: 6vh;
     height: 100%;
     width: auto;
     pointer-events: all;
+    z-index: 900;
     // @include menu-font;
     &.selected {
         //border-color: $menu-btn-selected;

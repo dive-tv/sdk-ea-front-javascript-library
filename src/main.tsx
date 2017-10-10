@@ -8,7 +8,7 @@ import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
-import { DIVE_ENVIRONMENT } from 'Constants';
+import { DIVE_ENVIRONMENT, changeVodSelector } from 'Constants';
 import * as css from './scss/main.scss';
 
 declare const KeyEvent: any;
@@ -16,7 +16,8 @@ declare const KeyEvent: any;
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
-export const init = (params: { apiKey: string, deviceId: string, selector: string }) => {
+// tslint:disable-next-line:max-line-length
+export const init = (params: { apiKey: string, deviceId: string, containerSelector: string, vodSelector: string }) => {
     if (typeof params !== "object") {
         console.error("You should provide initialization parameters as an object.");
         throw new Error("You should provide initialization parameters as an object.");
@@ -31,6 +32,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
         throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     }
+    changeVodSelector(params.vodSelector);
     try {
         if (KeyEvent) {
             const km: any = KeyMap;
@@ -59,7 +61,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             (window as any).DiveAPI = APIinstance;
             // tslint:disable-next-line:no-console
             console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
-            if (typeof params.selector !== "string") {
+            if (typeof params.containerSelector !== "string") {
                 console.error(`You should provide a selector that resolves to an existing DOM Element
                     in the initialization parameter 'selector'`);
                 throw new Error(`You should provide a selector that resolves to an existing DOM Element
@@ -88,7 +90,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
                 </div>
                 //</ShadowDOM >,
                 ,
-                document.querySelector(params.selector),
+                document.querySelector(params.containerSelector),
             );
         })
         .catch((error) => {
@@ -104,7 +106,8 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     //});
 };
 
-init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+// tslint:disable-next-line:max-line-length
+// init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS

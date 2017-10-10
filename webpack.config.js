@@ -13,8 +13,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 
+
 console.log("WP IS PRODUCTION? ", isProduction);
-const publicPath = 'http://localhost:3000' + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
+// publicPath is not used, now is overriden by node server.js
+const publicPath = `http://192.168.17.47:3000` + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
 
 const frontEntry = isProduction ?
   [
@@ -80,6 +82,9 @@ const devtool = isProduction ? 'source-map' : 'cheap-module-source-map' /*'inlin
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
 plugins.push(
   new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production')
+    },
     __ENV__: JSON.stringify(process.env.NODE_ENV),
     __DIVE_ENV__: JSON.stringify('PRO'),
   }),
@@ -132,6 +137,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const config = {
+  watch: true,
   context: sourcePath,
   entry: {
     front: frontEntry,

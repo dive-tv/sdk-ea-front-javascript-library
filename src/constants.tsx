@@ -18,6 +18,11 @@ switch (environment) {
         break;
 }
 const enableRollbar: boolean = false;
+// tslint:disable-next-line:no-var-keyword
+export let VOD_SELECTOR = "video";
+export function changeVodSelector(newSelector: string) {
+    VOD_SELECTOR = newSelector;
+}
 export const TESTING_CHANNEL = testingChannel;
 export const SESSION_STORAGE_KEY = 'DiveState';
 /*export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")

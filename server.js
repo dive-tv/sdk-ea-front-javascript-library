@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const request = require('request');
 var proxy = require('express-http-proxy');
+const webpack = require("webpack");
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production";
 console.log("SERVER is PRoduction?", isProduction, process.env.NODE_ENV);
 
@@ -18,7 +19,7 @@ Object.keys(ifaces).forEach(function (ifname) {
             // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
             return;
         }
-
+        
         if (alias >= 1) {
             // this single interface has multiple ipv4 addresses
             console.log(ifname + ':' + alias, iface.address);
@@ -67,10 +68,10 @@ app.use('/proxy', proxy('rest.dive.tv/v1/', {
 app.use('/proxy', function (req, res) {
     req.pipe(request(req.url.split("url=")[1])).pipe(res);
 });
+const webpackConfig = require("./webpack.config.js");
+webpackConfig.output.publicPath = `http://${localIp}:${PORT}/`;
 
 if (!isProduction) {
-    const webpack = require("webpack");
-    const webpackConfig = require("./webpack.config.js");
     const compiler = webpack(webpackConfig);
     const webpackDevMiddleware = require("webpack-dev-middleware");
     const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -89,7 +90,15 @@ if (!isProduction) {
     app.use(webpackDevMiddleware(compiler, webpackDevOptions));
     app.use(webpackHotMiddleware(compiler));
 } else {
-    app.use("/", express.static(DIST_DIR));
+    webpack(webpackConfig, function(err, stats) {
+        console.log("Webpack ended compilation, serving static files");
+        console.log("ERRORS", stats.hasErrors(), err);
+        if (stats.hasErrors() || err) {
+            console.log("Error report: ", stats.toString('errors-only'));
+        }
+        app.use("/", express.static(DIST_DIR));
+    });
+    
 }
 
 app.listen(PORT, () => {
