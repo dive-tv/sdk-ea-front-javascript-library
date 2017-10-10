@@ -107,36 +107,6 @@ $computed-card-plus-expandedInfo: 30%;
             }
         }
     }
-    .childFocused & {
-        /*transition-property: width;
-        transition-duration: .5s;
-        transition-delay: 0.1s;*/
-        //width: pxToVw(252); // background: $off-yellow;
-        .minicard{
-            width: 35.3%;
-        }
-        width: $computed-card-plus-expandedInfo; //unquote("#{$computed}vw");
-        .cardLeft {
-            width:100%;
-            .image,
-            .category {
-                border: solid 2px $off-yellow;
-                color: $pale-grey;
-            }
-        }
-        .expandedInfoContainer {
-            width: 290%;
-            .expandedInfo {
-                display: block;
-                transform: translateX(0);
-                transition-duration: .3s;
-                transition-delay: 0.05s; // display: inline-block;
-                border: solid 2px $off-yellow; //display: block;
-                z-index: 1;
-                position: relative;
-            }
-        }
-    }
     &.relation {
         .relationBar {
             background-color: $warm-grey;
@@ -153,6 +123,37 @@ $computed-card-plus-expandedInfo: 30%;
             .activeGroup & {
                 background-color: $off-yellow;
             }
+        }
+    }
+}
+
+.childFocused .minicard{
+    /*transition-property: width;
+    transition-duration: .5s;
+    transition-delay: 0.1s;*/
+    //width: pxToVw(252); // background: $off-yellow;
+    .minicard{
+        width: 35.3%;
+    }
+    width: $computed-card-plus-expandedInfo; //unquote("#{$computed}vw");
+    .cardLeft {
+        width:100%;
+        .image,
+        .category {
+            border: solid 2px $off-yellow;
+            color: $pale-grey;
+        }
+    }
+    .expandedInfoContainer {
+        width: 290%;
+        .expandedInfo {
+            display: block;
+            transform: translateX(0);
+            transition-duration: .3s;
+            transition-delay: 0.05s; // display: inline-block;
+            border: solid 2px $off-yellow; //display: block;
+            z-index: 1;
+            position: relative;
         }
     }
 }
