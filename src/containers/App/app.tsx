@@ -32,13 +32,13 @@ export namespace App {
 /*@navigable
 @connect(mapStateToProps, maDispatchToProps, mergeProps)*/
 export class AppClass extends React.Component<App.IOwnProps & App.IActionProps, App.IState> {
-    public componentWillMount(){
+    public componentWillMount() {
     }
 
     public render(): any {
         return (
             <div className="app">
-                <Layout columns={1} parent={this}/>
+                <Layout columns={1} parent={this} />
             </div>
         );
     }
@@ -59,4 +59,5 @@ function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOw
     return { ...stateProps, ...ownProps, ...dispatchProps };
 }
 
-export const App = connect(mapStateToProps, mapDispatchToProps, mergeProps)(AppClass);
+export const App = connect<any, App.IActionProps, App.IOwnProps>
+    (mapStateToProps, mapDispatchToProps)(AppClass);

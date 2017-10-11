@@ -6,8 +6,10 @@
         }
         .cardText {
             color: $color-warm-grey;
-            width: $contentWidth;
-            margin-bottom: pxToVh(9);
+            // width: $contentWidth;
+            // margin-bottom: pxToVh(9);
+            width: 100%;
+            margin-bottom: 5%;
             position: relative; // max-height: pxToVw(93);
             letter-spacing: 0.1px;
             font-size: pxToEmZeplinX2(10);
