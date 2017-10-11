@@ -328,8 +328,12 @@ const NavigableClass = <TOriginalProps extends {}>(
 
         public onKeyPress = (e: any) => {
             console.log("kp", e.keyCode);
-            e.preventDefault();
-            return false;
+            let consumed: boolean = false;
+            if (consumed) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            return !consumed;
         }
 
         public onKeyPressDown = (e: any) => {
@@ -367,7 +371,7 @@ const NavigableClass = <TOriginalProps extends {}>(
                 e.stopPropagation();
             }
 
-            return false;
+            return !consumed;
         }
 
         // Comprobamos si el elemento es scrollable o si alguno de sus padres lo es.

@@ -17,7 +17,8 @@ const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
 // tslint:disable-next-line:max-line-length
-export const init = (params: { apiKey: string, deviceId: string, containerSelector: string, vodSelector: string }) => {
+export const init = (params: { apiKey: string, deviceId: string, containerSelector: string, vodSelector: string, showMenu?: boolean }) => {
+    const showMenu = params.showMenu === undefined ? false : params.showMenu;
     if (typeof params !== "object") {
         console.error("You should provide initialization parameters as an object.");
         throw new Error("You should provide initialization parameters as an object.");
@@ -85,7 +86,7 @@ export const init = (params: { apiKey: string, deviceId: string, containerSelect
                 <div className="diveContainer" style={{ width: "100%", height: "100%"}}>
                     <style scoped={true}>{css[0][1]}</style>
                     <Provider store={store}>
-                        <App />
+                        <App showMenu={showMenu}/>
                     </Provider>
                 </div>
                 //</ShadowDOM >,

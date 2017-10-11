@@ -9,7 +9,24 @@ import { navigable } from 'HOC';
 import { Card, KeyMap } from "Services";
 import { bindActionCreators } from 'redux';
 
-type LayoutProps = { ui: IUIState/*, error: IErrorState*/, testCards: Card[] } & { uiActions: IUIActions };
+// tslint:disable-next-line:no-namespace
+export namespace Layout {
+    export interface IOwnProps {
+        showMenu: boolean;
+        testCards?: Card[];
+    }
+
+    export interface IActionProps {
+        uiActions: IUIActions;
+    }
+
+    export interface IState {
+        ui: IUIState;
+    }
+}
+
+// tslint:disable-next-line:max-line-length
+type LayoutProps = Layout.IState & Layout.IActionProps & Layout.IOwnProps;
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private lastTimeMenuClicked: number;
 
@@ -30,25 +47,27 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
             const bottomStyle: React.CSSProperties = { /*height: `${100 - this.props.ui.divider}%`*/ };
             return (
-                <div className="containerLayout"
-                    onKeyUp={(e) => { this.onKeyPressUp(e); }}
+                <div className="containerLayout" tabIndex={0}
+                    onKeyDown={(e) => { console.log("WAKA KP", e); this.onKeyPressUp(e); }}
                 >
                     <div className="layoutTop" style={topStyle}>
-                        <div className="layoutMenu">
-                            <Menu title="Menu"
-                                focusChainClass="navActivating"
-                                open={this.props.uiActions.open}
-                                addMenuId={this.props.uiActions.addMenuId}
-                                removeMenuId={this.props.uiActions.removeMenuId}
-                                setMenuActivated={this.props.uiActions.setMenuActivated}
-                                menuActivated={this.props.ui.menuActivated}
-                                menuIds={this.props.ui.menuIds}
-                                elements={this.props.ui.menu}
-                                menuVisualState={this.props.ui.menuVisualState}
-                                parent={this}
-                                columns={1}
-                            />
-                        </div>
+                        {this.props.showMenu &&
+                            <div className="layoutMenu">
+                                <Menu title="Menu"
+                                    focusChainClass="navActivating"
+                                    open={this.props.uiActions.open}
+                                    addMenuId={this.props.uiActions.addMenuId}
+                                    removeMenuId={this.props.uiActions.removeMenuId}
+                                    setMenuActivated={this.props.uiActions.setMenuActivated}
+                                    menuActivated={this.props.ui.menuActivated}
+                                    menuIds={this.props.ui.menuIds}
+                                    elements={this.props.ui.menu}
+                                    menuVisualState={this.props.ui.menuVisualState}
+                                    parent={this}
+                                    columns={1}
+                                />
+                            </div>
+                        }
                         {this.getTop(topType)}
                     </div>
 
@@ -64,8 +83,23 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
         }
     }
 
-    public onKeyPressUp(e: any) {
+    public componentWillMount() {
+        console.log("[Layout] componentWillMount:", this.props);
+        this.props.uiActions.setDivider(this.props.ui.divider);
+    }
+
+    public componentDidMount() {
+        document.addEventListener("keyup", this.onKeyPressUp);
+    }
+
+    public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
+        this.lastTimeMenuClicked = Date.now();
+    }
+
+    // HANDLERS
+    public onKeyPressUp = (e: any) => {
         const km: any = KeyMap;
+        console.log("LAYOUT kp", e.keyCode);
         if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
             switch (e.keyCode) {
                 case km.BACK:
@@ -79,18 +113,17 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                             break;
                     }
                     break;
+
+                case km.COLOR_YELLOW:
+                    this.props.uiActions.open({
+                        top: 'VODVIDEO',
+                        bottom: 'CAROUSEL', // 'GRID',
+                    });
+                    break;
             }
         }
     }
 
-    public componentWillMount() {
-        console.log("[Layout] componentWillMount:", this.props);
-        this.props.uiActions.setDivider(this.props.ui.divider);
-    }
-
-    public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
-        this.lastTimeMenuClicked = Date.now();
-    }
 
     private getTop(componentType: UILayerTopTypes): JSX.Element | null {
         switch (componentType) {
@@ -150,7 +183,7 @@ const mapDispatchToProps = (dispatch: any): any => {
     };
 };
 
-export const Layout = navigable(connect(
+export const Layout = navigable(connect<Layout.IState, Layout.IActionProps, Layout.IOwnProps>(
     mapStateToProps,
     mapDispatchToProps,
 )(LayoutClass));

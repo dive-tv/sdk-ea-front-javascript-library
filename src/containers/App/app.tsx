@@ -9,9 +9,10 @@ import { Card } from 'Services';
 import { navigable } from 'HOC';
 import { UIActions, IUIActions } from 'Actions';
 
+// tslint:disable-next-line:no-namespace
 export namespace App {
     export interface IOwnProps {
-        // cards: Card[];
+        showMenu: boolean;
     }
 
     export interface IActionProps extends IUIActions {
@@ -31,12 +32,14 @@ export namespace App {
 
 /*@navigable
 @connect(mapStateToProps, maDispatchToProps, mergeProps)*/
-export class AppClass extends React.Component<{}, {}>{//<App.IOwnProps & App.IActionProps, App.IState> {
+// tslint:disable-next-line:max-line-length
+export class AppClass extends React.Component<App.IOwnProps & App.IState & App.IActionProps, {}> {
 
     public render(): any {
+        const { showMenu } = this.props;
         return (
             <div id="diveApp" className="app">
-                <Layout columns={1} parent={null} />
+                <Layout columns={1} parent={null} showMenu={showMenu}/>
             </div>
         );
     }
@@ -49,7 +52,7 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any): App.IActionProps {
     return {
-        ...UIActions
+        ...UIActions,
     };
 }
 
@@ -57,4 +60,4 @@ function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOw
     return { ...stateProps, ...ownProps, ...dispatchProps };
 }
 
-export const App = connect(mapStateToProps, mapDispatchToProps, mergeProps)(AppClass);
+export const App = connect<App.IState, App.IActionProps ,App.IOwnProps>(mapStateToProps, mapDispatchToProps)(AppClass);
