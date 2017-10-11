@@ -23,6 +23,10 @@ export let VOD_SELECTOR = "video";
 export function changeVodSelector(newSelector: string) {
     VOD_SELECTOR = newSelector;
 }
+export let VOD_MODE = "STREAMING";
+export function changeVodMode(mode: "STREAMING" | "ONE_SHOT") {
+    VOD_MODE = mode;
+}
 export const TESTING_CHANNEL = testingChannel;
 export const SESSION_STORAGE_KEY = 'DiveState';
 /*export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")

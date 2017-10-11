@@ -1,16 +1,35 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { VOD_SELECTOR } from 'Constants';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-export interface IVODvideoProps {
-    containerHeight: number;
+import { VOD_SELECTOR } from 'Constants';
+import { IState, ISyncState } from 'Reducers';
+import { SyncActions, ISyncActions } from 'Actions';
+
+// tslint:disable-next-line:no-namespace
+export namespace VODvideo {
+    export interface IOwnProps {
+        containerHeight: number;
+    }
+
+    export interface IActionProps {
+        syncActions: ISyncActions;
+    }
+
+    export interface IState {
+        /* empty */
+    }
 }
+
+type VODVideoProps = VODvideo.IOwnProps & VODvideo.IActionProps & VODvideo.IState;
+
 interface IVideoRefs {
     el: HTMLVideoElement; parent: HTMLElement; parentHTML: string; style?: string;
     time: number;
 }
 
-export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
+class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private videoRefs: IVideoRefs;
     private videoParent: HTMLElement;
     private videoContainer: HTMLElement;
@@ -106,6 +125,20 @@ export class VODvideo extends React.PureComponent<IVODvideoProps, {}> {
     }
 
     private getVideoStatus() {
-        this.videoRefs.time = this.videoRefs.el.currentTime;
+        if (this.videoRefs.el && this.videoRefs.el.currentTime) {
+            this.videoRefs.time = this.videoRefs.el.currentTime;
+        } else if (this.videoRefs.el && (this.videoRefs.el as any).playTime) {
+            this.videoRefs.time = (this.videoRefs.el as any).playTime;
+        }
+        this.props.syncActions.setTime(this.videoRefs.time);
     }
 }
+
+const mapDispatchToProps = (dispatch: any): any => {
+    return {
+        syncActions: bindActionCreators(SyncActions, dispatch),
+    };
+};
+
+export const VODvideo = connect<null, VODvideo.IActionProps, VODvideo.IOwnProps>
+    (null, mapDispatchToProps)(VODvideoClass);

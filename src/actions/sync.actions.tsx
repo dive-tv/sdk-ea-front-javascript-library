@@ -16,6 +16,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
     startScene: ActionCreator<ISyncAction>;
     updateScene: ActionCreator<ISyncAction>;
     setMovie: ActionCreator<ISyncAction>;
+    setTime: ActionCreator<ISyncAction>;
     staticVOD: ActionCreator<void>;
     syncVOD: ActionCreator<void>;
     syncChannel: ActionCreator<void>;

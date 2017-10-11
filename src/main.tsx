@@ -17,7 +17,16 @@ const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
 // tslint:disable-next-line:max-line-length
-export const init = (params: { apiKey: string, deviceId: string, containerSelector: string, vodSelector: string, showMenu?: boolean }) => {
+export const init = (
+    params: {
+        apiKey: string,
+        deviceId: string,
+        containerSelector: string,
+        showMenu?: boolean,
+        vodOptions?: {
+            vodSelector: string,
+            vodSync: "ONE_SHOT" | "STREAMING",
+        } }) => {
     const showMenu = params.showMenu === undefined ? false : params.showMenu;
     if (typeof params !== "object") {
         console.error("You should provide initialization parameters as an object.");
@@ -33,7 +42,9 @@ export const init = (params: { apiKey: string, deviceId: string, containerSelect
         throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     }
-    changeVodSelector(params.vodSelector);
+    if (params.vodOptions && params.vodOptions.vodSelector) {
+        changeVodSelector(params.vodOptions.vodSelector);
+    }
     try {
         if (KeyEvent) {
             const km: any = KeyMap;

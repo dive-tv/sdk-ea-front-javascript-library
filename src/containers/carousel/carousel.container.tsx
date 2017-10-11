@@ -7,7 +7,7 @@ import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButto
 import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'Actions';
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
-import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
+import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS, VOD_MODE } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
@@ -35,7 +35,12 @@ export class CarouselClass
     public componentWillMount() {
         // this.props.syncChannel();
         // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
-        this.props.staticVOD({movieId: "ts0001s01e01", timestamp: 1000});
+        const movieId = this.getIdByProvider();
+        if (VOD_MODE === "ONE_SHOT") {
+            this.props.staticVOD({movieId, timestamp: 0});
+        } else {
+            this.props.syncVOD({movieId, timestamp: 0});
+        }
     }
 
     public componentWillUnmount() {
@@ -92,6 +97,14 @@ export class CarouselClass
 
     private getCurrentTime() {
         return this.props.state.currentTime;
+    }
+
+    private getIdByProvider(): string {
+        switch (window.location.host) {
+            case "www.rtve.es":
+                const pos = window.location.href.search(/\/\d{7}/g) + 1;
+                return window.location.href.substr(pos, 7);
+        }
     }
 
     private performFilter(cards: CardRender[]): CardRender[] {

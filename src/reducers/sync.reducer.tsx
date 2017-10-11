@@ -52,6 +52,8 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
                 ...state, movieId: action.payload,
                 cards: [],
             };
+        case 'SYNC/SET_TIME':
+            return { ...state, currentTime: action.payload };
         case 'SYNC/UPDATE_TIME': // UPDATEA EL TIEMPO CON EL NOW
             return {
                 ...state,
