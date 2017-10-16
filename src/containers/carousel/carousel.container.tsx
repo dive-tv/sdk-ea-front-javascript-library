@@ -37,9 +37,9 @@ export class CarouselClass
         // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
         const movieId = this.getIdByProvider();
         if (VOD_MODE === "ONE_SHOT") {
-            this.props.staticVOD({movieId, timestamp: 0});
+            this.props.staticVOD({movieId, timestamp: 1});
         } else {
-            this.props.syncVOD({movieId, timestamp: 0});
+            this.props.syncVOD({movieId, timestamp: 1});
         }
     }
 

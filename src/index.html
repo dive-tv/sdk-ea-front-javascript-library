@@ -52,7 +52,7 @@
                 if (DiveSDK.front && DiveSDK.front.init) {
                     console.log("TEST INIT 6");
                     console.log = () => { };
-                    DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test" });
+                    DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: true });
                     console.log("APP REALLY INITIALIZED");
                     clearInterval(initInterval);
                 }
