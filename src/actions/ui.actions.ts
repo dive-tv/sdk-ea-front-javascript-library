@@ -18,6 +18,7 @@ export interface IUIActions extends MapDispatchToPropsObject {
     open: ActionCreator<void>;
     addTestCards: ActionCreator<IUIAction>;
     openAllRelations: ActionCreator<IUIAction>;
+    setDivider: ActionCreator<IUIAction>;
 }
 
 //

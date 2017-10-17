@@ -35,11 +35,12 @@ export class CarouselClass
     public componentWillMount() {
         // this.props.syncChannel();
         // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
-        const movieId = this.getIdByProvider();
+        let movieId = this.getIdByProvider();
+        movieId = "4245810";
         if (VOD_MODE === "ONE_SHOT") {
             this.props.staticVOD({movieId, timestamp: 1});
         } else {
-            this.props.syncVOD({movieId, timestamp: 1});
+            this.props.syncVOD({movieId, timestamp: 1, protocol: "http"});
         }
     }
 

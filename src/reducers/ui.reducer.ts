@@ -70,7 +70,9 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
             return { ...state, divider: 60, containers: newContainers };
         case 'UI/OPEN':
             const newContainers2: IUIContainer[] = [
-                { component: action.payload.top }, { component: action.payload.bottom },
+                { component: action.payload.top === undefined ? state.containers[0].component :  action.payload.top },
+                // tslint:disable-next-line:max-line-length
+                { component: action.payload.bottom === undefined ? state.containers[1].component :  action.payload.bottom },
             ];
             let dividerVal: DividerSize = 100;
 

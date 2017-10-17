@@ -113,7 +113,7 @@ const calcTime = (state: ISyncState, time: number) => {
 export const initialSyncState: ISyncState = {
     selectedOnSceneChange: true,
     socketStatus: 'INIT',
-    movieId: "m00001",
+    movieId: "",
     cards: [],
     filter: FilterTypeEnum.All,
     demo: "",

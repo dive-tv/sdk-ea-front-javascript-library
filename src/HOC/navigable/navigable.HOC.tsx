@@ -283,19 +283,20 @@ const NavigableClass = <TOriginalProps extends {}>(
             let eventConsumed = false;
             if (nav !== undefined && nav.children[0].length === 0) {
                 this.props.setActivated(nav.id);
+                if (this.props.clickAction as any instanceof Function) {
+                    this.props.clickAction();
+                    eventConsumed = true;
+                } else {
+                    console.log("ClickAction is not a function");
+                }
                 eventConsumed = true;
             }
-            if (this.props.clickAction as any instanceof Function) {
-                this.props.clickAction();
-                eventConsumed = true;
-            } else {
-                console.log("ClickAction is not a function");
-            }
+
             if (eventConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
             }
-            return eventConsumed;
+            return !eventConsumed;
         }
 
         public onFocus = (e: any): any => {

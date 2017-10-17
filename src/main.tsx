@@ -108,14 +108,6 @@ export const init = (
         .catch((error) => {
             console.error("ERROR LOADING", error);
         });
-
-
-    /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
-      console.warn(response);
-    });*/
-    //DiveAPI.getStaticMovieScene({relations: true, clientMovieId: "", timestamp: 1500});
-    // console.log("STYLES", styles);
-    //});
 };
 
 // tslint:disable-next-line:max-line-length

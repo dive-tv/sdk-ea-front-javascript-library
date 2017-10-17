@@ -30,7 +30,7 @@ export class HbbtvLiveStream extends React.PureComponent<IHbbtvLiveStreamProps, 
     }
 
     private getVideoStatus() {
-        return;
+        
         //const murl = "http://itv.mit-xperts.com/hbbtvtest/media/livestream.php";
         // const murl = "http://demo.dive.tv:8095/bd4f26ba-0c2a-3a16-bb7b-79aa066abf44-3000";
         // try {

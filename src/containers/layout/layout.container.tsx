@@ -1,19 +1,20 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as RxJS from 'rxjs';
 
+import { keyUpObservable$ } from 'Constants';
 import { CardDetail, Loading, HbbtvLiveStream, VODvideo, Menu } from 'Components';
 import { Carousel, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
 import { UIActions, IUIActions } from 'Actions';
 import { navigable } from 'HOC';
 import { Card, KeyMap } from "Services";
-import { bindActionCreators } from 'redux';
 
 // tslint:disable-next-line:no-namespace
 export namespace Layout {
     export interface IOwnProps {
         showMenu: boolean;
-        testCards?: Card[];
     }
 
     export interface IActionProps {
@@ -29,6 +30,7 @@ export namespace Layout {
 type LayoutProps = Layout.IState & Layout.IActionProps & Layout.IOwnProps;
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private lastTimeMenuClicked: number;
+    private keysUsed: number[] = [KeyMap.COLOR_YELLOW];
 
     // constructor(props: any) {
     //     super(props);
@@ -47,9 +49,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
             const bottomStyle: React.CSSProperties = { /*height: `${100 - this.props.ui.divider}%`*/ };
             return (
-                <div className="containerLayout" tabIndex={0}
-                    onKeyDown={(e) => { console.log("WAKA KP", e); this.onKeyPressUp(e); }}
-                >
+                <div className="containerLayout">
                     <div className="layoutTop" style={topStyle}>
                         {this.props.showMenu &&
                             <div className="layoutMenu">
@@ -89,7 +89,15 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     public componentDidMount() {
-        document.addEventListener("keyup", this.onKeyPressUp);
+        const keyUpObservableFiltered: RxJS.Subscription = keyUpObservable$
+            .filter((keyCode: number) => {
+                console.warn("LAYOUT KEYCODE", keyCode);
+                return this.keysUsed.indexOf(keyCode) > -1;
+            })
+            .subscribe((keyCode: number) => {
+                // console.warn("HANDLED KEYCODE", keyCode);
+                this.onKeyPressUp(keyCode);
+            });
     }
 
     public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
@@ -97,12 +105,13 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     // HANDLERS
-    public onKeyPressUp = (e: any) => {
+    public onKeyPressUp = (keyCode: number) => {
         const km: any = KeyMap;
-        console.log("LAYOUT kp", e.keyCode);
-        if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
-            switch (e.keyCode) {
-                case km.BACK:
+        console.log("LAYOUT kp", keyCode);
+
+        switch (keyCode) {
+            case km.BACK:
+                if (this.props.ui && this.props.ui.containers && this.props.ui.containers[1].component) {
                     switch (this.props.ui.containers[1].component) {
                         case "CARD":
                             if (this.props.ui.prevCards && this.props.ui.prevCards.length > 0) {
@@ -112,15 +121,21 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                             }
                             break;
                     }
-                    break;
+                }
+                break;
 
-                case km.COLOR_YELLOW:
+            case km.COLOR_YELLOW:
+                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO" &&
+                    this.props.ui.containers[1].component !== "CAROUSEL") {
                     this.props.uiActions.open({
                         top: 'VODVIDEO',
-                        bottom: 'CAROUSEL', // 'GRID',
+                        bottom: 'CAROUSEL',
                     });
-                    break;
-            }
+                }
+                else {
+                    this.props.uiActions.setDivider(100);
+                }
+                break;
         }
     }
 

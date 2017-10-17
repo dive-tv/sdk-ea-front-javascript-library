@@ -1,4 +1,4 @@
-//import * as RxJS from 'rxjs';
+import * as RxJS from 'rxjs';
 // import { KeysMapped as OrsayKeysMapped, RollbarKey as OrsayRollbarKey } from "./types/extra.orsay";
 // import { KeysMapped as TizenKeysMapped, RollbarKey as TizenRollbarKey } from "./types/extra.tizen";
 declare const __ENABLE_ROLLBAR__: boolean;
@@ -101,3 +101,8 @@ function getRollbarKey() {
     }
 }
 */
+
+export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")
+.map((event: KeyboardEvent) => event.keyCode);
+export const keyUpObservable$ = RxJS.Observable.fromEvent(document, "keyup")
+.map((event: KeyboardEvent) => event.keyCode);
