@@ -60,4 +60,5 @@ function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOw
     return { ...stateProps, ...ownProps, ...dispatchProps };
 }
 
-export const App = connect<App.IState, App.IActionProps, App.IOwnProps>(mapStateToProps, mapDispatchToProps)(AppClass);
+export const App = connect<any, App.IActionProps, App.IOwnProps>
+    (mapStateToProps, mapDispatchToProps)(AppClass);

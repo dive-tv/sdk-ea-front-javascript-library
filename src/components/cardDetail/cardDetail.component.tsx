@@ -34,22 +34,25 @@ export class CardDetailClass
     public render(): any {
         return this.state.status === "DONE" && this.props.card ? (
             <div className="cardDetail fillParent">
-                <div className="bottomContainerTopButtons">
-                    <div className="cardDetailBtn">
-                        <NavigationContainer key="cdClose" className="bctButton close"
-                            parent={this}
-                            clickAction={() => {
-                                this.closeAllCards();
-                            }}
-                            columns={1}
-                        >
-                        </NavigationContainer>
+                <div className="carouselButtonsContainer">
+                    <div className="bottomContainerTopButtons">
+                        <div className="cardDetailBtn">
+                            <NavigationContainer key="cdClose" className="bctButton close"
+                                parent={this}
+                                clickAction={() => {
+                                    this.closeAllCards();
+                                }}
+                                columns={1}
+                            >
+                            </NavigationContainer>
+                        </div>
                     </div>
                 </div>
                 <NavigableCardModuleList
                     isDefault={true}
                     parent={this} columns={1}
-                    card={this.props.card} />
+                    card={this.props.card} 
+                    navClass="cardModulesContainer"/>
             </div>
         ) : <Loading />;
     }

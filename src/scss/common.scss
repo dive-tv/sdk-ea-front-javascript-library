@@ -4,6 +4,18 @@
     width: 100%;
 }
 
+* {
+    outline: none;
+}
+
+ :host,
+html,
+body {
+    //Shadow DOM's root
+    // font-size: 4px !important;
+    user-select: none;
+}
+
 .fillParent {
     @include fillParent;
 }
@@ -50,12 +62,12 @@
     width: pxToVw(142);
     box-sizing: border-box; // line-height: 1rem; //pxToVh(22);
     /*
-    &:before {
-        content: "";
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-    }*/
+&:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}*/
     * {
         text-transform: uppercase;
         display: inline-block;
@@ -64,5 +76,35 @@
     &:active {
         background-color: $color-dark-grey-three;
         border: solid 1px $color-off-yellow;
+    }
+}
+
+@media all and (max-width: 900) {
+    body {
+        font-size: 3px;
+    }
+}
+
+@media all and (min-width: 900px) and (max-width: 1300px) {
+    body {
+        font-size: 7px;
+    }
+}
+
+@media all and (min-width: 1300px) and (max-width: 1620px) {
+    body {
+        font-size: 9px;
+    }
+}
+
+@media all and (min-width: 1620px) and (max-width: 2600px) {
+    body {
+        font-size: 11px;
+    }
+}
+
+@media all and (min-width: 2600px) {
+    body {
+        font-size: 20px;
     }
 }

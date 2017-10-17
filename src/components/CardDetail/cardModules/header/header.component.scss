@@ -1,33 +1,37 @@
 .cardModulesContainer .cardModule-container.header-container {
-    width: pxToVw(249.5);
+    // width: pxToVw(249.5);
+    width: 27.7%;
 }
 
 .header {
     width: 100%;
     white-space: nowrap;
-    padding-top: pxToVh(10);
+    // padding-top: pxToVh(10);
+    padding-top: 4%;
     height: 100%; //pxToVh(167.5);
     box-sizing: border-box;
     >* {
         display: inline-block;
         vertical-align: top;
     }
-    $left-part-width: pxToVw(89.5);
+    // $left-part-width: pxToVw(89.5);
     .cardAndCategory {
-        width: $left-part-width;
+        // width: $left-part-width;
+        width: 36%;
         overflow: hidden;
     }
     .rightPart {
-        width: pxToVw(160);
+        // width: pxToVw(160);
+        width: 64%;
+        height: 100%;
         box-sizing: border-box;
         padding: 0 pxToVw(10);
         font-family: $font-lato;
         color: $color-white;
         overflow: hidden;
         white-space: normal;
-        height: 100%;
         position: relative;
-        height: pxToVh(133);
+        // height: pxToVh(133);
         .info {
             position: relative;
             max-width: 100%;
@@ -39,7 +43,8 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             align-items: stretch;
-            height: pxToVh(133);
+            // height: pxToVh(133);
+            height: 92%;
             &>* {
                 // max-height: pxToVh(27);
                 flex-shrink: 1;
@@ -47,7 +52,8 @@
                 flex-grow: 0;
             }
             .titleContainer {
-                margin-bottom: pxToVh(7.5);
+                // margin-bottom: pxToVh(7.5);
+                margin-bottom: 5%;
                 overflow: hidden;
                 word-break: normal;
                 font-size: pxToEmZeplinX2(12.5);
@@ -97,9 +103,11 @@
             .subtitle {
                 font-size: pxToEmZeplinX2(10);
                 font-weight: 600;
-                letter-spacing: pxToVw(.1);
+                // letter-spacing: pxToVw(.1);
+                letter-spacing: .3px;
                 flex-shrink: 1;
-                margin-bottom: pxToVh(7.5);
+                margin-bottom: 5%;
+                // margin-bottom: pxToVh(7.5);
                 .navigable {
                     // color: $color-teal-green;           
                 }
@@ -108,9 +116,11 @@
                 color: $color-teal-green;
                 font-size: pxToEmZeplinX2(8);
                 line-height: 1.2;
-                letter-spacing: pxToVw(.1);
+                // letter-spacing: pxToVw(.1);
+                letter-spacing: .3px;
                 flex-shrink: 1;
-                margin-bottom: pxToVh(7.5);
+                // margin-bottom: pxToVh(7.5);
+                margin-bottom: 5%;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
@@ -150,7 +160,8 @@
             }
         }
         .headerButtons {
-            height: pxToVh(20);
+            // height: pxToVh(20);
+            height: 50%;
             width: 100%;
             box-sizing: border-box; // position: absolute;
             bottom: 0;
@@ -161,18 +172,24 @@
                 width: 100%;
                 white-space: nowrap;
                 text-align: center;
-                height: 27px;
+                height: 100%;
+            }
+            .likeButton{
+                height: 67%;
             }
             >.navigable {
                 box-sizing: border-box;
-                height: pxToVw(20);
+                // height: pxToVw(20);
+                height: 30%;
                 width: 100%;
                 vertical-align: bottom;
                 position: absolute;
                 bottom: 0;
                 .icon {
-                    width: pxToVw(10.4);
-                    height: pxToVw(20);
+                    // width: pxToVw(10.4);
+                    width: 7.5%;
+                    height: 100%;
+                    // height: pxToVw(20);
                     margin-right: pxToVw(6.1);
                     background-size: 100% auto;
                     background-repeat: no-repeat;

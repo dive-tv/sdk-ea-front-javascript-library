@@ -8,12 +8,22 @@
         text-align: center;
         margin-right: 3px;
         margin-left: 3px;
-        width: pxToVw(20);
-        height: pxToVh(20);
+        //width: pxToVw(20);
+        //height: pxToVh(20);
+        height: 68%;
+        width: 16%;
         display: inline-block;
         position: relative;
     }
-    &.horizontal {
-        li {}
+    &.vertical {
+        top: -30%;
+        // -webkit-transform: translate( 0, -50%);
+        vertical-align: top;
+        li {
+            width: 68%;
+            height: 16%;
+            margin-bottom: 10%;
+            
+        }
     }
 }

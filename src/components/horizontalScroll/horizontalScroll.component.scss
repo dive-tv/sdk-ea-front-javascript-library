@@ -3,7 +3,8 @@
     height: 100%;
     position: relative;
     .scrollBox {
-        width: pxToVw(145);
+        // width: pxToVw(145);
+        width: 80%;
         height: 100%;
         position: relative;
         display: inline-block;
@@ -31,13 +32,16 @@
         }
     }
     .btns {
-        width: pxToVw(30);
+        // width: pxToVw(30);
+        width: 16%;
+        height: 100%;
         text-align: center;
         position: relative;
-        margin-left: pxToVw(5);
+        // margin-left: pxToVw(5);
+        margin-left: 3%;
         display: inline-block;
-        top: 50%;
+        /*top: 50%;
         -webkit-transform: translate( 0, -50%);
-        vertical-align: top;
+        vertical-align: top;*/
     }
 }
