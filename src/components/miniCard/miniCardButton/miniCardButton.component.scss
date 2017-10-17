@@ -12,19 +12,22 @@
     line-height: 2;
     text-transform: uppercase;
     &.more {
-        line-height: .6;
+        line-height: .8;
         font-size: pxToEmZeplinX2(27.5);
     }
     >.icon {
         &.like, &.liked {
             background-size: 100% 100%;
-            width: pxToVw(12);
-            height: pxToVh(11.5);
+            // width: pxToVw(12);
+            // height: pxToVh(11.5);
+            // top: pxToVh(4);
+            width: 8%;
+            height: 56%;
             position: relative;
             display: inline-block;
             vertical-align: top;
-            margin-right: 6px;
-            top: pxToVh(4);
+            margin-right: 3%;
+            top: 17%;
         }
         &.like {
             background-image: url('#{$assets-path}carousel/ico-like.png');

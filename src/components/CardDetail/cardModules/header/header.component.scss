@@ -26,6 +26,7 @@
         height: 100%;
         box-sizing: border-box;
         padding: 0 pxToVw(10);
+        padding: 0 4%;
         font-family: $font-lato;
         color: $color-white;
         overflow: hidden;
@@ -38,7 +39,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            flex-basis: pxToVh(12);
+            // flex-basis: pxToVh(12);
             overflow: hidden;
             flex-wrap: nowrap;
             justify-content: space-between;
@@ -54,6 +55,7 @@
             .titleContainer {
                 // margin-bottom: pxToVh(7.5);
                 margin-bottom: 5%;
+                min-height: 10%;
                 overflow: hidden;
                 word-break: normal;
                 font-size: pxToEmZeplinX2(12.5);
@@ -108,6 +110,10 @@
                 flex-shrink: 1;
                 margin-bottom: 5%;
                 // margin-bottom: pxToVh(7.5);
+                .navigable:focus{
+                    text-decoration: underline;
+                    color: $off-yellow;
+                }
                 .navigable {
                     // color: $color-teal-green;           
                 }
@@ -129,23 +135,31 @@
             .time {
                 width: 100%;
                 height: pxToVw(12);
-                margin-bottom: pxToVh(7.5);
+                // margin-bottom: pxToVh(7.5);
+                margin-bottom: 5%;
                 .clock {
-                    width: pxToVw(12);
-                    height: pxToVw(12);
+                    // width: pxToVw(12);
+                    // height: pxToVw(12);
+                    width: 9%;
+                    height: 100%;
                     border: 1px solid $color-pale-grey-two;
                     border-radius: 50%;
                     display: inline-block;
-                    margin-right: pxToVw(2.5);
+                    // margin-right: pxToVw(2.5);
+                    margin-right: 3%;
                     position: relative;
                     box-sizing: border-box;
                     &:after {
                         content: "";
                         position: absolute;
-                        top: pxToVw(2.5);
+                        /*top: pxToVw(2.5);
                         left: pxToVw(2.5);
                         width: pxToVw(3.5);
-                        height: pxToVw(4);
+                        height: pxToVw(4);*/
+                        top: 17%;
+                        left: 23%;
+                        width: 34%;
+                        height: 37%;
                         border: 1px solid $color-pale-grey-two;
                         border-left: 0;
                         border-top: 0;
@@ -153,9 +167,11 @@
                     }
                 }
                 span {
-                    line-height: pxToVw(12);
+                    // line-height: pxToVw(12);
+                    // font-size: pxToVw(7.5);
+                    line-height: 1.5;
                     vertical-align: top;
-                    font-size: pxToVw(7.5);
+                    font-size: 1.5em;
                 }
             }
         }
@@ -166,7 +182,7 @@
             box-sizing: border-box; // position: absolute;
             bottom: 0;
             align-self: flex-end;
-            flex-grow: 20;
+            // flex-grow: 20;
             position: relative;
             .centeredContent {
                 width: 100%;
@@ -175,7 +191,7 @@
                 height: 100%;
             }
             .likeButton{
-                height: 67%;
+                height: 100%;
             }
             >.navigable {
                 box-sizing: border-box;
@@ -190,7 +206,8 @@
                     width: 7.5%;
                     height: 100%;
                     // height: pxToVw(20);
-                    margin-right: pxToVw(6.1);
+                    //margin-right: pxToVw(6.1);
+                    margin-right: 4%;
                     background-size: 100% auto;
                     background-repeat: no-repeat;
                     background-position: 50%;
@@ -200,7 +217,7 @@
                 }
                 span {
                     //line-height: pxToVw(20);
-                    line-height: 2.5;
+                    line-height: 2.3;
                 }
             }
         }
