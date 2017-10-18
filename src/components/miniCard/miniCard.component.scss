@@ -83,6 +83,7 @@ $computed-card-plus-expandedInfo: 30%;
                 .title {
                     width: 100%;
                     font-size: pxToEmZeplinX2(11);
+                    line-height: 1;
                     color: $pale-grey; // @include ellipsis;
                     height: auto; //
                     // max-height: pxToVh(48);

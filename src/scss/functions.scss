@@ -44,11 +44,11 @@
 }
 
 @function pxToEm($font-size-in-px) {
-    @return (($font-size-in-px / 10.8 * 8) + px) !important;
+    @return (($font-size-in-px / 10.8) + em);
 }
 
 @function pxToEmZeplinX2($font-size-in-px) {
-    @return (($font-size-in-px / 5.4 * 8) + px) !important;
+    @return (($font-size-in-px / 5.4) + em);
 }
 
 /// Remove the unit of a length

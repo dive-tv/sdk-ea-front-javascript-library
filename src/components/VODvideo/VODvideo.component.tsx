@@ -83,6 +83,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
                         visibility: visible !important;
                         pointer-events: all;
                     }
+                    body .vjs-control-bar, body .vjs-control-bar {
+                        visibility: visible !important;
+                        pointer-events: all;
+                    }
                     `}
                 </style>
 

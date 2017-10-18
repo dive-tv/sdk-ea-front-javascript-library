@@ -56,7 +56,7 @@ export const SyncActions: ISyncActions = {
             onError: () => { console.log("[SOCKET] onError"); },
             onMovieStart: (movie: any) => {
                 if (movie && movie.movie_id) {
-                    dispatch(SyncActions.setMovie(movie.movie_id));
+                    // dispatch(SyncActions.setMovie(movie.movie_id));
                 }
             },
             onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },

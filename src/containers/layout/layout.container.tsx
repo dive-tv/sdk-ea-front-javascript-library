@@ -6,10 +6,15 @@ import * as RxJS from 'rxjs';
 import { keyUpObservable$, VOD_MODE } from 'Constants';
 import { CardDetail, Loading, HbbtvLiveStream, VODvideo, Menu } from 'Components';
 import { Carousel, AllRelationsContainer } from 'Containers';
-import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
+import {
+    IState, IUIState, UILayerBottomTypes, UILayerTopTypes,/*, IErrorState*/
+    ISyncState
+} from 'Reducers';
 import { UIActions, IUIActions, SyncActions, ISyncActions } from 'Actions';
 import { navigable } from 'HOC';
-import { Card, KeyMap } from "Services";
+import { Card, KeyMap, DiveAPIClass } from "Services";
+
+declare const DiveAPI: DiveAPIClass;
 
 // tslint:disable-next-line:no-namespace
 export namespace Layout {
@@ -24,6 +29,7 @@ export namespace Layout {
 
     export interface IState {
         ui: IUIState;
+        carousel: ISyncState;
     }
 }
 
@@ -127,18 +133,50 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                 break;
 
             case km.COLOR_YELLOW:
-                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO" ) {
+                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO") {
                     let movieId = this.getIdByProvider();
                     // movieId = "m00001";
-                    if (VOD_MODE === "ONE_SHOT") {
-                        this.props.syncActions.staticVOD({movieId, timestamp: 1});
+                    if (DiveAPI.socket && DiveAPI.socket.connected && this.props.carousel.movieId === movieId) {
+                        console.log("ALREADY CONNECTED");
                     } else {
-                        this.props.syncActions.syncVOD({movieId, timestamp: 1, protocol: "https"});
+                        if (VOD_MODE === "ONE_SHOT") {
+                            this.props.syncActions.staticVOD({ movieId, timestamp: 1 });
+                        } else {
+                            this.props.syncActions.syncVOD({ movieId, timestamp: 1, protocol: "http" });
+                        }
                     }
                     this.props.uiActions.open({
                         top: 'VODVIDEO',
                         bottom: 'CAROUSEL',
                     });
+                    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+                        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+                        ((document as any).mozFullScreenElement && (document as any).mozFullScreenElement !== null) ||
+                        ((document as any).msFullscreenElement && (document as any).msFullscreenElement !== null);
+                    if (isInFullScreen) {
+                        /*
+                        // Cancel fullscreen
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        } else if ((document as any).mozCancelFullScreen) {
+                            (document as any).mozCancelFullScreen();
+                        } else if ((document as any).msExitFullscreen) {
+                            (document as any).msExitFullscreen();
+                        }*/
+                        // Request FS for DIVE
+                        const el = document.getElementById("globalDiveContainer");
+                        if (el && (el.requestFullscreen || el.webkitRequestFullscreen)) {
+                            if (el.webkitRequestFullscreen) {
+                                el.webkitRequestFullScreen();
+                            } else {
+                                el.requestFullscreen();
+                            }
+                        }
+                    } else {
+                        console.log("NOT FS");
+                    }
                 } else {
                     this.props.uiActions.open({
                         top: null,
@@ -207,8 +245,8 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 }
 
-const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ } => {
-    return { ui: state.ui.present };
+const mapStateToProps = (state: IState): { ui: IUIState, carousel: ISyncState/*, error: IErrorState*/ } => {
+    return { ui: state.ui.present, carousel: state.carousel };
 };
 
 const mapDispatchToProps = (dispatch: any): any => {

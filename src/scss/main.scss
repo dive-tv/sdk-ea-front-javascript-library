@@ -41,3 +41,33 @@ body .diveContainer {
     @import '../components/VODvideo/VODvideo.component';
     @import '../components/cardAndCategory/cardAndCategory.component';
 }
+
+@media all and (max-width: 900) {
+    .diveContainer {
+        font-size: 3px;
+    }
+}
+
+@media all and (min-width: 900px) and (max-width: 1300px) {
+    .diveContainer {
+        font-size: 7px;
+    }
+}
+
+@media all and (min-width: 1300px) and (max-width: 1620px) {
+    .diveContainer {
+        font-size: 9px;
+    }
+}
+
+@media all and (min-width: 1620px) and (max-width: 2600px) {
+    .diveContainer {
+        font-size: 11px;
+    }
+}
+
+@media all and (min-width: 2600px) {
+    .diveContainer {
+        font-size: 20px;
+    }
+}
