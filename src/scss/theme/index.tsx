@@ -1,11 +1,23 @@
+export interface ITheme {
+    title: string;  // Títulos y algunos textos cortos.
+    text: string; // Textos largos en general
+    text2: string; // Source y Movie Categories
+    textSelected: string; // Texto sobre superficie seleccionada.
+    background: string;// Color de fondo de la aplicación
+    backgroundCarouselCard: string;// Fondo de la información expandida de las cards en carousel
+    backgroundCardSection: string; // Fondo de cada sección de Card Detail
+    selected: string; // Color de superficie seleccionada
+    unselected: string; // Color de bordes y algunas superficies sin seleccionar.
+}
+
 export const Theme = {
-    text: 'green', // Textos largos en general
-    text2: '#FFF', // Títulos y algunos textos cortos.
-    text3: 'verdosin', // Source y Movie Categories
-    textSelected: 'como el background', // Texto sobre superficie seleccionada.
-    background: "", // Color de fondo de la aplicación
-    backgroundCarouselCard: '', // Fondo de la información expandida de las cards en carousel
-    backgroundCardSection: '', // Fondo de cada sección de Card Detail
-    selected: '', // Color de superficie seleccionada
-    unselected: '', // Color de bordes y algunas superficies sin seleccionar.
+    title: 'cyan',
+    text: 'green',
+    text2: 'verdosin',
+    textSelected: 'como el background',
+    background: "",
+    backgroundCarouselCard: '',
+    backgroundCardSection: '',
+    selected: 'orange',
+    unselected: '',
 };

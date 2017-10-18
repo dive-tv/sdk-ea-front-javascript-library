@@ -4,6 +4,7 @@ import { Text, Card, Helper, Localize, RelationModule, Duple, Single } from 'Ser
 import { MiniCardButton, CardAndCategory } from 'Components';
 import * as classNames from 'classnames';
 import * as ReactDOM from "react-dom";
+import { Theme } from 'Theme';
 
 export interface IMoreRelationsState {
     selectedNav?: INavigable;
@@ -33,7 +34,7 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
                         <div className={`image`}>
                             <div className={`showMore`}>+</div>
                         </div>
-                        <div className="category">{Localize("CAROUSEL_EXPLORE_MORE")}</div>
+                        <div className="category"   style={{ color: Theme.title }}>{Localize("CAROUSEL_EXPLORE_MORE")}</div>
                     </div>
                 </div>
             </div>

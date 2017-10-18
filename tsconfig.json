@@ -47,7 +47,8 @@
       ],
       "CardModules": [
         "./src/components/cardDetail/cardModules/index"
-      ]
+      ],
+      "Theme": ["./src/scss/theme/index"]
     }
   },
   "include": [

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Card, Localize } from "Services";
+import { Theme } from 'Theme';
 
 export interface ICardAndCategoryProps {
     card: Card | null;
@@ -46,10 +47,10 @@ export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, 
                         } : undefined}
                     >
                         {showIcon ? <div className="icon"></div> : null}
-                        {showTitle ? <div className="title">{card.title}</div> : null}
+                        {showTitle ? <div className="title"   style={{ color: Theme.text }}>{card.title}</div> : null}
                         {showSubtitle && !showIcon ? <div className="subtitle">{card.subtitle}</div> : null}
                     </div>
-                    <div className="category">{category}</div>
+                    <div className="category"  style={{ color: Theme.title }}>{category}</div>
                 </div>
             );
         }
