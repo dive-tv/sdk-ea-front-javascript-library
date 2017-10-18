@@ -29,7 +29,7 @@ const frontEntry = isProduction ?
     path.resolve(__dirname, 'src', 'main.tsx')] :
   [
     'eventsource-polyfill', // Necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true',
+    `webpack-hot-middleware/client?reload=true&path=${publicPath}__webpack_hmr`,
     path.resolve(__dirname, 'src', 'main.tsx')
   ];
 
@@ -78,7 +78,7 @@ const sassEntry = /*ExtractTextPlugin.extract({
   ]
 //});
 
-const devtool = isProduction ? 'source-map' : 'cheap-module-source-map' /*'inline-source-map'*/;
+const devtool = isProduction ? 'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
 plugins.push(
   new webpack.DefinePlugin({
@@ -141,10 +141,10 @@ const config = {
   context: sourcePath,
   entry: {
     front: frontEntry,
-    styles: [
+    /*styles: [
       // 'webpack-hot-middleware/client?reload=true',
       path.resolve(__dirname, 'src', 'scss', 'main.scss'),
-    ],/*
+    ], *//*
     vendor: [
       'babel-polyfill',
       'react',

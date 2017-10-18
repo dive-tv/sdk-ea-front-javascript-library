@@ -10,6 +10,7 @@ declare const __DIVE_ENV__: "DEV" | "PRE" | "PRO";
 const environment: "DEV" | "PRE" | "PRO" = __DIVE_ENV__;
 let testingChannel: string;
 switch (environment) {
+    case "DEV":
     case "PRE":
         testingChannel = "la2";
         break;
@@ -102,7 +103,9 @@ function getRollbarKey() {
 }
 */
 
-export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")
-.map((event: KeyboardEvent) => event.keyCode);
-export const keyUpObservable$ = RxJS.Observable.fromEvent(document, "keyup")
-.map((event: KeyboardEvent) => event.keyCode);
+export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")/*
+.map((event: KeyboardEvent) => event.keyCode);*/
+export const keyUpObservable$ = RxJS.Observable.fromEvent(document, "keyup");/*
+.map((event: KeyboardEvent) => {
+    return { keyCode: event.keyCode, event };
+});*/

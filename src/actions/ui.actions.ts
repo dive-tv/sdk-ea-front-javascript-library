@@ -36,7 +36,7 @@ export const UIActions: IUIActions = {
             dispatch(UIActions.performOpenCard());
         }
         if (first) {
-            dispatch(UIActions.open({ top: "TV", bottom: "CARD" }));
+            dispatch(UIActions.open({ top: undefined, bottom: "CARD" }));
         }
         DiveAPI.getCard({ cardId })
             .then((card: Card) => {

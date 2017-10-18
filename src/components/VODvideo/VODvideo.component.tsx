@@ -28,8 +28,11 @@ export namespace VODvideo {
 type VODVideoProps = VODvideo.IOwnProps & VODvideo.IActionProps & VODvideo.IState;
 
 interface IVideoRefs {
-    el: HTMLVideoElement; parent: HTMLElement; parentHTML: string; style?: string;
-    time: number;
+    el: HTMLVideoElement;
+    parent?: HTMLElement;
+    parentHTML?: string;
+    style?: string;
+    time?: number;
 }
 
 class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
@@ -37,6 +40,13 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private videoParent: HTMLElement;
     private videoContainer: HTMLElement;
     private videoInterval: number;
+    private mode: "HBBTV" | "HTML5" = "HTML5";
+    private lastVODHbbtvData = {
+        time: 0,
+        playState: 0,
+        timeScale: 0,
+        lastCheck: 0,
+    };
 
     public componentDidMount() {
         this.videoContainer = document.getElementById("VODvideocontainer");
@@ -49,9 +59,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
                 this.videoRefs.el.addEventListener("pause", () => { this.getVideoStatus(); this.handlePause(); });
                 this.videoRefs.el.addEventListener("end", () => { this.getVideoStatus(); this.handleEnd(); });
             } else {
-                (this.videoRefs.el as any).onPlayerStateChange(() => { this.handlePlayerstateChange(); });
+                this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
             }
-            this.getVideoStatus();
+            (this.videoRefs.el as any).play(this.videoRefs.el.tagName === "VIDEO" ? undefined : 1);
+            // this.videoInterval = setInterval(this.getVideoStatus, 500) as any;
         }
     }
 
@@ -95,6 +106,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             (document.querySelectorAll("object") as any).forEach((object: any) => {
                 if (object.type.indexOf("video") > -1) {
                     el = object;
+                    this.mode = "HBBTV";
                 }
             });
         }
@@ -102,17 +114,13 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             const parent = el.parentElement;
             const parentHTML = parent.innerHTML;
             const style = el.getAttribute("style");
-            const time = (el as HTMLVideoElement).currentTime;
+            this.mode = el.tagName === "object" ? "HBBTV" : "HTML5";
+            const time = this.mode === "HBBTV" ?
+                (el as any).playPosition :
+                (el as HTMLVideoElement).currentTime
+                ;
             // tslint:disable-next-line:max-line-length
-            return { el: (el as HTMLVideoElement), parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
-        } else {
-            el = document.getElementsByTagName('object')[0];
-            const parent = el.parentElement;
-            const parentHTML = parent.innerHTML;
-            const style = el.getAttribute("style");
-            const time = (el as any).playTime;
-            // tslint:disable-next-line:max-line-length
-            return { el: (el as HTMLVideoElement), parent: el.parentElement, parentHTML: el.parentElement.innerHTML, style, time };
+            return { el: (el as HTMLVideoElement), parent: el.parentElement, /*parentHTML: el.parentElement.innerHTML,*/ style, time };
         }
     }
 
@@ -149,22 +157,55 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private getVideoStatus() {
         if (this.videoRefs.el && this.videoRefs.el.currentTime) {
             this.videoRefs.time = this.videoRefs.el.currentTime;
-        } else if (this.videoRefs.el && (this.videoRefs.el as any).playTime) {
-            this.videoRefs.time = (this.videoRefs.el as any).playTime;
+            console.log("Set time (HTML5) ", this.videoRefs.time);
+        } else if (this.videoRefs.el && (this.videoRefs.el as any).playPosition) {
+            this.videoRefs.time = (this.videoRefs.el as any).playPosition / 1000;
+            console.log("Set time (VOD) ", this.videoRefs.time);
         }
-        this.handleSeek();
+        const previousVODHbbtvData = { ...this.lastVODHbbtvData };
+        this.lastVODHbbtvData = {
+            time: (this.videoRefs.el as any).playPosition,
+            playState: (this.videoRefs.el as any).playState,
+            timeScale: (this.videoRefs.el as any).speed,
+            lastCheck: Date.now(),
+        };
+        const timeDiff = this.lastVODHbbtvData.time - previousVODHbbtvData.time;
+        console.log("TIMEDIFFF", timeDiff);
+        if (this.lastVODHbbtvData) {
+            // PAUSE / PLAY
+            if (previousVODHbbtvData.timeScale !== this.lastVODHbbtvData.timeScale) {
+                if (this.lastVODHbbtvData.timeScale === 0) {
+                    this.handlePause();
+                } else {
+                    this.handlePlay();
+                }
+            } else if (previousVODHbbtvData.time > this.lastVODHbbtvData.time) {
+                // REWIND
+                this.handleSeek();
+            } else if (Math.abs(timeDiff) > 2000) {
+                // DELAY OVER 2 seconds
+                this.handleSeek();
+            }
+
+        } else {
+            this.handleSeek();
+        }
     }
 
     private handleSeek() {
-        DiveAPI.socket.emit("vod_set", JSON.stringify({timestamp: this.videoRefs.time + 13}));
+        console.log("SEEK", this.videoRefs.time);
+        if (DiveAPI.socket.authenticated) {
+            DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: this.videoRefs.time }));
+        }
         // this.props.syncActions.setTime(this.videoRefs.time);
     }
 
     private handlePlay() {
         console.log("PLAY", this.videoRefs.time);
-        // TODO: ERASE
-        this.handleSeek();
-        DiveAPI.socket.emit("vod_continue", JSON.stringify({timestamp: this.videoRefs.time}));
+        // this.handleSeek();
+        if (DiveAPI.socket.authenticated) {
+            DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: this.videoRefs.time }));
+        }
     }
 
     private handleEnd() {
@@ -172,8 +213,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     }
 
     private handlePause() {
-        this.handleSeek();
-        DiveAPI.socket.emit("vod_pause", JSON.stringify({timestamp: this.videoRefs.time}));
+        // this.handleSeek();
+        if (DiveAPI.socket.authenticated) {
+            DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: this.videoRefs.time }));
+        }
     }
 
     private handlePlayerstateChange() {

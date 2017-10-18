@@ -7,7 +7,7 @@ import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButto
 import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'Actions';
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
-import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS, VOD_MODE } from 'Constants';
+import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
 export class CarouselClass
@@ -30,18 +30,6 @@ export class CarouselClass
             && nextProps.state.socketStatus === 'CONNECTED') {
             this.props.dataSync(nextProps.state.movieId);
         }*/
-    }
-
-    public componentWillMount() {
-        // this.props.syncChannel();
-        // this.props.syncVOD({movieId: "ts0001s01e01", timestamp: 1000});
-        let movieId = this.getIdByProvider();
-        movieId = "4245810";
-        if (VOD_MODE === "ONE_SHOT") {
-            this.props.staticVOD({movieId, timestamp: 1});
-        } else {
-            this.props.syncVOD({movieId, timestamp: 1, protocol: "http"});
-        }
     }
 
     public componentWillUnmount() {
@@ -100,14 +88,6 @@ export class CarouselClass
         return this.props.state.currentTime;
     }
 
-    private getIdByProvider(): string {
-        switch (window.location.host) {
-            case "www.rtve.es":
-                const pos = window.location.href.search(/\/\d{7}/g) + 1;
-                return window.location.href.substr(pos, 7);
-        }
-    }
-
     private performFilter(cards: CardRender[]): CardRender[] {
 
         //console.log("filter ---->", this.props.state.filter);
@@ -150,7 +130,7 @@ export class CarouselClass
                 const cardRelation: ICardRelation = card as ICardRelation;
                 // si es un card
                 if (!cardRelation.parentId) {
-                    
+
                     // en caso de que la card anterior este guardada se pushea al array para no perderla en caso de que no sea obligatorio tener relacciones asociadas.
                     if (!obligatoryChildren && parentCard && childrenCount === 0) {
                         filterdCards.push(parentCard);
@@ -187,7 +167,7 @@ export class CarouselClass
             }
         }
 
-        if (!obligatoryChildren && parentCard && childrenCount === 0 ) {
+        if (!obligatoryChildren && parentCard && childrenCount === 0) {
             filterdCards.push(parentCard);
         }
 

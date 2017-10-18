@@ -19,7 +19,7 @@ Object.keys(ifaces).forEach(function (ifname) {
             // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
             return;
         }
-        
+
         if (alias >= 1) {
             // this single interface has multiple ipv4 addresses
             console.log(ifname + ':' + alias, iface.address);
@@ -37,6 +37,12 @@ Object.keys(ifaces).forEach(function (ifname) {
 const app = express(),
     DIST_DIR = path.join(__dirname, "dist"),
     PORT = 3000;
+app.use('/__webpack_hmr', function (req, res, next) {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "X-Requested-With, content-type, Authorization");
+    next();
+});
 
 app.use(function (req, res, next) {
     console.log("USER AGEEEENT", req.get('User-Agent'));
@@ -65,6 +71,8 @@ app.use('/proxy', proxy('rest.dive.tv/v1/', {
       }
 }));
 */
+
+
 app.use('/proxy', function (req, res) {
     req.pipe(request(req.url.split("url=")[1])).pipe(res);
 });
@@ -88,9 +96,15 @@ if (!isProduction) {
     };
     webpackDevOptions.hot = webpackConfig.devServer.hot;
     app.use(webpackDevMiddleware(compiler, webpackDevOptions));
-    app.use(webpackHotMiddleware(compiler));
+    app.use(webpackHotMiddleware(compiler, {
+        log: console.log,
+        // dynamicPublicPath: true,
+        path: `/fail/__webpack_hmr`,
+        heartbeat: 10 * 1000,
+    }));
+    console.log("WEBPACK DEV AND HOT");
 } else {
-    webpack(webpackConfig, function(err, stats) {
+    webpack(webpackConfig, function (err, stats) {
         console.log("Webpack ended compilation, serving static files");
         console.log("ERRORS", stats.hasErrors(), err);
         if (stats.hasErrors() || err) {
@@ -98,7 +112,7 @@ if (!isProduction) {
         }
         app.use("/", express.static(DIST_DIR));
     });
-    
+
 }
 
 app.listen(PORT, () => {

@@ -52,8 +52,6 @@ export const SyncActions: ISyncActions = {
     syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https" }) => (dispatch: any) => {
         dispatch(SyncActions.setMovie(params.movieId));
         dispatch(SyncActions.setSyncType("SOCKET"));
-        // TODO: ERASE
-        params.timestamp += 13;
         DiveAPI.syncWithMovieVOD({ ...params, callbacks: {
             onError: () => { console.log("[SOCKET] onError"); },
             onMovieStart: (movie: any) => {

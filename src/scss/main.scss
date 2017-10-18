@@ -1,18 +1,13 @@
 body .diveContainer {
     @import 'normalizer';
-}
-@import 'colors';
-@import 'variables';
-@import 'functions';
-$font-lato: Tiresias,
-sans-serif;
-$font-zona: 'Letter Gothic 12 Pitch';
-$font-zona-pro: 'Letter Gothic 12 Pitch';
-@import 'common';
-/*:host,*/
- /*:scope*/
-body .diveContainer {
-    font-size: 4px !important;
+    @import 'colors';
+    @import 'variables';
+    @import 'functions';
+    $font-lato: Tiresias,
+    sans-serif;
+    $font-zona: 'Letter Gothic 12 Pitch';
+    $font-zona-pro: 'Letter Gothic 12 Pitch';
+    @import 'common';
     * {
         outline: none;
     }

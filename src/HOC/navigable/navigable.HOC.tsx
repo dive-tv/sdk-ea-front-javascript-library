@@ -292,11 +292,10 @@ const NavigableClass = <TOriginalProps extends {}>(
                 eventConsumed = true;
             }
 
-            if (eventConsumed) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            return !eventConsumed;
+            // always in a HOC, if button is 1, then stopPropagation and preventDefault
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
         }
 
         public onFocus = (e: any): any => {

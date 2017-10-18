@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as RxJS from 'rxjs';
 
-import { keyUpObservable$ } from 'Constants';
+import { keyUpObservable$, VOD_MODE } from 'Constants';
 import { CardDetail, Loading, HbbtvLiveStream, VODvideo, Menu } from 'Components';
 import { Carousel, AllRelationsContainer } from 'Containers';
 import { IState, IUIState, UILayerBottomTypes, UILayerTopTypes/*, IErrorState*/ } from 'Reducers';
-import { UIActions, IUIActions } from 'Actions';
+import { UIActions, IUIActions, SyncActions, ISyncActions } from 'Actions';
 import { navigable } from 'HOC';
 import { Card, KeyMap } from "Services";
 
@@ -19,6 +19,7 @@ export namespace Layout {
 
     export interface IActionProps {
         uiActions: IUIActions;
+        syncActions: ISyncActions;
     }
 
     export interface IState {
@@ -90,13 +91,13 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
 
     public componentDidMount() {
         const keyUpObservableFiltered: RxJS.Subscription = keyUpObservable$
-            .filter((keyCode: number) => {
-                console.warn("LAYOUT KEYCODE", keyCode);
-                return this.keysUsed.indexOf(keyCode) > -1;
+            .filter((event: KeyboardEvent) => {
+                console.warn("LAYOUT KEYCODE", event.keyCode);
+                return this.keysUsed.indexOf(event.keyCode) > -1;
             })
-            .subscribe((keyCode: number) => {
+            .subscribe((event: KeyboardEvent) => {
                 // console.warn("HANDLED KEYCODE", keyCode);
-                this.onKeyPressUp(keyCode);
+                this.onKeyPressUp(event);
             });
     }
 
@@ -105,8 +106,9 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     // HANDLERS
-    public onKeyPressUp = (keyCode: number) => {
+    public onKeyPressUp = (event: KeyboardEvent) => {
         const km: any = KeyMap;
+        const keyCode = event.keyCode;
         console.log("LAYOUT kp", keyCode);
 
         switch (keyCode) {
@@ -125,20 +127,31 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                 break;
 
             case km.COLOR_YELLOW:
-                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO" &&
-                    this.props.ui.containers[1].component !== "CAROUSEL") {
+                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO" ) {
+                    let movieId = this.getIdByProvider();
+                    // movieId = "m00001";
+                    if (VOD_MODE === "ONE_SHOT") {
+                        this.props.syncActions.staticVOD({movieId, timestamp: 1});
+                    } else {
+                        this.props.syncActions.syncVOD({movieId, timestamp: 1, protocol: "https"});
+                    }
                     this.props.uiActions.open({
                         top: 'VODVIDEO',
                         bottom: 'CAROUSEL',
                     });
-                }
-                else {
+                } else {
+                    this.props.uiActions.open({
+                        top: null,
+                        bottom: null,
+                    });
                     this.props.uiActions.setDivider(100);
                 }
+                window.scrollTo(0, 0);
+                event.stopPropagation();
+                event.preventDefault();
                 break;
         }
     }
-
 
     private getTop(componentType: UILayerTopTypes): JSX.Element | null {
         switch (componentType) {
@@ -185,7 +198,13 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                 return null;
         }
     }
-
+    private getIdByProvider(): string {
+        switch (window.location.host) {
+            case "www.rtve.es":
+                const pos = window.location.href.search(/\/\d{7}/g) + 1;
+                return window.location.href.substr(pos, 7);
+        }
+    }
 }
 
 const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ } => {
@@ -195,6 +214,7 @@ const mapStateToProps = (state: IState): { ui: IUIState/*, error: IErrorState*/ 
 const mapDispatchToProps = (dispatch: any): any => {
     return {
         uiActions: bindActionCreators(UIActions, dispatch),
+        syncActions: bindActionCreators(SyncActions, dispatch),
     };
 };
 
