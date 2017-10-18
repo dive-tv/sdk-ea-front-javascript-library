@@ -17,6 +17,12 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
     private btns: HTMLElement;
 
     public render(): JSX.Element {
+
+        const elements: JSX.Element[] = this.renderElements();
+        let showButtons: boolean = false;
+        if (this.props.children instanceof Array) {
+            showButtons = this.props.children.length > 2;
+        }
         return (
             <div className="horizontalScroll">
                 <div className="scrollBox" ref={(el) => { if (el) { this.scrollBox = el; } }}>
@@ -25,30 +31,33 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
                         propagateParent={true}
                         className="scrollBoxContent"
                     >
-                        {this.showElements()}
+                        {elements}
                     </NavigationContainer>
                 </div>
-
-                <div className="btns">
-                    <DirectionButtonList
-                        parent={this}
-                        template="vertical"
-                        btns={[
-                            { direction: 'right', action: this.rightAction },
-                            { direction: 'left', action: this.leftAction },
-                        ]}
-                    />
-                </div>
+                {
+                    showButtons ?
+                        <div className="btns">
+                            <DirectionButtonList
+                                parent={this}
+                                template="vertical"
+                                btns={[
+                                    { direction: 'right', action: this.rightAction },
+                                    { direction: 'left', action: this.leftAction },
+                                ]}
+                            />
+                        </div>
+                        : null
+                }
 
             </div>
         );
     }
 
-    public showElements = () => {
-        let elements: any = [];
+    public renderElements = (): JSX.Element[] => {
+        const elements: JSX.Element[] = [];
         if (this.props.children instanceof Array) {
             for (let i = this.offset; i < (this.props.itemsShown + this.offset) && (i < this.props.children.length); i++) {
-                elements.push(this.props.children[i]);
+                elements.push(this.props.children[i] as JSX.Element);
             }
         }
         return elements;
@@ -65,7 +74,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
     public rightAction = () => {
         this.offset += this.props.itemsShown;
         if (this.props.children instanceof Array && (this.offset + this.props.itemsShown >= this.props.children.length)) {
-            this.offset = this.props.children.length - this.props.itemsShown ;
+            this.offset = this.props.children.length - this.props.itemsShown;
         }
         this.forceUpdate();
     }

@@ -1,110 +1,110 @@
-#videoContainer,
-#video1 {
-    height: 100%;
-    width: 100%;
-}
+    #videoContainer,
+    #video1 {
+        height: 100%;
+        width: 100%;
+    }
 
-* {
-    outline: none;
-}
-
- :host,
-html,
-body {
-    //Shadow DOM's root
-    // font-size: 4px !important;
-    user-select: none;
-}
-
-.fillParent {
-    @include fillParent;
-}
-
- ::-webkit-scrollbar {
-    display: none;
-    background: rgba(0, 0, 0, .3);
-    width: 10px;
-    height: 10px;
-    padding: 0;
-    box-sizing: border-box;
-    margin: 0;
-}
-
- ::-webkit-scrollbar-thumb {
-    background: #8c8c8c;
-    display: none;
-}
-
- ::-webkit-scrollbar-track {
-    display: none;
-}
-
-.navigable:focus>.genericBtn {
-    background-color: $color-off-yellow;
-    color: $color-dark-grey;
-    font-weight: 900;
-}
-
-.genericBtn {
-    cursor: pointer;
-    max-width: 100%;
-    max-height: 100%;
-    background-color: $color-dark-grey-two;
-    color: $color-warm-grey;
-    border: solid 1px $color-warm-grey;
-    box-shadow: 0 2.5px 3px 0 rgba(0, 0, 0, 0.44);
-    font-size: pxToEmZeplinX2(10);
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-align: center;
-    font-family: $font-lato;
-    height: pxToVh(22);
-    width: pxToVw(142);
-    box-sizing: border-box; // line-height: 1rem; //pxToVh(22);
-    /*
-&:before {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}*/
     * {
-        text-transform: uppercase;
+        outline: none;
+    }
+
+     :host,
+    html,
+    body {
+        //Shadow DOM's root
+        // font-size: 4px !important;
+        user-select: none;
+    }
+
+    .fillParent {
+        @include fillParent;
+    }
+
+     ::-webkit-scrollbar {
+        display: none;
+        background: rgba(0, 0, 0, .3);
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+     ::-webkit-scrollbar-thumb {
+        background: #8c8c8c;
+        display: none;
+    }
+
+     ::-webkit-scrollbar-track {
+        display: none;
+    }
+
+    .navigable:focus>.genericBtn {
+        background-color: $color-off-yellow;
+        color: $color-dark-grey;
+        font-weight: 900;
+    }
+
+    .genericBtn {
+        cursor: pointer;
+        max-width: 100%;
+        max-height: 100%;
+        background-color: $color-dark-grey-two;
+        color: $color-warm-grey;
+        border: solid 1px $color-warm-grey;
+        box-shadow: 0 2.5px 3px 0 rgba(0, 0, 0, 0.44);
+        font-size: pxToEmZeplinX2(10);
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        text-align: center;
+        font-family: $font-lato;
+        // height: pxToVh(22);
+        // width: pxToVw(142);
+        box-sizing: border-box; // line-height: 1rem; //pxToVh(22);
+        /*
+    &:before {
+        content: "";
         display: inline-block;
-        vertical-align: top;
+        height: 100%;
+        vertical-align: middle;
+    }*/
+        * {
+            text-transform: uppercase;
+            display: inline-block;
+            vertical-align: top;
+        }
+        &:active {
+            background-color: $color-dark-grey-three;
+            border: solid 1px $color-off-yellow;
+        }
     }
-    &:active {
-        background-color: $color-dark-grey-three;
-        border: solid 1px $color-off-yellow;
-    }
-}
 
-@media all and (max-width: 900) {
-    body {
-        font-size: 3px;
+    @media all and (max-width: 900) {
+        body {
+            font-size: 3px;
+        }
     }
-}
 
-@media all and (min-width: 900px) and (max-width: 1300px) {
-    body {
-        font-size: 7px;
+    @media all and (min-width: 900px) and (max-width: 1300px) {
+        body {
+            font-size: 7px;
+        }
     }
-}
 
-@media all and (min-width: 1300px) and (max-width: 1620px) {
-    body {
-        font-size: 9px;
+    @media all and (min-width: 1300px) and (max-width: 1620px) {
+        body {
+            font-size: 9px;
+        }
     }
-}
 
-@media all and (min-width: 1620px) and (max-width: 2600px) {
-    body {
-        font-size: 11px;
+    @media all and (min-width: 1620px) and (max-width: 2600px) {
+        body {
+            font-size: 11px;
+        }
     }
-}
 
-@media all and (min-width: 2600px) {
-    body {
-        font-size: 20px;
+    @media all and (min-width: 2600px) {
+        body {
+            font-size: 20px;
+        }
     }
-}

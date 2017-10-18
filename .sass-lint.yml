@@ -1,0 +1,30 @@
+options:
+  max-warnings:50
+rules:
+      indentation: 
+        - 1
+        - size: 4
+      empty-line-between-blocks: 
+        - 1
+      final-newline:
+        - 1
+        - include: true
+      property-sort-order: 
+        - 0
+      class-name-format:
+        - 1
+        - convention: camelcase
+      function-name-format:
+        - 1
+        - allow-leading-underscore: true
+          convention: camelcase
+
+      mixin-name-format:
+        - 1
+        - allow-leading-underscore: true
+          convention: camelcase #hyphenatedlowercase
+
+      space-before-brace:
+        - 1
+        - include: true
+            

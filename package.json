@@ -10,7 +10,8 @@
     "build": "rimraf dist/ && cross-env NODE_ENV=production webpack -p --colors -w",
     "update_texts": "node ./scripts/updateDiveLiterals.js",
     "hbbtv-server": "node --inspect server.js",
-    "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js"
+    "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js",
+    "task-start": "npm run start"
   },
   "license": "MIT",
   "devDependencies": {
