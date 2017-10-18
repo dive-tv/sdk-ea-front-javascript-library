@@ -2,16 +2,15 @@
     width: 100%;
     height: 100%;
     .image {
-        width: 100%;
-        // height: pxToVh(133);
+        width: 100%; // height: pxToVh(133);
         height: 84%;
         border: solid 2px $warm-grey;
         opacity: .8;
         box-sizing: border-box;
         vertical-align: top;
         overflow: hidden;
+        background-color: #000;
         position: relative;
-        background-color: black;
         margin-bottom: pxToVh(4);
         text-align: center;
         background-size: cover;
@@ -21,13 +20,11 @@
             //background-color: green;
             background-image: url('#{$assets-path}carousel/ico-nophoto.png');
             background-position: 50% 50%;
-            background-repeat: no-repeat;
-            // background-size: 50%;
+            background-repeat: no-repeat; // background-size: 50%;
             background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
             font-size: pxToVw(40);
             width: 100%;
-            height: pxToVh(133);
-            // display: block;
+            height: pxToVh(133); // display: block;
             text-align: center;
             display: block;
         }
@@ -113,12 +110,9 @@
         }
     }
     .category {
-        width: 100%;
-        // height: pxToVh(20);
-        height: 13.5%;
-        // line-height: pxToVh(20);
-        line-height: 2;
-        // padding-left: pxToVw(5);
+        width: 100%; // height: pxToVh(20);
+        height: 13.5%; // line-height: pxToVh(20);
+        line-height: 2; // padding-left: pxToVw(5);
         // padding-right: pxToVw(5);
         padding-left: 6%;
         padding-right: 6%;
