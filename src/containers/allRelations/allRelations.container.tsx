@@ -10,12 +10,12 @@ declare const DiveAPI: DiveAPIClass;
 
 export interface IAllRelationsContainerProps {
     cards: ICardAndRelations;
-    openSync: ()=>any;
+    openSync: () => any;
 }
 
 export class AllRelationsContainerClass extends React.PureComponent<IAllRelationsContainerProps> {
 
-    public constructor () {
+    public constructor() {
         super();
 
         this.closeAllRelations = this.closeAllRelations.bind(this);
@@ -30,7 +30,7 @@ export class AllRelationsContainerClass extends React.PureComponent<IAllRelation
                         elements={[this.props.cards.card, ...this.props.cards.cards]}
                         parent={this}
                         columns={1}
-                        groupName="MiniCardList"/>
+                        groupName="MiniCardList" />
                 </div>
             </div >
         );
@@ -38,11 +38,15 @@ export class AllRelationsContainerClass extends React.PureComponent<IAllRelation
 
     private getButtons(): JSX.Element {
         return (
-            <div id="carouselButtons" className="buttonContainer bottomContainerTopButtons">
-                <NavigationContainer key="carouselClose" className="carouselButton bctButton close"
+            <div id="carouselButtons" className="buttonContainer bottomContainerTopButtons carouselButtonsContainer">
+                <div className="bottomContainerTopButtons">
+                <NavigationContainer key="carouselClose" className="carouselButton bctButton close "
                     forceOrder={0}
                     parent={this}
-                    onClick={this.closeAllRelations}/>
+                    onClick={this.closeAllRelations} 
+                    navClass="btnClose"
+                    />
+                    </div>
             </div>);
     }
 
