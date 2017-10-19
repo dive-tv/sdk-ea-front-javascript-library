@@ -20,9 +20,19 @@ switch (environment) {
 }
 const enableRollbar: boolean = false;
 // tslint:disable-next-line:no-var-keyword
-export let VOD_SELECTOR = "video";
+let VOD_SELECTOR = "video";
 export function changeVodSelector(newSelector: string) {
     VOD_SELECTOR = newSelector;
+}
+export function getVodSelector() {
+    return VOD_SELECTOR;
+}
+let VOD_PARENT_SELECTOR: string;
+export function changeVodParentSelector(newSelector: string) {
+    VOD_PARENT_SELECTOR = newSelector;
+}
+export function getVodParentSelector() {
+    return VOD_PARENT_SELECTOR;
 }
 export let VOD_MODE = "STREAMING";
 export function changeVodMode(mode: "STREAMING" | "ONE_SHOT") {

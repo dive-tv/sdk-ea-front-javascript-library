@@ -8,7 +8,7 @@ import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
-import { DIVE_ENVIRONMENT, changeVodSelector } from 'Constants';
+import { DIVE_ENVIRONMENT, changeVodSelector, changeVodParentSelector } from 'Constants';
 import * as css from './scss/main.scss';
 
 declare const KeyEvent: any;
@@ -26,6 +26,7 @@ export const init = (
         vodOptions?: {
             vodSelector: string,
             vodSync: "ONE_SHOT" | "STREAMING",
+            vodParent?: string,
         } }) => {
     const showMenu = params.showMenu === undefined ? false : params.showMenu;
     if (typeof params !== "object") {
@@ -42,8 +43,13 @@ export const init = (
         throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     }
-    if (params.vodOptions && params.vodOptions.vodSelector) {
-        changeVodSelector(params.vodOptions.vodSelector);
+    if (params.vodOptions) {
+        if (params.vodOptions.vodSelector) {
+            changeVodSelector(params.vodOptions.vodSelector);
+        }
+        if (params.vodOptions.vodParent) {
+            changeVodParentSelector(params.vodOptions.vodParent);
+        }
     }
     try {
         if (KeyEvent) {

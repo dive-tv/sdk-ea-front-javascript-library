@@ -78,7 +78,7 @@ const sassEntry = /*ExtractTextPlugin.extract({
   ]
 //});
 
-const devtool = isProduction ? 'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
+const devtool = isProduction ? 'source-map': 'source-map'; //'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
 const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
 plugins.push(
   new webpack.DefinePlugin({
@@ -130,7 +130,7 @@ if (process.env.NODE_ENV === "production") {
         // remove warnings
         warnings: false,
         // Drop console statements
-        drop_console: false
+        drop_console: true
       },
     })
   );
