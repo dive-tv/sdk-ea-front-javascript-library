@@ -70,6 +70,9 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             <div className="fillParent">
                 <style>
                     {`
+                    body {
+                        overflow: hidden;
+                    }
                     body > * {
                         visibility: hidden !important;
                         pointer-events: none;
