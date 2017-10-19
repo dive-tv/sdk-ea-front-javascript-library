@@ -6,6 +6,7 @@ import { Card, Helper, Localize, Catalog } from "Services";
 import { MiniCard, CardAndCategory, NavigationContainer } from "Components";
 import { ICardModuleProps } from "CardModules";
 import { navigable, statics } from "HOC";
+import { UIActions } from "Actions";
 
 interface IHeaderProps {
     title: string | null;
@@ -53,13 +54,13 @@ interface IHeaderProps {
                     }
                     if (mediaData.director && mediaData.director !== "") {
                         subtitle = mediaData.director;
-                        navigableSubtitle = true;
+                        // TODO: The id card for the director does not come with the card // navigableSubtitle = true;
                     }
                 }
                 break;
         }
 
-        const Instantiated = navigable(Header);
+        const Instantiated = navigable(connect(undefined, Header.mapDispatchToProps)(Header as any)) as any;
 
         return (<Instantiated
             parent={parent}
@@ -74,12 +75,21 @@ interface IHeaderProps {
     },
 })
 export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps, {}> {
+    public static mapDispatchToProps(dispatch: any) {
+        return {
+            // userActions: bindActionCreators(UserActions, dispatch),
+            uiActions: bindActionCreators(UIActions, dispatch),
+        };
+    }
     public getSubtitle() {
         if (this.props.navigableSubtitle && this.props.subtitle) {
             // TODO: open card
             return (
                 <div className="subtitle">
-                    <NavigationContainer parent={this} columns={1}>
+                    <NavigationContainer
+                        parent={this} columns={1}
+                        // clickAction={el.from ? () => { return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie"); } : null}
+                    >
                         {this.props.subtitle}
                     </NavigationContainer>
                 </div>

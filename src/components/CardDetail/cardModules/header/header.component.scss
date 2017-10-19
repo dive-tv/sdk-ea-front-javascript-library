@@ -166,6 +166,7 @@
         }
         .headerButtons {
             // height: pxToVh(20);
+            flex-shrink: 10;
             height: 50%;
             width: 100%;
             box-sizing: border-box; // position: absolute;
