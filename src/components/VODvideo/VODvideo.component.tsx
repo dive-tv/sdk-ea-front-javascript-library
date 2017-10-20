@@ -135,9 +135,12 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
 
     private toggleVideoStyles() {
         const passive = this.props.containerHeight === 100;
+        console.log("TVS passive: ", passive);
         if ( !this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement ) {
+            console.log("TVS with VR");
             // tslint:disable-next-line:no-conditional-assignment
             if (this.videoRefs = this.findVideo()) {
+                console.log("TVS found VR");
                 if (this.videoRefs.el.tagName === "VIDEO") {
                     this.videoRefs.el.addEventListener("seeked", () => { this.getVideoStatus(); this.handleSeek(); });
                     this.videoRefs.el.addEventListener("play", () => { this.getVideoStatus(); this.handlePlay(); });
@@ -146,9 +149,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
                 } else {
                     this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
                 }
+                /*
                 if ((this.videoRefs.el as any).play) {
                     (this.videoRefs.el as any).play(this.videoRefs.el.tagName === "VIDEO" ? undefined : 1);
-                }
+                }*/
             } else {
                 console.error("NO VIDEO FOUND FOR VOD (toggle)");
             }
@@ -161,26 +165,31 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     }
 
     private moveVideo() {
-        const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
-        if (target) {
-            // this.videoContainer.appendChild(video);
-            // tslint:disable-next-line:max-line-length
-            target.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; width: 100% !important; height: ${(document.getElementsByClassName("layoutTop")[0] as HTMLElement).offsetHeight}px !important; z-index:899;`);
+        if (this.videoRefs) {
+            const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
+            const layout = document.getElementsByClassName("layoutTop")[0] as HTMLElement;
+            if (target && layout) {
+                // this.videoContainer.appendChild(video);
+                // tslint:disable-next-line:max-line-length
+                target.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`);
+            }
         }
     }
 
     private releaseVideo() {
-        const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
-        if (target) {
-            target.setAttribute("style", this.videoRefs.style);
-            // videoRefs.parent.appendChild(videoRefs.el);
-            // if (videoRefs.parent.tagName.toLocaleLowerCase() !== "body") {
-            //     console.log("PARENT VOD TAG", videoRefs.parent.tagName);
-            //     videoRefs.parent.innerHTML = videoRefs.parentHTML;
-            // }
-            // const videoRefs2 = this.findVideo();
-            // videoRefs2.el.currentTime = videoRefs.time;
-            // videoRefs2.el.play();
+        if (this.videoRefs) {
+            const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
+            if (target) {
+                target.setAttribute("style", this.videoRefs.style);
+                // videoRefs.parent.appendChild(videoRefs.el);
+                // if (videoRefs.parent.tagName.toLocaleLowerCase() !== "body") {
+                //     console.log("PARENT VOD TAG", videoRefs.parent.tagName);
+                //     videoRefs.parent.innerHTML = videoRefs.parentHTML;
+                // }
+                // const videoRefs2 = this.findVideo();
+                // videoRefs2.el.currentTime = videoRefs.time;
+                // videoRefs2.el.play();
+            }
         }
     }
 

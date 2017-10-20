@@ -12,7 +12,6 @@ declare const DiveAPI: DiveAPIClass;
 
 export interface ISyncActions extends MapDispatchToPropsObject {
     openCard: ActionCreator<ISyncAction>;
-    dataSync: ActionCreator<void>;
     startScene: ActionCreator<ISyncAction>;
     updateScene: ActionCreator<ISyncAction>;
     setMovie: ActionCreator<ISyncAction>;
@@ -112,9 +111,6 @@ export const SyncActions: ISyncActions = {
                 onPauseEnd: () => { dispatch(SyncActions.broadcastPauseEnd()); },
             },
         });
-    },
-    dataSync: (movieId: string) => (dispatch: any) => {
-        dispatch(SyncActions.setChunkStatus("LOADING"));
     },
     startScene: syncCreateAction("SYNC/START_SCENE", (cards: Array<Card>[]) => (cards)),
     updateScene: syncCreateAction("SYNC/UPDATE_SCENE", (cards: Array<Card>[]) => (cards)),

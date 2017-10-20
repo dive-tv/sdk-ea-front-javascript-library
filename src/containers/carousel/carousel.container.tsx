@@ -24,20 +24,6 @@ export class CarouselClass
         this.getCurrentTime = this.getCurrentTime.bind(this);
     }
 
-    public componentWillUpdate(nextProps: Readonly<{ state: ISyncState; }
-        & ISyncActions & INavigableProps & INavState>) {
-        /*if (nextProps.state.type === "SOCKET" && nextProps.state.socketStatus !== this.props.state.socketStatus
-            && nextProps.state.socketStatus === 'CONNECTED') {
-            this.props.dataSync(nextProps.state.movieId);
-        }*/
-    }
-
-    public componentWillUnmount() {
-        // this.props.setSelectedOnSceneChange(false);
-        // console.log("CAROUSEL componentWillUnmount");
-        // this.props.deleteNode(this.props.idx);
-    }
-
     public getState = (): ISyncState => {
         return this.props.state;
     }

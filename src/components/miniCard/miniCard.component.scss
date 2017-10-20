@@ -121,10 +121,13 @@ $computed-card-plus-expandedInfo: 30%;
             // top: pxToVh(70);
             top: 46%;
             z-index: 0;
-            .activeGroup & {
-                background-color: $off-yellow;
-            }
         }
+    }
+}
+
+.activeGroup .minicard {
+    .relationBar {
+        background-color: $off-yellow;
     }
 }
 

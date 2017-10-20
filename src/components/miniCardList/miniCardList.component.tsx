@@ -116,12 +116,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         );
     }
 
-    /*public componentWillUnmount() {
-        if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
-            this.props.setSelectedOnSceneChange(true);
-        }
-    }*/
-
     private element(params: {
         el: CardRender,
         count: number, index: number, parent: any,

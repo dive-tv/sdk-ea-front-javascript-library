@@ -8,7 +8,7 @@ import { CardDetail, Loading, HbbtvLiveStream, VODvideo, Menu } from 'Components
 import { Carousel, AllRelationsContainer } from 'Containers';
 import {
     IState, IUIState, UILayerBottomTypes, UILayerTopTypes,/*, IErrorState*/
-    ISyncState
+    ISyncState,
 } from 'Reducers';
 import { UIActions, IUIActions, SyncActions, ISyncActions } from 'Actions';
 import { navigable } from 'HOC';
@@ -29,7 +29,7 @@ export namespace Layout {
 
     export interface IState {
         ui: IUIState;
-        carousel: ISyncState;
+        /*carousel: ISyncState;*/
     }
 }
 
@@ -133,23 +133,8 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                 break;
 
             case km.COLOR_YELLOW:
-                if (this.props.ui && this.props.ui.containers[0].component !== "VODVIDEO") {
-                    let movieId = this.getIdByProvider();
-                    // movieId = "m00001";
-                    if (DiveAPI.socket && DiveAPI.socket.connected && this.props.carousel.movieId === movieId) {
-                        console.log("ALREADY CONNECTED");
-                    } else {
-                        if (VOD_MODE === "ONE_SHOT") {
-                            this.props.syncActions.staticVOD({ movieId, timestamp: 1 });
-                        } else {
-                            this.props.syncActions.syncVOD({ movieId, timestamp: 1, protocol: "http" });
-                        }
-                    }
-                    this.props.uiActions.open({
-                        top: 'VODVIDEO',
-                        bottom: 'CAROUSEL',
-                    });
-                    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+                if (this.props.ui && this.props.ui.containers[0].component === "VODVIDEO") {
+                    const isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
                         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
                         ((document as any).mozFullScreenElement && (document as any).mozFullScreenElement !== null) ||
                         ((document as any).msFullscreenElement && (document as any).msFullscreenElement !== null);
@@ -178,10 +163,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                         console.log("NOT FS");
                     }
                 } else {
-                    this.props.uiActions.open({
-                        top: null,
-                        bottom: null,
-                    });
                     this.props.uiActions.setDivider(100);
                 }
                 window.scrollTo(0, 0);
@@ -236,17 +217,10 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                 return null;
         }
     }
-    private getIdByProvider(): string {
-        switch (window.location.host) {
-            case "www.rtve.es":
-                const pos = window.location.href.search(/\/\d{7}/g) + 1;
-                return window.location.href.substr(pos, 7);
-        }
-    }
 }
 
-const mapStateToProps = (state: IState): { ui: IUIState, carousel: ISyncState/*, error: IErrorState*/ } => {
-    return { ui: state.ui.present, carousel: state.carousel };
+const mapStateToProps = (state: IState): { ui: IUIState/*, carousel: ISyncState*//*, error: IErrorState*/ } => {
+    return { ui: state.ui.present/*, carousel: state.carousel*/ };
 };
 
 const mapDispatchToProps = (dispatch: any): any => {

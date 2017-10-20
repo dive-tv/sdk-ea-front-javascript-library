@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { /*MapDispatchToProps, */MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { createAction/*, ActionFunction0*/ } from 'redux-actions';
-import {Card} from 'Services'
+import { Card } from 'Services'
 
 export type SocketActionTypes = "SOCKET/AUTHENTICATED" | "SOCKET/UNAUTHORIZED" | "SOCKET/ERROR"
     | "SOCKET/MOVIE_START" | "SOCKET/MOVIE_END" | "SOCKET/SCENE_START"
@@ -19,13 +19,12 @@ export interface ISocketDataError extends Object {
 }
 
 export interface ISocketDataMovieStart extends Object {
-    movie_id: string
+    movie_id: string;
 }
 
 export interface ISocketDataCards extends Object {
-    cards?: Card[]
+    cards?: Card[];
 }
-
 
 export interface ISocketActions extends MapDispatchToPropsObject {
 
@@ -37,9 +36,9 @@ export interface ISocketActions extends MapDispatchToPropsObject {
 
 }
 
- export interface ISocketAction extends Action {
-      type: SocketActionTypes;
-      payload?: ISocketDataUnauth | ISocketDataError | ISocketDataMovieStart | ISocketDataCards
+export interface ISocketAction extends Action {
+    type: SocketActionTypes;
+    payload?: ISocketDataUnauth | ISocketDataError | ISocketDataMovieStart | ISocketDataCards
 }
 
 function socketCreateAction(
@@ -57,8 +56,8 @@ export const SocketActions: ISocketActions = {
 
     movieStartReceived: socketCreateAction("SOCKET/MOVIE_START", (payload: ISocketDataMovieStart): ISocketDataMovieStart => (payload)),
     movieEndReceived: socketCreateAction("SOCKET/MOVIE_END"),
-    
+
     sceneStartReceived: socketCreateAction("SOCKET/SCENE_START", (payload: ISocketDataCards): ISocketDataCards => (payload)),
     sceneUpdateReceived: socketCreateAction("SOCKET/SCENE_UPDATE", (payload: ISocketDataCards): ISocketDataCards => (payload)),
-    sceneEndReceived: socketCreateAction("SOCKET/SCENE_END"), 
+    sceneEndReceived: socketCreateAction("SOCKET/SCENE_END"),
 };
