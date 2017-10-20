@@ -99,8 +99,8 @@ if (!isProduction) {
     app.use(webpackHotMiddleware(compiler, {
         log: console.log,
         // dynamicPublicPath: true,
-        path: `/fail/__webpack_hmr`,
-        heartbeat: 10 * 1000,
+        // path: `/__webpack_hmr`,
+        // heartbeat: 10 * 1000,
     }));
     console.log("WEBPACK DEV AND HOT");
 } else {
