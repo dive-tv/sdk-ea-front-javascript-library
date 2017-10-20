@@ -10,6 +10,7 @@ import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
 import { DIVE_ENVIRONMENT, changeVodSelector, changeVodParentSelector } from 'Constants';
 import * as css from './scss/main.scss';
+import { UIActions } from 'Actions';
 
 declare const KeyEvent: any;
 
@@ -115,6 +116,12 @@ export const init = (
             console.error("ERROR LOADING", error);
         });
 };
+
+export function test() {
+    /*store.dispatch(UIActions.open({
+
+    }));*/
+}
 
 // tslint:disable-next-line:max-line-length
 // init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
