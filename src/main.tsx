@@ -28,7 +28,8 @@ export const init = (
             vodSelector: string,
             vodSync: "ONE_SHOT" | "STREAMING",
             vodParent?: string,
-        } }) => {
+        }
+    }) => {
     const showMenu = params.showMenu === undefined ? false : params.showMenu;
     if (typeof params !== "object") {
         console.error("You should provide initialization parameters as an object.");
@@ -101,10 +102,10 @@ export const init = (
             console.log("MOUNTING REACT");
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
-                <div className="diveContainer" style={{ width: "100%", height: "100%"}}>
+                <div className="diveContainer" style={{ width: "100%", height: "100%" }}>
                     <style scoped={true}>{css[0][1]}</style>
                     <Provider store={store}>
-                        <App showMenu={showMenu}/>
+                        <App showMenu={showMenu} />
                     </Provider>
                 </div>
                 //</ShadowDOM >,
@@ -118,9 +119,14 @@ export const init = (
 };
 
 export function test() {
-    /*store.dispatch(UIActions.open({
-
-    }));*/
+    const testGroup = {
+        top: "EMPTY",
+        bottom: "CAROUSEL",
+    };
+    store.dispatch({
+        type: "UI/OPEN",
+        payload: testGroup,
+    });
 }
 
 // tslint:disable-next-line:max-line-length
