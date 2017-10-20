@@ -8,9 +8,9 @@ import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
-import { DIVE_ENVIRONMENT, changeVodSelector, changeVodParentSelector } from 'Constants';
+import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector } from 'Constants';
 import * as css from './scss/main.scss';
-import { UIActions } from 'Actions';
+import { UIActions, SyncActions } from 'Actions';
 
 declare const KeyEvent: any;
 
@@ -28,7 +28,7 @@ export const init = (
             vodSelector: string,
             vodSync: "ONE_SHOT" | "STREAMING",
             vodParent?: string,
-        }
+        },
     }) => {
     const showMenu = params.showMenu === undefined ? false : params.showMenu;
     if (typeof params !== "object") {
@@ -127,6 +127,7 @@ export function test() {
         type: "UI/OPEN",
         payload: testGroup,
     });
+    store.dispatch(SyncActions.syncChannel(TESTING_CHANNEL) as any);
 }
 
 // tslint:disable-next-line:max-line-length
