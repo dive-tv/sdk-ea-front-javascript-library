@@ -5,7 +5,6 @@ import { MiniCardButton, CardAndCategory } from 'Components';
 import * as classNames from 'classnames';
 import * as ReactDOM from "react-dom";
 import { ICardRelation } from 'Reducers';
-import { Theme } from "Theme";
 
 export interface IMiniCardState {
     element: ICardRelation;
@@ -87,7 +86,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
         switch (this.props.element.type) {
             case 'quote':
             case 'reference':
-                box = <div className="text alone" style={{ color: Theme.text }}>{text}</div >;
+                box = <div className="text alone customText">{text}</div >;
                 break;
             case 'character':
                 const person: Card | null = Helper.getRelationCard(
@@ -112,19 +111,19 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                     }
                     // TODO: coger relación actor/personaje para pintar el título.
                     box = <div className="text">
-                        <div className="title"   style={{ color: Theme.title }}>{title}</div>
-                        <div className="desc"  style={{ color: Theme.text }}>{text}</div>
+                        <div className="title customTitle" >{title}</div>
+                        <div className="desc customText">{text}</div>
                     </div>;
                     break;
                 }
             case 'song':
-                box = <div className="text"  style={{ color: Theme.text }}></div>;
+                box = <div className="text customText"></div>;
                 break;
 
             default:
                 box = <div className="text" >
-                    <div className="title"   style={{ color: Theme.title }}>{this.props.element.title}</div>
-                    <div className="desc"  style={{ color: Theme.text }}>{text}</div>
+                    <div className="title  customTitle">{this.props.element.title}</div>
+                    <div className="desc  customText">{text}</div>
                 </div>;
 
                 break;

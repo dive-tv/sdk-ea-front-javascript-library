@@ -7,7 +7,6 @@ import {
 import { ICardModuleProps } from "CardModules";
 import { DirectionButton, VerticalScroll } from "Components";
 import { navigable, statics } from "HOC";
-import { Theme } from 'Theme';
 
 interface ITableProps {
     container: ListingVO;
@@ -44,7 +43,7 @@ export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {
                                         return (
                                             <tr key={idx}>
                                                 <td>{listItem.text}</td>
-                                                <td  style={{ color: Theme.text }}>{listItem.value}</td>
+                                                <td className="customText" >{listItem.value}</td>
                                             </tr>);
                                     })}
                                 </tbody>

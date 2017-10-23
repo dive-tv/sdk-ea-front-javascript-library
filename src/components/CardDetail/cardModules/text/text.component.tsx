@@ -4,7 +4,6 @@ import { ICardModuleProps } from "CardModules";
 import { navigable, statics } from "HOC";
 import { Helper, Localize, Card } from "Services";
 import { VerticalScroll } from "Components";
-import { Theme } from 'Theme';
 
 interface ITextProps {
     container: any;
@@ -40,7 +39,7 @@ export class Text extends React.PureComponent<ICardModuleProps & ITextProps, {}>
                 <div className="container">
                     <VerticalScroll source={this.props.textData ? this.props.textData.source : undefined} parent={this}>
                         {textTitle ? <div className="cardTitle">{textTitle}</div> : null}
-                        <div className="cardText"  style={{ color: Theme.text }}>{this.props.textData.text}</div>
+                        <div className="cardText customText">{this.props.textData.text}</div>
                     </VerticalScroll>
                 </div>
             </div>

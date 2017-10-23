@@ -8,6 +8,7 @@ import { CardDetailContainer, Layout } from 'Containers';
 import { Card } from 'Services';
 import { navigable } from 'HOC';
 import { UIActions, IUIActions } from 'Actions';
+import { Theme } from 'Components';
 
 export namespace App {
     export interface IOwnProps {
@@ -38,7 +39,8 @@ export class AppClass extends React.Component<App.IOwnProps & App.IActionProps, 
     public render(): any {
         return (
             <div className="app">
-                <Layout columns={1} parent={this} />
+                <Theme />
+                <Layout columns={1} parent={null} />
             </div>
         );
     }
