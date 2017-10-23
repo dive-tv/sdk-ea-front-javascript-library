@@ -54,7 +54,10 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
 
             // Bottom configuration
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
-            const bottomStyle: React.CSSProperties = { /*height: `${100 - this.props.ui.divider}%`*/ };
+            const bottomStyle: React.CSSProperties = {
+                paddingBottom: this.props.ui.divider === 100 ? "0" : "22.5%",
+                /*height: `${100 - this.props.ui.divider}%`*/
+            };
             return (
                 <div className="containerLayout">
                     <div className="layoutTop" style={topStyle}>
@@ -162,12 +165,16 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                     } else {
                         console.log("NOT FS");
                     }
-                } else {
-                    this.props.uiActions.setDivider(100);
+                    // Toogle show/hide
+                    if (this.props.ui.divider === 100) {
+                        this.props.uiActions.setDivider(60);
+                    } else {
+                        this.props.uiActions.setDivider(100);
+                    }
+                    window.scrollTo(0, 0);
+                    event.stopPropagation();
+                    event.preventDefault();
                 }
-                window.scrollTo(0, 0);
-                event.stopPropagation();
-                event.preventDefault();
                 break;
         }
     }
@@ -182,39 +189,44 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     }
 
     private getBottom(componentType: UILayerBottomTypes) {
-        switch (componentType) {
-            case 'CAROUSEL':
-                return <Carousel
-                    key={`carousel#${this.lastTimeMenuClicked}`}
-                    // key="CAROUSEL"
-                    parent={this}
-                    columns={1}
-                    name="CAROUSEL"
-                    groupName="CAROUSEL" isDefault={true} />;
-            case 'CARD':
-                this.lastTimeMenuClicked = Date.now();
-                if (this.props.ui.card === undefined) {
-                    return <Loading />;
-                }
-                return (<CardDetail
-                    card={this.props.ui.card}
-                    key={`cardDetail_${this.props.ui.card.card_id}`}
-                    navClass="cardDetailNav"
-                    parent={this}
-                    columns={1}
-                    isDefault={true}
-                />
-                );
-            case 'ALL_RELATIONS':
-                return (<AllRelationsContainer
-                    cards={this.props.ui.allRelations}
-                    openSync={this.props.uiActions.openSync}
-                    parent={this}
-                    columns={1}
-                    isDefault={true}
-                />);
-            default:
-                return null;
+        if (this.props.ui.divider !== 100) {
+            switch (componentType) {
+                case 'CAROUSEL':
+                    return <Carousel
+                        key={`carousel#${this.lastTimeMenuClicked}`}
+                        // key="CAROUSEL"
+                        parent={this}
+                        columns={1}
+                        name="CAROUSEL"
+                        groupName="CAROUSEL" isDefault={true} />;
+                case 'CARD':
+                    this.lastTimeMenuClicked = Date.now();
+                    if (this.props.ui.card === undefined) {
+                        return <Loading />;
+                    }
+                    return (<CardDetail
+                        card={this.props.ui.card}
+                        key={`cardDetail_${this.props.ui.card.card_id}`}
+                        navClass="cardDetailNav"
+                        parent={this}
+                        columns={1}
+                        isDefault={true}
+                    />
+                    );
+                case 'ALL_RELATIONS':
+                    return (<AllRelationsContainer
+                        cards={this.props.ui.allRelations}
+                        openSync={this.props.uiActions.openSync}
+                        parent={this}
+                        columns={1}
+                        isDefault={true}
+                    />);
+                default:
+                    return null;
+
+            }
+        } else {
+            return null;
         }
     }
 }

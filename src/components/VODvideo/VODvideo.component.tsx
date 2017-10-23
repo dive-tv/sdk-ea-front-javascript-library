@@ -66,10 +66,12 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     }
 
     public render(): any {
+        const passive = this.props.containerHeight === 100;
         return (
             <div className="fillParent">
-                <style>
-                    {`
+                {passive ? null :
+                    <style>
+                        {`
                     body {
                         overflow: hidden;
                     }
@@ -86,7 +88,8 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
                         pointer-events: all;
                     }
                     `}
-                </style>
+                    </style>
+                }
 
                 <div className="fillParent" key="vodVideoContainerParent">
                     <div id="VODvideocontainer" className="fillParent"></div>
@@ -120,7 +123,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
                 parent = document.querySelector(parentSelector) as HTMLElement;
             }
             // const parentHTML = parent.innerHTML;
-            const style = el.getAttribute("style");
+            const style = this.storeCurrentVideoStyle(el);
             this.mode = el.tagName === "object" ? "HBBTV" : "HTML5";
             const time = this.mode === "HBBTV" ?
                 (el as any).playPosition :
@@ -133,10 +136,22 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
         }
     }
 
+    private storeCurrentVideoStyle(el?: Element) {
+        const target = el ? el : this.videoRefs.el;
+        let style = null;
+        if (target) {
+            style = target.getAttribute("style");
+        }
+        if (this.videoRefs) {
+            this.videoRefs.style = style;
+        }
+        return style;
+    }
+
     private toggleVideoStyles() {
         const passive = this.props.containerHeight === 100;
         console.log("TVS passive: ", passive);
-        if ( !this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement ) {
+        if (!this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement) {
             console.log("TVS with VR");
             // tslint:disable-next-line:no-conditional-assignment
             if (this.videoRefs = this.findVideo()) {
@@ -160,6 +175,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
         if (passive) {
             this.releaseVideo();
         } else {
+            this.storeCurrentVideoStyle();
             this.moveVideo();
         }
     }
