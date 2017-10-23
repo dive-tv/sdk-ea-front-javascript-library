@@ -66,8 +66,9 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
 
     public componentDidUpdate(prevProps: MiniCardListProps) {
-
-        if (this.props.setSelectedOnSceneChange !== undefined && prevProps.elements.length === 0 && this.props.elements.length > 0) {
+        if (this.props.setSelectedOnSceneChange !== undefined &&
+            prevProps.elements.length === 0 &&
+            this.props.elements.length > 0) {
             if (this.props.setNodeById && this.props.idx) {
                 this.props.setNodeById(this.props.idx);
             }
