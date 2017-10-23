@@ -55,9 +55,10 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     }
 
     private miniCard = (): JSX.Element => {
+        const card = this.props.element;
         return (
             <div className="cardLeft" onMouseOver={() => this.props.setNodeById(this.props.idx)}>
-                <CardAndCategory card={this.props.element} />
+                <CardAndCategory card={card} />
             </div>);
     }
 
@@ -102,6 +103,14 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                     // Montamos el nombre con el nombre del personaje 'as' nombre del actor
                     if (person.title !== undefined) {
                         title = person.title + ' as ' + title;
+                    }
+
+                    // Fallback image
+                    // TODO: Check if it has to be on the SDK
+                    if (!this.props.element.image || !this.props.element.image.thumb) {
+                        if (person.image && person.image.thumb) {
+                            this.props.element.image = person.image;
+                        }
                     }
 
                     // Cogemos la descripción del actor

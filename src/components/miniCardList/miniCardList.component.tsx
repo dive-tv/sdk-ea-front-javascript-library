@@ -90,7 +90,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                         // console.log("[MiniCardList][getRelations]wears: ", rel);
                         break;
                 }
-            };
+            }
         }
         return rels;
     }
@@ -124,13 +124,12 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const cardRender: CardRender = params.el;
 
         if (cardRender.type !== "moreRelations") {
-
             const card = cardRender as ICardRelation;
-
             return (
                 <MiniCard
                     focusChainClass="childFocused"
                     activeGroupClass="activeGroup"
+                    // tslint:disable-next-line:max-line-length
                     groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
                     element={card}
                     parent={this}
@@ -148,13 +147,10 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                 />);
 
         } else {
-
             const moreRelations = cardRender as ICardAndRelations;
-
             const actionOnClick = () => {
                 this.clickMoreRelations(moreRelations);
             };
-
             return (<MoreRelations
                 parent={this}
                 focusChainClass="childFocused moreRelations"

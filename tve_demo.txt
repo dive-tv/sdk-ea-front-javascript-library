@@ -12,7 +12,8 @@ var script = document.createElement('script');
 script.src = "http://192.168.17.47:3000/DiveSDK.front.js";
 document.body.appendChild(script);
 script.onload = function() {
-    DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodOptions: {vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING"}, showMenu: false });
+    // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodOptions: {vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING"}, showMenu: false });
+    DiveSDK.front.demoRTVE();
 }
 
 //RTVE PRO: cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2
