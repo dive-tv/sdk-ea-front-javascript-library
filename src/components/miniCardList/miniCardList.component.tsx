@@ -58,7 +58,10 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
     public componentWillUnmount() {
         if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
-            this.props.setSelectedOnSceneChange(true);
+            // Check if prop is present, it is missing on allRelations > MinicardList for example.
+            if (this.props.setSelectedOnSceneChange) {
+                this.props.setSelectedOnSceneChange(true);
+            }
         }
     }
 
