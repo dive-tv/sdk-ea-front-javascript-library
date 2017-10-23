@@ -52,8 +52,7 @@
                 font-weight: 600;
                 line-height: 1.07;
                 text-align: center;
-                color: $color-off-yellow;
-                //margin-bottom: pxToVw(10);
+                color: $color-off-yellow; //margin-bottom: pxToVw(10);
                 margin-bottom: 5%;
             }
             p {
@@ -98,6 +97,7 @@
                 font-size: pxToEmZeplinX2(14);
                 line-height: 1.07;
                 padding-top: pxToVw(1.5);
+                white-space: pre;
             }
             .text1 {
                 font-size: pxToEmZeplinX2(12.5);
@@ -110,6 +110,7 @@
                 line-height: 1.33;
                 font-weight: 600;
                 font-family: $font-lato;
+                white-space: pre;
             }
         }
         .adMessageRight {
@@ -123,6 +124,9 @@
             letter-spacing: -0.3px;
             color: $color-dark-grey-three;
             font-size: pxToEmZeplinX2(21);
+            h1 {
+                white-space: normal;
+            }
         }
     }
 }

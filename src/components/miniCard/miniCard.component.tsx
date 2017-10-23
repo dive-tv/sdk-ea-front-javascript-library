@@ -66,7 +66,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
 
         return (
             <div className="expandedInfoContainer">
-                <div className="expandedInfo">
+                <div className="expandedInfo parentSelected">
                     <div className="expandedInfoInside">
                         <div className="text">{text}</div>
                         <div className="btn">{this.button('MORE')}</div>

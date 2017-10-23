@@ -20,20 +20,20 @@ export class MiniCardButtonClass extends React.PureComponent<MiniCardButtonProps
     public render() {
         switch (this.props.type) {
             case 'MORE':
-                return <div className="miniCardButton fillParent more" onClick={this.props.clickAction}>+</div>;
+                return <div className="miniCardButton fillParent more customSelectedBkg" onClick={this.props.clickAction}>+</div>;
             case 'SAVE':
                 const classesApplied = classNames({
                     icon: true,
                     like: this.props.liked ? false : true,
                     liked: this.props.liked ? true : false,
                 });
-                return <div className="miniCardButton fillParent" onClick={this.props.clickAction}>
+                return <div className="miniCardButton fillParent customSelectedBkg" onClick={this.props.clickAction}>
                     <span className={classesApplied}></span>
                     {this.props.liked ? Localize('CAROUSEL_CARD_SAVED') : Localize('CAROUSEL_CARD_SAVE')}
                 </div>;
 
             default:
-                return <div className="miniCardButton fillParent" onClick={this.props.clickAction}></div>;
+                return <div className="miniCardButton fillParent customSelectedBkg" onClick={this.props.clickAction}></div>;
         }
 
     }

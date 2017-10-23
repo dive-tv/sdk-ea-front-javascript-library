@@ -37,7 +37,7 @@ export class CardDetailClass
                 <div className="carouselButtonsContainer">
                     <div className="bottomContainerTopButtons">
                         <div className="cardDetailBtn">
-                            <NavigationContainer key="cdClose" className="bctButton close"
+                            <NavigationContainer key="cdClose" className="bctButton close customSelectedBkg"
                                 parent={this}
                                 clickAction={() => {
                                     this.closeAllCards();

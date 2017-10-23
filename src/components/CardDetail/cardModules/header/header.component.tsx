@@ -115,7 +115,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                                 parent={this}
                                 columns={1}
                                 isDefault={true}
-                                className={`likeButton genericBtn`}
+                                className={`likeButton genericBtn customSelectedBkg`}
                             // clickAction={this.clickLike.bind(this)}
                             >
                                 <div className="centeredContent">

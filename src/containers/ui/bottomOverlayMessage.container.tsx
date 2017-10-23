@@ -106,7 +106,7 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
             <div className="bottomMessage fillParent">
                 <div className="messageContainer bottomContainerTopButtons">
                     <div className="closeContainer">
-                        <NavigationContainer className="carouselButton bctButton close"
+                        <NavigationContainer className="carouselButton bctButton close customSelectedBkg"
                             parent={this}
                             isDefault={false}
                             columns={1}

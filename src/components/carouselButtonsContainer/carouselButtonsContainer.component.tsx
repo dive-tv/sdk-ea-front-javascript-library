@@ -31,7 +31,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         return (
             <div id="carouselButtons" className="bottomContainerTopButtons">
                 <div className="btnClose">
-                    <NavigationContainer key="carouselClose" className="carouselButton bctButton close"
+                    <NavigationContainer key="carouselClose" className="carouselButton bctButton close customSelectedBkg"
                         parent={this}
                         onClick={this.props.closeCarousel} />
                 </div>
@@ -40,7 +40,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
                         key={"dropdown#" + this.props.movieId}
                         elements={elements}
                         selectedItem={selectedItem}
-                        activeGroupClass="dropDownActive"
+                        activeGroupClass="dropDownActive childFocused"
                         groupName="dropDownFilter"
                         parent={this}
                         //nameForNode="miniCardListCarousel"

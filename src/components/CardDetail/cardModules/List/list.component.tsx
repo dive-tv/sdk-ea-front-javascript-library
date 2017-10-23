@@ -169,7 +169,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                         parent={this}
                         forceOrder={i % this.props.itemsShown}
                         columns={2}
-                        className="horizontalElement listElement focusable">
+                        className="horizontalElement listElement focusable customSelected">
                         <img src={el.thumb} />
                     </NavigationContainer>
                 ));
@@ -286,14 +286,15 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         const { title, image, order, onClick } = params;
         return (
             <NavigationContainer
+                focusChainClass="childFocused"  
                 key={this.props.container!.content_type + '_show_' + order}
                 clickAction={onClick}
                 parent={this}
                 forceOrder={order % this.props.itemsShown}
                 columns={2}
                 className="horizontalElement listElement">
-                <div className="image focusable"><img src={image} /></div>
-                <div className="title focusable">{title}</div>
+                <div className="image focusable parentSelected "><img src={image} /></div>
+                <div className="title focusable parentSelected">{title}</div>
             </NavigationContainer>
         );
     }

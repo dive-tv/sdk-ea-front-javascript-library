@@ -29,7 +29,7 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
 
     public render(): any {
         return (
-            <div className="dropdownContainer">
+            <div className="dropdownContainer parentSelectedBkg">
                 {Localize(this.props.selectedItem)}
                 <div className="dropdownList">
                     {this.renderChildren()}
@@ -56,7 +56,8 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
             };
 
             const classes = classNames({
-                selected: element === this.props.selectedItem
+                selected: element === this.props.selectedItem,
+                parentSelectedTxt: element === this.props.selectedItem,
             }, "dropDownListChildren")
 
 

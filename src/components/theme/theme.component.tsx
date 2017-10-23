@@ -17,7 +17,7 @@ export class Theme extends React.PureComponent<IThemeProps, {}> {
             backgroundCarouselCard: '',
             backgroundCardSection: '',
             selected: 'orange',
-            unselected: '',
+            unselected: 'grey',
         },
     };
 
@@ -27,6 +27,9 @@ export class Theme extends React.PureComponent<IThemeProps, {}> {
         return (
             <style>{
                 `
+                .navigable:focus > div{
+                    border: solid ${theme.selected} 1px;
+                }
                 .customTitle{
                     color: ${theme.title} !important;
                 }
@@ -47,6 +50,24 @@ export class Theme extends React.PureComponent<IThemeProps, {}> {
                 }
                 .customBkgCardSection{
                     background-color:  ${theme.backgroundCardSection} !important;
+                }
+
+                .childFocused .parentSelected{
+                    border: 2px solid ${theme.selected} !important;
+                }
+                .childFocused .parentSelectedTxt{
+                    color: ${theme.selected} !important;
+                }
+                .childFocused .parentSelectedBkg,:focus .customSelectedBkg{
+                    background-color: ${theme.selected} !important;
+                }
+
+                .customToggleSelected, .customUnselected{
+                    border: 2px solid ${theme.unselected} !important;
+                }
+                
+                :focus .customToggleSelected{
+                    border: 2px solid ${theme.selected} !important;
                 }
 
                 `
