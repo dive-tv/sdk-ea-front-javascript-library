@@ -24,7 +24,12 @@ export class CardDetailContainerClass extends
     public componentDidMount() {
         if (this.state && this.state.status === "LOADING") {
             if (this.props.version != null) {
-                DiveAPI.getCardVersion({ cardId: this.props.cardId, version: this.props.version, products: true })
+                DiveAPI.getCardVersion({
+                    cardId: this.props.cardId,
+                    version: this.props.version,
+                    products: true,
+                    relations: true,
+                })
                     .then((card: Card) => {
                         console.log(`[card] ${card.title}: `, card);
                         this.setState({ ...this.state, status: "LOADED", card });

@@ -85,7 +85,9 @@ export const SyncActions: ISyncActions = {
             protocol: "http",
             channelId,
             callbacks: {
-                onError: () => { console.log("[SOCKET] onError"); },
+                onConnect: () => { console.log("[SOCKET] onConnect"); },
+                onAuthenticated: () => { console.log("[SOCKET] onAuthenticated"); },
+                onError: (e) => { console.error("[SOCKET] onError", e); },
                 onMovieStart: (movie: any) => {
                     if (movie && movie.movie_id) {
                         dispatch(SyncActions.setMovie(movie.movie_id));

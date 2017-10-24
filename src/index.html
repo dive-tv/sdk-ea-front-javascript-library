@@ -25,14 +25,12 @@
             margin: 0;
         }
     </style>
-    <!--
     <script async type="text/javascript" src="http://192.168.17.47:8082/console.io.js?url=http://192.168.17.47:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
             document.cookie = "serialNumber=" + Math.floor((Math.random() * 10000) + 1);
         }
     </script>
-    -->
 </head>
 
 <body onload="initApp()" style="background-color: grey">
@@ -52,7 +50,7 @@
                 if (DiveSDK.front && DiveSDK.front.init) {
                     console.log("TEST INIT 6");
                     console.log = () => { };
-                    DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: false });
+                    // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: false });
                     console.log("APP REALLY INITIALIZED");
                     clearInterval(initInterval);
                 }

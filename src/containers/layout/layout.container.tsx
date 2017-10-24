@@ -37,7 +37,7 @@ export namespace Layout {
 type LayoutProps = Layout.IState & Layout.IActionProps & Layout.IOwnProps;
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     private lastTimeMenuClicked: number;
-    private keysUsed: number[] = [KeyMap.COLOR_YELLOW];
+    private keysUsed: number[] = [KeyMap.COLOR_YELLOW, KeyMap.BACK];
 
     // constructor(props: any) {
     //     super(props);

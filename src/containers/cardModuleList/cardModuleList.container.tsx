@@ -8,7 +8,7 @@ export interface ICardModuleListProps {
     card: Card;
 }
 export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}> {
-    public render(): any {
+    public render(): JSX.Element {
         return (
             <div className="cardModulesContainer">
                 {this.props.card ? this.decideModules(this.props.card) : <Loading />}

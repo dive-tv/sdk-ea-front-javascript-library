@@ -6,6 +6,7 @@ import { connect, ComponentDecorator } from 'react-redux';
 import { INavState, IState } from 'Reducers';
 import { NavActions, INavActions } from 'Actions';
 import { KeyMap } from 'Services';
+import { SyntheticEvent } from 'react';
 
 (window as any).currentNavId = 0;
 
@@ -276,26 +277,37 @@ const NavigableClass = <TOriginalProps extends {}>(
         }
 
         public onClick = (e: any): any => {
-            if (e.buttons !== 1 && !e.keyCode) {
-                return;
-            }
-            const nav: INavigable | undefined = this.props.navigation.get(this.getId());
-            let eventConsumed = false;
-            if (nav !== undefined && nav.children[0].length === 0) {
-                this.props.setActivated(nav.id);
-                if (this.props.clickAction as any instanceof Function) {
-                    this.props.clickAction();
-                    eventConsumed = true;
-                } else {
-                    console.log("ClickAction is not a function");
+            let processEvent = false;
+            if (e.nativeEvent instanceof MouseEvent) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.nativeEvent.button === 0) {
+                    processEvent = true;
                 }
-                eventConsumed = true;
+                // It is a Keyboard Event manually triggered
+            } else if (e.nativeEvent instanceof KeyboardEvent) {
+                processEvent = true;
             }
+            if (processEvent) {
+                const nav: INavigable | undefined = this.props.navigation.get(this.getId());
+                let eventConsumed = false;
+                // It is a leaf (no children)
+                if (nav !== undefined && nav.children[0].length === 0) {
+                    this.props.setActivated(nav.id);
+                    if (this.props.clickAction as any instanceof Function) {
+                        this.props.clickAction();
+                        eventConsumed = true;
+                    } else {
+                        console.log("ClickAction is not a function");
+                    }
+                    eventConsumed = true;
+                }
 
-            // always in a HOC, if button is 1, then stopPropagation and preventDefault
-            e.stopPropagation();
-            e.preventDefault();
-            return false;
+                // always in a HOC, if button is 1, then stopPropagation and preventDefault
+                e.stopPropagation();
+                e.preventDefault();
+                return false;
+            }
         }
 
         public onFocus = (e: any): any => {

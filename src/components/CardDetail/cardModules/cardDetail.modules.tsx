@@ -28,6 +28,7 @@ export const cardModuleClasses: {
         Cast: List,
         AppearsInLocation: List,
         CompleteTheDeco: List,
+        SongBelongTo: List,
         Specifications: Table,
         BasicInfo: Table,
         AwardsModuleList: Awards,

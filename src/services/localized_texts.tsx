@@ -25,7 +25,7 @@ class LocalizeService {
         if (typeof id === "string") {
             const baseText = this.getLiteralWithLanguage(id, this.language) || "";
             // line breaks
-            const textBlockArray: any[] = baseText.split("\\n");
+            const textBlockArray: any[] = baseText.split("\n");
             // tslint:disable-next-line:prefer-const
             for (let i = 0, write = 1, length = textBlockArray.length; i < length - 1; i++) {
                 textBlockArray.splice(write, 0, <br key={i} />);

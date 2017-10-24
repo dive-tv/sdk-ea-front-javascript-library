@@ -52,7 +52,8 @@ interface IListContainerType/*extends CardContainer*/ {
     data: any[];
 }
 type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehicles' | 'Seasons' |
-    'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco';
+    'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco' |
+    'SongBelongTo';
 
 @statics({
     moduleName: "list",
@@ -111,6 +112,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 return Helper.getRelation(card.relations, 'filmed_in', 'content_type') as Single;
             case 'CompleteTheDeco':
                 return Helper.getRelation(card.relations, 'home_deco', 'content_type') as Single;
+            case 'SongBelongTo':
+                return Helper.getRelation(card.relations, 'is_part_of', 'content_type') as Single;
             default:
                 return undefined;
         }
@@ -119,7 +122,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
     public render(): JSX.Element {
         const textTitle = this.getTitle();
         return (
-            <div className="cardModuleList cardModule">
+            <div className={`cardModuleList cardModule ${this.props.moduleType}`}>
                 <div className="container">
                     <div className="cardTitle">{textTitle}</div>
                     <div className="listContent">
@@ -151,6 +154,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
             /*case 'Directors':*/
             case 'AppearsInLocation':
             case 'CompleteTheDeco':
+            // case 'SongBelongTo':
                 return this.getRelSingleList();
             case 'Seasons':
                 return this.getSeasonList();
@@ -223,12 +227,13 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .props
                 .container
                 .data
-                .filter((el: DupleData) => el.rel_type === 'plays' && el.from.image !== null)
+                // tslint:disable-next-line:max-line-length
+                .filter((el: DupleData) => el.rel_type === 'plays' || el.rel_type === 'starred_by')// && el.from.image !== null)
                 .map((el: DupleData, i: number) => {
                     return this.getGenericElement(
                         {
                             title: el.from.title,
-                            image: el.from.image.thumb,
+                            image: el.from.image ? el.from.image.thumb : null,
                             order: i,
                             onClick: el.from ? () => {
                                 return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie");
@@ -292,7 +297,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 forceOrder={order % this.props.itemsShown}
                 columns={2}
                 className="horizontalElement listElement">
-                <div className="image focusable"><img src={image} /></div>
+                <div className="image focusable">{ image ? <img src={image} /> : null}</div>
                 <div className="title focusable">{title}</div>
             </NavigationContainer>
         );
@@ -301,7 +306,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
     private getTitle() {
         switch (this.props.container!.content_type) {
             case 'gallery':
-                return Localize('GALLERY');
+                return Localize('GALLERY') || 'GALLERY';
+            case 'cast':
+                return Localize('CAST') || 'CAST';
             default:
                 return null;
         }

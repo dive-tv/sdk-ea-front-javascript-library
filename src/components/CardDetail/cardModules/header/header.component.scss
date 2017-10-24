@@ -38,7 +38,7 @@
             flex-direction: column; // flex-basis: pxToVh(12);
             overflow: hidden;
             flex-wrap: nowrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: stretch; // height: pxToVh(133);
             height: 92%;
             &>* {
@@ -67,6 +67,7 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 height: auto;
+                flex-grow: 1;
                 .title {
                     font-size: pxToEmZeplinX2(6.25);
                     font-weight: bold;
@@ -98,11 +99,13 @@
                 }
             }
             .subtitle {
+                overflow: hidden;
                 font-size: pxToEmZeplinX2(10);
                 font-weight: 600; // letter-spacing: pxToVw(.1);
                 letter-spacing: .3px;
                 flex-shrink: 1;
                 margin-bottom: 5%; // margin-bottom: pxToVh(7.5);
+                flex-grow: 1;
                 .navigable:focus {
                     text-decoration: underline;
                     color: $off-yellow;
@@ -167,7 +170,10 @@
         .headerButtons {
             // height: pxToVh(20);
             flex-shrink: 10;
-            height: 50%;
+            flex-grow: 0;
+            min-height: 46px;
+            max-height: 50%;
+            height: auto;
             width: 100%;
             box-sizing: border-box; // position: absolute;
             bottom: 0;
@@ -184,7 +190,7 @@
             }
             >.navigable {
                 box-sizing: border-box; // height: pxToVw(20);
-                height: 30%;
+                min-height: 46px;
                 width: 100%;
                 vertical-align: bottom;
                 position: absolute;

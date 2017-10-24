@@ -104,7 +104,7 @@ export const init = (
                 ReactDOM.render(
                     //<ShadowDOM /*include={'styles.css'}*/>
                     <div className="diveContainer" style={{ width: "100%", height: "100%" }}>
-                        <style scoped={true}>{css[0][1]}</style>
+                        <style /*scoped={true}*/>{css[0][1]}</style>
                         <Provider store={store}>
                             <App showMenu={showMenu} />
                         </Provider>
