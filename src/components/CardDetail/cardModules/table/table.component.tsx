@@ -35,15 +35,15 @@ export class Table extends React.PureComponent<ICardModuleProps & ITableProps, {
             <div className="cardModuleTable cardModule">
                 <div className="container">
                     <VerticalScroll parent={this}>
-                        <div className="cardTitle">{this.getTitle()}</div>
+                        <div className="cardTitle customTitle">{this.getTitle()}</div>
                         <div className="table">
                             <table>
                                 <tbody>
                                     {this.props.container!.data.map((listItem: ListingData, idx: number) => {
                                         return (
                                             <tr key={idx}>
-                                                <td>{listItem.text}</td>
-                                                <td className="customText" >{listItem.value}</td>
+                                                <td className="customTitle">{listItem.text}</td>
+                                                <td className="customTxt" >{listItem.value}</td>
                                             </tr>);
                                     })}
                                 </tbody>

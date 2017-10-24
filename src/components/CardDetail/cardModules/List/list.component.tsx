@@ -121,7 +121,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         return (
             <div className="cardModuleList cardModule">
                 <div className="container">
-                    <div className="cardTitle">{textTitle}</div>
+                    <div className="cardTitle customTitle">{textTitle}</div>
                     <div className="listContent">
                         <HorizontalScroll
                             parent={this}
@@ -169,7 +169,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                         parent={this}
                         forceOrder={i % this.props.itemsShown}
                         columns={2}
-                        className="horizontalElement listElement focusable customSelected">
+                        className="horizontalElement listElement focusable customToggleSelected">
                         <img src={el.thumb} />
                     </NavigationContainer>
                 ));
@@ -292,9 +292,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 parent={this}
                 forceOrder={order % this.props.itemsShown}
                 columns={2}
-                className="horizontalElement listElement">
-                <div className="image focusable parentSelected "><img src={image} /></div>
-                <div className="title focusable parentSelected">{title}</div>
+                className="horizontalElement listElement noBorder">
+                <div className="image focusable parentSelected customToggleSelected"><img src={image} /></div>
+                <div className="title focusable parentSelected customTitle customToggleSelected">{title}</div>
             </NavigationContainer>
         );
     }

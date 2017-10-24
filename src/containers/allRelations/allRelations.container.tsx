@@ -40,7 +40,7 @@ export class AllRelationsContainerClass extends React.PureComponent<IAllRelation
         return (
             <div id="carouselButtons" className="buttonContainer bottomContainerTopButtons carouselButtonsContainer">
                 <div className="bottomContainerTopButtons">
-                <NavigationContainer key="carouselClose" className="carouselButton bctButton close "
+                <NavigationContainer key="carouselClose" className="carouselButton bctButton close customBtn"
                     forceOrder={0}
                     parent={this}
                     onClick={this.closeAllRelations} 

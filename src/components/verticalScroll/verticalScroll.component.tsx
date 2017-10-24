@@ -31,8 +31,8 @@ export class VerticalScrollClass extends React.PureComponent<IVerticalScrollProp
                 </div>
                 {source ?
                     <div className="source">
-                        <label className="label">{Localize('SOURCE')}: </label>
-                        <label className="text">{source}</label>
+                        <label className="label customTxt2">{Localize('SOURCE')}: </label>
+                        <label className="text customTitle">{source}</label>
                     </div>
                     : null}
 

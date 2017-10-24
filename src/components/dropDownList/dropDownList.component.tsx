@@ -9,8 +9,10 @@ export interface IDropDownListProps {
     selectedItem: string;
     groupName: string;
     setNodeByName?: (name: string) => any;
+    setNodeById?: (id: number) => any;
     nameForNode?: string;
     setElement: (element: string) => void;
+    idx?: number;
 }
 
 export interface IDropDownListState {
@@ -29,8 +31,8 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
 
     public render(): any {
         return (
-            <div className="dropdownContainer parentSelectedBkg">
-                {Localize(this.props.selectedItem)}
+            <div className="dropdownContainer customBtn customBtnByChild">
+                <label className="" onMouseOver={this.onMouseOver}>{Localize(this.props.selectedItem)}</label>
                 <div className="dropdownList">
                     {this.renderChildren()}
                 </div>
@@ -45,6 +47,12 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
         }
     }
 
+    private onMouseOver = (e: any) => {
+        if (this.props.setNodeById) {
+            this.props.setNodeById(this.props.idx);
+        }
+    }
+
     private renderChildren(): JSX.Element[] {
 
         const children: JSX.Element[] = [];
@@ -56,8 +64,9 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
             };
 
             const classes = classNames({
-                selected: element === this.props.selectedItem,
-                parentSelectedTxt: element === this.props.selectedItem,
+                // selected: element === this.props.selectedItem,
+                customTxtSelected2: element === this.props.selectedItem,
+                customTxt: element !== this.props.selectedItem,
             }, "dropDownListChildren")
 
 

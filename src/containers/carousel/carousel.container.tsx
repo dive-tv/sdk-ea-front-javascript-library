@@ -52,7 +52,7 @@ export class CarouselClass
         cards = this.performFilter(cards);
 
         return (
-            <div className="containerCarousel fillParent">
+            <div className="containerCarousel fillParent customBkg">
                 <CarouselButtonsContainer
                     key='CAROUSEL_BUTTONS'
                     parent={this}

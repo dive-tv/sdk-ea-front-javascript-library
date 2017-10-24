@@ -13,9 +13,9 @@
         position: relative;
         box-sizing: border-box;
         display: inline-block;
-        border: none !important;
+       //  border: none !important;
         &.focusable {
-            border: solid 2px $color-warm-grey !important;
+            border: solid 2px $color-warm-grey;
         }
         /*width: 45%;
         margin-right: 5%;*/
@@ -48,6 +48,9 @@
     }
      :focus {
         .listElement {
+           &.noBorder{
+                border: none !important;
+            }
             &.focusable {
                 // border: 2px solid $off-yellow !important;
             }

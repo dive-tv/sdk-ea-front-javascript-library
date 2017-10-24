@@ -42,7 +42,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
         return (
             <li id={this.props.id}>
                 <div className={classes}>
-                    {isRelation ? <div className="relationBar" /> : ''}
+                    {isRelation ? <div className="relationBar groupSelectedBkg" /> : ''}
                     {this.miniCard()}
                     {this.expandedInfo()}
                 </div >
@@ -86,7 +86,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
         switch (this.props.element.type) {
             case 'quote':
             case 'reference':
-                box = <div className="text alone customText">{text}</div >;
+                box = <div className="text alone customTxt">{text}</div >;
                 break;
             case 'character':
                 const person: Card | null = Helper.getRelationCard(
@@ -112,18 +112,18 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
                     // TODO: coger relación actor/personaje para pintar el título.
                     box = <div className="text">
                         <div className="title customTitle" >{title}</div>
-                        <div className="desc customText">{text}</div>
+                        <div className="desc customTxt">{text}</div>
                     </div>;
                     break;
                 }
             case 'song':
-                box = <div className="text customText"></div>;
+                box = <div className="text customTxt"></div>;
                 break;
 
             default:
                 box = <div className="text" >
                     <div className="title  customTitle">{this.props.element.title}</div>
-                    <div className="desc  customText">{text}</div>
+                    <div className="desc  customTxt">{text}</div>
                 </div>;
 
                 break;

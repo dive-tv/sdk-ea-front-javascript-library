@@ -8,6 +8,8 @@ interface IBOMProps {
     channelStatus: string;
     navigationParent: any;
     setNodeByName?: (name: string) => any;
+    setNodeById?: (id: number) => any;
+    idx?: number;
     closeInfoMsg: () => any;
 };
 export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
@@ -42,7 +44,7 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
                     <p className="text1">{Localize("MOVIE_ENDED")}</p>
                     <div className="buttonsContainer">
                         <NavigationContainer
-                            className="genericBtn"
+                            className="genericBtn "
                             parent={this}
                             isDefault={true}
                             columns={1}
@@ -93,6 +95,13 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
         return this.getChildren();
     }
 
+    public componentDidMount() {
+        setTimeout(() => {
+            this.props.setNodeById(this.props.idx);
+        }, 200);
+        
+    }
+
     public componentWillUnmount() {
         if (this.props.setNodeByName) {
             setTimeout(() => {
@@ -106,7 +115,7 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
             <div className="bottomMessage fillParent">
                 <div className="messageContainer bottomContainerTopButtons">
                     <div className="closeContainer">
-                        <NavigationContainer className="carouselButton bctButton close customSelectedBkg"
+                        <NavigationContainer className="carouselButton bctButton close customBtn"
                             parent={this}
                             isDefault={false}
                             columns={1}
@@ -119,20 +128,20 @@ export class BottomOverlayMessageClass extends React.PureComponent<IBOMProps> {
                 </div>
             </div>);
     }
-    
+
     private getMessageForCarousel(): JSX.Element {
         let messageContent;
         const channelStatus = this.props.channelStatus;
 
         switch (channelStatus) {
             case "paused":
-            return this.adMessageContent;
+                return this.adMessageContent;
             case "end":
-            return this.endMessageContent;
+                return this.endMessageContent;
             case "off":
-            return this.offMessageContent;
+                return this.offMessageContent;
             case "ready":
-            return this.readyMessageContent;
+                return this.readyMessageContent;
         }
     }
 

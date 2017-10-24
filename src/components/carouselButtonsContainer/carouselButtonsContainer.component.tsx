@@ -31,7 +31,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         return (
             <div id="carouselButtons" className="bottomContainerTopButtons">
                 <div className="btnClose">
-                    <NavigationContainer key="carouselClose" className="carouselButton bctButton close customSelectedBkg"
+                    <NavigationContainer key="carouselClose" className="carouselButton bctButton close customBtn"
                         parent={this}
                         onClick={this.props.closeCarousel} />
                 </div>
