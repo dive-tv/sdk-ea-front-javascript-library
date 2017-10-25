@@ -12,6 +12,9 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
+const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
+
+// console.log("RDP", RemoteDebuggerPlugin);
 
 
 console.log("WP IS PRODUCTION? ", isProduction);
@@ -28,6 +31,7 @@ const frontEntry = isProduction ?
     'redux',
     path.resolve(__dirname, 'src', 'main.tsx')] :
   [
+    'babel-polyfill',
     'eventsource-polyfill', // Necessary for hot reloading with IE
     `webpack-hot-middleware/client?reload=true&path=${publicPath}__webpack_hmr`,
     path.resolve(__dirname, 'src', 'main.tsx')
@@ -78,8 +82,26 @@ const sassEntry = /*ExtractTextPlugin.extract({
   ]
 //});
 
-const devtool = isProduction ? 'source-map': 'inline-source-map';//'source-map'; //'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
-const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]; // Tell webpack we want hot reloading
+const devtool = isProduction ? 'source-map' : 'inline-source-map';//'source-map'; //'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
+const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin(), new RemoteDebuggerPlugin({
+  appendScriptTag: false, // whether inject socket script tag 
+  weinreServer: true, // whether run weinre server in background when run webpack
+  weinreOption: {  // see: http://people.apache.org/~pmuellr/weinre/docs/latest/Running.html
+    httpPort: undefined,  // if not define, it can use a idle port
+    boundHost: undefined,  // if not define, it can use local ip( not 127.0.0.1)
+    verbose: true,
+    debug: true,
+    readTimeout: 5,
+    deathTimeout: 15,
+    defaultId: 'anonymous', // define a default id, if define 'auto', it will give you a random id. format is `${platform}-${browser}-${uid}`
+  },
+
+  httpProxyServer: true, // whether run http proxy in background when run webpack
+  httpProxyOption: {
+    port: 9877,
+  },
+}),
+]; // Tell webpack we want hot reloading
 plugins.push(
   new webpack.DefinePlugin({
     'process.env': {
@@ -106,7 +128,7 @@ plugins.push(
   ),*/
   new HtmlWebpackPlugin({
     template: 'index.html',
-  })
+  }),
 );
 const sourceMapPath = "file:///";
 if (process.env.NODE_ENV === "production") {
@@ -194,7 +216,7 @@ const config = {
           options: {
             sourceMap: true,
             insertInto: '#root',
-            attrs: {id: "estilos"}
+            attrs: { id: "estilos" }
           }
         }
       },

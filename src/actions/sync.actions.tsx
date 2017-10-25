@@ -44,39 +44,41 @@ export const SyncActions: ISyncActions = {
         dispatch(SyncActions.setSyncType("STATIC_VOD"));
         dispatch(SyncActions.setMovie(params.movieId));
         DiveAPI.getStaticMovieScene({ relations: true, clientMovieId: params.movieId, timestamp: params.timestamp })
-        .then((cards: Card[]) => {
-            dispatch(SyncActions.startScene(processCard(cards)));
-        });
+            .then((cards: Card[]) => {
+                dispatch(SyncActions.startScene(processCard(cards)));
+            });
     },
     syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https" }) => (dispatch: any) => {
         dispatch(SyncActions.setMovie(params.movieId));
         dispatch(SyncActions.setSyncType("SOCKET"));
-        DiveAPI.syncWithMovieVOD({ ...params, callbacks: {
-            onError: () => { console.log("[SOCKET] onError"); },
-            onMovieStart: (movie: any) => {
-                if (movie && movie.movie_id) {
-                    // dispatch(SyncActions.setMovie(movie.movie_id));
-                }
-            },
-            onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
-            onSceneStart: (scene: any) => {
-                if (scene && scene.cards) {
-                    dispatch(SyncActions.startScene(processCard(scene.cards)));
-                } else {
-                    dispatch(SyncActions.startScene([]));
-                }
-            },
-            onSceneUpdate: (scene: any) => {
-                // console.log("[SOCKET] onSceneUpdate", scene);
-                if (scene.cards) {
-                    // console.log("processCard: ", processCard(scene.cards));
-                    dispatch(SyncActions.updateScene(processCard(scene.cards)));
-                }
-            },
-            onSceneEnd: () => { dispatch(SyncActions.endScene()); },
-            onPauseStart: () => { dispatch(SyncActions.broadcastPause()); },
-            onPauseEnd: () => { dispatch(SyncActions.broadcastPauseEnd()); },
-        } });
+        DiveAPI.syncWithMovieVOD({
+            ...params, callbacks: {
+                onError: () => { console.log("[SOCKET] onError"); },
+                onMovieStart: (movie: any) => {
+                    if (movie && movie.movie_id) {
+                        // dispatch(SyncActions.setMovie(movie.movie_id));
+                    }
+                },
+                onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
+                onSceneStart: (scene: any) => {
+                    if (scene && scene.cards) {
+                        dispatch(SyncActions.startScene(processCard(scene.cards)));
+                    } else {
+                        dispatch(SyncActions.startScene([]));
+                    }
+                },
+                onSceneUpdate: (scene: any) => {
+                    // console.log("[SOCKET] onSceneUpdate", scene);
+                    if (scene.cards) {
+                        // console.log("processCard: ", processCard(scene.cards));
+                        dispatch(SyncActions.updateScene(processCard(scene.cards)));
+                    }
+                },
+                onSceneEnd: () => { dispatch(SyncActions.endScene()); },
+                onPauseStart: () => { dispatch(SyncActions.broadcastPause()); },
+                onPauseEnd: () => { dispatch(SyncActions.broadcastPauseEnd()); },
+            }
+        });
     },
     syncChannel: (channelId: string) => (dispatch: any) => {
         console.log("[SOCKET]");
@@ -84,6 +86,9 @@ export const SyncActions: ISyncActions = {
         DiveAPI.syncWithMovieStreaming({
             protocol: "http",
             channelId,
+            socketTransports: [
+                'htmlfile',
+            ],
             callbacks: {
                 onConnect: () => { console.log("[SOCKET] onConnect"); },
                 onAuthenticated: () => { console.log("[SOCKET] onAuthenticated"); },
