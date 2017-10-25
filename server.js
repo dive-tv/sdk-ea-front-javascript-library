@@ -27,7 +27,7 @@ Object.keys(ifaces).forEach(function (ifname) {
             // this interface has only one ipv4 adress
             console.log(ifname, iface.address);
         }
-        if (ifname == 'en0') {
+        if (ifname == 'en0' || ifname == 'Ethernet') {
             localIp = iface.address;
         }
         ++alias;

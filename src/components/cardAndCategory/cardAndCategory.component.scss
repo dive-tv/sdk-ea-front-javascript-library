@@ -11,7 +11,8 @@
         overflow: hidden;
         background-color: #000;
         position: relative;
-        margin-bottom: pxToVh(4);
+        // margin-bottom: pxToVh(4);
+        margin-bottom: 4%;
         text-align: center;
         background-size: cover;
         display: block;
@@ -21,10 +22,12 @@
             background-image: url('#{$assets-path}carousel/ico-nophoto.png');
             background-position: 50% 50%;
             background-repeat: no-repeat; // background-size: 50%;
-            background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
+            /// background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
+            background-size: auto 100%;
             font-size: pxToVw(40);
             width: 100%;
-            height: pxToVh(133); // display: block;
+            // height: pxToVh(133); // display: block;
+            height: 40%;
             text-align: center;
             display: block;
         }
@@ -38,24 +41,32 @@
         }
         &.song,
         &.ost {
-            padding-top: pxToVh(30);
+            // padding-top: pxToVh(30);
+            padding-top: 41%;
             >.icon {
                 // width: pxToVw(26);
-                height: pxToVh(33);
+                // height: pxToVh(33);
+                height: 40%;
                 background-image: url('#{$assets-path}carousel/ico-music-inactive@2x.png');
-                background-size: pxToVw(30) pxToVw(30); // width based but guarantees square format
+                // background-size: pxToVw(30) pxToVw(30); // width based but guarantees square format
             }
             >.title {
                 display: inline-block;
                 width: 100%;
                 text-align: center;
                 letter-spacing: .1px;
-                padding-left: pxToVw(5);
-                padding-right: pxToVw(5);
-                margin-top: pxToVh(5);
-                margin-bottom: pxToVh(5);
+                // padding-left: pxToVw(5);
+                // padding-right: pxToVw(5);
+                // margin-top: pxToVh(5);
+                // margin-bottom: pxToVh(5);
+                padding-left: 6%;
+                padding-right: 6%;
+                margin-top: 5%;
+                margin-bottom: 5%;
+
                 box-sizing: border-box;
-                max-height: pxToVh(60);
+                // max-height: pxToVh(60);
+                max-height: 60%;
                 /*FONT TYPE*/
                 font-size: pxToEmZeplinX2(10);
                 font-family: $font-lato;
@@ -71,10 +82,14 @@
                 box-sizing: border-box;
                 padding-top: 0;
                 max-height: pxToVh(60);
-                padding-left: pxToVw(5);
+                /*padding-left: pxToVw(5);
                 padding-right: pxToVw(5);
                 margin-top: pxToVh(5);
-                margin-bottom: pxToVh(5);
+                margin-bottom: pxToVh(5);*/
+                padding-left: 6%;
+                padding-right: 6%;
+                margin-top: 5%;
+                margin-bottom: 5%;
                 /*FONT TYPE*/
                 color: $warm-grey;
                 line-height: 1.2;
@@ -90,12 +105,17 @@
                 width: 100%;
                 text-align: center;
                 letter-spacing: .1px;
-                padding-left: pxToVw(5);
+               /* padding-left: pxToVw(5);
                 padding-right: pxToVw(5);
                 margin-top: pxToVh(55);
-                margin-bottom: pxToVh(5);
+                margin-bottom: pxToVh(5);*/
+                padding-left: 6%;
+                padding-right: 6%;
+                margin-top: 5%;
+                margin-bottom: 5%;
                 box-sizing: border-box;
-                max-height: pxToVh(60);
+                // max-height: pxToVh(60);
+                max-height: 47%;
                 /*FONT TYPE*/
                 font-size: pxToEmZeplinX2(10);
                 font-family: $font-lato;

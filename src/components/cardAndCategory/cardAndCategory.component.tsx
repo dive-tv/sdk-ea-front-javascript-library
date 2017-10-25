@@ -3,6 +3,7 @@ import { Card, Localize } from "Services";
 
 export interface ICardAndCategoryProps {
     card: Card | null;
+    title?: string;
 }
 export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, {}> {
     public static defaultProps: ICardAndCategoryProps = {
@@ -49,7 +50,7 @@ export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, 
                         {showTitle ? <div className="title">{card.title}</div> : null}
                         {showSubtitle && !showIcon ? <div className="subtitle">{card.subtitle}</div> : null}
                     </div>
-                    <div className="category">{category}</div>
+                    <div className="category">{this.props.title ? this.props.title : category}</div>
                 </div>
             );
         }

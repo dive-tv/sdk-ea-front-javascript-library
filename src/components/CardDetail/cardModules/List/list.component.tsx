@@ -18,7 +18,7 @@ import {
     DupleData,
 } from "Services";
 import { ICardModuleProps } from "CardModules";
-import { DirectionButton, HorizontalScroll, NavigationContainer } from "Components";
+import { DirectionButton, HorizontalScroll, NavigationContainer, CardAndCategory } from "Components";
 import { navigable, statics } from "HOC";
 import { UIActions, IUIActions } from 'Actions';
 import { bindActionCreators } from 'redux';
@@ -91,14 +91,14 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
             case 'Shop':
                 const objShop = {
                     content_type: 'products',
-                    data: card.products.filter((product) => product.category !==  "travel"),
+                    data: card.products.filter((product) => product.category !== "travel"),
                     type: 'listing',
                 };
                 return objShop as IListContainerType;
             case 'TravelShop':
                 const objTravelShop = {
                     content_type: 'products',
-                    data: card.products.filter((product) => product.category ===  "travel"),
+                    data: card.products.filter((product) => product.category === "travel"),
                     type: 'listing',
                 };
                 return objTravelShop as IListContainerType;
@@ -256,10 +256,10 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .container
                 .data
                 .map((el: Card, i: number) => {
-                    return this.getGenericElement(
+                    return this.getCardElement(
+                        el,
                         {
                             title: el.title,
-                            image: el.image ? el.image.thumb : null,
                             order: i,
                             onClick: el.card_id ? () => {
                                 return (this.props.uiActions as any).openCard(el.card_id, "offmovie");
@@ -300,8 +300,23 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 forceOrder={order % this.props.itemsShown}
                 columns={2}
                 className="horizontalElement listElement">
-                <div className="image focusable">{ image ? <img src={image} /> : null}</div>
+                <div className="image focusable">{image ? <img src={image} /> : null}</div>
                 <div className="title focusable">{title}</div>
+            </NavigationContainer>
+        );
+    }
+
+    private getCardElement(card: Card, params: { title: string, order: number, onClick?: () => void }): JSX.Element {
+        const { title, order, onClick } = params;
+        return (
+            <NavigationContainer
+                key={this.props.container!.content_type + '_show_' + order}
+                clickAction={onClick}
+                parent={this}
+                forceOrder={order % this.props.itemsShown}
+                columns={2}
+                className="horizontalElement listElement">
+                <CardAndCategory card={card} title={title}/>
             </NavigationContainer>
         );
     }
