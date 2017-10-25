@@ -39,7 +39,6 @@ export class AppClass extends React.Component<App.IOwnProps & App.IActionProps, 
     public render(): any {
         return (
             <div className="app">
-                <Theme />
                 <Layout columns={1} parent={null} />
             </div>
         );

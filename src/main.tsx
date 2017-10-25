@@ -9,6 +9,7 @@ import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
 import { DIVE_ENVIRONMENT } from 'Constants';
+import { Theme } from 'Components';
 
 declare const KeyEvent: any;
 
@@ -76,7 +77,9 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer">
+                    <Theme theme={/*{background:"green", text:"fuchsia", title: "blue", backgroundCardSection: "orange", backgroundCarouselCard:"cyan"}*/} />
                     <Provider store={store}>
+                        
                         <App />
                     </Provider>
                 </div>
@@ -89,7 +92,7 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             console.error("ERROR LOADING", error);
         });
 
-        
+
     /*DiveAPI.getCard({cardId: "c58bbf1f-6ff5-11e5-b7c2-0684985cbbe3"}).catch((response) => {
       console.warn(response);
     });*/

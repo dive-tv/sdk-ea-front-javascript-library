@@ -23,8 +23,18 @@ export class Theme extends React.PureComponent<IThemeProps, {}> {
         },
     };
 
+    public validatedTheme = (): ITheme => {
+        let theme: any = {};
+        for (var propiedad in this.props.theme) {
+            theme[propiedad] = (this.props.theme as any)[propiedad].split(";")[0];
+        }
+        return theme as ITheme;
+    }
+
     public render(): JSX.Element {
-        const { theme } = this.props;
+        // const { theme } = this.props;
+
+        const theme = { ...Theme.defaultProps.theme, ...this.props.theme };
 
         return (
             <style>{
