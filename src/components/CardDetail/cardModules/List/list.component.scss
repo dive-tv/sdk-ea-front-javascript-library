@@ -25,14 +25,14 @@
             object-fit: cover;
             background-color: black;
         }
-        .image {
+        & > .image {
             width: 100%;
             height: 80%;
             position: relative;
             box-sizing: border-box;
             border: solid 2px $color-warm-grey;
         }
-        .title {
+        & > .title {
             width: 100%;
             height: 15%;
             position: absolute;

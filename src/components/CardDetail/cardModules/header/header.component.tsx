@@ -37,10 +37,10 @@ interface IHeaderProps {
                     catalogInfo.data[0]) {
                     const mediaData = catalogInfo.data[0];
                     if (mediaData.runtime) {
-                        let currentTimeInSecs = mediaData.runtime!;
-                        const hours = Math.floor(currentTimeInSecs / 3600);
-                        currentTimeInSecs %= 3600;
-                        const minutes = Math.floor(currentTimeInSecs / 60);
+                        let currentTimeInMin = mediaData.runtime!;
+                        const hours = Math.floor(currentTimeInMin / 60);
+                        currentTimeInMin %= 60;
+                        const minutes = Math.floor(currentTimeInMin);
                         time = `${minutes} m`;
                         if (hours > 0) {
                             time = `${hours} h ${time}`;
@@ -103,7 +103,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
     public render(): JSX.Element {
         const subtitle = this.getSubtitle();
         return (
-            <div className="header cardModule">
+            <div className={`header cardModule ${this.props.card.type}`}>
                 <CardAndCategory card={this.props.card} />
                 <div className="rightPart">
                     <div className="info">
