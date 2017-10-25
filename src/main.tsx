@@ -10,13 +10,14 @@ import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
 import { Card, KeyMap } from 'Services';
 import { DIVE_ENVIRONMENT } from 'Constants';
 import { Theme } from 'Components';
+import { ITheme } from 'src/scss/theme';
 
 declare const KeyEvent: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 
-export const init = (params: { apiKey: string, deviceId: string, selector: string }) => {
+export const init = (params: { apiKey: string, deviceId: string, selector: string, theme?: ITheme }) => {
     if (typeof params !== "object") {
         console.error("You should provide initialization parameters as an object.");
         throw new Error("You should provide initialization parameters as an object.");
@@ -72,14 +73,15 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
             //{ card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
 
             //];
+            // const theme = {/*background:"green", text:"fuchsia", title: "blue", backgroundCardSection: "orange", backgroundCarouselCard:"cyan"*/};
             //response = [...newCards, ...response];
             //console.log("response: ", response);
             ReactDOM.render(
                 //<ShadowDOM /*include={'styles.css'}*/>
                 <div className="diveContainer">
-                    <Theme theme={/*{background:"green", text:"fuchsia", title: "blue", backgroundCardSection: "orange", backgroundCarouselCard:"cyan"}*/} />
+                    <Theme theme={params.theme} />
                     <Provider store={store}>
-                        
+
                         <App />
                     </Provider>
                 </div>
@@ -101,7 +103,12 @@ export const init = (params: { apiKey: string, deviceId: string, selector: strin
     //});
 };
 
-init({ selector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test" });
+init({
+    selector: "#root",
+    apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
+    deviceId: "test",
+    //theme: { background: 'green' },
+});
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS
