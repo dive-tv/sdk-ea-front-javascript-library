@@ -38,8 +38,8 @@
             flex-direction: column; // flex-basis: pxToVh(12);
             overflow: hidden;
             flex-wrap: nowrap;
-            justify-content: flex-start;
-            align-items: stretch; // height: pxToVh(133);
+            align-items: flex-start;
+            // align-items: stretch; // height: pxToVh(133);
             height: 92%;
             &>* {
                 // max-height: pxToVh(27);
@@ -95,6 +95,7 @@
                     flex-grow: 0;
                     float: right;
                     align-self: flex-end;
+                    place-self: flex-end;
                     line-height: 1.1;
                 }
             }
@@ -105,7 +106,9 @@
                 letter-spacing: .3px;
                 flex-shrink: 1;
                 margin-bottom: 5%; // margin-bottom: pxToVh(7.5);
-                flex-grow: 1;
+                // flex-grow: 1;
+                line-height: 1;
+                flex-grow: 2;
                 .navigable:focus {
                     text-decoration: underline;
                     color: $off-yellow;

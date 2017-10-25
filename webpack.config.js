@@ -19,7 +19,7 @@ const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 
 console.log("WP IS PRODUCTION? ", isProduction);
 // publicPath is not used, now is overriden by node server.js
-const publicPath = `http://192.168.17.47:3000` + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
+const publicPath = `http://0.0.0.0:3000` + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
 
 const frontEntry = isProduction ?
   [
@@ -83,25 +83,29 @@ const sassEntry = /*ExtractTextPlugin.extract({
 //});
 
 const devtool = isProduction ? 'source-map' : 'inline-source-map';//'source-map'; //'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
-const plugins = isProduction ? [] : [new webpack.HotModuleReplacementPlugin(), new RemoteDebuggerPlugin({
-  appendScriptTag: false, // whether inject socket script tag 
-  weinreServer: true, // whether run weinre server in background when run webpack
-  weinreOption: {  // see: http://people.apache.org/~pmuellr/weinre/docs/latest/Running.html
-    httpPort: undefined,  // if not define, it can use a idle port
-    boundHost: undefined,  // if not define, it can use local ip( not 127.0.0.1)
-    verbose: true,
-    debug: true,
-    readTimeout: 5,
-    deathTimeout: 15,
-    defaultId: 'anonymous', // define a default id, if define 'auto', it will give you a random id. format is `${platform}-${browser}-${uid}`
-  },
+const plugins = isProduction ? [] :
+  [
+    // Tell webpack we want hot reloading
+    new webpack.HotModuleReplacementPlugin(),
+    new RemoteDebuggerPlugin({
+      appendScriptTag: false, // whether inject socket script tag 
+      weinreServer: true, // whether run weinre server in background when run webpack
+      weinreOption: {  // see: http://people.apache.org/~pmuellr/weinre/docs/latest/Running.html
+        httpPort: undefined,  // if not define, it can use a idle port
+        boundHost: undefined,  // if not define, it can use local ip( not 127.0.0.1)
+        verbose: true,
+        debug: true,
+        readTimeout: 5,
+        deathTimeout: 15,
+        defaultId: 'anonymous', // define a default id, if define 'auto', it will give you a random id. format is `${platform}-${browser}-${uid}`
+      },
 
-  httpProxyServer: true, // whether run http proxy in background when run webpack
-  httpProxyOption: {
-    port: 9877,
-  },
-}),
-]; // Tell webpack we want hot reloading
+      httpProxyServer: true, // whether run http proxy in background when run webpack
+      httpProxyOption: {
+        port: 9877,
+      },
+    }),
+  ]; 
 plugins.push(
   new webpack.DefinePlugin({
     'process.env': {
@@ -128,7 +132,7 @@ plugins.push(
   ),*/
   new HtmlWebpackPlugin({
     template: 'index.html',
-  }),
+  })
 );
 const sourceMapPath = "file:///";
 if (process.env.NODE_ENV === "production") {

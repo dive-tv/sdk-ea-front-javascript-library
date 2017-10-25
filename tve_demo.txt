@@ -9,10 +9,9 @@ gc.appendChild(dc);
 document.body.appendChild(gc);
 
 var script = document.createElement('script');
-script.src = "http://192.168.17.47:3000/DiveSDK.front.js";
+script.src = "http://0.0.0.0:3000/DiveSDK.front.js";
 document.body.appendChild(script);
 script.onload = function() {
-    // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodOptions: {vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING"}, showMenu: false });
     DiveSDK.front.demoRTVE();
 }
 
@@ -29,6 +28,4 @@ script.onload = function() {
 http://www.rtve.es/xl/hbbtv/el-ministerio-del-tiempo/4245810?programId=83030&origen=#seft
 
 //API_KEY touchvie_api DEV: dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT
-
-
-Mozilla/5.0 (Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36 OPR/43.0.2207.0 OMI/4.10.0.51.release Model/Demo-Rotopipe Dani
+    // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodOptions: {vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING"}, showMenu: false });

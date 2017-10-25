@@ -5,8 +5,8 @@ body .diveContainer {
     @import 'functions';
     $font-lato: Tiresias,
     sans-serif;
-    $font-zona: 'Letter Gothic 12 Pitch';
-    $font-zona-pro: 'Letter Gothic 12 Pitch';
+    $font-zona: sans-serif; // 'Letter Gothic 12 Pitch';
+    $font-zona-pro: sans-serif; // 'Letter Gothic 12 Pitch';
     @import 'common';
     * {
         outline: none;

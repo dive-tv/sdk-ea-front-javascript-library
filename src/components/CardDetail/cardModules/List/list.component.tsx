@@ -53,7 +53,7 @@ interface IListContainerType/*extends CardContainer*/ {
 }
 type ListModuleType = 'Gallery' | 'Shop' | 'TravelShop' | 'Filmography' | 'Vehicles' | 'Seasons' |
     'AppearsIn' | 'Fashion' | 'Home' | 'Recommended' | 'Cast' | 'AppearsInLocation' | 'CompleteTheDeco' |
-    'SongBelongTo';
+    'SongBelongTo' | 'Soundtrack';
 
 @statics({
     moduleName: "list",
@@ -114,6 +114,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 return Helper.getRelation(card.relations, 'home_deco', 'content_type') as Single;
             case 'SongBelongTo':
                 return Helper.getRelation(card.relations, 'is_part_of', 'content_type') as Single;
+            case 'Soundtrack':
+                return Helper.getRelation(card.relations, 'tracklist', 'content_type') as Single;
             default:
                 return undefined;
         }
@@ -154,7 +156,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
             /*case 'Directors':*/
             case 'AppearsInLocation':
             case 'CompleteTheDeco':
-            // case 'SongBelongTo':
+            case 'SongBelongTo':
+            case 'Soundtrack':
                 return this.getRelSingleList();
             case 'Seasons':
                 return this.getSeasonList();
@@ -256,7 +259,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                     return this.getGenericElement(
                         {
                             title: el.title,
-                            image: el.image.thumb,
+                            image: el.image ? el.image.thumb : null,
                             order: i,
                             onClick: el.card_id ? () => {
                                 return (this.props.uiActions as any).openCard(el.card_id, "offmovie");
@@ -277,7 +280,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .data
                 .map((el: SeasonsDataVO, i: number) => {
                     return this.getGenericElement(
-                        { title: 'Season ' + el.season_index, image: el.image.thumb, order: i },
+                        { title: 'Season ' + el.season_index, image: el.image ? el.image.thumb : null, order: i },
                     );
                 });
             return elements;
@@ -304,11 +307,14 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
     }
 
     private getTitle() {
-        switch (this.props.container!.content_type) {
-            case 'gallery':
-                return Localize('GALLERY') || 'GALLERY';
-            case 'cast':
-                return Localize('CAST') || 'CAST';
+        const type: ListModuleType = this.props.moduleType;
+        switch (type) {
+            case 'Gallery':
+                return Localize('GALLERY');
+            case 'SongBelongTo':
+                return Localize("CAROUSEL_ALIAS_OST"); //`TITLE_${type}`);
+            case 'Soundtrack':
+                return Localize(`TITLE_${type.toLocaleUpperCase()}`);
             default:
                 return null;
         }

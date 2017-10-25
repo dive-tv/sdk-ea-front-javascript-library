@@ -87,7 +87,7 @@ export const SyncActions: ISyncActions = {
             protocol: "http",
             channelId,
             socketTransports: [
-                'htmlfile',
+                'polling',
             ],
             callbacks: {
                 onConnect: () => { console.log("[SOCKET] onConnect"); },

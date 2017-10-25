@@ -55,8 +55,8 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
             // Bottom configuration
             const bottomType: UILayerBottomTypes = this.props.ui.containers[1].component as UILayerBottomTypes;
             const bottomStyle: React.CSSProperties = {
-                paddingBottom: this.props.ui.divider === 100 ? "0" : "22.5%",
-                /*height: `${100 - this.props.ui.divider}%`*/
+                // paddingBottom: this.props.ui.divider === 100 ? "0" : "22.5%",
+                height: this.props.ui.divider === 100 ? "0" : `${100 - this.props.ui.divider}%`
             };
             return (
                 <div className="containerLayout">
