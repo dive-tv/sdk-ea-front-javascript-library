@@ -130,6 +130,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                     <div className="listContent">
                         <HorizontalScroll
                             parent={this}
+                            key={Date.now()}
                             uniqueId={this.props.container!.content_type}
                             itemsShown={this.props.itemsShown}>
                             {this.getList()}
@@ -171,14 +172,15 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .container
                 .data
                 .map((el: ImageDataVO, i: number) => (
-                    <NavigationContainer
-                        key={this.props.container!.content_type + '_show_' + i}
-                        parent={this}
-                        forceOrder={i % this.props.itemsShown}
-                        columns={2}
-                        className="horizontalElement listElement focusable">
-                        <img src={el.thumb} />
-                    </NavigationContainer>
+                    /* <NavigationContainer
+                         key={this.props.moduleType + '_show_' + i}
+                         parent={this}
+                         // forceOrder={i % this.props.itemsShown}
+                         // columns={2}
+                         className="horizontalElement listElement focusable">
+                         <img src={el.thumb} />
+                     </NavigationContainer>*/
+                     <div className="fillParent horizontalElement listElement focusable"><img src={el.thumb} /></div>
                 ));
             return elements;
         }
@@ -293,31 +295,36 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
     ): JSX.Element {
         const { title, image, order, onClick } = params;
         return (
-            <NavigationContainer
-                key={this.props.container!.content_type + '_show_' + order}
+            /*<NavigationContainer
+                key={this.props.moduleType + '_show_' + order}
                 clickAction={onClick}
                 parent={this}
-                forceOrder={order % this.props.itemsShown}
-                columns={2}
+               //  forceOrder={order % this.props.itemsShown}
+                // columns={2}
                 className="horizontalElement listElement">
                 <div className="image focusable">{image ? <img src={image} /> : null}</div>
                 <div className="title focusable">{title}</div>
-            </NavigationContainer>
+            </NavigationContainer>*/
+            <div className="fillParent horizontalElement listElement">
+                <div className="image focusable">{image ? <img src={image} /> : null}</div>
+                <div className="title focusable">{title}</div>
+            </div>
         );
     }
 
     private getCardElement(card: Card, params: { title: string, order: number, onClick?: () => void }): JSX.Element {
         const { title, order, onClick } = params;
         return (
-            <NavigationContainer
+            /*<NavigationContainer
                 key={this.props.container!.content_type + '_show_' + order}
                 clickAction={onClick}
                 parent={this}
-                forceOrder={order % this.props.itemsShown}
-                columns={2}
+                // forceOrder={order % this.props.itemsShown}
+                // columns={2}
                 className="horizontalElement listElement">
                 <CardAndCategory card={card} title={title}/>
-            </NavigationContainer>
+            </NavigationContainer>*/
+            <div className="fillParent horizontalElement listElement"> <CardAndCategory card={card} title={title} /></div>
         );
     }
 

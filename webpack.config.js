@@ -87,7 +87,7 @@ const plugins = isProduction ? [] :
   [
     // Tell webpack we want hot reloading
     new webpack.HotModuleReplacementPlugin(),
-    new RemoteDebuggerPlugin({
+    /*new RemoteDebuggerPlugin({
       appendScriptTag: false, // whether inject socket script tag 
       weinreServer: true, // whether run weinre server in background when run webpack
       weinreOption: {  // see: http://people.apache.org/~pmuellr/weinre/docs/latest/Running.html
@@ -104,7 +104,7 @@ const plugins = isProduction ? [] :
       httpProxyOption: {
         port: 9877,
       },
-    }),
+    }),*/
   ]; 
 plugins.push(
   new webpack.DefinePlugin({
