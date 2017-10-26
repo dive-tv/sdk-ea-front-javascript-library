@@ -61,15 +61,16 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
         if (this.props.children instanceof Array) {
             for (let i = this.offset; i < (this.props.itemsShown + this.offset) && (i < this.props.children.length); i++) {
                 // elements.push(this.props.children[i] as JSX.Element);
-               elements.push(
+                elements.push(
                     <NavigationContainer
                         key={Date.now() + i}
                         parent={this}
                         columns={2}
+                        propagateParent={true}
                         className="horizontalElement listElement">
                         {this.props.children[i] as JSX.Element}
                     </NavigationContainer>);
-                    
+
             }
         }
         return elements;
