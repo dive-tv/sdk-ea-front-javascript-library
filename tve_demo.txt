@@ -9,7 +9,7 @@ gc.appendChild(dc);
 document.body.appendChild(gc);
 
 var script = document.createElement('script');
-script.src = "http://0.0.0.0:3000/DiveSDK.front.js";
+script.src = "http://192.168.17.243:3000/DiveSDK.front.js";
 document.body.appendChild(script);
 script.onload = function() {
     DiveSDK.front.demoRTVE();
