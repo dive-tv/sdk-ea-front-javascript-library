@@ -16,7 +16,7 @@ interface ITextProps {
         const container: any | undefined = Helper.getContainer(card, 'text') as any;
         if (container !== undefined &&
             container.data !== undefined &&
-            container.data.length > 0) {
+            container.data.length > 0 && container.data[0].text) {
             const Instantiated = navigable(Text);
             return (<Instantiated
                 container={container}
