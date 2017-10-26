@@ -15,25 +15,31 @@
         display: inline-block;
         border: none !important;
         padding-bottom: 2px;
+
         &.focusable {
             border: solid 2px $color-warm-grey !important;
         }
-        /*width: 45%;
-        margin-right: 5%;*/
+
+        a, a:hover, a:visited {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+        }
+
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             background-color: black;
         }
-        >.image {
+        >.image, > a >.image {
             width: 100%;
             height: 80%;
             position: relative;
             box-sizing: border-box;
             border: solid 2px $color-warm-grey;
         }
-        >.title {
+        >.title, > a > .title {
             width: 100%;
             height: 15%;
             position: absolute;

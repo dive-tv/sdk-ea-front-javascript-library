@@ -25,7 +25,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
         }
         return (
             <div className="horizontalScroll">
-                <div className="scrollBox" ref={(el) => { if (el) { this.scrollBox = el; } }}>
+                <div className="scrollBox" ref={(el) => { this.scrollBox = el; }}>
                     <NavigationContainer
                         parent={this}
                         propagateParent={true}
@@ -65,6 +65,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
                     <NavigationContainer
                         key={Date.now() + i}
                         parent={this}
+                        propagateParent={true}
                         columns={2}
                         className="horizontalElement listElement">
                         {this.props.children[i] as JSX.Element}

@@ -7,7 +7,7 @@ import ShadowDOM from 'react-shadow';
 import { store } from './store/store';
 import { App } from 'Containers';
 import { AccessToken, DiveAPIClass } from "@dive-tv/api-typescript-library";
-import { Card, KeyMap } from 'Services';
+import { Card, KeyMap, loadHbbtvKeys } from 'Services';
 import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector, VOD_MODE } from 'Constants';
 import * as css from './scss/main.scss';
 import { UIActions, SyncActions } from 'Actions';
@@ -56,12 +56,7 @@ export const init = (
         }
         try {
             if (KeyEvent) {
-                const km: any = KeyMap;
-                km.UP = KeyEvent.VK_UP;
-                km.DOWN = KeyEvent.VK_DOWN;
-                km.LEFT = KeyEvent.VK_LEFT;
-                km.RIGHT = KeyEvent.VK_RIGHT;
-                km.ENTER = KeyEvent.VK_ENTER;
+                loadHbbtvKeys();
             }
         } catch (e) {
             console.error("NO KEYMAP FOUND");
@@ -70,7 +65,7 @@ export const init = (
         const APIinstance = new DiveAPIClass(
             { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
         );
-        // APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.17.243:3000/proxy?url=https");
+        // APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.0.100:3000/proxy?url=https");
         console.log("BP", APIinstance.basePath);
         APIinstance.setLocale("es-ES");
         console.log("Setted locale");

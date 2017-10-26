@@ -26,7 +26,7 @@ export class VerticalScrollClass extends React.PureComponent<IVerticalScrollProp
                 this.props.source.url : null;
         return (
             <div className="verticalScroll">
-                <div className="scrollBox" ref={(el) => { if (el) { this.scrollBox = el; } }}>
+                <div className="scrollBox" ref={(el) => { this.scrollBox = el; }}>
                     {this.props.children}
                 </div>
                 {source ?
