@@ -171,7 +171,7 @@ export function syncVOD(params: { movieId: string, timestamp: number }) {
 
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
-// test();
+test();
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS

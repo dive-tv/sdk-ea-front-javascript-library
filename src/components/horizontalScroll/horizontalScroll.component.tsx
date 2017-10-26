@@ -29,6 +29,8 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
                     <NavigationContainer
                         parent={this}
                         propagateParent={true}
+                        forceOrder={0}
+                        key={Date.now()}
                         className="scrollBoxContent"
                     >
                         {elements}
@@ -40,6 +42,7 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
                             <DirectionButtonList
                                 parent={this}
                                 template="vertical"
+                                forceOrder={1}
                                 btns={[
                                     { direction: 'right', action: this.rightAction },
                                     { direction: 'left', action: this.leftAction },
@@ -57,7 +60,16 @@ export class HorizontalScrollClass extends React.PureComponent<IHorizontalScroll
         const elements: JSX.Element[] = [];
         if (this.props.children instanceof Array) {
             for (let i = this.offset; i < (this.props.itemsShown + this.offset) && (i < this.props.children.length); i++) {
-                elements.push(this.props.children[i] as JSX.Element);
+                // elements.push(this.props.children[i] as JSX.Element);
+               elements.push(
+                    <NavigationContainer
+                        key={Date.now() + i}
+                        parent={this}
+                        columns={2}
+                        className="horizontalElement listElement">
+                        {this.props.children[i] as JSX.Element}
+                    </NavigationContainer>);
+                    
             }
         }
         return elements;

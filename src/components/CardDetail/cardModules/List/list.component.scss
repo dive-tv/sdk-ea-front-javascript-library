@@ -38,11 +38,12 @@
             height: 15%;
             position: absolute;
             box-sizing: border-box;
-            border: solid 2px $color-warm-grey;
-           // font-size: pxToEmZeplinX2(10);
-           font-size: pxToEmZeplinX2(8);
+            border: solid 2px $color-warm-grey; // font-size: pxToEmZeplinX2(10);
+            font-size: pxToEmZeplinX2(8);
             text-align: center;
             padding-top: 7%;
+            padding-left: 5%;
+            padding-right: 5%;
             bottom: 0px;
             text-overflow: ellipsis;
             overflow: hidden;
