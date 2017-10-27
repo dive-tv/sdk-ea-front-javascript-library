@@ -45,9 +45,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
     // }
 
     public render(): any {
-        console.log("[LayoutClass] Render ", this.props.ui);
         if (this.props && this.props.ui) {
-            console.log("[LayoutClass] Render OK");
             // Top configuration
             const topType: UILayerTopTypes = this.props.ui.containers[0].component as UILayerTopTypes;
             const topStyle: React.CSSProperties = { height: `${this.props.ui.divider}%` };
