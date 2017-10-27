@@ -39,7 +39,7 @@ export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, 
             const category = Localize(`CAROUSEL_ALIAS_${card.type.toUpperCase()}`) || card.type;
             return (
                 <div className="cardAndCategory">
-                    <div className={`image ${card.type}`}
+                    <div className={`image ${card.type} parentSelected`}
                         style={showImage ? {
                             backgroundImage: `url(${card!.image!.thumb})`,
                             backgroundPosition:
@@ -47,10 +47,10 @@ export class CardAndCategory extends React.PureComponent<ICardAndCategoryProps, 
                         } : undefined}
                     >
                         {showIcon ? <div className="icon"></div> : null}
-                        {showTitle ? <div className="title">{card.title}</div> : null}
+                        {showTitle ? <div className="title customTitle" >{card.title}</div> : null}
                         {showSubtitle && !showIcon ? <div className="subtitle">{card.subtitle}</div> : null}
                     </div>
-                    <div className="category">{this.props.title ? this.props.title : category}</div>
+                    <div className="category customTitle parentSelected">{this.props.title ? this.props.title : category}</div>
                 </div>
             );
         }

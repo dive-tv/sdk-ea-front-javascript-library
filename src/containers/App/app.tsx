@@ -8,6 +8,7 @@ import { CardDetailContainer, Layout } from 'Containers';
 import { Card } from 'Services';
 import { navigable } from 'HOC';
 import { UIActions, IUIActions } from 'Actions';
+import { Theme } from 'Components';
 
 // tslint:disable-next-line:no-namespace
 export namespace App {

@@ -108,7 +108,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                 <div className="rightPart">
                     <div className="info">
                         <div className="titleContainer">
-                            <p className="title">{this.props.title}</p>
+                            <p className="title customTitle">{this.props.title}</p>
                             {
                                 this.props.titleParenthesis ?
                                     <div className="titleParenthesis"> ({this.props.titleParenthesis})</div> :
@@ -125,7 +125,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                                 parent={this}
                                 columns={1}
                                 isDefault={true}
-                                className={`likeButton genericBtn`}
+                                className={`likeButton genericBtn customBtn`}
                             // clickAction={this.clickLike.bind(this)}
                             >
                                 <div className="centeredContent">

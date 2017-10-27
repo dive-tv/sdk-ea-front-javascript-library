@@ -9,7 +9,7 @@ export interface IDirectionButtonProps {
 export class DirectionButtonClass extends React.PureComponent<IDirectionButtonProps, {}> {
 
     public render() {
-        const classes = classNames('directionButton', this.props.direction);
+        const classes = classNames('directionButton customBtn', this.props.direction);
         return (
             <div className={classes}></div>
         );

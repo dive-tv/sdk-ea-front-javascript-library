@@ -77,4 +77,29 @@ body,
         background-color: $color-dark-grey-three;
         border: solid 1px $color-off-yellow;
     }
+    @media all and (max-width: 900px) {
+        body {
+            font-size: 3px;
+        }
+    }
+    @media all and (min-width: 900px) and (max-width: 1300px) {
+        body {
+            font-size: 7px;
+        }
+    }
+    @media all and (min-width: 1300px) and (max-width: 1620px) {
+        body {
+            font-size: 9px;
+        }
+    }
+    @media all and (min-width: 1620px) and (max-width: 2600px) {
+        body {
+            font-size: 11px;
+        }
+    }
+    @media all and (min-width: 2600px) {
+        body {
+            font-size: 20px;
+        }
+    }
 }

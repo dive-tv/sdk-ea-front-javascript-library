@@ -27,13 +27,13 @@ export class MoreRelationsClass extends React.PureComponent<MoreRelationsProps, 
     private moreRelation = (): JSX.Element => {
         return (
             <div className="minicard relation">
-                <div className="relationBar"/>
+                <div className="relationBar groupSelectedBkg"/>
                 <div className="cardLeft">
                     <div className="cardAndCategory">
-                        <div className={`image`}>
+                        <div className={`image parentSelected`}>
                             <div className={`showMore`}>+</div>
                         </div>
-                        <div className="category">{Localize("CAROUSEL_EXPLORE_MORE")}</div>
+                        <div className="category customTitle parentSelected" >{Localize("CAROUSEL_EXPLORE_MORE")}</div>
                     </div>
                 </div>
             </div>

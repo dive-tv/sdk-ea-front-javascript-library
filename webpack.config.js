@@ -199,6 +199,7 @@ const config = {
       Constants: path.resolve(__dirname, 'src', 'constants'),
       HOC: path.resolve(__dirname, 'src', 'HOC', 'index'),
       CardModules: path.resolve(__dirname, 'src', 'components', 'cardDetail', 'cardModules', 'index'),
+      Theme: path.resolve(__dirname, 'src', 'scss', 'theme', 'index'),
     },
     extensions: ['.js', '.ts', '.tsx'],
     // Fix webpack's default behavior to not load packages with jsnext:main module

@@ -126,7 +126,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         return (
             <div className={`cardModuleList cardModule ${this.props.moduleType}`}>
                 <div className="container">
-                    <div className="cardTitle">{textTitle}</div>
+                    <div className="cardTitle customTitle">{textTitle}</div>
                     <div className="listContent">
                         <HorizontalScroll
                             parent={this}
@@ -173,13 +173,13 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 .data
                 .map((el: ImageDataVO, i: number) => (
                     <NavigationContainer
-                         key={this.props.moduleType + '_show_' + i}
-                         parent={this}
-                         // forceOrder={i % this.props.itemsShown}
-                         // columns={2}
-                         className="horizontalElement listElement focusable">
-                         <img src={el.thumb} />
-                     </NavigationContainer>
+                        key={this.props.moduleType + '_show_' + i}
+                        parent={this}
+                        // forceOrder={i % this.props.itemsShown}
+                        // columns={2}
+                        className="horizontalElement listElement focusable customToggleSelected">
+                        <img src={el.thumb} />
+                    </NavigationContainer>
                     // <div className="fillParent horizontalElement listElement focusable"><img src={el.thumb} /></div>
                 ));
             return elements;
@@ -199,7 +199,9 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.price.toString() + el.currency,
                             image: el.image,
                             order: i,
-                            link: el.url,
+                            onClick: () => { 
+                                window.open(el.url, '_blank');
+                            }
                         })
                     );
                 });
@@ -296,27 +298,28 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
     }
 
     private getGenericElement(params:
-        { title: string, image: string, order: number, onClick?: () => void, link?: string },
+        { title: string, image: string, order: number, onClick?: () => void },
     ): JSX.Element {
         const { title, image, order, onClick } = params;
-        return (
-            <NavigationContainer
-                key={this.props.moduleType + '_show_' + order}
-                clickAction={onClick}
-                parent={this}
-               //  forceOrder={order % this.props.itemsShown}
-                // columns={2}
-                className="horizontalElement listElement">
-                <div className="image focusable">{image ? <img src={image} /> : null}</div>
-                <div className="title focusable">{title}</div>
-            </NavigationContainer>
-            /*<div className="fillParent horizontalElement listElement">
-                <a href={params.link ? params.link : "#"} target={params.link ? "_blank" : "_self"} className="fillParent product">
-                    <div className="image focusable">{image ? <img src={image} /> : null}</div>
-                    <div className="title focusable">{title}</div>
-                </a>
-            </div>*/
-        );
+
+        const element: JSX.Element = <NavigationContainer
+            key={this.props.moduleType + '_show_' + order}
+            clickAction={onClick}
+            parent={this}
+            //  forceOrder={order % this.props.itemsShown}
+            // columns={2}
+            className="horizontalElement listElement noBorder">
+            <div className="image focusable parentSelected customToggleSelected">{image ? <img src={image} /> : null}</div>
+            <div className="title focusable parentSelected customTitle customToggleSelected">{title}</div>
+        </NavigationContainer>;
+        return element;
+        /* if (params.link) {
+             return (<a href={params.link} target={"_blank"} className="fillParent product">
+                 {element}
+             </a>);
+         } else {
+             return element;
+         }*/
     }
 
     private getCardElement(card: Card, params: { title: string, order: number, onClick?: () => void }): JSX.Element {
@@ -329,7 +332,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                 // forceOrder={order % this.props.itemsShown}
                 // columns={2}
                 className="horizontalElement listElement">
-                <CardAndCategory card={card} title={title}/>
+                <CardAndCategory card={card} title={title} />
             </NavigationContainer>
             // <div className="fillParent horizontalElement listElement"> <CardAndCategory card={card} title={title} /></div>
         );

@@ -81,7 +81,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                         {this.getTop(topType)}
                     </div>
 
-                    <div className="layoutBottom" style={bottomStyle}>
+                    <div className="layoutBottom customBkg" style={bottomStyle}>
                         <div className="layoutBottomSub">
                             {this.getBottom(bottomType)}
                         </div>

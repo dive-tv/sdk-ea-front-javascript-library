@@ -12,34 +12,34 @@
         height: 100%;
         position: relative;
         box-sizing: border-box;
-        display: inline-block;
-        border: none !important;
+        display: inline-block; // border: none !important;
         padding-bottom: 2px;
-
         &.focusable {
-            border: solid 2px $color-warm-grey !important;
+            border: solid 2px $color-warm-grey;
         }
-
-        a, a:hover, a:visited {
+        a,
+        a:hover,
+        a:visited {
             color: inherit;
             text-decoration: none;
             display: block;
         }
-
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             background-color: black;
         }
-        >.image, > a >.image {
+        >.image,
+        >a>.image {
             width: 100%;
             height: 80%;
             position: relative;
             box-sizing: border-box;
             border: solid 2px $color-warm-grey;
         }
-        >.title, > a > .title {
+        >.title,
+        >a>.title {
             width: 100%;
             height: 15%;
             position: absolute;
@@ -71,11 +71,14 @@
                     border-color: $color-off-yellow;
                 }
             }
+            &.noBorder {
+                border: none !important;
+            }
             &.focusable {
-                border: 2px solid $off-yellow !important;
+                // border: 2px solid $off-yellow !important;
             }
             .focusable {
-                border: 2px solid $off-yellow !important;
+                // border: 2px solid $off-yellow !important;
             }
         }
     }

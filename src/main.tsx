@@ -11,6 +11,8 @@ import { Card, KeyMap, loadHbbtvKeys } from 'Services';
 import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector, VOD_MODE } from 'Constants';
 import * as css from './scss/main.scss';
 import { UIActions, SyncActions } from 'Actions';
+import { Theme } from 'Components';
+import { ITheme } from 'Theme';
 
 declare const KeyEvent: any;
 
@@ -24,6 +26,7 @@ export const init = (
         deviceId: string,
         containerSelector: string,
         showMenu?: boolean,
+        theme?: ITheme,
         vodOptions?: {
             vodSelector: string,
             vodSync: "ONE_SHOT" | "STREAMING",
@@ -100,6 +103,7 @@ export const init = (
                     //<ShadowDOM /*include={'styles.css'}*/>
                     <div className="diveContainer" style={{ width: "100%", height: "100%" }}>
                         <style /*scoped={true}*/>{css[0][1]}</style>
+                        <Theme theme={params.theme} />
                         <Provider store={store}>
                             <App showMenu={showMenu} />
                         </Provider>
@@ -121,7 +125,14 @@ export const init = (
 
 export function test() {
     // tslint:disable-next-line:max-line-length
-    init({ containerSelector: "#root", apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT", deviceId: "test", vodOptions: { vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING" }, showMenu: false })
+    init({
+        containerSelector: "#root",
+        apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
+        deviceId: "test",
+        vodOptions: { vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING" },
+        showMenu: false,
+        theme: {  }
+    })
         .then(() => {
             const testGroup = {
                 top: "EMPTY",
@@ -155,7 +166,7 @@ export function demoRTVE() {
         });
 }
 
-export function syncVOD(params: { movieId: string, timestamp: number }) {
+export function syncVOD(params: { movieId: string, timestamp: number, theme?: ITheme }) {
     const { movieId, timestamp } = params;
     if (VOD_MODE === "ONE_SHOT") {
         return store.dispatch(SyncActions.staticVOD({ movieId, timestamp }) as any);
@@ -167,6 +178,13 @@ export function syncVOD(params: { movieId: string, timestamp: number }) {
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
 test();
+
+/*init({
+    selector: "#root",
+    apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
+    deviceId: "test",
+    //theme: { background: 'green' },
+});*/
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS

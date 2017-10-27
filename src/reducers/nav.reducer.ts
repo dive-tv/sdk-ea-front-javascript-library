@@ -86,7 +86,7 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
             // DELETE FROM PARENT
             if (deleteNav !== undefined && deleteNav.parentId >= 0) {
                 const deleteNavParent: INavigable | undefined = state.navigation.get(deleteNav.parentId);
-                
+
                 if (deleteNavParent !== undefined) {
                     for (let i = 0; i < deleteNavParent.children.length; i++) {
                         const index = indexOf(deleteNavParent.children[i], action.payload);
@@ -132,6 +132,9 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                 selectedNav: state.navigation.get(action.payload),
             };
         case 'NAV/SELECT_LEAF':
+            if (isOutOfModal(state.navigation, state.selected, action.payload)) {
+                return state;
+            }
             const id: number = getFirstLeaf(state, action.payload);
             return {
                 ...state,
@@ -141,6 +144,9 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
             };
 
         case 'NAV/ACTIVATED':
+            if (isOutOfModal(state.navigation, state.selected, action.payload)) {
+                return state;
+            }
             return { ...state, lastActivated: state.activated, activated: action.payload };
 
         case 'NAV/MOVE_HORIZONTAL':
@@ -192,6 +198,10 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                     }
                 }
             }
+            if (isOutOfModal(state.navigation, state.selected, newSelected)) {
+                return state;
+            }
+
             return {
                 ...state, lastSelected: state.selected, selected: newSelected,
                 selectedNav: state.navigation.get(newSelected),
@@ -249,14 +259,22 @@ export const NavReducer = (state: INavState = initialNavState, action: INavActio
                     }
                 }
             }
+            if (isOutOfModal(state.navigation, state.selected, newSelected2)) {
+                return state;
+            }
+
             return {
                 ...state, lastSelected: state.selected, selected: newSelected2,
                 selectedNav: state.navigation.get(newSelected2),
             };
 
         case 'NAV/SELECT_BY_NAME':
+
             const name: string = action.payload as string;
             const selectionByName: number = getFirstLeaf(state, state.navNames.get(name) as number);
+            if (isOutOfModal(state.navigation, state.selected, selectionByName)) {
+                return state;
+            }
             if (selectionByName !== undefined) {
                 return {
                     ...state, lastSelected: state.selected, selected: selectionByName,
