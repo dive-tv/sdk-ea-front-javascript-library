@@ -6,6 +6,7 @@ var proxy = require('express-http-proxy');
 const webpack = require("webpack");
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production";
 console.log("SERVER is PRoduction?", isProduction, process.env.NODE_ENV);
+console.log("Public path: ", process.env.PUBLICPATH);
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
@@ -78,6 +79,9 @@ app.use('/proxy', function (req, res) {
 });
 const webpackConfig = require("./webpack.config.js");
 webpackConfig.output.publicPath = `http://${localIp}:${PORT}/`;
+if (process.env.PUBLICPATH == "cdn") {
+    webpackConfig.output.publicPath = `https://cdn.dive.tv/sdkweb/`;
+}
 
 if (!isProduction) {
     const compiler = webpack(webpackConfig);
@@ -111,11 +115,12 @@ if (!isProduction) {
             console.log("Error report: ", stats.toString('errors-only'));
         }
         app.use("/", express.static(DIST_DIR));
+        process.exit();
     });
 
 }
 
 app.listen(PORT, () => {
-    console.log(`Webpack dev server (Custom for HBBTV) listening on ${localIp}:${PORT}`);
+    console.log(`Webpack dev server (Custom for HBBTV) listening on https://${localIp}:${PORT} and serving from: ${webpackConfig.output.publicPath}`);
     console.log("Waiting for webpack build");
 }); 

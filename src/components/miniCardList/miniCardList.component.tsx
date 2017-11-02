@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { navigable } from 'HOC';
 import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
-import { MiniCard, MoreRelations } from 'Components';
+import { MiniCard, MoreRelations, NavigableBanner } from 'Components';
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
 import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
 import { FilterTypeEnum } from 'Constants';
@@ -102,17 +102,35 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     public render() {
         // console.log("Elements: ", this.props.elements);
         const cardsToRender = lodash.uniqBy(this.props.elements, "card_id");
+        let navIndex = 0;
+        let bannerShown = false;
         return (
             <ul className="miniCardList" >
                 {
                     cardsToRender.map(
                         (sceneCard: CardRender, i: number, sceneCards: CardRender[]) => {
-                            return this.element({
-                                el: sceneCard,
-                                count: sceneCards.length,
-                                index: i,
-                                parent,
-                            });
+                            return (
+                                <div>
+                                    {this.element({
+                                        el: sceneCard,
+                                        count: sceneCards.length,
+                                        index: navIndex++,
+                                        parent,
+                                    })}
+                                    {sceneCard.banner && !bannerShown ? ((): JSX.Element => {
+                                        bannerShown = true;
+                                        return <NavigableBanner data={sceneCard.banner}
+                                            parent={this}
+                                            forceFirst={true}
+                                            forceOrder={navIndex++}
+                                            isScrollable={true}
+                                            // scrollPadding={100}
+                                            clickAction={() => {
+                                                window.open(sceneCard.banner.link_url, '_blank');
+                                            }}
+                                        />;
+                                    })() : null}
+                                </div>);
                         },
                     )
                 }

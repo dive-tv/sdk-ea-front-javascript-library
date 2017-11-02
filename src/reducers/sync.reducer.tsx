@@ -31,12 +31,20 @@ export interface ISyncAction extends Action {
 export interface ICardRelation extends Card {
     parentId: string | null;
     childIndex: number | null;
+    banner?: IBanner;
+}
+
+export interface IBanner {
+    image_url: string;
+    banner_size: string;
+    link_url: string;
 }
 
 export interface ICardAndRelations {
     type: string;
     card: Card;
     cards: Card[];
+    banner?: IBanner;
 }
 
 export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" | "SYNC/UPDATE_TIME" |

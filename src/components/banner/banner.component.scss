@@ -1,0 +1,12 @@
+.banner {
+    display: inline-block;
+    margin-left: 1.56%;
+    &.banner-large {
+        width: 800px;
+        height: 100%;
+    }
+    &.banner-small {
+        width: 400px;
+        height: 100%;
+    }
+}

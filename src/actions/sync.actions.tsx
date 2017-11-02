@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
-import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender } from 'Reducers';
+import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender, IBanner } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, DiveAPIClass, Helper, Single, Duple, ApiRelationModule } from 'Services';
@@ -49,20 +49,28 @@ export const SyncActions: ISyncActions = {
             });
     },
     syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https" }) => (dispatch: any) => {
-        dispatch(SyncActions.setMovie(params.movieId));
+        // dispatch(SyncActions.setMovie(params.movieId));
         dispatch(SyncActions.setSyncType("SOCKET"));
+        let indexedBanners = {};
         DiveAPI.syncWithMovieVOD({
             ...params, callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
                     if (movie && movie.movie_id) {
-                        // dispatch(SyncActions.setMovie(movie.movie_id));
+                        dispatch(SyncActions.setMovie(movie.movie_id));
+                        fetch('https://cdn.dive.tv/config/claro/ads.json')
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((banners: any[]) => {
+                            indexedBanners = processBanners(movie.movie_id, banners);
+                        });
                     }
                 },
                 onMovieEnd: () => { console.log("[SOCKET] onMovieEnd"); },
                 onSceneStart: (scene: any) => {
                     if (scene && scene.cards) {
-                        dispatch(SyncActions.startScene(processCard(scene.cards)));
+                        dispatch(SyncActions.startScene(processCard(scene.cards, indexedBanners)));
                     } else {
                         dispatch(SyncActions.startScene([]));
                     }
@@ -71,7 +79,7 @@ export const SyncActions: ISyncActions = {
                     // console.log("[SOCKET] onSceneUpdate", scene);
                     if (scene.cards) {
                         // console.log("processCard: ", processCard(scene.cards));
-                        dispatch(SyncActions.updateScene(processCard(scene.cards)));
+                        dispatch(SyncActions.updateScene(processCard(scene.cards, indexedBanners)));
                     }
                 },
                 onSceneEnd: () => { dispatch(SyncActions.endScene()); },
@@ -83,8 +91,9 @@ export const SyncActions: ISyncActions = {
     syncChannel: (channelId: string) => (dispatch: any) => {
         console.log("[SOCKET]");
         dispatch(SyncActions.setSyncType("SOCKET"));
+
         DiveAPI.syncWithMovieStreaming({
-            protocol: "http",
+            protocol: "https",
             channelId,
             socketTransports: [
                 'polling',
@@ -126,11 +135,10 @@ export const SyncActions: ISyncActions = {
     endScene: syncCreateAction("SYNC/END_SCENE", (cards: Array<Card>[]) => (cards)),
     setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
     closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG"),
-    changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterTypeEnum) => filter)
+    changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterTypeEnum) => filter),
 };
 
-const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> => {
-
+const processCard = (cards: Card[], banners?: {[key: string]: any}): Array<ICardRelation | ICardAndRelations> => {
     if (cards == null) return [];
     cards = cards.reverse();
     let relCards: Array<ICardRelation | ICardAndRelations> = [];
@@ -142,8 +150,12 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
             !(SUPPORTED_CARD_TYPES.indexOf(card.type) > -1)) {
             continue;
         }
+        let castedCard = card as ICardRelation;
+        if (banners && banners[card.card_id]) {
+            castedCard.banner = banners[card.card_id];
+        }
 
-        relCards = [...relCards, card as ICardRelation];
+        relCards = [...relCards, castedCard as ICardRelation];
 
         if (card.relations) {
 
@@ -155,11 +167,15 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
 
                     // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
                     childrenCards = Helper.getRelationCardsFromRelationCarousel(card.type, rel as ApiRelationModule).filter((el: Card) => {
-                        return el && (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1);
+                        let castedChildrenCard = card as ICardRelation;
+                        if (banners && banners[castedChildrenCard.card_id]) {
+                            castedChildrenCard.banner = banners[castedChildrenCard.card_id];
+                        }
+                        return castedChildrenCard && (SUPPORTED_CARD_TYPES.indexOf(card.type) > -1);
                     }) as ICardRelation[];
 
                     childrenCards = formatFashion(childrenCards).map((el: Card, i: number) => {
-                        return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation
+                        return { ...el, parentId: card.card_id, childIndex: i } as ICardRelation;
                     });
 
                     // Metemos a primer nivel un número igual a {limit}
@@ -173,6 +189,26 @@ const processCard = (cards: Card[]): Array<ICardRelation | ICardAndRelations> =>
     }
     // Filtramos por las cards soportables.
     return relCards;
+};
+
+const processBanners = (movieId: string, banners: any[]): {[key: string]: IBanner} => {
+    let processedBanners: {[key: string]: IBanner} = {};
+    if (banners && banners.length) {
+        for (let i = 0; i < banners.length; i++) {
+            const bannersForMovie = banners[i];
+            if (bannersForMovie.movie_id == movieId) {
+                for (let j = 0; j < bannersForMovie.data.length; j++ ) {
+                    let banner: any = bannersForMovie.data[j];
+                    processedBanners[banner.card_id] = {
+                        image_url: banner.image_url,
+                        banner_size: banner.banner_size,
+                        link_url: banner.link_url,
+                    } as IBanner;
+                }
+            }
+        }
+    }
+    return processedBanners;
 };
 
 const formatFashion = (children: ICardRelation[]): ICardRelation[] => {

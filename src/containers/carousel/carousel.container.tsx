@@ -10,9 +10,26 @@ import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
 import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
 
+// tslint:disable-next-line:no-namespace
+export namespace Carousel {
+    export interface IOwnProps {
+        state: ISyncState;
+    }
+
+    export interface IActionProps {
+        syncActions: ISyncActions;
+        uiActions: MapDispatchToPropsObject;
+    }
+
+    export interface IState {
+        rewinded: boolean;
+    }
+
+    export type IAllProps = Carousel.IOwnProps & Carousel.IActionProps & INavigableProps & INavState & INavActions;
+}
+
 export class CarouselClass
-    extends React.Component<{ state: ISyncState } & ISyncActions & INavigableProps & INavState & INavActions &
-    { uiActions: MapDispatchToPropsObject }, { rewinded: boolean }> {
+    extends React.Component<Carousel.IAllProps, Carousel.IState> {
     private interval: any;
     private chunkRequested: boolean = false;
     private activeFilters: any[];
@@ -57,10 +74,10 @@ export class CarouselClass
                                 parent={this}
                                 columns={1}
                                 name="miniCardListCarousel"
-                                //key={"carouselList"}
+                                // key={"carouselList"}
                                 groupName="MiniCardList"
                                 activeFilter={this.props.state.filter}
-                                setSelectedOnSceneChange={this.props.setSelectedOnSceneChange}
+                                setSelectedOnSceneChange={this.props.syncActions.setSelectedOnSceneChange}
                                 wasSelectedOnChangeScene={this.props.state.selectedOnSceneChange}
                             />
                     }
@@ -70,15 +87,26 @@ export class CarouselClass
         );
     }
 
+    public shouldComponentUpdate(nextProps: Carousel.IAllProps, nextState: Carousel.IState): boolean {
+        if (this.props.state.cards !== nextProps.state.cards) {
+            return true;
+        }
+        return false;
+    }
+
     private getCurrentTime() {
         return this.props.state.currentTime;
     }
 
     private performFilter(cards: CardRender[]): CardRender[] {
 
-        //console.log("filter ---->", this.props.state.filter);
+        // console.log("filter ---->", this.props.state.filter);
 
-        const otherFilter: CardTypeEnum[] = ["historic", "home", "technology", "art", "weapon", "leisure_sport", "health_beauty", "food_drink", "fauna_flora", "business"]
+        const otherFilter: CardTypeEnum[] = [
+            "historic", "home", "technology", "art",
+            "weapon", "leisure_sport", "health_beauty",
+            "food_drink", "fauna_flora", "business",
+        ];
         // dependiendo del filtro activo se utilizan distintos tipos para el filtrado
         switch (this.props.state.filter) {
             case FilterTypeEnum.CastAndCharacter:
@@ -100,11 +128,13 @@ export class CarouselClass
         return cards;
     }
 
-    private filterCards(cards: CardRender[], type: CardTypeEnum[], obligatoryChildren: boolean = false, relationType?: CardTypeEnum[]): CardRender[] {
+    private filterCards(
+        cards: CardRender[], type: CardTypeEnum[], obligatoryChildren: boolean = false, relationType?: CardTypeEnum[],
+    ): CardRender[] {
 
         const filterdCards: CardRender[] = [];
-        var parentCard: CardRender | undefined = undefined;
-        var childrenCount: number = 0;
+        let parentCard: CardRender | undefined;
+        let childrenCount: number = 0;
 
         for (let card of cards) {
 
@@ -117,7 +147,8 @@ export class CarouselClass
                 // si es un card
                 if (!cardRelation.parentId) {
 
-                    // en caso de que la card anterior este guardada se pushea al array para no perderla en caso de que no sea obligatorio tener relacciones asociadas.
+                    // en caso de que la card anterior este guardada se pushea al array para no perderla
+                    // en caso de que no sea obligatorio tener relacciones asociadas.
                     if (!obligatoryChildren && parentCard && childrenCount === 0) {
                         filterdCards.push(parentCard);
                     }
@@ -130,10 +161,10 @@ export class CarouselClass
                     } else if (parentCard) {
                         parentCard = undefined;
                     }
-
-
                     // si es una relacion y hay un parent card
-                } else if (parentCard && cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1) {
+                } else if (
+                    parentCard && cardRelation.parentId && relationType && relationType.indexOf(cardRelation.type) > -1
+                ) {
 
                     if (parentCard && childrenCount === 0) {
                         filterdCards.push(parentCard);
@@ -143,12 +174,13 @@ export class CarouselClass
                     childrenCount++;
                 }
 
-                // Es una card de "ver mas", solo se muestra si el numero de relacciones es igual al limite de cards. Se comprueba 
+                // Es una card de "ver mas",
+                // solo se muestra si el numero de relacciones es igual al limite de cards. Se comprueba
                 // por si hay relaciones de distinto tipo del que se quiere filtrar
             } else if (childrenCount === LIMIT_FOR_RELATIONS) {
 
                 // se filtran las cards del ver mas por el tipo filtrado
-                cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1)
+                cardRelation.cards = cardRelation.cards.filter((el: Card) => relationType.indexOf(el.type) > -1);
                 filterdCards.push(cardRelation);
             }
         }
@@ -165,8 +197,7 @@ export class CarouselClass
     }
 
     private closeCarousel() {
-        //this.props.uiActions.open({ top: "TV", bottom: "GRID" });
-
+        // this.props.uiActions.open({ top: "TV", bottom: "GRID" });
         this.props.uiActions.goBack();
     }
 
@@ -176,7 +207,7 @@ export class CarouselClass
         if (this.props.state.showInfoMsg) {
 
             switch (channelStatus) {
-                case "paused":
+                // case "paused":
                 case "end":
                 case "off":
                 case "ready":
@@ -210,7 +241,7 @@ export class CarouselClass
 const mapStateToProps = (state: IState): { state: ISyncState } => ({ state: { ...state.carousel } });
 const mapDispatchToProps = (dispatch: any): any => {
     return {
-        ...bindActionCreators(SyncActions, dispatch),
+        syncActions: bindActionCreators(SyncActions, dispatch),
         uiActions: bindActionCreators(UIActions, dispatch),
     };
 };

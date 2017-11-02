@@ -18,3 +18,4 @@ export * from './moreRelations/moreRelations.component';
 export * from './menu/menu.component';
 export * from './menu/menuItem/menuItem.component';
 export * from './theme/theme.component';
+export * from './banner/banner.component';

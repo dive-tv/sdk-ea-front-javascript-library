@@ -156,10 +156,12 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             // tslint:disable-next-line:no-conditional-assignment
             if (this.videoRefs = this.findVideo()) {
                 console.log("TVS found VR");
-                if (this.videoRefs.el.tagName === "VIDEO") {
+                if (this.videoRefs.el.tagName.toLocaleLowerCase() === "video") {
                     this.videoRefs.el.addEventListener("seeked", () => { this.getVideoStatus(); this.handleSeek(); });
                     this.videoRefs.el.addEventListener("play", () => { this.getVideoStatus(); this.handlePlay(); });
+                    this.videoRefs.el.addEventListener("playing", () => { this.getVideoStatus(); this.handlePlay(); });
                     this.videoRefs.el.addEventListener("pause", () => { this.getVideoStatus(); this.handlePause(); });
+                    this.videoRefs.el.addEventListener("waiting", () => { this.getVideoStatus(); this.handlePause(); });
                     this.videoRefs.el.addEventListener("end", () => { this.getVideoStatus(); this.handleEnd(); });
                 } else {
                     this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
@@ -187,7 +189,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             if (target && layout) {
                 // this.videoContainer.appendChild(video);
                 // tslint:disable-next-line:max-line-length
-                target.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`);
+                target.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`);
             }
         }
     }
@@ -252,6 +254,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private handleSeek() {
         if (this.videoRefs) {
             console.log("SEEK", this.videoRefs.time);
+            this.props.syncActions.setTime(this.videoRefs.time);
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: this.videoRefs.time }));
             }
@@ -261,6 +264,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private handlePlay() {
         if (this.videoRefs) {
             console.log("PLAY", this.videoRefs.time);
+            this.props.syncActions.setTime(this.videoRefs.time);
             // this.handleSeek();
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: this.videoRefs.time }));
@@ -274,6 +278,7 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
 
     private handlePause() {
         if (this.videoRefs) {
+            this.props.syncActions.setTime(this.videoRefs.time);
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: this.videoRefs.time }));
             }

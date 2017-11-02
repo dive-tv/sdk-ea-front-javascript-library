@@ -19,13 +19,13 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         const elements: string[] = [];
         let selectedItem: string = "";
 
-        for (let item in FilterTypeEnum) {
-
-            if (FilterTypeEnum[item] === this.props.filter) {
-                selectedItem = FilterTypeEnum[item];
+        for (const item in FilterTypeEnum) {
+            if (FilterTypeEnum.hasOwnProperty(item)) {
+                if (FilterTypeEnum[item] === this.props.filter) {
+                    selectedItem = FilterTypeEnum[item];
+                }
+                elements.push(FilterTypeEnum[item]);
             }
-
-            elements.push(FilterTypeEnum[item]);
         }
 
         return (
@@ -33,7 +33,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
                 <div className="btnClose">
                     <NavigationContainer key="carouselClose" className="carouselButton bctButton close customBtn"
                         parent={this}
-                        onClick={this.props.closeCarousel} />
+                        /*onClick={this.props.closeCarousel}*/ />
                 </div>
                 <div className="dropDown">
                     <DropDownList
@@ -43,10 +43,11 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
                         activeGroupClass="dropDownActive childFocused"
                         groupName="dropDownFilter"
                         parent={this}
-                        //nameForNode="miniCardListCarousel"
+                        // nameForNode="miniCardListCarousel"
                         setElement={this.props.setFilter} />
                 </div>
-            </div>)
+            </div>
+        );
     }
 }
 

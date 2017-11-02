@@ -19,7 +19,7 @@ const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 
 console.log("WP IS PRODUCTION? ", isProduction);
 // publicPath is not used, now is overriden by node server.js
-const publicPath = `http://192.168.0.100:3000` + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
+const publicPath = `https://cdn.dive.tv/sdkweb/` + '/'; // + (isProduction ? '/api-front-library-react/' : '/');
 
 const frontEntry = isProduction ?
   [

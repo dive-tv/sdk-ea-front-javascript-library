@@ -36,7 +36,8 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
                 <div className="dropdownList">
                     {this.renderChildren()}
                 </div>
-            </div>)
+            </div>
+        );
     }
 
     private selectOption(option: string) {
@@ -67,13 +68,19 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
                 // selected: element === this.props.selectedItem,
                 customTxtSelected2: element === this.props.selectedItem,
                 customTxt: element !== this.props.selectedItem,
-            }, "dropDownListChildren")
-
+            }, "dropDownListChildren");
 
             children.push(<div className={classes} key={"element#" + element}>
-                <NavigationContainer className="dropDownListChildrenNav" parent={this} columns={1} groupName={this.props.groupName} clickAction={actionOnClick}>{Localize(element)}</NavigationContainer>
+                <NavigationContainer
+                    className="dropDownListChildrenNav"
+                    parent={this} columns={1}
+                    groupName={this.props.groupName}
+                    clickAction={actionOnClick}
+                >
+                    {Localize(element)}
+                </NavigationContainer>
             </div>);
-        })
+        });
 
         return children;
     }

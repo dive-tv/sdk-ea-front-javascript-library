@@ -11,7 +11,8 @@
     "update_texts": "node ./scripts/updateDiveLiterals.js",
     "hbbtv-server": "node server.js",
     "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js",
-    "task-start": "npm run start"
+    "task-start": "npm run start",
+    "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && ./push-sdkweb.sh && echo 'UPLOADED'"
   },
   "license": "MIT",
   "devDependencies": {

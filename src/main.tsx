@@ -131,7 +131,7 @@ export function test() {
         deviceId: "test",
         vodOptions: { vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING" },
         showMenu: false,
-        theme: {  }
+        theme: {},
     })
         .then(() => {
             const testGroup = {
@@ -145,18 +145,37 @@ export function test() {
 
 function getIdByProvider(): string {
     switch (window.location.host) {
-        case "www.rtve.es":
+        case "www.rtve.es": {
             const pos = window.location.href.search(/\/\d{7}/g) + 1;
             return window.location.href.substr(pos, 7);
+        }
+        case "www.clarovideo.com":
+        case "www.clarovideo.com.mx": {
+            const pos = window.location.href.search(/=\d{6}/g) + 1;
+            return window.location.href.substr(pos, 7);
+        }
     }
 }
 
-export function demoRTVE() {
+export function demoVOD(withVideo = false) {
     // tslint:disable-next-line:max-line-length
-    init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodOptions: { vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING" }, showMenu: false })
+    if (withVideo === true) {
+        const testVideo = document.createElement("video");
+        testVideo.src = 'http://media.w3.org/2010/05/bunny/movie.mp4';
+        (document.body as any).prepend(testVideo);
+        testVideo.play();
+    }
+    init({
+        containerSelector: "#root",
+        apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
+        deviceId: "test",
+        vodOptions: { vodParent: "vph5-container", vodSelector: "#video", vodSync: "STREAMING" },
+        showMenu: false,
+    })
         .then(() => {
-            const movieId = getIdByProvider();
-            return syncVOD({ movieId, timestamp: 1 });
+            let movieId = getIdByProvider();
+            movieId = "577062";
+            return syncVOD({ movieId, timestamp: store.getState().carousel.currentTime || 1 });
         })
         .then(() => {
             store.dispatch(UIActions.open({
@@ -171,13 +190,14 @@ export function syncVOD(params: { movieId: string, timestamp: number, theme?: IT
     if (VOD_MODE === "ONE_SHOT") {
         return store.dispatch(SyncActions.staticVOD({ movieId, timestamp }) as any);
     } else {
-        return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "http" }) as any);
+        return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https" }) as any);
     }
 }
 
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
-test();
+// test();
+demoVOD(true);
 
 /*init({
     selector: "#root",
