@@ -213,20 +213,27 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
 
     private getVideoStatus() {
         if (this.videoRefs) {
+            const previousVODHbbtvData = { ...this.lastVODHbbtvData };
             if (this.videoRefs.el && this.videoRefs.el.currentTime) {
                 this.videoRefs.time = this.videoRefs.el.currentTime;
                 console.log("Set time (HTML5) ", this.videoRefs.time);
+                this.lastVODHbbtvData = {
+                    time: (this.videoRefs.el as any).currentTime,
+                    playState: (this.videoRefs.el as any).playState,
+                    timeScale: (this.videoRefs.el as any).speed,
+                    lastCheck: Date.now(),
+                };
             } else if (this.videoRefs.el && (this.videoRefs.el as any).playPosition) {
                 this.videoRefs.time = (this.videoRefs.el as any).playPosition / 1000;
                 console.log("Set time (VOD) ", this.videoRefs.time);
+                this.lastVODHbbtvData = {
+                    time: (this.videoRefs.el as any).playPosition,
+                    playState: (this.videoRefs.el as any).playState,
+                    timeScale: (this.videoRefs.el as any).speed,
+                    lastCheck: Date.now(),
+                };
             }
-            const previousVODHbbtvData = { ...this.lastVODHbbtvData };
-            this.lastVODHbbtvData = {
-                time: (this.videoRefs.el as any).playPosition,
-                playState: (this.videoRefs.el as any).playState,
-                timeScale: (this.videoRefs.el as any).speed,
-                lastCheck: Date.now(),
-            };
+            
             const timeDiff = this.lastVODHbbtvData.time - previousVODHbbtvData.time;
             console.log("TIMEDIFFF", timeDiff);
             // this.props.syncActions.setTime(this.videoRefs.time);
@@ -254,21 +261,21 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
     private handleSeek() {
         if (this.videoRefs) {
             console.log("SEEK", this.videoRefs.time);
-            this.props.syncActions.setTime(this.videoRefs.time);
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: this.videoRefs.time }));
             }
+            this.props.syncActions.setTime(this.videoRefs.time);
         }
     }
 
     private handlePlay() {
         if (this.videoRefs) {
             console.log("PLAY", this.videoRefs.time);
-            this.props.syncActions.setTime(this.videoRefs.time);
             // this.handleSeek();
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: this.videoRefs.time }));
             }
+            this.props.syncActions.setTime(this.videoRefs.time);
         }
     }
 
@@ -278,10 +285,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
 
     private handlePause() {
         if (this.videoRefs) {
-            this.props.syncActions.setTime(this.videoRefs.time);
             if (DiveAPI.socket.authenticated) {
                 DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: this.videoRefs.time }));
             }
+            this.props.syncActions.setTime(this.videoRefs.time);
         }
     }
 

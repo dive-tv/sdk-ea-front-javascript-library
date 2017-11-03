@@ -70,7 +70,7 @@ export const init = (
         );
         // APIinstance.basePath = APIinstance.basePath.replace("https", "http://192.168.0.100:3000/proxy?url=https");
         console.log("BP", APIinstance.basePath);
-        APIinstance.setLocale("es-ES");
+        APIinstance.setLocale("es-MX");
         console.log("Setted locale");
         (window as any).DiveAPI = APIinstance;
         console.log("global instance");
