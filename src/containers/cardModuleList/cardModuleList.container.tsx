@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Card } from "Services";
 import { cardModuleConfig, cardModuleClasses, isValidatable } from "CardModules";
 import { navigable } from "HOC";
-import { NavigationContainer, Loading } from "Components";
+import { NavigationContainer, Loading, NavigableBanner } from "Components";
+import { ICardWithBanner } from 'Actions';
 
 export interface ICardModuleListProps {
     card: Card;
@@ -39,7 +40,7 @@ export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}
                                     console.warn("Instantiating because validated", cardModule.type);
                                     const navClass = candidate.moduleName ?
                                         `${candidate.moduleName.toLocaleLowerCase()}-container cardModule-container scrollable` :
-                                        "container";
+                                        "container cardModule-container scrollable";
                                     moduleList.push(
                                         <div className={navClass}
                                             key={`${card.card_id}_module_${idx}`}>
@@ -56,6 +57,24 @@ export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}
                     }
                     return undefined;
                 });
+            /*
+            if (moduleList.length > 0 && (card as ICardWithBanner).banner) {
+                const moduleInstance = <NavigableBanner
+                    data={(card as ICardWithBanner).banner}
+                    parent={this}
+                    isScrollable={true}
+                    scrollPadding={300}
+                    clickAction={() => {
+                        window.open((card as ICardWithBanner).banner.link_url, '_blank');
+                    }}
+                />;
+                moduleList.push(
+                    <div className={"banner-container cardModule-container scrollable"}
+                        key={`${card.card_id}_banner`}>
+                        {moduleInstance}
+                    </div>,
+                );
+            }*/
         }
         // TODO: handle error
         return moduleList;

@@ -119,15 +119,17 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                                     })}
                                     {sceneCard.banner && !bannerShown ? ((): JSX.Element => {
                                         bannerShown = true;
-                                        return <NavigableBanner data={sceneCard.banner}
+                                        return <NavigableBanner
+                                            data={sceneCard.banner}
                                             parent={this}
                                             forceFirst={true}
                                             forceOrder={navIndex++}
                                             isScrollable={true}
-                                            // scrollPadding={100}
                                             clickAction={() => {
                                                 window.open(sceneCard.banner.link_url, '_blank');
                                             }}
+                                            scrollPadding={100}
+                                            navClass="scrollable"
                                         />;
                                     })() : null}
                                 </div>);
@@ -164,7 +166,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                     key={card.card_id + '#' + card.version}
                     id={card.card_id + '#' + card.version}
                     isScrollable={true}
-                    // scrollPadding={100}
+                    scrollPadding={100}
                     navClass="scrollable"
                 />);
 
@@ -237,7 +239,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
             if (!card) {
                 return;
             }
-            this.props.uiActions.openCard(card.card_id, "offmovie", true);
+            this.props.uiActions.openCard(card, "offmovie", true);
         };
     }
 

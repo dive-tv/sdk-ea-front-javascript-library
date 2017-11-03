@@ -34,7 +34,7 @@ export const syncCreateAction = (type: SyncActionTypes, payload?: any): ReduxAct
 };
 
 export const SyncActions: ISyncActions = {
-    openCard: syncCreateAction("SYNC/OPEN_CARD", (cardId: string) => (cardId)),
+    openCard: syncCreateAction("SYNC/OPEN_CARD", (card: Card) => (card)),
     setMovie: syncCreateAction("SYNC/SET_MOVIE", (movieId: string) => (movieId)),
     //socketConnected: syncCreateAction("SOCKET/AUTHENTICATED", (movieId: string) => (movieId)),
     setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),

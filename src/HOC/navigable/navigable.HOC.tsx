@@ -21,7 +21,7 @@ export interface INavigableProps {
     groupName?: string, // Nombre de grupo perteneciente
     onFocusCallback?: () => void;
     onFocusCallbackRepeat?: boolean;
-    forceFirst?: boolean;
+    forceFirst?: boolean; // Aún viniendo de la derecha, el elemento seleccionado es el primero, no el último
     forceOrder?: number;
     modal?: boolean; // Para bloquear la selección dentro de este navigable
     onBeforeUnmount?: (nav: INavigable) => void;

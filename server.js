@@ -107,6 +107,7 @@ if (!isProduction) {
         // heartbeat: 10 * 1000,
     }));
     console.log("WEBPACK DEV AND HOT");
+    process.exit();
 } else {
     webpack(webpackConfig, function (err, stats) {
         console.log("Webpack ended compilation, serving static files");

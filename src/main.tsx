@@ -169,12 +169,11 @@ export function demoVOD(withVideo = false) {
         containerSelector: "#root",
         apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
         deviceId: "test",
-        vodOptions: { vodParent: "vph5-container", vodSelector: "#video", vodSync: "STREAMING" },
+        vodOptions: { vodParent: ".vph5-player", vodSelector: "#video", vodSync: "STREAMING" },
         showMenu: false,
     })
         .then(() => {
             let movieId = getIdByProvider();
-            movieId = "577062";
             return syncVOD({ movieId, timestamp: store.getState().carousel.currentTime || 1 });
         })
         .then(() => {
@@ -197,7 +196,7 @@ export function syncVOD(params: { movieId: string, timestamp: number, theme?: IT
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
 // test();
-demoVOD(true);
+// demoVOD(false);
 
 /*init({
     selector: "#root",

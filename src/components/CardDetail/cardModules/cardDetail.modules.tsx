@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Header, Text, Table, Awards, List, Map } from 'CardModules';
+import { Header, Text, Table, Awards, List, Map, BannerCM as Banner } from 'CardModules';
 import { Card, CardContainerTypeEnum } from "Services";
 
 export interface ICardModuleProps {
@@ -34,4 +34,6 @@ export const cardModuleClasses: {
         BasicInfo: Table,
         AwardsModuleList: Awards,
         MapModule: Map,
+        BannerSmall: Banner,
+        BannerLarge: Banner,
     };

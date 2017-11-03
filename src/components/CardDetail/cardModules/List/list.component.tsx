@@ -223,7 +223,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             image: el.from.image ? el.from.image.thumb : null,
                             order: i,
                             onClick: el.from ? () => {
-                                return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie");
+                                return (this.props.uiActions as any).openCard(el.from, "offmovie");
                             } : null,
                         },
                     );
@@ -248,7 +248,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             image: el.from.image ? el.from.image.thumb : null,
                             order: i,
                             onClick: el.from ? () => {
-                                return (this.props.uiActions as any).openCard(el.from.card_id, "offmovie");
+                                return (this.props.uiActions as any).openCard(el.from, "offmovie");
                             } : null
                         },
                     );
@@ -271,7 +271,7 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
                             title: el.title,
                             order: i,
                             onClick: el.card_id ? () => {
-                                return (this.props.uiActions as any).openCard(el.card_id, "offmovie");
+                                return (this.props.uiActions as any).openCard(el, "offmovie");
                             } : null,
                         },
                     );

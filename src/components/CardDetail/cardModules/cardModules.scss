@@ -24,6 +24,14 @@
         display: inline-block;
         border-right: 1px solid $color-warm-grey;
         height: 100%; // pxToVh(168);
+
+        &.banner-container, &.banner-container {
+            width: auto;
+            padding: 0 1.5%;
+            .banner {
+                margin: 0;
+            }
+        }
         .cardModule {
             height: 100%;
             width: 100%;

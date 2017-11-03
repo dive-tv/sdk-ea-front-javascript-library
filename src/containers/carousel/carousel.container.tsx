@@ -193,7 +193,7 @@ export class CarouselClass
     }
 
     private setFilter(filterName: FilterTypeEnum) {
-        this.props.changeFilter(filterName);
+        this.props.syncActions.changeFilter(filterName);
     }
 
     private closeCarousel() {

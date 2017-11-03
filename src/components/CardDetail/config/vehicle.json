@@ -1,45 +1,49 @@
 {
-	"sections":[
-	{
-		"title":"main",
-        "main": true,
-		"modules":[
-                   {
-                   "type":"Header"
-                   },
-                   {
-                   "type":"Description"
-                   },
-                   {
-                   "type":"Shop"
-                   },
-                   {
-                   "type":"TravelShop"
-                   },
-                   {
-                   "type":"Specifications"
-                   },
-                   {
-                   "type":"Gallery"
-                   },
-                   {
-                   "type":"Video"
-                   },
-                   {
-                   "type":"Curiosities"
-                   },
-                   {
-                   "type":"AppearsInSingle"
-                   },
-                   {
-                   "type":"AppearsIn"
-                   },
-                   {
-                   "type":"BackToHome"
-                   }
-		]
-			
-	}
-	] 
-	
+    "sections": [
+        {
+            "title": "main",
+            "main": true,
+            "modules": [
+                {
+                    "type": "Header"
+                },
+                {
+                    "type": "Description"
+                },
+                {
+                    "type": "BannerLarge"
+                },
+                {
+                    "type": "Shop"
+                },
+                {
+                    "type": "TravelShop"
+                },
+                {
+                    "type": "BannerSmall"
+                },
+                {
+                    "type": "Specifications"
+                },
+                {
+                    "type": "Gallery"
+                },
+                {
+                    "type": "Video"
+                },
+                {
+                    "type": "Curiosities"
+                },
+                {
+                    "type": "AppearsInSingle"
+                },
+                {
+                    "type": "AppearsIn"
+                },
+                {
+                    "type": "BackToHome"
+                }
+            ]
+        }
+    ]
 }
