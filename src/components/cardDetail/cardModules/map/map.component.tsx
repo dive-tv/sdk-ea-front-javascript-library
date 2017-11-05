@@ -40,7 +40,7 @@ export class Map extends React.PureComponent<ICardModuleProps & IMapProps, {}> {
     public render(): any {
         const textTitle = this.getTitle();
         const {latitude, longitude, zoom } = this.props.mapData;
-        let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&size=300x168`;
+        let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&size=300x168&key=AIzaSyAU53POXRGBX-c-fLQrkYiDUWGzuqft85w`;
         const appliedZoom = parseInt(`${zoom}`, 10);
         if (appliedZoom) {
             mapUrl += `&zoom=${appliedZoom}`;

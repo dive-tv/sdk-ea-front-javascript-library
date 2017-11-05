@@ -32,7 +32,9 @@
         overflow: hidden;
         background-color: $color-dark-grey-two;
         .layoutBottomSub {
-            padding-bottom: 22.5%;
+            // DISABLED FOR CLARO: padding-bottom: 22.5%;
+            height: 100%;
+            box-sizing: border-box;
             position: relative;
             >.navigable {
                 position: absolute;

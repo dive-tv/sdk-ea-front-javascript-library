@@ -12,7 +12,7 @@
     "hbbtv-server": "node server.js",
     "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js",
     "task-start": "npm run start",
-    "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && ./push-sdkweb.sh && echo 'UPLOADED'"
+    "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && echo 'UPLOADED'"
   },
   "license": "MIT",
   "devDependencies": {

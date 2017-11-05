@@ -10,6 +10,8 @@ import { DiveAPIClass } from 'Services';
 
 declare const DiveAPI: DiveAPIClass;
 
+const delay = -15;
+
 // tslint:disable-next-line:no-namespace
 export namespace VODvideo {
     export interface IOwnProps {
@@ -266,9 +268,9 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
         if (this.videoRefs) {
             console.log("SEEK", this.videoRefs.time);
             if (DiveAPI.socket.authenticated) {
-                DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: this.videoRefs.time }));
+                DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: Math.max(1, this.videoRefs.time + delay) }));
             }
-            this.props.syncActions.setTime(this.videoRefs.time);
+            this.props.syncActions.setTime(Math.max(1, this.videoRefs.time + delay));
         }
     }
 
@@ -277,9 +279,9 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
             console.log("PLAY", this.videoRefs.time);
             // this.handleSeek();
             if (DiveAPI.socket.authenticated) {
-                DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: this.videoRefs.time }));
+                DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: Math.max(1, this.videoRefs.time + delay) }));
             }
-            this.props.syncActions.setTime(this.videoRefs.time);
+            this.props.syncActions.setTime(Math.max(1, this.videoRefs.time + delay));
         }
     }
 
@@ -290,9 +292,9 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     private handlePause() {
         if (this.videoRefs) {
             if (DiveAPI.socket.authenticated) {
-                DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: this.videoRefs.time }));
+                DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(1, this.videoRefs.time + delay) }));
             }
-            this.props.syncActions.setTime(this.videoRefs.time);
+            this.props.syncActions.setTime(Math.max(1, this.videoRefs.time + delay));
         }
     }
 

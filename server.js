@@ -7,6 +7,10 @@ const webpack = require("webpack");
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production";
 console.log("SERVER is PRoduction?", isProduction, process.env.NODE_ENV);
 console.log("Public path: ", process.env.PUBLICPATH);
+var awsCli = require('aws-cli-js');
+// var Options = awsCli.Options;
+var Aws = awsCli.Aws;
+const aws = new Aws();
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
@@ -79,7 +83,7 @@ app.use('/proxy', function (req, res) {
 });
 let publicPath = `http://${localIp}:${PORT}/`;
 if (process.env.PUBLICPATH == "cdn") {
-   publicPath = `https://cdn.dive.tv/sdkweb/`;
+    publicPath = `https://cdn.dive.tv/sdkweb/`;
 }
 const webpackConfig = require("./webpack.config.js")(publicPath);
 
@@ -108,7 +112,7 @@ if (!isProduction) {
     }));
     console.log("WEBPACK DEV AND HOT");
     if (process.env.PUBLICPATH == "cdn") {
-        process.exit();
+        uploadToCDN();
     }
 } else {
     webpack(webpackConfig, function (err, stats) {
@@ -119,7 +123,7 @@ if (!isProduction) {
         }
         app.use("/", express.static(DIST_DIR));
         if (process.env.PUBLICPATH == "cdn") {
-            process.exit();
+            uploadToCDN();
         }
     });
 
@@ -128,4 +132,51 @@ if (!isProduction) {
 app.listen(PORT, () => {
     console.log(`Webpack dev server (Custom for HBBTV) listening on https://${localIp}:${PORT} and serving from: ${webpackConfig.output.publicPath}`);
     console.log("Waiting for webpack build");
-}); 
+});
+
+function uploadToCDN() {
+    aws.command('s3 sync --acl public-read ./dist s3://touchvie-pro-cdn/sdkweb')
+        .then((data) => {
+            if (!data) {
+                throw new Error("Error in S3 sync");
+            } else {
+                console.log("Success AWS Sync");
+            }
+        })
+        .catch((err) => {
+            throw new Error("Error in S3 sync");
+        })
+        .then(() => {
+            return aws.command('configure set preview.cloudfront true')
+                .then((data) => {
+                    if (!data) {
+                        throw new Error("Error configuring cloudfront");
+                    } else {
+                        console.log("Success configuring cloudfront");
+                    }
+                })
+                .catch((err) => {
+                    // Not throw, just log
+                    console.error("Error configuring cloudfront", err);
+                })
+        })
+        .then(() => {
+            return aws.command('cloudfront create-invalidation --distribution-id E1EOJ4G5NRI0GG --paths /sdkweb/*')
+                .then((data) => {
+                    if (!data) {
+                        throw new Error("Error invalidating cloudfront");
+                    } else {
+                        console.log("Success invalidating cloudfront");
+                        console.log("UPLOADED SUCCESFUL");
+                        process.exit();
+                    }
+                })
+                .catch((err) => {
+                    throw new Error("Error invalidating cloudfront");
+                });
+        })
+        .catch((e) => {
+            console.error("Error uploading", e);
+            process.exit();
+        })
+}

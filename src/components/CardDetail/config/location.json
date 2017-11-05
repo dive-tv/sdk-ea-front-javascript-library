@@ -1,42 +1,46 @@
 {
-	"sections":[
-	{
-		"title":"main",
-        "main": true,
-		"modules":[
-                   {
-                   "type":"Header"
-                   },
-                   {
-                   "type":"Description"
-                   },
-                   {
-                   "type":"Shop"
-                   },
-                   {
-                   "type":"TravelShop"
-                   },
-                   {
-                   "type":"BasicInfo"
-                   },
-                   {
-                   "type":"Gallery"
-                   },
-                   {
-                   "type":"MapModule"
-                   },
-                   {
-                   "type":"Curiosities"
-                   },
-                   {
-                   "type":"AppearsInLocation"
-                   },
-                   {
-                   "type":"BackToHome"
-                   }
-		]
-			
-	}
-	] 
-	
+    "sections": [
+        {
+            "title": "main",
+            "main": true,
+            "modules": [
+                {
+                    "type": "Header"
+                },
+                {
+                    "type": "Description"
+                },
+                {
+                    "type": "BannerLarge"
+                },
+                {
+                    "type": "Shop"
+                },
+                {
+                    "type": "TravelShop"
+                },
+                {
+                    "type": "BannerSmall"
+                },
+                {
+                    "type": "BasicInfo"
+                },
+                {
+                    "type": "Gallery"
+                },
+                {
+                    "type": "MapModule"
+                },
+                {
+                    "type": "Curiosities"
+                },
+                {
+                    "type": "AppearsInLocation"
+                },
+                {
+                    "type": "BackToHome"
+                }
+            ]
+        }
+    ]
 }
