@@ -77,11 +77,11 @@ app.use('/proxy', proxy('rest.dive.tv/v1/', {
 app.use('/proxy', function (req, res) {
     req.pipe(request(req.url.split("url=")[1])).pipe(res);
 });
-const webpackConfig = require("./webpack.config.js");
-webpackConfig.output.publicPath = `http://${localIp}:${PORT}/`;
+let publicPath = `http://${localIp}:${PORT}/`;
 if (process.env.PUBLICPATH == "cdn") {
-    webpackConfig.output.publicPath = `https://cdn.dive.tv/sdkweb/`;
+   publicPath = `https://cdn.dive.tv/sdkweb/`;
 }
+const webpackConfig = require("./webpack.config.js")(publicPath);
 
 if (!isProduction) {
     const compiler = webpack(webpackConfig);
@@ -107,7 +107,9 @@ if (!isProduction) {
         // heartbeat: 10 * 1000,
     }));
     console.log("WEBPACK DEV AND HOT");
-    process.exit();
+    if (process.env.PUBLICPATH == "cdn") {
+        process.exit();
+    }
 } else {
     webpack(webpackConfig, function (err, stats) {
         console.log("Webpack ended compilation, serving static files");
@@ -116,7 +118,9 @@ if (!isProduction) {
             console.log("Error report: ", stats.toString('errors-only'));
         }
         app.use("/", express.static(DIST_DIR));
-        process.exit();
+        if (process.env.PUBLICPATH == "cdn") {
+            process.exit();
+        }
     });
 
 }

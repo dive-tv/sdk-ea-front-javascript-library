@@ -86,13 +86,13 @@ export class CarouselClass
             </div >
         );
     }
-
+    /*
     public shouldComponentUpdate(nextProps: Carousel.IAllProps, nextState: Carousel.IState): boolean {
-        if (this.props.state.cards !== nextProps.state.cards) {
+        if (this.props.state.cards !== nextProps.state.cards || this.props.state.filter !== nextProps.state.filter) {
             return true;
         }
         return false;
-    }
+    }*/
 
     private getCurrentTime() {
         return this.props.state.currentTime;

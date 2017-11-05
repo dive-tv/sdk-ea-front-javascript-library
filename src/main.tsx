@@ -161,6 +161,7 @@ export function demoVOD(withVideo = false) {
     // tslint:disable-next-line:max-line-length
     if (withVideo === true) {
         const testVideo = document.createElement("video");
+        testVideo.setAttribute("controls", "controls");
         testVideo.src = 'http://media.w3.org/2010/05/bunny/movie.mp4';
         (document.body as any).prepend(testVideo);
         testVideo.play();
@@ -174,6 +175,7 @@ export function demoVOD(withVideo = false) {
     })
         .then(() => {
             let movieId = getIdByProvider();
+            movieId = "577062";
             return syncVOD({ movieId, timestamp: store.getState().carousel.currentTime || 1 });
         })
         .then(() => {
@@ -196,7 +198,7 @@ export function syncVOD(params: { movieId: string, timestamp: number, theme?: IT
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
 // test();
-// demoVOD(false);
+// demoVOD(true);
 
 /*init({
     selector: "#root",

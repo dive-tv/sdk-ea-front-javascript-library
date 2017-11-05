@@ -35,7 +35,7 @@ interface IVideoRefs {
     time?: number;
 }
 
-class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
+class VODvideoClass extends React.Component<VODVideoProps, {}> {
     private videoRefs: IVideoRefs;
     private videoParent: HTMLElement;
     private videoContainer: HTMLElement;
@@ -47,6 +47,10 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
         timeScale: 0,
         lastCheck: 0,
     };
+
+    public shouldComponentUpdate(nextProps: VODVideoProps) {
+        return this.props.containerHeight !== nextProps.containerHeight;
+    }
 
     public componentWillMount() {
         // CDM : this.videoContainer = document.getElementById("VODvideocontainer");
@@ -156,16 +160,16 @@ class VODvideoClass extends React.PureComponent<VODVideoProps, {}> {
             // tslint:disable-next-line:no-conditional-assignment
             if (this.videoRefs = this.findVideo()) {
                 console.log("TVS found VR");
-                /*if (this.videoRefs.el.tagName.toLocaleLowerCase() === "video") {
+                if (this.videoRefs.el.tagName.toLocaleLowerCase() === "video") {
                     this.videoRefs.el.addEventListener("seeked", () => { this.getVideoStatus(); this.handleSeek(); });
                     this.videoRefs.el.addEventListener("play", () => { this.getVideoStatus(); this.handlePlay(); });
                     this.videoRefs.el.addEventListener("playing", () => { this.getVideoStatus(); this.handlePlay(); });
                     this.videoRefs.el.addEventListener("pause", () => { this.getVideoStatus(); this.handlePause(); });
                     this.videoRefs.el.addEventListener("waiting", () => { this.getVideoStatus(); this.handlePause(); });
                     this.videoRefs.el.addEventListener("end", () => { this.getVideoStatus(); this.handleEnd(); });
-                } else {*/
+                } else {
                     this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
-                /*}*/
+                }
                 /*
                 if ((this.videoRefs.el as any).play) {
                     (this.videoRefs.el as any).play(this.videoRefs.el.tagName === "VIDEO" ? undefined : 1);
