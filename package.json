@@ -32,6 +32,7 @@
     "@types/webpack-env": "1.13.0",
     "autoprefixer": "^7.1.4",
     "awesome-typescript-loader": "^3.2.3",
+    "aws-cli-js": "^2.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

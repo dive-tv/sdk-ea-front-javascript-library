@@ -187,6 +187,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
                     moreRelations.card.card_id + '#' + moreRelations.card.version + '&moreRelations' + moreRelations.cards.length
                 }
                 isScrollable={true}
+                scrollPadding={100}
                 navClass="scrollable"
                 clickAction={actionOnClick}
             />);

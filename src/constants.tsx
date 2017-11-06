@@ -113,9 +113,9 @@ function getRollbarKey() {
 }
 */
 
-export const keyDownObservable$ = RxJS.Observable.fromEvent(document, "keydown")/*
+export const keyDownObservable$ = RxJS.Observable.fromEvent(document.body, "keydown"); /*
 .map((event: KeyboardEvent) => event.keyCode);*/
-export const keyUpObservable$ = RxJS.Observable.fromEvent(document, "keyup");/*
+export const keyUpObservable$ = RxJS.Observable.fromEvent(document.body, "keyup"); /*
 .map((event: KeyboardEvent) => {
     return { keyCode: event.keyCode, event };
 });*/
