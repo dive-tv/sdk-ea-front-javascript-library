@@ -199,7 +199,7 @@ export function syncVOD(params: { movieId: string, timestamp: number, theme?: IT
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
 // test();
-demoVOD(true);
+// demoVOD(true);
 
 /*init({
     selector: "#root",

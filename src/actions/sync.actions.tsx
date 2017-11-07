@@ -53,7 +53,9 @@ export const SyncActions: ISyncActions = {
         dispatch(SyncActions.setSyncType("SOCKET"));
         let indexedBanners = {};
         DiveAPI.syncWithMovieVOD({
-            ...params, callbacks: {
+            ...params,
+            socketTransports: ['polling', 'websocket'],
+            callbacks: {
                 onError: () => { console.log("[SOCKET] onError"); },
                 onMovieStart: (movie: any) => {
                     if (movie && movie.movie_id) {
@@ -85,7 +87,7 @@ export const SyncActions: ISyncActions = {
                 onSceneEnd: () => { dispatch(SyncActions.endScene()); },
                 onPauseStart: () => { dispatch(SyncActions.broadcastPause()); },
                 onPauseEnd: () => { dispatch(SyncActions.broadcastPauseEnd()); },
-            }
+            },
         });
     },
     syncChannel: (channelId: string) => (dispatch: any) => {

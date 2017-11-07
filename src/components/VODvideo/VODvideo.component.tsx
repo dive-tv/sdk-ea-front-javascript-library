@@ -10,7 +10,7 @@ import { DiveAPIClass } from 'Services';
 
 declare const DiveAPI: DiveAPIClass;
 
-const delay = 0; // -15;
+const delay = 0; // -6; // -15;
 
 // tslint:disable-next-line:no-namespace
 export namespace VODvideo {
