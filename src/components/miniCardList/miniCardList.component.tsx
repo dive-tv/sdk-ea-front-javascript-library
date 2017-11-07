@@ -104,38 +104,36 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         const cardsToRender = lodash.uniqBy(this.props.elements, "card_id");
         let navIndex = 0;
         let bannerShown = false;
+        const cardsToShow: JSX.Element[] = [];
+        for (let i = 0; i < cardsToRender.length; i++) {
+            const sceneCard = cardsToRender[i];
+            cardsToShow.push(this.element({
+                el: sceneCard,
+                count: cardsToRender.length,
+                index: navIndex++,
+                parent,
+            }));
+            if (sceneCard.banner && !bannerShown) {
+                bannerShown = true;
+                cardsToShow.push(
+                    <NavigableBanner
+                        data={sceneCard.banner}
+                        parent={this}
+                        forceFirst={true}
+                        forceOrder={navIndex++}
+                        isScrollable={true}
+                        clickAction={() => {
+                            window.open(sceneCard.banner.link_url, '_blank');
+                        }}
+                        scrollPadding={400}
+                        navClass="scrollable bannerContainer"
+                    />,
+                );
+            }
+        }
         return (
             <ul className="miniCardList" >
-                {
-                    cardsToRender.map(
-                        (sceneCard: CardRender, i: number, sceneCards: CardRender[]) => {
-                            return (
-                                <div>
-                                    {this.element({
-                                        el: sceneCard,
-                                        count: sceneCards.length,
-                                        index: navIndex++,
-                                        parent,
-                                    })}
-                                    {sceneCard.banner && !bannerShown ? ((): JSX.Element => {
-                                        bannerShown = true;
-                                        return <NavigableBanner
-                                            data={sceneCard.banner}
-                                            parent={this}
-                                            forceFirst={true}
-                                            forceOrder={navIndex++}
-                                            isScrollable={true}
-                                            clickAction={() => {
-                                                window.open(sceneCard.banner.link_url, '_blank');
-                                            }}
-                                            scrollPadding={100}
-                                            navClass="scrollable"
-                                        />;
-                                    })() : null}
-                                </div>);
-                        },
-                    )
-                }
+                {cardsToShow}
             </ul >
         );
     }

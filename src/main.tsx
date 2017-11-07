@@ -159,14 +159,13 @@ function getIdByProvider(): string {
 
 export function demoVOD(withVideo = false) {
     // tslint:disable-next-line:max-line-length
-    /*
     if (withVideo === true) {
         const testVideo = document.createElement("video");
         testVideo.setAttribute("controls", "controls");
         testVideo.src = 'http://media.w3.org/2010/05/bunny/movie.mp4';
         (document.body as any).prepend(testVideo);
         testVideo.play();
-    }*/
+    }
     init({
         containerSelector: "#root",
         apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
@@ -200,7 +199,7 @@ export function syncVOD(params: { movieId: string, timestamp: number, theme?: IT
 // tslint:disable-next-line:max-line-length
 // demoRTVE();
 // test();
-// demoVOD(true);
+demoVOD(true);
 
 /*init({
     selector: "#root",
