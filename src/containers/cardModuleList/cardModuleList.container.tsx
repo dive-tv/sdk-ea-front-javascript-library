@@ -33,7 +33,7 @@ export class CardModuleList extends React.PureComponent<ICardModuleListProps, {}
                                 console.warn("Instantiating", cardModule.type);
                                 const moduleInstance = candidate.validate(card, cardModule.type, this, {
                                     isScrollable: true,
-                                    scrollPadding: 600,
+                                    scrollPadding: 800,
                                     isDefault: moduleList.length === 0,
                                 });
                                 if (moduleInstance) {

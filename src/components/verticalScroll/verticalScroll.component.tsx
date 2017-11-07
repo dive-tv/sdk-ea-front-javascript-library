@@ -40,6 +40,7 @@ export class VerticalScrollClass extends React.PureComponent<IVerticalScrollProp
                     <DirectionButtonList
                         parent={this}
                         template="horizontal"
+                        scrollPadding={400}
                         btns={[
                             { direction: 'up', action: this.upAction },
                             { direction: 'down', action: this.downAction },

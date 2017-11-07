@@ -23,6 +23,7 @@ export class DirectionButtonListClass extends React.PureComponent<IDirectionButt
                             direction={btn.direction}
                             clickAction={btn.action}
                             parent={this}
+                            scrollPadding={400}
                             columns={this.props.template !== 'vertical' ? this.props.btns.length : 1}
                         />
                     </li>

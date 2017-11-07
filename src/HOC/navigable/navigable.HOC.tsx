@@ -388,7 +388,7 @@ const NavigableClass = <TOriginalProps extends {}>(
 
         // Comprobamos si el elemento es scrollable o si alguno de sus padres lo es.
         private isScrollable = (): boolean => {
-            if (this.isSelected()) {
+            if (this.isSelected()/* || this.inFocusChain(this.props.selectedNav)*/) {
                 let nav: INavigable | undefined = this.props.selectedNav;
                 do {
                     if (nav !== undefined && nav.parentId !== -1) {
