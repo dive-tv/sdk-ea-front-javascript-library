@@ -192,14 +192,21 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     }
 
     private moveVideo() {
-        if (this.videoRefs) {
-            const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
+        console.log("Moving video");
+        if (this.videoRefs !== undefined) {
+            const target = this.videoRefs.parent !== undefined ? this.videoRefs.parent : this.videoRefs.el;
             const layout = document.getElementsByClassName("layoutTop")[0] as HTMLElement;
-            if (target && layout) {
-                // this.videoContainer.appendChild(video);
-                // tslint:disable-next-line:max-line-length
-                target.setAttribute("style", `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`);
+            if (target !== undefined && layout !== undefined) {
+                target.setAttribute(
+                    "style",
+                    `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`
+                );
+                console.log("Moved video");
+            } else {
+                console.log("Cannot find target or layout,", target, layout);
             }
+        } else {
+            console.log("videoRefs not setted on moveVideo", this.videoRefs);
         }
     }
 

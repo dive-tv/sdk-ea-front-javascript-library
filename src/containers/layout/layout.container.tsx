@@ -139,6 +139,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
                         ((document as any).mozFullScreenElement && (document as any).mozFullScreenElement !== null) ||
                         ((document as any).msFullscreenElement && (document as any).msFullscreenElement !== null);
+                    console.log("Is in full screen? ", isInFullScreen);
                     if (isInFullScreen) {
                         /*
                         // Cancel fullscreen
@@ -152,6 +153,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                             (document as any).msExitFullscreen();
                         }*/
                         // Request FS for DIVE
+                        /* DISABLE FOR CLARO
                         const el = document.getElementById("globalDiveContainer");
                         if (el && (el.requestFullscreen || el.webkitRequestFullscreen)) {
                             if (el.webkitRequestFullscreen) {
@@ -160,6 +162,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
                                 el.requestFullscreen();
                             }
                         }
+                        */
                     } else {
                         console.log("NOT FS");
                     }

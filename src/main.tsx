@@ -170,7 +170,7 @@ export function demoVOD(withVideo = false) {
         containerSelector: "#root",
         apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
         deviceId: "test",
-        vodOptions: { vodParent: ".vph5-player", vodSelector: "#video", vodSync: "STREAMING" },
+        vodOptions: { vodSelector: "video", vodSync: "STREAMING" },
         showMenu: false,
     })
         .then(() => {
