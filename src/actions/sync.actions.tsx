@@ -3,12 +3,12 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
-import { Card, DiveAPIClass, Helper, Single, Duple, ApiRelationModule } from 'Services';
+import { Card, EaAPI, Helper, Single, Duple, ApiRelationModule } from 'Services';
 import { SUPPORTED_CARD_TYPES, TESTING_CHANNEL, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface ISyncActions extends MapDispatchToPropsObject {
     openCard: ActionCreator<ISyncAction>;

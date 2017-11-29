@@ -26,7 +26,7 @@ const frontEntry = isProduction ?
 
 const sassEntry = ExtractTextPlugin.extract({
   fallback: 'style-loader',
-  //resolve-url-loader may be chained before sass-loader if necessary 
+  //resolve-url-loader may be chained before sass-loader if necessary
   use: [
     {
       loader: "css-loader", // translates CSS into CommonJS
@@ -149,6 +149,12 @@ const config = {
   },
   module: {
     loaders: [
+      // js
+      {
+        test: /\.js$/,
+        use: ["source-map-loader"],
+        enforce: "pre"
+      },
       // .ts, .tsx
       {
         test: /\.(ts|tsx)?$/,
@@ -170,7 +176,7 @@ const config = {
         test: /\.(jpe?g|png|gif|svg)$/,
         exclude: [/node_modules/, path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
         loaders: [
-          { 
+          {
             loader: 'file-loader',
             query: {
               name: 'assets/[hash].[ext]',

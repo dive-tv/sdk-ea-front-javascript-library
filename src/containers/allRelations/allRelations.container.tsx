@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { DiveAPIClass, Card, Helper } from "Services";
+import { EaAPI, Card, Helper } from "Services";
 import { Loading, MiniCardList, NavigationContainer } from "Components";
 import { navigable } from "HOC";
 import { ICardAndRelations } from 'Reducers';
 import { IUIActions } from 'Actions';
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface IAllRelationsContainerProps {
     cards: ICardAndRelations;
