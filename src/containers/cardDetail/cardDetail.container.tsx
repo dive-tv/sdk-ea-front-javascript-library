@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { DiveAPIClass, Card, Helper } from "Services";
+import { EaAPI, Card, Helper } from "Services";
 import { Loading, CardDetail } from "Components";
 import { navigable } from "HOC";
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface ICardDetailContainerProps {
     cardId: string;

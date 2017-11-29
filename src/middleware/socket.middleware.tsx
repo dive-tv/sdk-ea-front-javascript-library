@@ -2,10 +2,10 @@ import { SocketActions } from 'Actions';
 import { Store, Dispatch } from 'redux';
 import * as io from 'socket.io-client';
 import {  DIVE_ENVIRONMENT } from 'Constants';
-import { DiveAPIClass } from 'Services';
+import { EaAPI } from 'Services';
 
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 const socketMiddleware = () => {
     let socket: SocketIOClient.Socket | undefined;

@@ -3,9 +3,9 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { createAction } from 'redux-actions';
 
 import { IUserAction, UserActionTypes, IUserState } from "Reducers";
-import {  Card, DiveAPIClass } from "@dive-tv/api-typescript-library";
+import { Card, EaAPI } from "Services";
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface IUserActions extends MapDispatchToPropsObject {
     setUser: ActionCreator<IUserAction>;
