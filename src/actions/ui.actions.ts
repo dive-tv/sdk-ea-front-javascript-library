@@ -5,9 +5,9 @@ import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
 import { createAction } from 'redux-actions';
 
 import { UIActionTypes, IUIGroup, ICardRelation, IBanner } from 'Reducers';
-import { Card, DiveAPIClass } from "Services";
+import { Card, EaAPI } from "Services";
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface ICardWithBanner extends Card {
     banner?: IBanner;

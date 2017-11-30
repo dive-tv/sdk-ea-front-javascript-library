@@ -12,9 +12,9 @@ import {
 } from 'Reducers';
 import { UIActions, IUIActions, SyncActions, ISyncActions } from 'Actions';
 import { navigable } from 'HOC';
-import { Card, KeyMap, DiveAPIClass } from "Services";
+import { Card, KeyMap, EaAPI } from "Services";
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 // tslint:disable-next-line:no-namespace
 export namespace Layout {

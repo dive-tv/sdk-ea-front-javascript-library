@@ -5,13 +5,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { navigable } from 'HOC';
-import { Card, DiveAPIClass, RelationModule, Duple, Single } from 'Services';
+import { Card, EaAPI, RelationModule, Duple, Single } from 'Services';
 import { MiniCard, MoreRelations, NavigableBanner } from 'Components';
+
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
 import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
 import { FilterTypeEnum } from 'Constants';
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 export interface IMiniCardListState {
     elements: Array<CardRender>;

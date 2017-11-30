@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { getVodSelector, getVodParentSelector } from 'Constants';
 import { IState, ISyncState } from 'Reducers';
 import { SyncActions, ISyncActions } from 'Actions';
-import { DiveAPIClass } from 'Services';
+import { EaAPI } from 'Services';
 
-declare const DiveAPI: DiveAPIClass;
+declare const DiveAPI: EaAPI;
 
 const delay = 0; // -6; // -15;
 
