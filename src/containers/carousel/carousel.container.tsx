@@ -238,7 +238,7 @@ export class CarouselClass
     }
 }
 
-const mapStateToProps = (state: IState): { state: ISyncState } => ({ state: { ...state.carousel } });
+const mapStateToProps = (state: IState): { state: ISyncState } => ({ state: { ...state.sync } });
 const mapDispatchToProps = (dispatch: any): any => {
     return {
         syncActions: bindActionCreators(SyncActions, dispatch),

@@ -15,7 +15,7 @@ import {
 
 export interface IState {
     nav: INavState;
-    carousel: ISyncState;
+    sync: ISyncState;
     ui: { present: IUIState };
 }
 /*

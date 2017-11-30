@@ -89,7 +89,7 @@
     "weinre": "^2.0.0-pre-I0Z7U9OV"
   },
   "dependencies": {
-    "@dive-tv/sdk-ea-typescript-library": "^1.1.2",
+    "@dive-tv/sdk-ea-typescript-library": "^1.1.3",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",

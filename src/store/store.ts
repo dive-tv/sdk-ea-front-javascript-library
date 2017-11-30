@@ -27,7 +27,7 @@ const getMiddlewares = () => {
 export const store = createStore(
   combineReducers({
     nav: NavReducer,
-    carousel: SyncReducer,
+    sync: SyncReducer,
     ui: undoable(UIReducer, {
       filter: includeAction('UI/OPEN'), // see `Filtering Actions` section
       initTypes: ['@@redux/INIT', '@@INIT'], // history will be (re)set upon init action type

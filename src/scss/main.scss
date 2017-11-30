@@ -15,6 +15,8 @@ body .diveContainer {
     user-select: none;
     visibility: visible !important;
     display: block !important;
+    width: 100%;
+    height: 100%;
 
     @import 'text_sizes';
     @import '../containers/app/app';

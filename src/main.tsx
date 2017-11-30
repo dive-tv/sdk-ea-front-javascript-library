@@ -14,6 +14,7 @@ import { Theme } from 'Components';
 import { ITheme } from 'Theme';
 
 declare const KeyEvent: any;
+declare const Vimeo: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -24,11 +25,6 @@ export const init = (params: {
   deviceId: string,
   selector: string,
   theme?: ITheme,
-  vodOptions?: {
-    vodSelector: string,
-    vodSync: "ONE_SHOT" | "STREAMING",
-    vodParent?: string,
-  },
 }) => {
   if (typeof params !== "object") {
     console.error("You should provide initialization parameters as an object.");
@@ -45,14 +41,6 @@ export const init = (params: {
       provide it through the initialization parameter 'clientId'`);
   }
 
-  if (params.vodOptions) {
-    if (params.vodOptions.vodSelector) {
-      changeVodSelector(params.vodOptions.vodSelector);
-    }
-    if (params.vodOptions.vodParent) {
-      changeVodParentSelector(params.vodOptions.vodParent);
-    }
-  }
   try {
     if (KeyEvent) {
       loadHbbtvKeys();
@@ -62,7 +50,7 @@ export const init = (params: {
   }
 
   const APIinstance = new EaAPI(
-    { env: DIVE_ENVIRONMENT, storeToken: "cookies", apiKey: params.apiKey, deviceId: params.deviceId },
+    { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
   console.log("BP", APIinstance.basePath);
   APIinstance.setLocale("es-ES");
@@ -129,7 +117,6 @@ export function test() {
     selector: "#root",
     apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
     deviceId: "test",
-    vodOptions: { vodParent: ".video-js", vodSelector: ".vjs-tech", vodSync: "STREAMING" },
     showMenu: false,
     theme: {},
   })
@@ -154,57 +141,89 @@ function getIdByProvider(): string {
       const pos = window.location.href.search(/=\d{6}/g) + 1;
       return window.location.href.substr(pos, 7);
     }
+
+    case 'infomix.tv':
+      const id = window.location.href.split("infomix.tv/")[1];
+      return id;
   }
 }
 
-export function demoVOD(withVideo = false) {
-  // tslint:disable-next-line:max-line-length
-  if (withVideo === true) {
-    const testVideo = document.createElement("video");
-    testVideo.setAttribute("controls", "controls");
-    testVideo.src = 'http://media.w3.org/2010/05/bunny/movie.mp4';
-    (document.body as any).prepend(testVideo);
-    testVideo.play();
-  }
-  init({
-    selector: "#root",
-    apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
-    deviceId: "test",
-    vodOptions: { vodSelector: "video", vodSync: "STREAMING" },
-    showMenu: false,
+function getRefsByProvider(): Promise<{
+  videoRef: HTMLVideoElement | HTMLObjectElement,
+  videoParent?: HTMLElement,
+}> {
+  return new Promise((resolve, reject) => {
+    // videoRef: HTMLVideoElement | HTMLObjectElement, videoParent?: HTMLElement
+    switch (window.location.host) {
+      case "www.rtve.es": {
+        resolve({
+          videoRef: document.getElementsByClassName('vjs-tech')[0] as HTMLVideoElement,
+          videoParent: document.getElementsByClassName('video-js')[0] as HTMLElement,
+        });
+      }
+      case "www.clarovideo.com":
+      case "www.clarovideo.com.mx": {
+        resolve({
+          videoRef: document.getElementById('video') as HTMLVideoElement,
+          videoParent: document.getElementsByTagName('vph5-container')[0] as HTMLElement,
+        });
+      }
+      case 'infomix.tv': {
+        const script = document.createElement('script');
+        script.src = "https://player.vimeo.com/api/player.js?retert=34535";
+        script.onload = () => {
+          const iframe = document.querySelector('iframe');
+          const player = new Vimeo.Player(iframe);
+          resolve({
+            videoRef: player as HTMLVideoElement,
+            videoParent: document.querySelector('iframe') as HTMLElement,
+          });
+        }
+        document.head.appendChild(script);
+      }
+    }
   })
-    .then(() => {
-      let movieId = getIdByProvider();
-      movieId = "577062";
-      return syncVOD({ movieId, timestamp: store.getState().carousel.currentTime || 1 });
-    })
-    .then(() => {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-      // store.dispatch(UIActions.setDivider(100));
-    });
 }
 
-export function syncVOD(params: { movieId: string, timestamp: number, theme?: ITheme }) {
-  const { movieId, timestamp } = params;
+export function demoVOD() {
+
+  getRefsByProvider().then((vodRefs) => {
+    const { videoRef, videoParent } = vodRefs;
+    init({
+      selector: "#root",
+      apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
+      deviceId: "test",
+      showMenu: false,
+    })
+      .then(() => {
+        let movieId = getIdByProvider();
+        movieId = "577062";
+        return syncVOD({ movieId, timestamp: 0, videoRef, videoParent });
+      })
+      .then(() => {
+        store.dispatch(UIActions.open({
+          top: 'VODVIDEO',
+          bottom: 'CAROUSEL',
+        }) as any);
+        // store.dispatch(UIActions.setDivider(100));
+      });
+  })
+}
+
+export function syncVOD(params: {
+  movieId: string,
+  timestamp: number,
+  theme?: ITheme,
+  videoRef: HTMLVideoElement | HTMLObjectElement,
+  videoParent?: HTMLElement,
+}) {
+  const { movieId, timestamp, videoRef, videoParent } = params;
   if (VOD_MODE === "ONE_SHOT") {
-    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp }) as any);
+    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
   } else {
-    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https" }) as any);
+    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
 }
-
-
-init({
-  selector: "#root",
-  apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
-  deviceId: "test",
-  showMenu: false,
-  // theme: { background: 'green' },
-});
-
 
 
 // index.html hot reload trick
