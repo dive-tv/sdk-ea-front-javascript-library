@@ -11,26 +11,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" test="1">
 
 <head>
-    <meta http-equiv="content-type" content="application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
-    <title>Dive SDK (running)</title>
-    <style>
-        html,
-        body,
-        .diveContainer,
-        #root {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-    </style>
-    <!--
+  <meta http-equiv="content-type" content="application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
+  <title>Dive SDK (running)</title>
+  <style>
+    html,
+    body,
+    .diveContainer,
+    #root {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <!--
     <script async type="text/javascript" src="http://192.168.0.100:8082/console.io.js?url=http://192.168.0.100:8082"></script>
     <script>
         if (document.cookie.indexOf("serialNumber") == -1) {
@@ -38,79 +38,83 @@
         }
     </script>
     -->
-    <!--<script id="webpack-weinre-plugin" src="http://192.168.17.47:50010/target/target-script-min.js#anonymous"></script>-->
+  <script id="webpack-weinre-plugin" src="http://192.168.17.243:8080/target/target-script-min.js#anonymous"></script>
+  <script crossorigin="anonymous" type="text/javascript">
+    function init() {
+        if (DiveSDK && DiveSDK.front && DiveSDK.front.test) {
+          console.log("TEST INIT 6");
+          //console.log = () => { };
+          DiveSDK.front.test();
+          // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: false });
+          console.log("APP REALLY INITIALIZED");
+          clearInterval(initInterval);
+        }
+    }
+    var initInterval;
+    function setKeyset(mask) {
+      // for HbbTV 0.5:
+      try {
+        elemcfg = document.getElementById('oipfcfg');
+        elemcfg.keyset.value = mask;
+      } catch (e) {
+        // ignore
+      }
+      try {
+        elemcfg = document.getElementById('oipfcfg');
+        elemcfg.keyset.setValue(mask);
+      } catch (e) {
+        // ignore
+      }
+      // for HbbTV 1.0:
+      try {
+        app = document.getElementById('appmgr').getOwnerApplication(document);
+        app.privateData.keyset.setValue(mask);
+      } catch (e) {
+        // ignore
+      }
+    }
+    function initApp() {
+      var exeInit;
+      try {
+        exeInit = init;
+      } catch (e) {
+        console.log("ERROR HBBTV", e);
+        console.log("init", init);
+      }
+      setTimeout(function () {
+        console.log("HBBTV TIMEOUT TRIGGERED");
+        try {
+          console.log("LOADING HBBTV");
+          document.getElementById("appmgr").getOwnerApplication(document).show();
+          console.log("LOADED HBBTV");
+          setKeyset(0x1 + 0x2 + 0x4 + 0x8 + 0x10);
+          console.log("KEYS SETUP");
+          initInterval = setInterval(exeInit, 1000);
+          exeInit();
+          console.log("APP INITIALIZED");
+        } catch (e) {
+          console.log("ERROR HBBTV", e);
+          var el = document.getElementById("body");
+          var msg = e.toString().substr(20);
+        }
+      }, 2000);
+    }
+  </script>
 </head>
 
 <body onload="initApp()" style="background-color: grey">
-    <!-- VOD TEST --<video id="video1" style="width: 600px; max-width: 100%; position: absolute; top: 0; left: 0; z-index: 3; height: auto;" controls="">
+  <!-- VOD TEST --<video id="video1" style="width: 600px; max-width: 100%; position: absolute; top: 0; left: 0; z-index: 3; height: auto;" controls="">
         <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
         <source src="https://media.w3.org/2010/05/sintel/trailer.ogg" type="video/ogg"> Your browser does not support HTML5 video.
     </video>-->
-    <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
-    <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
-        <object type="application/oipfApplicationManager" id="appmgr" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-        <object type="application/oipfConfiguration" id="oipfcfg" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
-    </div>
-    <div id="root"></div>
-    <script crossorigin="anonymous" type="text/javascript">
-        window.init = function () {
-            try {
-                if (DiveSDK.front && DiveSDK.front.init) {
-                    console.log("TEST INIT 6");
-                    console.log = () => { };
-                    // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: false });
-                    console.log("APP REALLY INITIALIZED");
-                    clearInterval(initInterval);
-                }
-            } catch (e) {
-                console.error("Error initializing app", e);
-            }
-        }
-    </script>
-    <script crossorigin="anonymous" type="text/javascript">
-        var initInterval;
-        function setKeyset(mask) {
-            // for HbbTV 0.5:
-            try {
-                elemcfg = document.getElementById('oipfcfg');
-                elemcfg.keyset.value = mask;
-            } catch (e) {
-                // ignore
-            }
-            try {
-                elemcfg = document.getElementById('oipfcfg');
-                elemcfg.keyset.setValue(mask);
-            } catch (e) {
-                // ignore
-            }
-            // for HbbTV 1.0:
-            try {
-                app = document.getElementById('appmgr').getOwnerApplication(document);
-                app.privateData.keyset.setValue(mask);
-            } catch (e) {
-                // ignore
-            }
-        }
-        function initApp() {
-            setTimeout(function () {
-                console.log("HBBTV TIMEOUT TRIGGERED");
-                try {
-                    console.log("LOADING HBBTV");
-                    document.getElementById("appmgr").getOwnerApplication(document).show();
-                    console.log("LOADED HBBTV");
-                    setKeyset(0x1 + 0x2 + 0x4 + 0x8 + 0x10);
-                    console.log("KEYS SETUP");
-                    initInterval = setInterval(init, 1000);
-                    init();
-                    console.log("APP INITIALIZED");
-                } catch (e) {
-                    console.log("ERROR HBBTV", e);
-                    var el = document.getElementById("body");
-                    var msg = e.toString().substr(20);
-                }
-            }, 2000);
-        }
-    </script>
+  <!-- ApplicationManager extracts information out of the AIT (such as lifecycle, autostart, etc.) -->
+  <div id="oipf-objects" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;">
+    <object type="application/oipfApplicationManager" id="appmgr" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+    <object type="application/oipfConfiguration" id="oipfcfg" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+  </div>
+  <div id="root"></div>
+
+
 </body>
 
 </html>

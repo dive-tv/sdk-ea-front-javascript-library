@@ -100,10 +100,10 @@ export const SyncActions: ISyncActions = {
     dispatch(SyncActions.setSyncType("SOCKET"));
 
     DiveAPI.syncWithMovieStreaming({
-      protocol: "https",
+      protocol: "http",
       channelId,
       socketTransports: [
-        'polling',
+        'websocket',
       ],
       callbacks: {
         onConnect: () => { console.log("[SOCKET] onConnect"); },

@@ -1,27 +1,28 @@
-javascript: (function(){var gc = document.createElement("div");gc.id = "globalDiveContainer";var dc = document.createElement("div");dc.id = "root";gc.setAttribute("style", "position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;pointer-events:none;");dc.setAttribute("style", "width:100%;height:100%");gc.appendChild(dc);document.body.appendChild(gc);var script = document.createElement('script');script.src = "https://cdn.dive.tv/sdkweb/DiveSDK.front.js?t="+Date.now();document.body.appendChild(script);script.onload = function() { DiveSDK.front.demoVOD(false);}})();
+javascript: (function () { var gc = document.createElement("div"); gc.id = "globalDiveContainer"; var dc = document.createElement("div"); dc.id = "root"; gc.setAttribute("style", "position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;pointer-events:none;"); dc.setAttribute("style", "width:100%;height:100%"); gc.appendChild(dc); document.body.appendChild(gc); var script = document.createElement('script'); script.src = "https://cdn.dive.tv/sdkweb/DiveSDK.front.js?t=" + Date.now(); document.body.appendChild(script); script.onload = function () { DiveSDK.front.demoVOD(false); } })();
 
 
 https://www.clarovideo.com/playerhtml5/mexico/Aviones-trenes-y-auto/home.php?playgroupfull&group_id=577062
 
+javascript: (function () {
+  var gc = document.createElement("div");
+  gc.id = "globalDiveContainer";
+  var dc = document.createElement("div");
+  dc.id = "root";
+  gc.setAttribute("style", "position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;pointer-events:none;");
+  dc.setAttribute("style", "width:100%;height:100%");
 
-var gc = document.createElement("div");
-gc.id = "globalDiveContainer";
-var dc = document.createElement("div");
-dc.id = "root";
-gc.setAttribute("style", "position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;pointer-events:none;");
-dc.setAttribute("style", "width:100%;height:100%");
+  gc.appendChild(dc);
+  document.body.appendChild(gc);
 
-gc.appendChild(dc);
-document.body.appendChild(gc);
-
-var script = document.createElement('script');
-script.src = "https://cdn.dive.tv/sdkweb/DiveSDK.front.js";
-document.body.appendChild(script);
-script.onload = function() {
+  var script = document.createElement('script');
+  script.src = "https://cdn.dive.tv/sdkweb/DiveSDK.front.js";
+  document.body.appendChild(script);
+  script.onload = function () {
     // DiveSDK.front.demoRTVE();
     DiveSDK.front.demoVOD()
-}
+  }
 
+})();
 
 
 
@@ -32,9 +33,9 @@ script.onload = function() {
 
 
 //RTVE PRO: cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2
-http://www.rtve.es/xl/hbbtv/el-ministerio-del-tiempo/4245810?programId=83030&origen=#seft
+// http://www.rtve.es/xl/hbbtv/el-ministerio-del-tiempo/4245810?programId=83030&origen=#seft
 
 //API_KEY touchvie_api DEV: dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT
 
 
-Mozilla/5.0 (Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36 OPR/43.0.2207.0 OMI/4.10.0.51.release Model/Demo-Rotopipe Dani
+// Mozilla / 5.0(Linux x86_64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 56.0.2924.87 Safari / 537.36 OPR / 43.0.2207.0 OMI / 4.10.0.51.release Model / Demo - Rotopipe Dani
