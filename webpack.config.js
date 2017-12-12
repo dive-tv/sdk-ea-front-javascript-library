@@ -21,7 +21,7 @@ module.exports = function(publicPath) {
   
   const frontEntry = isProduction ?
     [
-      'babel-polyfill',
+      // 'babel-polyfill',
       'react',
       'react-dom',
       'react-redux',
@@ -29,7 +29,7 @@ module.exports = function(publicPath) {
       'redux',
       path.resolve(__dirname, 'src', 'main.tsx')] :
     [
-      'babel-polyfill',
+      // 'babel-polyfill',
       'eventsource-polyfill', // Necessary for hot reloading with IE
       `webpack-hot-middleware/client?reload=true&path=${publicPath}__webpack_hmr`,
       path.resolve(__dirname, 'src', 'main.tsx')

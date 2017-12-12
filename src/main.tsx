@@ -173,7 +173,7 @@ function getRefsByProvider(): Promise<{
       }
       case "play.starzplayarabia.com": {
         resolve({
-          videoRef: document.getElementById('video') as HTMLVideoElement,
+          videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
           videoParent: document.getElementsByTagName('bitdash-poster')[0] as HTMLElement,
         });
       }
