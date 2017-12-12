@@ -110,7 +110,6 @@ export const init = (params: {
   // });
 };
 
-
 export function test() {
   // tslint:disable-next-line:max-line-length
   init({
@@ -141,6 +140,10 @@ function getIdByProvider(): string {
       const pos = window.location.href.search(/=\d{6}/g) + 1;
       return window.location.href.substr(pos, 7);
     }
+    case "play.starzplayarabia.com": {
+      const arr = window.location.href.split('/');
+      return arr[arr.length - 1];
+    }
 
     case 'infomix.tv':
       const id = window.location.href.split("infomix.tv/")[1];
@@ -166,6 +169,12 @@ function getRefsByProvider(): Promise<{
         resolve({
           videoRef: document.getElementById('video') as HTMLVideoElement,
           videoParent: document.getElementsByTagName('vph5-container')[0] as HTMLElement,
+        });
+      }
+      case "play.starzplayarabia.com": {
+        resolve({
+          videoRef: document.getElementById('video') as HTMLVideoElement,
+          videoParent: document.getElementsByTagName('bitdash-poster')[0] as HTMLElement,
         });
       }
       case 'infomix.tv': {
@@ -197,7 +206,7 @@ export function demoVOD() {
     })
       .then(() => {
         let movieId = getIdByProvider();
-        movieId = "577062";
+        movieId = "577062"; // Creo que es sex and the city.
         return syncVOD({ movieId, timestamp: 0, videoRef, videoParent });
       })
       .then(() => {
