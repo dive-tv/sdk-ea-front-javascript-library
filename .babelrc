@@ -3,10 +3,10 @@
   "presets": [
     "react",
     [
-      "env",
-      {
-        "modules": false
-      }
+      "env"
     ]
-  ]
+  ],
+  "sourceMaps": true,
+  "plugins": ["transform-runtime"]
+  // magic: true
 }

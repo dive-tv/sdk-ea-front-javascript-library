@@ -60,18 +60,6 @@
     "node_modules"
   ],
   "awesomeTypescriptLoaderOptions": {
-    "useBabel": true,
-    "babelOptions": {
-      // "plugins": ["transform-runtime"],
-      "presets": [
-        [
-          "es2015",
-          {
-            // "modules": false
-          }
-        ]
-      ],
-      "sourceMaps": true
-    }
+    "useBabel": true
   }
 }
