@@ -208,7 +208,7 @@ module.exports = function(publicPath) {
         {
           test: /\.(ts|tsx)?$/,
           exclude: /node_modules/,
-          use: ['babel-loader', 'awesome-typescript-loader?configFileName=tsconfig.json'],
+          use: ['cache-loader', 'babel-loader', 'awesome-typescript-loader?configFileName=tsconfig.json'],
         },
         // css
         {
