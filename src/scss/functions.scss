@@ -48,7 +48,7 @@
 }
 
 @function pxToEmZeplinX2($font-size-in-px) {
-    @return (($font-size-in-px / 5.4) + em);
+    @return (($font-size-in-px / 7) + em);
 }
 
 /// Remove the unit of a length
