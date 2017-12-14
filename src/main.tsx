@@ -53,7 +53,8 @@ export const init = (params: {
     { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
   console.log("BP", APIinstance.basePath);
-  APIinstance.setLocale("es-ES");
+  APIinstance.setLocale("en");
+  // APIinstance.setLocale("es-ES");
   (window as any).DiveAPI = APIinstance;
   return APIinstance.loginWithDevice(params.deviceId)
     .then((response: AccessToken) => {
@@ -142,7 +143,20 @@ function getIdByProvider(): string {
     }
     case "play.starzplayarabia.com": {
       const arr = window.location.href.split('/');
-      return arr[arr.length - 1];
+      let spId = '';
+
+      // tslint:disable-next-line:prefer-conditional-expression
+      if (arr[arr.length - 3] === 'movies') {
+        // Para las movies se devuelve la última parte de la url (ejemplo: 64860712307)
+        // https://play.starzplayarabia.com/en/movies/hitch/23950888433
+        spId = arr[arr.length - 1];
+      } else {
+        // Para el caso de la serie, se cogen las dos últimas partes de la url (ejemplo: 36008488058/s2e12)
+        // https://play.starzplayarabia.com/en/series/sons-of-anarchy/47919656343/s1e3
+        spId = arr[arr.length - 2] + '-' + arr[arr.length - 1];
+      }
+      console.log("spId: ", spId);
+      return spId;
     }
 
     case 'infomix.tv':
@@ -174,7 +188,7 @@ function getRefsByProvider(): Promise<{
       case "play.starzplayarabia.com": {
         resolve({
           videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
-          videoParent: document.getElementsByTagName('bitdash-poster')[0] as HTMLElement,
+          videoParent: document.getElementsByTagName('starzplayer')[0] as HTMLElement,
         });
       }
       case 'infomix.tv': {
@@ -206,8 +220,9 @@ export function demoVOD() {
     })
       .then(() => {
         let movieId = getIdByProvider();
-        movieId = "577062"; // Creo que es sex and the city.
-        return syncVOD({ movieId, timestamp: 0, videoRef, videoParent });
+        // movieId = "577062"; // Creo que es sex and the city.
+        // movieId = '63501863951'; // Jurassic World
+        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime, videoRef, videoParent });
       })
       .then(() => {
         store.dispatch(UIActions.open({
