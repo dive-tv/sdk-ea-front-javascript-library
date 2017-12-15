@@ -26,6 +26,7 @@ export const init = (params: {
   selector: string,
   theme?: ITheme,
 }) => {
+
   if (typeof params !== "object") {
     console.error("You should provide initialization parameters as an object.");
     throw new Error("You should provide initialization parameters as an object.");
@@ -52,7 +53,8 @@ export const init = (params: {
   const APIinstance = new EaAPI(
     { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
-  console.log("BP", APIinstance.basePath);
+
+  console.log("BP basePath", APIinstance.basePath);
   APIinstance.setLocale("en");
   // APIinstance.setLocale("es-ES");
   (window as any).DiveAPI = APIinstance;
@@ -98,7 +100,7 @@ export const init = (params: {
         document.querySelector(params.selector),
       );
     })
-    .catch((error) => {
+    .catch((error: any) => {
       console.error("ERROR LOADING", error);
     });
   /*
@@ -111,7 +113,7 @@ export const init = (params: {
   // });
 };
 
-export function test() {
+export const test = () => {
   // tslint:disable-next-line:max-line-length
   init({
     selector: "#root",
@@ -208,7 +210,7 @@ function getRefsByProvider(): Promise<{
   })
 }
 
-export function demoVOD() {
+export const demoVOD = () => {
 
   getRefsByProvider().then((vodRefs) => {
     const { videoRef, videoParent } = vodRefs;
@@ -234,13 +236,13 @@ export function demoVOD() {
   })
 }
 
-export function syncVOD(params: {
+export const syncVOD = (params: {
   movieId: string,
   timestamp: number,
   theme?: ITheme,
   videoRef: HTMLVideoElement | HTMLObjectElement,
   videoParent?: HTMLElement,
-}) {
+}) => {
   const { movieId, timestamp, videoRef, videoParent } = params;
   if (VOD_MODE === "ONE_SHOT") {
     return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
@@ -249,6 +251,38 @@ export function syncVOD(params: {
   }
 }
 
+
+export const vodIsAvailable = (movieId: string): boolean => {
+  return true;
+}
+
+export const vodStart = (movieId: string, timestamp: number): any => {
+
+}
+
+export const vodPause = () => {
+
+}
+
+export const vodResume = () => {
+
+}
+
+export const vodSeek = (timestamp: number) => {
+
+}
+
+export const vodEnd = () => {
+
+}
+
+export const channelIsAvailable = () => {
+
+}
+
+export const tvStart = () => {
+
+}
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS 
