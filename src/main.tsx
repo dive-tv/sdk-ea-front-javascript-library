@@ -6,10 +6,10 @@ import ShadowDOM from 'react-shadow';
 
 import { store } from './store/store';
 import { App } from 'Containers';
-import { Card, KeyMap, loadHbbtvKeys, AccessToken, EaAPI } from 'Services';
+import { Card, KeyMap, loadHbbtvKeys, AccessToken, EaAPI, MovieStatus, ChannelStatus } from 'Services';
 import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector, VOD_MODE } from 'Constants';
 import * as css from './scss/main.scss';
-import { UIActions, SyncActions } from 'Actions';
+import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme } from 'Components';
 import { ITheme } from 'Theme';
 
@@ -18,6 +18,7 @@ declare const Vimeo: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
+let APIinstance: EaAPI = null;
 
 export const init = (params: {
   showMenu: boolean,
@@ -130,7 +131,7 @@ export const test = () => {
       store.dispatch(UIActions.open(testGroup) as any);
       store.dispatch(SyncActions.syncChannel(TESTING_CHANNEL) as any);
     });
-}
+};
 
 function getIdByProvider(): string {
   switch (window.location.host) {
@@ -252,37 +253,153 @@ export const syncVOD = (params: {
 }
 
 
-export const vodIsAvailable = (movieId: string): boolean => {
-  return true;
+//LLAMADAS FINALES DEL API SDK
+
+export const initialize = (selector: string, apiKey: string, userId: string, locale?: string, theme?: ITheme) => {
+
+  if (typeof locale !== "string") {
+    locale = 'en';
+  }
+
+  if (typeof apiKey !== "string") {
+    console.error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
+    throw new Error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
+  }
+  if (typeof userId !== "string") {
+    console.error(`You should provide a unique client id in order to authenticate him,
+      provide it through the initialization parameter 'clientId'`);
+    throw new Error(`You should provide a unique client id in order to authenticate him,
+      provide it through the initialization parameter 'clientId'`);
+  }
+
+  try {
+    if (KeyEvent) {
+      loadHbbtvKeys();
+    }
+  } catch (e) {
+    console.error("NO KEYMAP FOUND");
+  }
+
+  APIinstance = new EaAPI(
+    { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey, deviceId: userId },
+  );
+
+  APIinstance.setLocale(locale);
+  // APIinstance.setLocale("es-ES");
+  (window as any).DiveAPI = APIinstance;
+  return APIinstance.loginWithDevice(userId)
+    .then((response: AccessToken) => {
+      // tslint:disable-next-line:no-console
+      console.log("Authorized!");
+      (window as any).DiveAPI = APIinstance;
+      // tslint:disable-next-line:no-console
+      console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
+      if (typeof selector !== "string") {
+        // tslint:disable-next-line:no-console
+        console.error(`You should provide a selector that resolves to an existing DOM Element
+        in the initialization parameter 'selector'`);
+        throw new Error(`You should provide a selector that resolves to an existing DOM Element
+        in the initialization parameter 'selector'`);
+      }
+    })
+    .then(() => {
+
+      ReactDOM.render(
+        // ShadowDOM /*include={'styles.css'}*/>
+        <div className="diveContainer">
+          <style /*scoped={true}*/>{css[0][1]}</style>
+          <Theme theme={theme} />
+          <Provider store={store}>
+            <App showMenu={false} />
+          </Provider>
+        </div>
+        // </ShadowDOM >,
+        ,
+        document.querySelector(selector),
+      );
+    })
+    .catch((error: any) => {
+      console.error("ERROR LOADING", error);
+    });
+};
+
+
+
+export const vodIsAvailable = (movieId: string): Promise<boolean> => {
+  if (APIinstance == null) {
+    console.error("APIinstance is null. initialize() is needed.");
+  }
+
+  return new Promise((resolve, reject) => {
+    APIinstance.getReadyMovies({ clientMovieIdList: [movieId] })
+      .then((response: MovieStatus[]) => {
+        // TODO
+        if (response !== undefined && response.length >= 1) {
+          resolve(response[0].ready);
+        }
+
+      })
+      .catch((error: any) => {
+        console.error("ERROR LOADING", error);
+      });
+  });
+};
+
+export const vodStart = (videoRef: HTMLVideoElement | HTMLObjectElement, movieId: string, timestamp: number): any => {
+  if (VOD_MODE === "ONE_SHOT") {
+    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef }) as any);
+  } else {
+    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef }) as any);
+  }
 }
 
-export const vodStart = (movieId: string, timestamp: number): any => {
+export const vodPause = (timestamp: number) => {
+  if (APIinstance.socket.authenticated) {
+    APIinstance.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(0, timestamp) }));
+  }
+};
 
-}
-
-export const vodPause = () => {
-
-}
-
-export const vodResume = () => {
-
-}
+export const vodResume = (timestamp: number) => {
+  if (APIinstance.socket.authenticated) {
+    APIinstance.socket.emit("vod_continue", JSON.stringify({ timestamp: Math.max(0, timestamp) }));
+  }
+};
 
 export const vodSeek = (timestamp: number) => {
-
-}
+  if (APIinstance.socket.authenticated) {
+    APIinstance.socket.emit("vod_set", JSON.stringify({ timestamp: Math.max(0, timestamp) }));
+  }
+};
 
 export const vodEnd = () => {
+  if (APIinstance.socket.authenticated) {
+    APIinstance.socket.emit("vod_end") ;
+  }
+};
 
-}
+export const channelIsAvailable = (channelId: string): Promise<ChannelStatus> => {
+  if (APIinstance == null) {
+    console.error("APIinstance is null. initialize() is needed.");
+  }
 
-export const channelIsAvailable = () => {
+  return new Promise((resolve, reject) => {
+    APIinstance.getReadyChannels({ channelIdList: [channelId] })
+      .then((response: ChannelStatus[]) => {
+        // TODO
+        if (response !== undefined && response.length >= 1) {
+          resolve(response[0]);
+        }
 
-}
+      })
+      .catch((error: any) => {
+        console.error("ERROR LOADING", error);
+      });
+  });
+};
 
-export const tvStart = () => {
-
-}
+export const tvStart = (channelId: string) => {
+  return store.dispatch(SyncActions.syncChannel(channelId) as any);
+};
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS 
