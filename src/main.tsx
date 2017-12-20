@@ -10,7 +10,7 @@ import { Card, KeyMap, loadHbbtvKeys, AccessToken, EaAPI, MovieStatus, ChannelSt
 import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector, VOD_MODE } from 'Constants';
 import * as css from './scss/main.scss';
 import { UIActions, SyncActions, SocketActions } from 'Actions';
-import { Theme } from 'Components';
+import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 
 declare const KeyEvent: any;
@@ -73,31 +73,10 @@ export const init = (params: {
       }
     })
     .then(() => {
-      //APIinstance.getStaticMovieScene({ relations: true, clientMovieId: "m00001", timestamp: 4000 })
-      //.then((response: Card[]) => {
-      /*const newCards: any[] = [
-          { card_id: "28e7cb52-01a2-3e95-a71f-4fc2d3e46f86", version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" },
-          { card_id: "bd4f26ba-0c2a-3a16-bb7b-79aa066abf44"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" *///},
-      //{ card_id: "e0143d7b-1e76-11e6-97ac-0684985cbbe3"/*, version: "0jOeUIeLCaOcSI4FSebNj4+E7VZ" */},
-
-      //];
-      //response = [...newCards, ...response];
-      //console.log("response: ", response);
       // const theme = {/*background:"green", text:"fuchsia", title: "blue", backgroundCardSection: "orange", backgroundCarouselCard:"cyan"*/};
-      //response = [...newCards, ...response];
-      //console.log("response: ", response);
 
       ReactDOM.render(
-        //<ShadowDOM /*include={'styles.css'}*/>
-        <div className="diveContainer">
-          <style /*scoped={true}*/>{css[0][1]}</style>
-          <Theme theme={params.theme} />
-          <Provider store={store}>
-            <App showMenu={params.showMenu} />
-          </Provider>
-        </div>
-        //</ShadowDOM >,
-        ,
+        <Main showMenu={params.showMenu} theme={params.theme} />,
         document.querySelector(params.selector),
       );
     })
@@ -329,15 +308,7 @@ export const initialize =
 
         ReactDOM.render(
           // ShadowDOM /*include={'styles.css'}*/>
-          <div className="diveContainer">
-            <style /*scoped={true}*/>{css[0][1]}</style>
-            <Theme theme={theme} />
-            <Provider store={store}>
-              <App showMenu={false} />
-            </Provider>
-          </div>
-          // </ShadowDOM >,
-          ,
+          <Main showMenu={false} theme={theme} />,
           document.querySelector(selector),
         );
 
@@ -389,10 +360,10 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
   }
 };
 
-export const vodPause = (timestamp: number) => {
+export const vodPause = () => {
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
   if (APIinstance.socket.authenticated) {
-    APIinstance.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(0, timestamp | 0) }));
+    APIinstance.socket.emit("vod_pause", JSON.stringify({ timestamp: 0 }));
   }
 };
 

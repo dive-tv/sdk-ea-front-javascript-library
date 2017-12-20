@@ -1,3 +1,4 @@
+export * from './main/main.component';
 export * from './navigationContainer/navigationContainer.component';
 export * from './cardDetail/cardDetail.component';
 export * from './cardAndCategory/cardAndCategory.component';
