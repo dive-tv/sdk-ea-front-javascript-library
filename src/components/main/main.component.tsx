@@ -21,6 +21,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     theme: null,
     showMenu: false,
   };
+  
   public componentDidMount() {
 
   }

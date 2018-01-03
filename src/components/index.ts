@@ -1,4 +1,3 @@
-export * from './main/main.component';
 export * from './navigationContainer/navigationContainer.component';
 export * from './cardDetail/cardDetail.component';
 export * from './cardAndCategory/cardAndCategory.component';
@@ -20,3 +19,4 @@ export * from './menu/menu.component';
 export * from './menu/menuItem/menuItem.component';
 export * from './theme/theme.component';
 export * from './banner/banner.component';
+export * from './main/main.component';
