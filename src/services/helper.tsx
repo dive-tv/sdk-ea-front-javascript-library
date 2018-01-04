@@ -81,7 +81,7 @@ class HelperClass {
       case "location":
         switch (relation.content_type) {
           case 'featured_in':
-            return this.getRelationCardsFromRelation(relation);
+            return this.getRelationCardsFromRelation(relation, true);
         }
         break;
     }
