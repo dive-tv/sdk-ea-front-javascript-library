@@ -57,7 +57,7 @@ export const SyncActions: ISyncActions = {
     let indexedBanners = {};
     DiveAPI.syncWithMovieVOD({
       movieId: params.movieId,
-      timestamp: params.timestamp,
+      timestamp: params.timestamp || 1,
       protocol: params.protocol,
       socketTransports: ['polling', 'websocket'],
       callbacks: {

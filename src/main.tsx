@@ -138,7 +138,8 @@ function getIdByProvider(): string {
   switch (window.location.host) {
     case "www.rtve.es": {
       const pos = window.location.href.search(/\/\d{7}/g) + 1;
-      return window.location.href.substr(pos, 7);
+      // return window.location.href.substr(pos, 7);
+      return "577062"; // Creo que es sex and the city.
     }
     case "www.clarovideo.com":
     case "www.clarovideo.com.mx": {
