@@ -139,7 +139,7 @@ function getIdByProvider(): string {
     case "www.rtve.es": {
       const pos = window.location.href.search(/\/\d{7}/g) + 1;
       // return window.location.href.substr(pos, 7);
-      return "577062"; // Creo que es sex and the city.
+      return "63501863951"; // Creo que es sex and the city.
     }
     case "www.clarovideo.com":
     case "www.clarovideo.com.mx": {
@@ -166,7 +166,7 @@ function getIdByProvider(): string {
 
     case 'infomix.tv':
       const id = window.location.href.split("infomix.tv/")[1];
-      return "577062"; // Creo que es sex and the city.
+      return "63501863951"; // Creo que es sex and the city.
     // return id;
   }
 }
