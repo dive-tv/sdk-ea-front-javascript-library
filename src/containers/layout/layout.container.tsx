@@ -135,7 +135,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
         break;
 
       case km.COLOR_YELLOW:
-        if (this.props.ui && this.props.ui.containers[0].component === "VODVIDEO") {
+        if (this.props.ui && this.props.ui.containers[0].component === "VODVIDEO" && this.props.sync.parentVideoRef != null) {
           const isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
             (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
             ((document as any).mozFullScreenElement && (document as any).mozFullScreenElement !== null) ||

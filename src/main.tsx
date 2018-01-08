@@ -126,8 +126,8 @@ export const test2 = () => {
       console.log("vodIsAvailable: ", val);
     });
 
-    vodStart('57756200242', 0);
-
+    vodStart('577062', 0);
+    
 
   });
 
@@ -139,7 +139,7 @@ function getIdByProvider(): string {
     case "www.rtve.es": {
       const pos = window.location.href.search(/\/\d{7}/g) + 1;
       // return window.location.href.substr(pos, 7);
-      return "63501863951"; // Creo que es sex and the city.
+      return "63501863951";
     }
     case "www.clarovideo.com":
     case "www.clarovideo.com.mx": {
