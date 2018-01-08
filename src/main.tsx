@@ -228,7 +228,7 @@ export const demoVOD = () => {
         let movieId = getIdByProvider();
         // movieId = "577062"; // Creo que es sex and the city.
         // movieId = '63501863951'; // Jurassic World
-        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime || 1, videoRef, videoParent });
+        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime || 1, videoRef, videoParent, isDemo: true });
       })
       .then(() => {
         store.dispatch(UIActions.open({
@@ -246,14 +246,24 @@ export const syncVOD = (params: {
   theme?: ITheme,
   videoRef: HTMLVideoElement | HTMLObjectElement,
   videoParent?: HTMLElement,
+  isDemo?: boolean,
 }) => {
-  let { movieId, timestamp, videoRef, videoParent } = params;
+  let { movieId, timestamp, videoRef, videoParent, isDemo } = params;
   timestamp = timestamp || 1;
   if (VOD_MODE === "ONE_SHOT") {
-    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
+    store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
   } else {
-    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
+    store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
+
+  if (isDemo !== true) {
+    store.dispatch(UIActions.open({
+      top: 'VODVIDEO',
+      bottom: 'CAROUSEL',
+    }) as any);
+    store.dispatch(UIActions.setDivider(0));
+  }
+
 }
 
 
