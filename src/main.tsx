@@ -256,7 +256,7 @@ export const syncVOD = (params: {
     store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
 
-  if (isDemo !== true) {
+  if (isDemo !== true && videoRef != null) {
     store.dispatch(UIActions.open({
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',

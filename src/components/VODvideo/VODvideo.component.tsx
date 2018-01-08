@@ -75,7 +75,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   }
 
   public render(): any {
-    const passive = this.props.containerHeight === 100;
+    const passive = this.props.containerHeight === 100 || this.props.parentRef == null;
     return (
       <div className="fillParent">
         {passive ? null :
@@ -133,7 +133,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   }
 
   private toggleVideoStyles() {
-    const passive = this.props.containerHeight === 100;
+    const passive = this.props.containerHeight === 100 || this.props.parentRef == null;
     console.log("TVS passive: ", passive);
     if (!this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement) {
       console.log("TVS with VR");
