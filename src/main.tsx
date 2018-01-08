@@ -166,7 +166,7 @@ function getIdByProvider(): string {
     case 'infomix.tv':
       const id = window.location.href.split("infomix.tv/")[1];
       return "577062"; // Creo que es sex and the city.
-      // return id;
+    // return id;
   }
 }
 
@@ -227,7 +227,7 @@ export const demoVOD = () => {
         let movieId = getIdByProvider();
         // movieId = "577062"; // Creo que es sex and the city.
         // movieId = '63501863951'; // Jurassic World
-        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime, videoRef, videoParent });
+        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime || 1, videoRef, videoParent });
       })
       .then(() => {
         store.dispatch(UIActions.open({
@@ -246,7 +246,8 @@ export const syncVOD = (params: {
   videoRef: HTMLVideoElement | HTMLObjectElement,
   videoParent?: HTMLElement,
 }) => {
-  const { movieId, timestamp, videoRef, videoParent } = params;
+  let { movieId, timestamp, videoRef, videoParent } = params;
+  timestamp = timestamp || 1;
   if (VOD_MODE === "ONE_SHOT") {
     return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
   } else {
