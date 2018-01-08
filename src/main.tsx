@@ -165,7 +165,8 @@ function getIdByProvider(): string {
 
     case 'infomix.tv':
       const id = window.location.href.split("infomix.tv/")[1];
-      return id;
+      return "577062"; // Creo que es sex and the city.
+      // return id;
   }
 }
 
