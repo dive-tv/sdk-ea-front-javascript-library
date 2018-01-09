@@ -134,23 +134,23 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
 
   private toggleVideoStyles() {
     const passive = this.props.containerHeight === 100 || this.props.parentRef == null;
-    console.log("TVS passive: ", passive);
+    // console.log("TVS passive: ", passive);
     if (!this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement) {
-      console.log("TVS with VR");
+      // console.log("TVS with VR");
       // tslint:disable-next-line:no-conditional-assignment
       if (this.videoRefs = this.getVideo()) {
-        console.log("TVS found VR");
+        // console.log("TVS found VR");
         if (this.videoRefs.el.currentTime !== undefined) {
-          this.videoRefs.el.addEventListener("playing", () => { console.log("video!!! playing"); /*this.getVideoStatus();*/ this.handlePlay(); });
-          this.videoRefs.el.addEventListener("pause", () => { console.log("video!!! pause"); /*this.getVideoStatus();*/ this.handlePause(); });
-          this.videoRefs.el.addEventListener("suspend", () => { console.log("video!!! suspend");/*this.getVideoStatus();*/ this.handlePause(); });
-          this.videoRefs.el.addEventListener("end", () => { console.log("video!!! eeeeend"); this.getVideoStatus(); this.handleEnd(); });
-          this.videoRefs.el.addEventListener("timeupdate", () => { console.log("video!!! timeupdate"); this.getVideoStatus(); });
+          this.videoRefs.el.addEventListener("playing", () => { /*console.log("video!!! playing");*/ /*this.getVideoStatus();*/ this.handlePlay(); });
+          this.videoRefs.el.addEventListener("pause", () => { /*console.log("video!!! pause");*/ /*this.getVideoStatus();*/ this.handlePause(); });
+          this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handlePause(); });
+          this.videoRefs.el.addEventListener("end", () => { /*console.log("video!!! eeeeend");*/ this.getVideoStatus(); this.handleEnd(); });
+          this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
         } else if ((this.videoRefs.el as any).getCurentTime) {
-          (this.videoRefs.el as any).on("play", () => { console.log("video!!! playing"); this.handlePlay(); });
-          (this.videoRefs.el as any).on("pause", () => { console.log("video!!! pause"); this.handlePause(); });
-          (this.videoRefs.el as any).on("end", () => { console.log("video!!! eeeeend"); this.handleEnd(); });
-          (this.videoRefs.el as any).on("timeupdate", () => { console.log("video!!! timeupdate"); this.getVideoStatus(); });
+          (this.videoRefs.el as any).on("play", () => { /*console.log("video!!! playing");*/ this.handlePlay(); });
+          (this.videoRefs.el as any).on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
+          (this.videoRefs.el as any).on("end", () => { /*console.log("video!!! eeeeend");*/ this.handleEnd(); });
+          (this.videoRefs.el as any).on("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
         }
         else {
           this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
@@ -248,7 +248,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           const timeDiff = parseFloat(Math.abs(this.lastVODHbbtvData.lastCheck - previousVODHbbtvData.lastCheck).toFixed(2));
           let threshold = 2500;
           threshold = parseFloat(threshold.toFixed(2));
-          console.log("TIMEDIFFF", timeDiff);
+          // console.log("TIMEDIFFF", timeDiff);
           // //this.props.syncActions.setTime(this.videoRefs.time);
           if (this.lastVODHbbtvData) {
             // PAUSE / PLAY (HBBTV)

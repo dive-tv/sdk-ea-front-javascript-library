@@ -122,11 +122,11 @@ export const test2 = () => {
       console.log("channelIsAvailable: ", val);
     });
 
-    vodIsAvailable('577062').then((val: boolean) => {
+    vodIsAvailable('63501863951').then((val: boolean) => {
       console.log("vodIsAvailable: ", val);
     });
 
-    vodStart('577062', 0);
+    vodStart('63501863951', 0);
     
 
   });

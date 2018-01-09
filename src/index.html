@@ -42,11 +42,9 @@
   <script crossorigin="anonymous" type="text/javascript">
     function init() {
         if (DiveSDK && DiveSDK.front && DiveSDK.front.test) {
-          console.log("TEST INIT 6");
           //console.log = () => { };
           DiveSDK.front.test();
           // DiveSDK.front.init({ containerSelector: "#root", apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2", deviceId: "test", vodSelector: "#video", showMenu: false });
-          console.log("APP REALLY INITIALIZED");
           clearInterval(initInterval);
         }
     }

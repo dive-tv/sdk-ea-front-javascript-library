@@ -236,7 +236,7 @@ module.exports = function(publicPath) {
             {
               loader: 'file-loader',
               query: {
-                name: 'assets/[hash].[ext]',
+                name: 'https://cdn.dive.tv/sdkweb/assets/[hash].[ext]',
               }
             },
             {
