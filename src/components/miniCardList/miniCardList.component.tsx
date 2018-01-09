@@ -55,11 +55,15 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
   }
 
   public componentDidMount() {
-    if (this.props.wasSelectedOnChangeScene) {
+    this.SetIfSelected();
+  }
+
+  public SetIfSelected() {
+    if (this.props.wasSelectedOnChangeScene && this.props.elements.length > 0) {
       if (this.props.setNodeById && this.props.idx) {
         this.props.setNodeById(this.props.idx);
       }
-      if (this.props.setSelectedOnSceneChange !== undefined && this.props.elements.length > 0) {
+      if (this.props.setSelectedOnSceneChange !== undefined) {
         this.props.setSelectedOnSceneChange(false);
       }
       this.forceUpdate();
@@ -76,15 +80,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
   }
 
   public componentDidUpdate(prevProps: MiniCardListProps) {
-    if (this.props.setSelectedOnSceneChange !== undefined &&
-      prevProps.elements.length === 0 &&
-      this.props.elements.length > 0) {
-      if (this.props.setNodeById && this.props.idx) {
-        this.props.setNodeById(this.props.idx);
-      }
-      this.props.setSelectedOnSceneChange(false);
-      this.forceUpdate();
-    }
+    this.SetIfSelected();
   }
 
   public getRelations = (card: Card): Card[] => {
@@ -172,7 +168,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
           clickActionLike={this.clickActionLike.bind(this)(card)}
           // trackVisibility={this.trackVisibility.bind(this)(card)}
           onFocusCallback={this.onFocusCallback.bind(this)(card)}
-          key={card.card_id + '#' + card.version}
+          key={card.card_id + '#' + card.version + this.props.sceneCount}
           id={card.card_id + '#' + card.version}
           isScrollable={true}
           scrollPadding={100}

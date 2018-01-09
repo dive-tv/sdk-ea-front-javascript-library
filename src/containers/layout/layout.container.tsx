@@ -200,7 +200,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
       switch (componentType) {
         case 'CAROUSEL':
           return <Carousel
-            key={`carousel#${this.props.sync.sceneCount}`}
+            key={`carousel`}
             // key="CAROUSEL"
             parent={this}
             columns={1}
