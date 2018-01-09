@@ -36,11 +36,19 @@ type MiniCardListProps = IMiniCardListState & IMiniCardListMethods &
 export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
   public shouldComponentUpdate(nextProps: MiniCardListProps) {
+    //Si cambia de escena
+    if (this.props.sceneCount !== nextProps.sceneCount) {
+      return true;
+    }
+
     if (typeof this.props.elements !== typeof nextProps.elements) {
+      // Si no son del mismo tipo los elementos entrantes de los que hay
       return true;
     } else if (nextProps.elements && nextProps.elements.length !== this.props.elements.length) {
+      //Si hay distinto número de elementos
       return true;
     } else if (nextProps.activeFilter !== this.props.activeFilter) {
+      //Si cambia el filtro
       return true;
     }
     return false;

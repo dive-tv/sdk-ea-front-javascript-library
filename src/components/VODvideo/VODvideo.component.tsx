@@ -143,7 +143,8 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
         if (this.videoRefs.el.currentTime !== undefined) {
           this.videoRefs.el.addEventListener("playing", () => { /*console.log("video!!! playing");*/ /*this.getVideoStatus();*/ this.handlePlay(); });
           this.videoRefs.el.addEventListener("pause", () => { /*console.log("video!!! pause");*/ /*this.getVideoStatus();*/ this.handlePause(); });
-          this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handlePause(); });
+          // this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handlePause(); });
+          this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handleSuspend(); });
           this.videoRefs.el.addEventListener("end", () => { /*console.log("video!!! eeeeend");*/ this.getVideoStatus(); this.handleEnd(); });
           this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
         } else if ((this.videoRefs.el as any).getCurentTime) {
@@ -254,9 +255,9 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
             // PAUSE / PLAY (HBBTV)
             if (previousVODHbbtvData.timeScale && previousVODHbbtvData.timeScale !== this.lastVODHbbtvData.timeScale) {
               if (this.lastVODHbbtvData.timeScale === 0) {
-                this.handlePause();
+                // this.handlePause();
               } else {
-                this.handlePlay();
+                // this.handlePlay();
               }
             } else if (previousVODHbbtvData.time > this.lastVODHbbtvData.time) {
               // REWIND
@@ -307,6 +308,10 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       }
       //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }
+  }
+
+  private handleSuspend(){
+    console.log("suspend!");
   }
 
   private handlePlayerstateChange() {
