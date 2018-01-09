@@ -46,6 +46,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
   // }
 
   public render(): any {
+    // console.log("[Layout][render]");
     if (this.props && this.props.ui) {
       // Top configuration
       const topType: UILayerTopTypes = this.props.ui.containers[0].component as UILayerTopTypes;
@@ -117,7 +118,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
   public onKeyPressUp = (event: KeyboardEvent) => {
     const km: any = KeyMap;
     const keyCode = event.keyCode;
-    console.log("LAYOUT kp", keyCode);
 
     switch (keyCode) {
       case km.BACK:

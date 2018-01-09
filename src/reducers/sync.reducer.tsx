@@ -13,6 +13,7 @@ export interface ISyncState {
   movieId?: string;
   cards: CardRender[];
   filter: FilterTypeEnum;
+  sceneCount: number;
   demo: string;
   currentTime: number; // Time in seconds
   timeMovie: number; // Time of socket (milis)
@@ -72,9 +73,9 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
       };
     case 'SYNC/START_SCENE':
       if (action.payload instanceof Array) {
-        return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing" };
+        return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount+1 };
       } else {
-        return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing" };
+        return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount+1 };
       }
     case 'SYNC/UPDATE_SCENE':
       if (action.payload instanceof Array && action.payload.length) {
@@ -136,4 +137,5 @@ export const initialSyncState: ISyncState = {
   timeRatio: 1,
   lastUpdatedTime: 0,
   showInfoMsg: false,
+  sceneCount: 0,
 };

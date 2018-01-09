@@ -339,7 +339,7 @@ const NavigableClass = <TOriginalProps extends {}>(
         public getId = (): number => this.navId;
 
         public onKeyPress = (e: any) => {
-            console.log("kp", e.keyCode);
+            // console.log("kp", e.keyCode);
             let consumed: boolean = false;
             if (consumed) {
                 e.stopPropagation();
@@ -351,7 +351,7 @@ const NavigableClass = <TOriginalProps extends {}>(
         public onKeyPressDown = (e: any) => {
             const km: any = KeyMap;
             let consumed = false;
-            console.log("Key", e.key, e.code, e.keyCode);
+            // console.log("Key", e.key, e.code, e.keyCode);
 
             switch (e.keyCode) {
                 case km.UP:
