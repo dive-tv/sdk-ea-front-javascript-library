@@ -21,17 +21,18 @@ The following sections describe the different functions that SDK contains to int
 
 ### Initialize
 ````javascript
-initialize(user_id, api_key, context)
+initialize(selector, apiKey, userId, locale)
 ````
 Initializes the library with the specified configuration
 
 #### Parameters:
 
 Class | Method | HTTP request 
------------- | ------------- | ------------- 
+------------ | ------------- | -------------
+*selector* | *String* | *HTML selector* 
 *user_id* | *String* | *unique id that tracks a unique client of your service* 
 *api_key* | *String* | *client api key provided by Dive*
-*context* | *Context* | *context where the fragment will be inflated*
+*locale* | *locale* | *language*
 
 #### Return:
 N/A
@@ -43,7 +44,7 @@ var apiKey = "client_api_key_example"; // String | Client api key provided by Di
 var userId = "user_id_example"; // String | Unique id that tracks a unique client of your s
 var locale = "locale_example"; // String | Language to setup  texts of the UI and contents 
 
-DiveSDK.front.initialize.initialize(selector, apiKey, userId, locale);
+DiveSDK.front.initialize(selector, apiKey, userId, locale);
 
 ````
 
@@ -73,7 +74,7 @@ var result = DiveSDK.front.vodIsAvailable(clientMovieId).then((val) => {
 
 ### Movie Start
 ````javascript
-Fragment vodStart(movieId, timestamp)
+vodStart(movieId, timestamp, videoRef)
 ````
 Initializes the synchronization and Carousel with a VOD content
 
@@ -83,23 +84,22 @@ Name | Type | Description
 ------------ | ------------- | ------------- 
 *movieId* | *String* | *requested movie identifier* 
 *timestamp* | *Integer* | *Current time in seconds of the media content*
+*videoRef* | *(optional) HTMLVideoElement* | *HTML Video element to link the videoevents.*
 
 #### Return:
 Type | Description 
 ------------ | -------------
-Fragment | Fragment with carousel loaded. Minimum container’s height must be 162.5dp
+Null | --------------
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-String clientMovieId = "clientMovieId_example"; // String | client movie ID
-Integer timestamp = 0; //Integer | timestamp in seconds
-try {
-    Fragment diveFragment = diveSDK.vodStart(clientMovieId, timestamp);
-   } catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#vodStart");
-    e.printStackTrace();
-}
+var clientMovieId = "clientMovieId_example"; // String | client movie ID
+var timestamp = 0; //Integer | timestamp in seconds
+var videoRef = document.getElementById('video');
+
+DiveSDK.front.vodStart(clientMovieId, timestamp);
+or
+DiveSDK.front.vodStart(clientMovieId, timestamp, videoRef);
 ````
 
 ### Pause
@@ -116,13 +116,7 @@ N/A
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-try {
-    diveSDK.vodPause();
-   } catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#vodPause");
-    e.printStackTrace();
-}
+DiveSDK.front.vodPause();
 ````
 
 ### Resume
@@ -142,13 +136,7 @@ N/A
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-try {
-    diveSDK.vodResume(timestamp);
-   } catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#vodResume");
-    e.printStackTrace();
-}
+    DiveSDK.front.vodResume(timestamp);
 ````
 
 ### Seek
@@ -168,14 +156,8 @@ N/A
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-Integer newTimestamp = 0; //Integer | timestamp in seconds
-try {
-    diveSDK.vodSeek(newTimestamp);
-   } catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#vodSeek");
-    e.printStackTrace();
-}
+    DiveSDK.front.vodSeek(newTimestamp);
+   
 ````
 
 ### Finish 
@@ -192,18 +174,12 @@ N/A
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-try {
-    diveSDK.vodEnd();
-   } catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#vodEnd");
-    e.printStackTrace();
-}
+    DiveSDK.front.vodEnd();
 ````
 
 ### Channel sync availability
 ````javascript
-channelIsAvailable(channelId, callback)
+channelIsAvailable(channelId)
 ````
 Checks if the channel is available to be synchronized using the Dive API
 
@@ -211,39 +187,23 @@ Checks if the channel is available to be synchronized using the Dive API
 
 Name | Type | Description 
 ------------ | ------------- | ------------- 
-*channelId* | *List<String>* | *requested channels identifier* 
-*callback* | *ClientCallBack* | *Callback for receive response*
+*channelId* | *Id of available channel* | *requested channel identifier* 
 
 #### Return:
-N/A
+Promise => (boolean)
+
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-ClientCallback callback = new ClientCallback() {
-	@Override
-	public void onFailure(RestAPIError message) {
-		//channel is not available
-	}
-
-	@Override
-	public void onSuccess(Object result) {
-		//channel is available
-	}
-};
-List<String> channels = Arrays.asList("tve1", "tnt");
-try {
-    diveSDK.channelIsAvailable(clientChannelId, callback);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#channelIsAvailable");
-    e.printStackTrace();
-}
+var channelId = "TVE"; // String | channel ID
+var result = DiveSDK.front.channelIsAvailable(channelId).then((val) => {
+      console.log("Channel Is Available: ", val);
+});
 ````
 
 ### TV Start
 ````javascript
-Fragment tvStart(channelId)
+tvStart(channelId)
 ````
 Initializes the synchronization and Carousel with a Linear TV channel content
 
@@ -256,58 +216,21 @@ Name | Type | Description
 #### Return:
 Type | Description 
 ------------ | -------------
-Fragment | Fragment with carousel loaded. Minimum container’s height must be 162.5dp
+Null | -----------
 
 #### Example:
 ````javascript
-DiveSDK diveSDK = new DiveSDK();
-String clientChannelId = "clientChannelId_example"; // String | client movie ID
-try {
-    Fragment diveFragment = diveSDK.TVStart(channelId);
-
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DiveSDK#tvStart");
-    e.printStackTrace();
-}
+diveFragment = DiveSDK.front.tvStart(channelId);
 ````
 
 ## How to use
-- Include SDK Client and SDK Front to a project
+- Import npm package
 
-    - Add dependency into your app build.gradle file
+````npm
+npm i -S @dive-tv/sdk-ea-front-javascript-library
+````
 
-        ```java
-        
-        dependencies {
-            ...
-           compile 'com.github.dive-tv:ea-front-sdk-android:1.0.9'
-           compile 'com.github.dive-tv:ea-client-sdk-android:1.0.6'
-           compile 'com.github.dive-tv:sdk-client-java:1.0.6'
-        
-        }
-        ```
-    - Add repository into your app build.gradle file
-        ```java
-        repositories {
-            ...
-            jcenter()
-            maven { url "https://jitpack.io" } 
-        }
-        ```
-    - Add repository into your root build.gradle file
-        ````javascript
-        dependencies {
-            classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0' 
-        }
-        ````
-
-- Main activity should extend from DiveActivity
-- Main activity should implement DiveActivity.OnDiveInteractionListener
-- An example app using Dive SDK is in the following Github repository: https://github.com/dive-tv/ea-test-android
-    - App works with app.properties file into assets folder. This file should be contain this line: api.key=YOUR_API_KEY
-    - Change YOUR_API_KEY by provided value
-
+- DiveSDK is already enabled on your project.
 
 ## Author
 
