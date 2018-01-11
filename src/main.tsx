@@ -127,7 +127,7 @@ export const test2 = () => {
     });
 
     vodStart('63501863951', 0);
-    
+
 
   });
 
@@ -341,7 +341,6 @@ export const initialize =
 
 
   };
-
 
 
 export const vodIsAvailable = (movieId: string): Promise<boolean> => {

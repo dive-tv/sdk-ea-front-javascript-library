@@ -55,7 +55,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
   }
 
   public componentDidMount() {
-    this.SetIfSelected();
+    this.SetIfSelectedTimed();
   }
 
   public SetIfSelected() {
@@ -70,6 +70,14 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
   }
 
+  public SetIfSelectedTimed(time: number = 400) {
+    if (this.props.wasSelectedOnChangeScene) {
+      setTimeout(() => {
+        this.SetIfSelected();
+      }, time);
+    }
+  }
+
   public componentWillUnmount() {
     if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
       // Check if prop is present, it is missing on allRelations > MinicardList for example.
@@ -80,7 +88,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
   }
 
   public componentDidUpdate(prevProps: MiniCardListProps) {
-    this.SetIfSelected();
+    // this.SetIfSelected();
   }
 
   public getRelations = (card: Card): Card[] => {

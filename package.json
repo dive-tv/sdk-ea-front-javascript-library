@@ -12,7 +12,9 @@
     "hbbtv-server": "node server.js",
     "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js",
     "task-start": "npm run start",
-    "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && echo 'UPLOADED'"
+    "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && echo 'UPLOADED'",
+    "docs": "jsdoc2md *.js > api.md"
+    
   },
   "license": "MIT",
   "devDependencies": {
@@ -61,6 +63,7 @@
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
     "image-webpack-loader": "^3.4.2",
+    "jsdoc-to-markdown": "^3.0.4",
     "jsonfile": "^3.0.1",
     "node-sass": "^4.5.3",
     "path": "^0.12.7",
