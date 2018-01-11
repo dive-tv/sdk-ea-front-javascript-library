@@ -1,8 +1,8 @@
 {
-  "name": "typescript-react-redux-boilerplate",
+  "name": "@dive-tv/sdk-ea-front-javascript-library",
   "version": "1.0.0",
   "private": true,
-  "description": "A frontend boilerplate with React, Redux and Typescript",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,6 @@
     "update_texts": "node ./scripts/updateDiveLiterals.js",
     "hbbtv-server": "node server.js",
     "hbbtv-server-pro": "cross-env NODE_ENV=production node server.js",
-    "task-start": "npm run start",
     "upload-to-cdn": "cross-env NODE_ENV=production PUBLICPATH=cdn node server.js && echo 'UPLOADED'",
     "docs": "jsdoc2md *.js > api.md"
     
