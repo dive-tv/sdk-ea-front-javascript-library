@@ -16,9 +16,9 @@ const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 
 // console.log("RDP", RemoteDebuggerPlugin);
 
-module.exports = function(publicPath) {
+module.exports = function (publicPath) {
   console.log("WP IS PRODUCTION? ", isProduction);
-  
+
   const frontEntry = isProduction ?
     [
       'react',
@@ -32,7 +32,7 @@ module.exports = function(publicPath) {
       `webpack-hot-middleware/client?reload=true&path=${publicPath}__webpack_hmr`,
       path.resolve(__dirname, 'src', 'main.tsx')
     ];
-  
+
   const sassEntry = /*ExtractTextPlugin.extract({
     fallback: 'style-loader',
     //resolve-url-loader may be chained before sass-loader if necessary 
@@ -77,7 +77,7 @@ module.exports = function(publicPath) {
       }
     ]
   //});
-  
+
   const devtool = isProduction ? 'source-map' : 'inline-source-map';//'source-map'; //'source-map' : 'source-map'; //'cheap-module-source-map' /*'inline-source-map'*/;
   const plugins = isProduction ? [] :
     [
@@ -101,7 +101,7 @@ module.exports = function(publicPath) {
           port: 9877,
         },
       }),*/
-    ]; 
+    ];
   plugins.push(
     new webpack.DefinePlugin({
       'process.env': {
@@ -157,7 +157,7 @@ module.exports = function(publicPath) {
       })
     );
   }
-  
+
   const config = {
     watch: true,
     context: sourcePath,
@@ -186,6 +186,7 @@ module.exports = function(publicPath) {
     target: 'web',
     resolve: {
       alias: {
+        Base: path.resolve(__dirname, 'src'),
         Components: path.resolve(__dirname, 'src', 'components', 'index'),
         Services: path.resolve(__dirname, 'src', 'services', 'index'),
         Reducers: path.resolve(__dirname, 'src', 'reducers', 'index'),
@@ -299,7 +300,7 @@ module.exports = function(publicPath) {
       },
     };
   }
-  
+
   config.stats = "minimal"; /*{
     // Add asset Information
     assets: true,
