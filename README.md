@@ -1,54 +1,238 @@
-# Frontend Boilerplate with React, Redux & TypeScript
+# ea-front-sdk-js
+Dive Experience Amplifier front sdk for Javascript
 
-A bare minimum react-redux-webpack-typescript boilerplate with TodoMVC example.
+## Introduction
 
-Note that this project does not include **Server-Side Rendering**,  **Testing Frameworks** and other stuffs that makes the package unnecessarily complicated.
+Dive provides a series of frontend SDK for the most common client programming languages which can be added as libraries on the client side.
 
-Ideal for creating React apps from the scratch.
-
-See also: [react-mobx-typescript-boilerplate](https://github.com/rokoroku/react-mobx-typescript-boilerplate)
-
-## Contains
-
-- [x] [Typescript](https://www.typescriptlang.org/) 2.4
-- [x] [React](https://facebook.github.io/react/) 15.6
-- [x] [Redux](https://github.com/reactjs/redux) 3.7
-- [x] [React Router](https://github.com/ReactTraining/react-router) 4.1
-- [x] [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- [x] [TodoMVC example](http://todomvc.com)
-
-### Build tools
-
-- [x] [Webpack](https://webpack.github.io) 3
-  - [x] [Tree Shaking](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)
-  - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
-- [x] [Awesome Typescript Loader](https://github.com/s-panferov/awesome-typescript-loader)
-- [x] [PostCSS Loader](https://github.com/postcss/postcss-loader)
-  - [x] [CSS next](https://github.com/MoOx/postcss-cssnext)
-  - [x] [CSS modules](https://github.com/css-modules/css-modules)
-- [x] [React Hot Loader](https://github.com/gaearon/react-hot-loader)
-- [x] [ExtractText Plugin](https://github.com/webpack/extract-text-webpack-plugin)
-- [x] [HTML Webpack Plugin](https://github.com/ampedandwired/html-webpack-plugin)
+The frontend SDK library provides a GUI which leverages displaying the context card real time stream and the detailed view of each card category.
 
 
-## Setup
+NOTE: this document is being updated on a regular base and contents are subject to change.
 
-```
-$ npm install
-```
+## Integration Methods
 
-## Running
+The following sections describe the different functions that SDK contains to integrate a client SW using Dive Front SDK.
 
-```
-$ npm start
-```
+- Import SDK with npm ->
+- Authentication details are provided in the library initialization
+- API calls are performed calling library methods
+- Response statuses and objects are mapped to native objects of the library implementation language.
 
-## Build
+### Initialize
+````javascript
+initialize(selector, apiKey, userId, locale)
+````
+Initializes the library with the specified configuration
 
-```
-$ npm run build
-```
+#### Parameters:
 
-# License
+Class | Method | HTTP request 
+------------ | ------------- | -------------
+*selector* | *String* | *HTML selector* 
+*user_id* | *String* | *unique id that tracks a unique client of your service* 
+*api_key* | *String* | *client api key provided by Dive*
+*locale* | *locale* | *language*
 
-MIT
+#### Return:
+N/A
+
+#### Example:
+````javascript
+var selector = "#container"
+var apiKey = "client_api_key_example"; // String | Client api key provided by Dive
+var userId = "user_id_example"; // String | Unique id that tracks a unique client of your s
+var locale = "locale_example"; // String | Language to setup  texts of the UI and contents 
+
+DiveSDK.front.initialize(selector, apiKey, userId, locale);
+
+````
+
+### Movie sync availability
+````javascript
+vodIsAvailable(movieId)
+````
+Checks if the movie/chapter is available to be synchronized using the Dive API
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*movieId* | *String* | *requested movies identifier* 
+
+#### Return:
+Promise => (boolean)
+
+
+#### Example:
+````javascript
+var clientMovieId = "clientMovieIdList_example"; // String | client movie ID
+var result = DiveSDK.front.vodIsAvailable(clientMovieId).then((val) => {
+      console.log("vod Is Available: ", val);
+});
+````
+
+### Movie Start
+````javascript
+vodStart(movieId, timestamp, videoRef)
+````
+Initializes the synchronization and Carousel with a VOD content
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*movieId* | *String* | *requested movie identifier* 
+*timestamp* | *Integer* | *Current time in seconds of the media content*
+*videoRef* | *(optional) HTMLVideoElement* | *HTML Video element to link the videoevents.*
+
+#### Return:
+Type | Description 
+------------ | -------------
+Null | --------------
+
+#### Example:
+````javascript
+var clientMovieId = "clientMovieId_example"; // String | client movie ID
+var timestamp = 0; //Integer | timestamp in seconds
+var videoRef = document.getElementById('video');
+
+DiveSDK.front.vodStart(clientMovieId, timestamp);
+or
+DiveSDK.front.vodStart(clientMovieId, timestamp, videoRef);
+````
+
+### Pause
+````javascript
+vodPause()
+````
+Notifies to the library that the player has been paused
+
+#### Parameters:
+N/A
+
+#### Return:
+N/A
+
+#### Example:
+````javascript
+DiveSDK.front.vodPause();
+````
+
+### Resume
+````javascript
+vodResume(timestamp)
+````
+Notifies to the library that the player has been resumed
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*timestamp* | *Integer* | *Current time in seconds of the media content* 
+
+#### Return:
+N/A
+
+#### Example:
+````javascript
+    DiveSDK.front.vodResume(timestamp);
+````
+
+### Seek
+````javascript
+vodSeek(timestamp)
+````
+Notifies to the library that the player has changed the time (seeking/jumping)
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*timestamp* | *Integer* | *Current time in seconds of the media content* 
+
+#### Return:
+N/A
+
+#### Example:
+````javascript
+    DiveSDK.front.vodSeek(newTimestamp);
+   
+````
+
+### Finish 
+````javascript
+vodEnd()
+````
+Removes the carousel and disconnects the synchronization socket
+
+#### Parameters:
+N/A
+
+#### Return:
+N/A
+
+#### Example:
+````javascript
+    DiveSDK.front.vodEnd();
+````
+
+### Channel sync availability
+````javascript
+channelIsAvailable(channelId)
+````
+Checks if the channel is available to be synchronized using the Dive API
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*channelId* | *Id of available channel* | *requested channel identifier* 
+
+#### Return:
+Promise => (boolean)
+
+
+#### Example:
+````javascript
+var channelId = "TVE"; // String | channel ID
+var result = DiveSDK.front.channelIsAvailable(channelId).then((val) => {
+      console.log("Channel Is Available: ", val);
+});
+````
+
+### TV Start
+````javascript
+tvStart(channelId)
+````
+Initializes the synchronization and Carousel with a Linear TV channel content
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*channelId* | *String* | *requested channel identifier* 
+
+#### Return:
+Type | Description 
+------------ | -------------
+Null | -----------
+
+#### Example:
+````javascript
+diveFragment = DiveSDK.front.tvStart(channelId);
+````
+
+## How to use
+- Import npm package
+
+````npm
+npm i -S @dive-tv/sdk-ea-front-javascript-library
+````
+
+- DiveSDK is already enabled on your project.
+
+## Author
+
+
+
