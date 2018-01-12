@@ -19,30 +19,30 @@ body .diveContainer {
     height: 100%;
 
     @import 'text_sizes';
-    @import 'src/containers/app/app';
-    @import 'src/HOC/navigable/navigable.HOC';
-    @import 'src/containers/cardDetail/cardDetail.container';
-    @import 'src/containers/layout/layout.container';
-    @import 'src/containers/carousel/carousel.container';
-    @import 'src/containers/allRelations/allRelations.container';
-    @import 'src/containers/ui/bottomOverlayMessage.container';
-    @import 'src/components/miniCardList/miniCardList.component';
-    @import 'src/components/miniCard/miniCard.component';
-    @import 'src/components/miniCard/miniCardButton/miniCardButton.component';
-    @import 'src/components/cardDetail/cardDetail.component';
-    @import 'src/components/moreRelations/moreRelations.component';
-    @import 'src/components/cardDetail/cardModules/cardModules';
-    @import 'src/components/verticalScroll/verticalScroll.component';
-    @import 'src/components/horizontalScroll/horizontalScroll.component';
-    @import 'src/components/directionButtonList/directionButtonList.component';
-    @import 'src/components/directionButtonList/directionButton/directionButton.component';
-    @import 'src/components/DropDownList/DropDownList.component';
-    @import 'src/components/carouselButtonsContainer/carouselButtonsContainer.component';
-    @import 'src/components/menu/menu.component';
-    @import 'src/components/menu/menuItem/menuItem.component';
-    @import 'src/components/VODvideo/VODvideo.component';
-    @import 'src/components/cardAndCategory/cardAndCategory.component';
-    @import 'src/components/banner/banner.component';
+    @import '../containers/app/app';
+    @import '../HOC/navigable/navigable.HOC';
+    @import '../containers/cardDetail/cardDetail.container';
+    @import '../containers/layout/layout.container';
+    @import '../containers/carousel/carousel.container';
+    @import '../containers/allRelations/allRelations.container';
+    @import '../containers/ui/bottomOverlayMessage.container';
+    @import '../components/miniCardList/miniCardList.component';
+    @import '../components/miniCard/miniCard.component';
+    @import '../components/miniCard/miniCardButton/miniCardButton.component';
+    @import '../components/cardDetail/cardDetail.component';
+    @import '../components/moreRelations/moreRelations.component';
+    @import '../components/cardDetail/cardModules/cardModules';
+    @import '../components/verticalScroll/verticalScroll.component';
+    @import '../components/horizontalScroll/horizontalScroll.component';
+    @import '../components/directionButtonList/directionButtonList.component';
+    @import '../components/directionButtonList/directionButton/directionButton.component';
+    @import '../components/DropDownList/DropDownList.component';
+    @import '../components/carouselButtonsContainer/carouselButtonsContainer.component';
+    @import '../components/menu/menu.component';
+    @import '../components/menu/menuItem/menuItem.component';
+    @import '../components/VODvideo/VODvideo.component';
+    @import '../components/cardAndCategory/cardAndCategory.component';
+    @import '../components/banner/banner.component';
 }
 
 @media all and (max-width: 900) {
