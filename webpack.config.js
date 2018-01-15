@@ -194,7 +194,7 @@ module.exports = function(publicPath) {
         Containers: path.resolve(__dirname, 'src', 'containers', 'index'),
         Constants: path.resolve(__dirname, 'src', 'constants'),
         HOC: path.resolve(__dirname, 'src', 'HOC', 'index'),
-        CardModules: path.resolve(__dirname, 'src', 'components', 'cardDetail', 'cardModules', 'index'),
+        CardModules: path.resolve(__dirname, 'src', 'components', 'CardDetail', 'cardModules', 'index'),
         Theme: path.resolve(__dirname, 'src', 'scss', 'theme', 'index'),
       },
       extensions: ['.js', '.ts', '.tsx'],

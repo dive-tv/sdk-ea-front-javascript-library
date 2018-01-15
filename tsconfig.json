@@ -46,7 +46,7 @@
         "./src/HOC/index"
       ],
       "CardModules": [
-        "./src/components/cardDetail/cardModules/index"
+        "./src/components/CardDetail/cardModules/index"
       ],
       "Theme": ["./src/scss/theme/index"]
     }

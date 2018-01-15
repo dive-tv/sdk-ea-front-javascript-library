@@ -19,9 +19,9 @@ body .diveContainer {
     height: 100%;
 
     @import 'text_sizes';
-    @import '../containers/app/app';
+    @import '../containers/App/app';
     @import '../HOC/navigable/navigable.HOC';
-    @import '../containers/cardDetail/cardDetail.container';
+    @import '../containers/CardDetail/cardDetail.container';
     @import '../containers/layout/layout.container';
     @import '../containers/carousel/carousel.container';
     @import '../containers/allRelations/allRelations.container';
@@ -29,9 +29,9 @@ body .diveContainer {
     @import '../components/miniCardList/miniCardList.component';
     @import '../components/miniCard/miniCard.component';
     @import '../components/miniCard/miniCardButton/miniCardButton.component';
-    @import '../components/cardDetail/cardDetail.component';
+    @import '../components/CardDetail/cardDetail.component';
     @import '../components/moreRelations/moreRelations.component';
-    @import '../components/cardDetail/cardModules/cardModules';
+    @import '../components/CardDetail/cardModules/cardModules';
     @import '../components/verticalScroll/verticalScroll.component';
     @import '../components/horizontalScroll/horizontalScroll.component';
     @import '../components/directionButtonList/directionButtonList.component';
