@@ -9,7 +9,7 @@ install:
   - chmod +x scr/publish.sh
 
 script:
-  - travis_wait 30 scr/publish.sh
+  - scr/publish.sh
 
 notifications:
   email: false
