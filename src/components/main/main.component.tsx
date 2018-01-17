@@ -11,22 +11,36 @@ import * as elementResizeEvent from 'element-resize-event';
 export interface IMainProps {
   theme: ITheme;
   showMenu: boolean;
+  platform: platformTypes;
 }
 
 export interface IMainState {
 
+}
+export type platformTypes = 'HBBTV' | 'WEB';
+export interface IDiveConfig {
+  platform: platformTypes,
+
+}
+export let DIVE_CONFIG: IDiveConfig = {
+  platform: 'WEB',
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
   public static defaultProps: IMainProps = {
     theme: null,
     showMenu: false,
+    platform: 'WEB',
   };
 
   private divElement: HTMLDivElement;
   private fontSize: number = 11;
 
   public componentDidMount() {
+    if(this.props.platform != null){
+      DIVE_CONFIG.platform = this.props.platform;
+    }
+    
     this.fontResize();
 
     elementResizeEvent(this.divElement, () => this.fontResize());

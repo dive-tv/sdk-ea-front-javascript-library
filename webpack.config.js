@@ -1,10 +1,13 @@
 const webpack = require('webpack');
 const path = require('path');
+const package = require("package.json");
 
 // variables
-const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production";
+const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production" || process.env.NODE_ENV == "cdn";
+const uploadToCDN = process.env.NODE_ENV == "cdn"
 const sourcePath = path.join(__dirname, './src');
-const outPath = path.join(__dirname, './dist');
+const outPath = !uploadToCDN ? path.join(__dirname, './dist'): path.join(__dirname, './dist-cdn');
+process.env.NODE_ENV = process.env.NODE_ENV == 'cdn' ? "production" : process.env.NODE_ENV;
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -119,7 +122,7 @@ module.exports = function (publicPath) {
     },
     output: {
       path: outPath,
-      filename: 'DiveSDK.[name].js',
+      filename: !uploadToCDN ? 'DiveSDK.[name].js' : 'DiveSDK.[name]-' + package.version + '.js',
       library: ['DiveSDK', "[name]"],
       libraryTarget: "var",
       publicPath: publicPath,

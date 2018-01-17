@@ -77,7 +77,7 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
       ];
       let dividerVal: DividerSize = 100;
 
-      if (["GRID", "CAROUSEL", "HOME", "CARDS", "CARD", "PROFILE", "HELP"].indexOf(action.payload.bottom) >= 0) {
+      if (["HIDE", "GRID", "CAROUSEL", "HOME", "CARDS", "CARD", "PROFILE", "HELP"].indexOf(action.payload.bottom) >= 0) {
         dividerVal = customDivider;
       }
 

@@ -305,6 +305,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     if (this.videoRefs) {
       if (DiveAPI.socket.authenticated) {
         DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(0, this.videoRefs.time + delay) }));
+        
       }
       //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }

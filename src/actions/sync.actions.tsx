@@ -5,6 +5,7 @@ import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, EaAPI, Helper, Single, Duple, ApiRelationModule } from 'Services';
 import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS, TESTING_CHANNEL } from 'Constants';
+import { UIActions } from 'Actions';
 // import * as chunkExample from './../../services/__mocks__/chunkExample.json';
 // import { IChunk, IChunkScene } from "src/app/types/chunk";
 
@@ -24,6 +25,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
   setSelectedOnSceneChange: ActionCreator<ISyncAction>;
   closeInfoMsg: ActionCreator<ISyncAction>;
   changeFilter: ActionCreator<ISyncAction>;
+  closeSocket: ActionCreator<void>;
 }
 
 //
@@ -48,6 +50,10 @@ export const SyncActions: ISyncActions = {
       .then((cards: Card[]) => {
         dispatch(SyncActions.startScene(processCard(cards)));
       });
+  },
+  closeSocket: () => (dispatch: any) => {
+    DiveAPI.socket.close();
+    dispatch(UIActions.goBack());
   },
   syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement }) => (dispatch: any) => {
     // dispatch(SyncActions.setMovie(params.movieId));

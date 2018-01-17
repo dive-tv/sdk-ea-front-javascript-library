@@ -20,13 +20,25 @@ const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 let APIinstance: EaAPI = null;
 
+export interface IDiveConfig {
+  platform?: 'HBBTV' | 'WEB';
+}
+
+export let config: IDiveConfig = {
+  platform: 'WEB',
+};
 export const init = (params: {
   showMenu: boolean,
   apiKey: string,
   deviceId: string,
   selector: string,
   theme?: ITheme,
+  platform?: 'HBBTV' | 'WEB',
 }) => {
+
+  if (params && params.platform != null) {
+    config.platform = params.platform;
+  }
 
   if (typeof params !== "object") {
     console.error("You should provide initialization parameters as an object.");
@@ -76,7 +88,7 @@ export const init = (params: {
       // const theme = {/*background:"green", text:"fuchsia", title: "blue", backgroundCardSection: "orange", backgroundCarouselCard:"cyan"*/};
 
       ReactDOM.render(
-        <Main showMenu={params.showMenu} theme={params.theme} />,
+        <Main showMenu={params.showMenu} theme={params.theme} platform={config.platform} />,
         document.querySelector(params.selector),
       );
     })
@@ -101,6 +113,7 @@ export const test = () => {
     deviceId: "test",
     showMenu: false,
     theme: {},
+    platform: 'HBBTV',
   })
     .then(() => {
       const testGroup = {
@@ -115,7 +128,7 @@ export const test = () => {
 export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
-  initialize('#root', vodKey, "test", 'es').then((value) => {
+  initialize('#root', vodKey, "test", 'es', null, { platform: 'WEB' }).then((value) => {
     console.log("DO IT!!!");
 
     channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -221,6 +234,7 @@ export const demoVOD = () => {
       apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
       deviceId: "test",
       showMenu: false,
+      platform: 'HBBTV',
     })
       .then(() => {
         let movieId = getIdByProvider();
@@ -267,78 +281,91 @@ export const syncVOD = (params: {
 
 //LLAMADAS FINALES DEL API SDK
 
-export const initialize =
-  (selector: string, apiKey: string, userId: string, locale?: string, theme?: ITheme): Promise<void> => {
+export const initialize = (
+  selector: string,
+  apiKey: string,
+  userId: string,
+  locale?: string,
+  theme?: ITheme,
+  options?: IDiveConfig,
+): Promise<void> => {
+  if (APIinstance && APIinstance.socket) {
+    APIinstance.socket.close();
+  }
 
-    if (typeof locale !== "string") {
-      locale = 'en';
-    }
+  if (options != null) {
+    config = { ...config, ...options };
+  }
 
-    if (typeof apiKey !== "string") {
-      console.error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
-      throw new Error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
-    }
-    if (typeof userId !== "string") {
-      console.error(`You should provide a unique client id in order to authenticate him,
+  if (typeof locale !== "string") {
+    locale = 'en';
+  }
+
+  if (typeof apiKey !== "string") {
+    console.error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
+    throw new Error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
+  }
+  if (typeof userId !== "string") {
+    console.error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
-      throw new Error(`You should provide a unique client id in order to authenticate him,
+    throw new Error(`You should provide a unique client id in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
-    }
+  }
 
-    try {
-      if (KeyEvent) {
-        loadHbbtvKeys();
+  try {
+    if (KeyEvent) {
+      loadHbbtvKeys();
+    }
+  } catch (e) {
+    console.error("NO KEYMAP FOUND");
+  }
+
+  APIinstance = new EaAPI(
+    { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey, deviceId: userId },
+  );
+
+  APIinstance.setLocale(locale);
+  // APIinstance.setLocale("es-ES");
+  (window as any).DiveAPI = APIinstance;
+  return APIinstance.loginWithDevice(userId)
+    .then((response: AccessToken) => {
+      // tslint:disable-next-line:no-console
+      console.log("Authorized!");
+      (window as any).DiveAPI = APIinstance;
+      // tslint:disable-next-line:no-console
+      console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
+      if (typeof selector !== "string") {
+        // tslint:disable-next-line:no-console
+        console.error(`You should provide a selector that resolves to an existing DOM Element
+        in the initialization parameter 'selector'`);
+        throw new Error(`You should provide a selector that resolves to an existing DOM Element
+        in the initialization parameter 'selector'`);
       }
-    } catch (e) {
-      console.error("NO KEYMAP FOUND");
-    }
+    })
+    .then(() => {
 
-    APIinstance = new EaAPI(
-      { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey, deviceId: userId },
-    );
+      ReactDOM.render(
+        // ShadowDOM /*include={'styles.css'}*/>
+        <Main showMenu={false} theme={theme} platform={config.platform} />,
+        document.querySelector(selector),
+      );
 
-    APIinstance.setLocale(locale);
-    // APIinstance.setLocale("es-ES");
-    (window as any).DiveAPI = APIinstance;
-    return APIinstance.loginWithDevice(userId)
-      .then((response: AccessToken) => {
-        // tslint:disable-next-line:no-console
-        console.log("Authorized!");
-        (window as any).DiveAPI = APIinstance;
-        // tslint:disable-next-line:no-console
-        console.log("DiveAPI generated, available through DiveSDK.API or window.DiveAPI (global)");
-        if (typeof selector !== "string") {
-          // tslint:disable-next-line:no-console
-          console.error(`You should provide a selector that resolves to an existing DOM Element
-        in the initialization parameter 'selector'`);
-          throw new Error(`You should provide a selector that resolves to an existing DOM Element
-        in the initialization parameter 'selector'`);
-        }
-      })
-      .then(() => {
+      const testGroup = {
+        top: "EMPTY",
+        bottom: "CAROUSEL",
+      };
+      store.dispatch(UIActions.open(testGroup) as any);
+      store.dispatch(UIActions.setDivider(0));
 
-        ReactDOM.render(
-          // ShadowDOM /*include={'styles.css'}*/>
-          <Main showMenu={false} theme={theme} />,
-          document.querySelector(selector),
-        );
-
-        const testGroup = {
-          top: "EMPTY",
-          bottom: "CAROUSEL",
-        };
-        store.dispatch(UIActions.open(testGroup) as any);
-        store.dispatch(UIActions.setDivider(0));
-
-      })
-      .catch((error: any) => {
-        console.error("ERROR LOADING", error);
-      });
+    })
+    .catch((error: any) => {
+      console.error("ERROR LOADING", error);
+    });
 
 
 
 
-  };
+};
 
 
 export const vodIsAvailable = (movieId: string): Promise<boolean> => {
@@ -419,9 +446,23 @@ export const tvStart = (channelId: string) => {
   return store.dispatch(SyncActions.syncChannel(channelId) as any);
 };
 
+export const show = () => {
+  store.dispatch(UIActions.open({
+    bottom: 'CAROUSEL',
+  }) as any);
+};
+
+export const hide = () => {
+  store.dispatch(UIActions.open({
+    bottom: 'HIDE',
+  }) as any);
+};
+
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS 
 declare const __ENV__: any;
 if (__ENV__ !== 'production') {
     require('file-loader!./index.html');
 }*/
+
+

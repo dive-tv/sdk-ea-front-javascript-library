@@ -8,20 +8,21 @@ import { CardDetailContainer, Layout } from 'Containers';
 import { Card } from 'Services';
 import { navigable } from 'HOC';
 import { UIActions, IUIActions } from 'Actions';
-import { Theme } from 'Components';
+import { Theme, DIVE_CONFIG } from 'Components';
+import * as classNames from 'classnames';
 
 // tslint:disable-next-line:no-namespace
 export namespace App {
-    export interface IOwnProps {
-        showMenu: boolean;
-    }
+  export interface IOwnProps {
+    showMenu: boolean;
+  }
 
-    export interface IActionProps extends IUIActions {
-    }
+  export interface IActionProps extends IUIActions {
+  }
 
-    export interface IState {
-        /* empty */
-    }
+  export interface IState {
+    /* empty */
+  }
 }
 // Friends(Serie): e90f124e-af69-3757-921b-d5bac18e5a31
 // Carry(Person): 28e7cb52-01a2-3e95-a71f-4fc2d3e46f86
@@ -36,30 +37,34 @@ export namespace App {
 // tslint:disable-next-line:max-line-length
 export class AppClass extends React.Component<App.IOwnProps & App.IState & App.IActionProps, {}> {
 
-    public render(): any {
-        const { showMenu } = this.props;
-        return (
-            <div id="diveApp" className="app">
-                <Layout columns={1} parent={null} showMenu={showMenu}/>
-            </div>
-        );
-    }
+  public render(): any {
+    const { showMenu } = this.props;
+    const classes = classNames({
+      app: true,
+      web: DIVE_CONFIG.platform === 'WEB',
+    });
+    return (
+      <div id="diveApp" className={classes}>
+        <Layout columns={1} parent={null} showMenu={showMenu} />
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state: any) {
-    return {
-    };
+  return {
+  };
 }
 
 function mapDispatchToProps(dispatch: any): App.IActionProps {
-    return {
-        ...UIActions,
-    };
+  return {
+    ...UIActions,
+  };
 }
 
 function mergeProps(stateProps: any, dispatchProps: any, ownProps: any): App.IOwnProps {
-    return { ...stateProps, ...ownProps, ...dispatchProps };
+  return { ...stateProps, ...ownProps, ...dispatchProps };
 }
 
 export const App = connect<any, App.IActionProps, App.IOwnProps>
-    (mapStateToProps, mapDispatchToProps)(AppClass);
+  (mapStateToProps, mapDispatchToProps)(AppClass);

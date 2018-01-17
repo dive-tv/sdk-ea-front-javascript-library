@@ -14,6 +14,7 @@ export interface IButtonsContainerProps {
 
 export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsContainerProps> {
 
+
   public render(): any {
     // console.log("[CarouselButtonsContainer][render]");
     const elements: string[] = [];
@@ -33,7 +34,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         <div className="btnClose">
           <NavigationContainer key="carouselClose" className="carouselButton bctButton close customBtn"
             parent={this}
-                        /*onClick={this.props.closeCarousel}*/ />
+            onClick={() => this.onClickClose()} />
         </div>
         <div className="dropDown">
           <DropDownList
@@ -48,6 +49,12 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         </div>
       </div>
     );
+  }
+  private onClickClose() {
+    if (this.props.closeCarousel) {
+      this.props.closeCarousel();
+    }
+
   }
 }
 
