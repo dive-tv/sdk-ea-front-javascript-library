@@ -7,7 +7,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": false,
+    "declaration": true,
+    "declarationDir": "./dist/",
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "removeComments": true,
@@ -48,7 +49,9 @@
       "CardModules": [
         "./src/components/cardDetailComponents/cardModules/index"
       ],
-      "Theme": ["./src/scss/theme/index"]
+      "Theme": [
+        "./src/scss/theme/index"
+      ]
     }
   },
   "include": [
