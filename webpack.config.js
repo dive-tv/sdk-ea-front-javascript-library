@@ -125,7 +125,7 @@ module.exports = function (publicPath) {
       path: outPath,
       filename: !uploadToCDN ? 'DiveSDK.[name].js' : 'DiveSDK.[name]-' + package.version + '.js',
       library: ['DiveSDK', "[name]"],
-      libraryTarget: "var",
+      libraryTarget: "umd",
       publicPath: publicPath,
     },
     target: 'web',
