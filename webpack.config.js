@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const package = require("package.json");
+const package = require("./package.json");
 
 // variables
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production" || process.env.NODE_ENV == "cdn";
@@ -21,6 +21,7 @@ const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 
 module.exports = function (publicPath) {
   console.log("WP IS PRODUCTION? ", isProduction);
+  console.log("version: ", package.version)
 
   const frontEntry = isProduction ?
     [
