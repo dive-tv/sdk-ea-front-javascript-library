@@ -1,8 +1,8 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Dive SDK for Javascript",
-  "main": "DiveSDK.front.js",
+  "main": "./dist/DiveSDK.front.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env DEBUG='express:*' && webpack-dev-server --debug --output-pathinfo --history-api-fallback --hot --inline --progress --colors --port 3000 --open",
