@@ -185,7 +185,9 @@ module.exports = function (publicPath) {
                 // name: 'assets/[hash].[ext]',
                 // name: path.resolve(__dirname, '..', 'src', 'assets/[hash].[ext]'),
                 name: '[path][name].[ext]',
-                // outputPath: 'assets/',
+                context: '/',
+                /*outputPath: 'assets/'
+                publicPath: 'assets/'*/
                 // publicPath: path.resolve(__dirname, '..', 'dist', 'assets'),
                 // useRelativePath: false,
                 //name: 'https://cdn.dive.tv/sdkweb/assets/[hash].[ext]',
