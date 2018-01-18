@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {

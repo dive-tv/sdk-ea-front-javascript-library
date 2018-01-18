@@ -10,7 +10,7 @@ $menu-element-bkg-activated: #303133;
     font-size: pxToEmZeplinX2(9);
     text-transform: uppercase;
 }
-
+/*
 .menuElement {
     height: 100%;
     position: absolute;
@@ -22,11 +22,10 @@ $menu-element-bkg-activated: #303133;
     transition-duration: .5s;
     transition-delay: 0s;
     width: $menu-element-width; //&:hover,
-    /*&:focus {
-        
-        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .25);
-        width: 100%;
-    }*/
+    // &:focus {
+        //box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .25);
+        // width: 100%;
+    // }
     .icon {
         width: 7vh;
         height: 100%;
@@ -40,20 +39,20 @@ $menu-element-bkg-activated: #303133;
             background-image: url('#{$assets-path}menu/ico-config.svg');
         }
         &.demo {
-            background-image: url('#{$assets-path}menu/ico-menu-demo.png'); //@include sprite($ico-menu-demo);
+            background-image: url('#{$assets-path}menu/ico-menu-demo.svg'); //@include sprite($ico-menu-demo);
         }
         &.profile {
-            background-image: url('#{$assets-path}menu/ico-menu-profile.png');
+            background-image: url('#{$assets-path}menu/ico-menu-profile.svg');
         }
         &.cards {
-            background-image: url('#{$assets-path}menu/ico-menu-like.png');
+            background-image: url('#{$assets-path}menu/ico-menu-like.svg');
         }
         &.sync {
-            background-image: url('#{$assets-path}menu/ico-menu-dive.png');
-            /*
-            background-size: 85%;
-            background-position: center 1.2rem;
-            */
+            background-image: url('#{$assets-path}menu/ico-menu-dive.svg');
+            
+            // background-size: 85%;
+            // background-position: center 1.2rem;
+            
             background-position-x: 50%;
             background-position-y: 90%;
             background-size: 77%;
@@ -93,7 +92,7 @@ $menu-element-bkg-activated: #303133;
         top: 0;
         &::after {
             content: "";
-            background-image: url('#{$assets-path}menu/edge-menu-active.png');
+            background-image: url('#{$assets-path}menu/edge-menu-active.svg');
             width: 7px;
             height: 7px;
             top: -7px;
@@ -114,16 +113,16 @@ $menu-element-bkg-activated: #303133;
                 background-image: url('#{$assets-path}menu/ico-config.svg') !important;
             }
             &.demo {
-                background-image: url('#{$assets-path}menu/ico-menu-demo.png') !important;
+                background-image: url('#{$assets-path}menu/ico-menu-demo.svg') !important;
             }
             &.profile {
-                background-image: url('#{$assets-path}menu/ico-menu-profile.png') !important;
+                background-image: url('#{$assets-path}menu/ico-menu-profile.svg') !important;
             }
             &.cards {
-                background-image: url('#{$assets-path}menu/ico-menu-like.png') !important;
+                background-image: url('#{$assets-path}menu/ico-menu-like.svg') !important;
             }
             &.sync {
-                background-image: url('#{$assets-path}menu/ico-menu-dive.png') !important;
+                background-image: url('#{$assets-path}menu/ico-menu-dive.svg') !important;
             }
         }
     }
@@ -169,13 +168,14 @@ $menu-element-bkg-activated: #303133;
             left: 2px;
         }
         &.demo {
-            background-image: url('#{$assets-path}menu/ico-menu-demo-active.png');
+            background-image: url('#{$assets-path}menu/ico-menu-demo-active.svg');
         }
         &.profile {
-            background-image: url('#{$assets-path}menu/ico-menu-profile-active.png');
+            background-image: url('#{$assets-path}menu/ico-menu-profile-active.svg');
         }
         &.cards {
-            background-image: url('#{$assets-path}menu/ico-menu-like-active.png');
+            background-image: url('#{$assets-path}menu/ico-menu-like-active.svg');
         }
     }
 }
+*/

@@ -19,7 +19,7 @@
         .icon {
             //color: red;
             //background-color: green;
-            background-image: url('#{$assets-path}carousel/ico-nophoto.png');
+            background-image: url('#{$assets-path}carousel/ico-nophoto.svg');
             background-position: 50% 50%;
             background-repeat: no-repeat; // background-size: 50%;
             /// background-size: pxToVw(40) pxToVw(40); // width based but guarantees square format
@@ -47,7 +47,7 @@
                 // width: pxToVw(26);
                 // height: pxToVh(33);
                 height: 40%;
-                background-image: url('#{$assets-path}carousel/ico-music-inactive@2x.png');
+                background-image: url('#{$assets-path}carousel/ico-music-inactive.svg');
                 // background-size: pxToVw(30) pxToVw(30); // width based but guarantees square format
             }
             >.title {

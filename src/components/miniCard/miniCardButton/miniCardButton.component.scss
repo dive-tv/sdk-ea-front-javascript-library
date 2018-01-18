@@ -30,7 +30,7 @@
             top: 17%;
         }
         &.like {
-            background-image: url('#{$assets-path}carousel/ico-like.png');
+            background-image: url('#{$assets-path}carousel/ico-like.svg');
         }
         &.liked {
             background-image: url('#{$assets-path}carousel/ico-liked.svg');
@@ -44,7 +44,7 @@
     border-color: $off-yellow;
     >.icon {
         &.like {
-            background-image: url('#{$assets-path}carousel/ico-like.png');
+            background-image: url('#{$assets-path}carousel/ico-like.svg');
         }
     }
 }
