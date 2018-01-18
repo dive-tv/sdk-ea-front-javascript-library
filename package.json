@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -83,14 +83,15 @@
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.18.2",
+    "svg-url-loader": "^2.3.1",
+    "tslint": "^5.7.0",
     "typescript": "^2.4.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.7.1",
     "webpack-hot-middleware": "^2.19.1",
-    "weinre": "^2.0.0-pre-I0Z7U9OV",
-    "tslint": "^5.7.0"
+    "weinre": "^2.0.0-pre-I0Z7U9OV"
   },
   "dependencies": {
     "@dive-tv/sdk-ea-typescript-library": "^1.1.3",

@@ -179,19 +179,29 @@ module.exports = function (publicPath) {
           test: /\.(jpe?g|png|gif|svg)$/,
           exclude: [/node_modules/, path.resolve(__dirname, '..', 'src', 'assets', 'fonts')],
           loaders: [
-            {
+            /*{
               loader: 'file-loader',
               options: {
                 // name: 'assets/[hash].[ext]',
                 // name: path.resolve(__dirname, '..', 'src', 'assets/[hash].[ext]'),
                 name: '[path][name].[ext]',
-                context: '/',
-                /*outputPath: 'assets/'
-                publicPath: 'assets/'*/
+                context: './',
+                
                 // publicPath: path.resolve(__dirname, '..', 'dist', 'assets'),
                 // useRelativePath: false,
                 //name: 'https://cdn.dive.tv/sdkweb/assets/[hash].[ext]',
               }
+             },*/
+            /*{
+              loader: 'url-loader',
+              options: {
+                mimetype: 'image/png',
+                fallback: 'responsive-loader'
+              }
+            },*/
+            {
+              loader: 'svg-url-loader',
+              options: {}
             },
             {
               loader: 'image-webpack-loader',
