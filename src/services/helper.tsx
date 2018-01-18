@@ -12,7 +12,7 @@ import {
 } from 'Services';
 
 export interface ApiRelationModule extends RelationModule {
-  content_type: SingleContentTypeEnum |  DupleContentTypeEnum;
+  content_type: SingleContentTypeEnum | DupleContentTypeEnum;
 }
 
 // tslint:disable-next-line:no-internal-module
@@ -117,6 +117,11 @@ class HelperClass {
     } else {
       return text;
     }
+  }
+
+  public triggerEvent = (name: string) => {
+    const event = new Event(name);
+    dispatchEvent(event);
   }
 }
 

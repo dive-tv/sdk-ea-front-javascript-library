@@ -13,8 +13,8 @@
         &::-webkit-scrollbar {
             display: none;
         }
-        overflow-x: scroll;
-        overflow-y: hidden;
+        overflow-x: auto;
+        overflow-y: auto;
         white-space:nowrap;
         .scrollBoxContent {
             >*{

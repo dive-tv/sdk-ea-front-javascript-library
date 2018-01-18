@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { DirectionButton, NavigationContainer, DirectionButtonList, DropDownList } from "Components";
 import { navigable, INavigable } from "HOC";
-import { Localize } from 'Services';
+import { Localize, Helper } from 'Services';
 import { FilterTypeEnum } from 'Constants';
 
 export interface IButtonsContainerProps {
@@ -34,7 +34,7 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
         <div className="btnClose">
           <NavigationContainer key="carouselClose" className="carouselButton bctButton close customBtn"
             parent={this}
-            onClick={() => this.onClickClose()} />
+            onClick={(e) => this.onClickClose(e.currentTarget)} />
         </div>
         <div className="dropDown">
           <DropDownList
@@ -50,9 +50,11 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
       </div>
     );
   }
-  private onClickClose() {
+  private onClickClose(target: EventTarget) {
     if (this.props.closeCarousel) {
       this.props.closeCarousel();
+
+      Helper.triggerEvent('diveSDK-onclose');
     }
 
   }

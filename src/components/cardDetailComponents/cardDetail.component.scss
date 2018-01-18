@@ -1,15 +1,17 @@
 .cardDetail {
-    color: $color-white;
-    background-color: $color-dark-grey; // font-size: pxToEmZeplinX2(10);
-     :focus {
-        outline: 0;
-    }
-    .cardModulesContainer {
-        width: 100%;
-        height: 87%;
-    }
-    .cardDetailBtn {
-        width: 2%;
-        height: 100%;
-    }
+  color: $color-white;
+  background-color: $color-dark-grey; // font-size: pxToEmZeplinX2(10);
+   :focus {
+    outline: 0;
+  }
+  .cardModulesContainer {
+    width: 100%;
+    height: 90%;
+    padding-bottom: 0.4%;
+    box-sizing: border-box;
+  }
+  .cardDetailBtn {
+    width: 2%;
+    height: 100%;
+  }
 }

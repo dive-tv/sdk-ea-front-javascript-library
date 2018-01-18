@@ -203,7 +203,7 @@ export class CarouselClass
     // this.props.uiActions.open({ top: "TV", bottom: "GRID" });
     // this.props.uiActions.goBack();
     // this.props.syncActions.closeSocket();
-
+    
     this.props.uiActions.open({
       bottom: 'HIDE',
     });
