@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./dist/DiveSDK.front');
+module.exports.DiveSDK = require('./dist/DiveSDK.front');
