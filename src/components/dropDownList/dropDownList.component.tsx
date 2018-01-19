@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import * as enhanceWithClickOutside from 'react-click-outside';
 import { DirectionButton, NavigationContainer, DirectionButtonList, DIVE_CONFIG } from "Components";
 import { navigable, INavigable } from "HOC";
 import { Localize } from 'Services';
@@ -16,9 +17,11 @@ export interface IDropDownListProps {
 }
 
 export interface IDropDownListState {
+  clicked: boolean;
 }
 
 export const dropDownInitialState: IDropDownListState = {
+  clicked: false,
 };
 
 export class DropDownListClass extends React.PureComponent<IDropDownListProps, IDropDownListState> {
@@ -33,9 +36,13 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
   }
 
   public render(): any {
+    const classes = classNames("dropdownContainer customBtn customBtnByChild", {
+      hbbtv: this.isHBBTV,
+      clicked: this.state.clicked,
+    });
     return (
-      <div className="dropdownContainer customBtn customBtnByChild">
-        <label className=""
+      <div className={classes}>
+        <label className="mainLabel"
           onMouseOver={this.onMouseOver}
           onClick={this.onClick}
         >{Localize(this.props.selectedItem)}</label>
@@ -54,14 +61,18 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
     }
   }
 
+  public handleClickOutside = () => {
+    this.setState({ clicked: false });
+  }
+
   private onMouseOver = (e: any) => {
     if (true && this.props.setNodeById) {
       this.props.setNodeById(this.props.idx);
     }
   }
 
-  private onClick = (e: any) => {
-
+  private onClick = (e?: any) => {
+    this.setState({ clicked: !this.state.clicked });
     /*if (!this.isHBBTV && this.props.setNodeById) {
       this.props.setNodeById(this.props.idx);
     }*/
@@ -75,6 +86,7 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
 
       const actionOnClick = () => {
         this.selectOption(element);
+        this.setState({ clicked: false });
       };
 
       const classes = classNames({
@@ -99,4 +111,4 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
   }
 }
 
-export const DropDownList = navigable(DropDownListClass);
+export const DropDownList = navigable(enhanceWithClickOutside(DropDownListClass));

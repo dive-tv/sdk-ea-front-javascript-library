@@ -223,7 +223,12 @@ module.exports = function (publicPath) {
             },
           ],
         },
-        { test: /\.json$/, use: 'json-loader' }
+        {
+          test: /\.json$/,
+          use: 'json-loader',
+          exclude: [/node_modules/],
+
+        }
       ],
     },
     plugins: plugins,

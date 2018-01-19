@@ -32,8 +32,10 @@ body,
 }
 
  ::-webkit-scrollbar-thumb {
-  background: #8c8c8c;
+  // background: #8c8c8c;
+  background: #040404;
   display: none; // HBBTV
+  border-radius: 30px;
 }
 
  ::-webkit-scrollbar-track {
