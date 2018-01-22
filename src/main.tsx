@@ -22,7 +22,7 @@ let APIinstance: EaAPI = null;
 
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
-  environment: 'DEV' | 'PRE' | 'PRO';
+  environment?: 'DEV' | 'PRE' | 'PRO';
 }
 
 export let config: IDiveConfig = {
@@ -130,7 +130,7 @@ export const test = () => {
 export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
-  initialize('#root', vodKey, "test", 'es', null, { platform: 'WEB' }).then((value) => {
+  initialize('#root', vodKey, "test", 'es', null, { platform: 'WEB', environment: DIVE_ENVIRONMENT }).then((value) => {
     console.log("DO IT!!!");
 
     channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
