@@ -130,7 +130,8 @@ export const test = () => {
 export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
-  initialize('#root', vodKey, "test", 'es', null, { platform: 'WEB', environment: DIVE_ENVIRONMENT }).then((value) => {
+  
+  initialize('#root', vodKey, "test", 'es', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
     console.log("DO IT!!!");
 
     channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -298,7 +299,7 @@ export const initialize = (
   if (options != null) {
     config = { ...config, ...options };
   }
-
+  console.log("[initialize] options: ", options);
   if (typeof locale !== "string") {
     locale = 'en';
   }
@@ -323,7 +324,7 @@ export const initialize = (
   }
 
   APIinstance = new EaAPI(
-    { env: options.environment, storeToken: "webstorage", apiKey, deviceId: userId },
+    { environment: options.environment, storeToken: "webstorage", apiKey, deviceId: userId },
   );
 
   APIinstance.setLocale(locale);
