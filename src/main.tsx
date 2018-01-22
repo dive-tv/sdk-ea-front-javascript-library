@@ -22,10 +22,12 @@ let APIinstance: EaAPI = null;
 
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
+  environment: 'DEV' | 'PRE' | 'PRO';
 }
 
 export let config: IDiveConfig = {
   platform: 'WEB',
+  environment: DIVE_ENVIRONMENT,
 };
 export const init = (params: {
   showMenu: boolean,
@@ -321,7 +323,7 @@ export const initialize = (
   }
 
   APIinstance = new EaAPI(
-    { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey, deviceId: userId },
+    { env: options.environment, storeToken: "webstorage", apiKey, deviceId: userId },
   );
 
   APIinstance.setLocale(locale);
