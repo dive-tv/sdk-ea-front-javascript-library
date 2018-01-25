@@ -301,7 +301,7 @@ export const initialize = (
   }
   console.log("[initialize] options: ", options);
   if (typeof locale !== "string") {
-    locale = 'en';
+    locale = 'en-UK';
   }
 
   if (typeof apiKey !== "string") {
