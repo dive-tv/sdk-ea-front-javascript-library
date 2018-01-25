@@ -70,7 +70,7 @@ export const init = (params: {
   );
 
   console.log("BP basePath", APIinstance.basePath);
-  APIinstance.setLocale("en");
+  APIinstance.setLocale("en-UK");
   // APIinstance.setLocale("es-ES");
   (window as any).DiveAPI = APIinstance;
   return APIinstance.loginWithDevice(params.deviceId)
