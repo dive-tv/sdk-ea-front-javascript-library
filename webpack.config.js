@@ -2,9 +2,11 @@ const webpack = require('webpack');
 const path = require('path');
 const package = require("./package.json");
 
+const version = package.version.replace(/\./g, "-");
+
 // variables
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV == "production" || process.env.NODE_ENV == "cdn";
-const uploadToCDN = process.env.NODE_ENV == "cdn"
+let uploadToCDN = process.env.NODE_ENV == "cdn"
 const sourcePath = path.join(__dirname, './src');
 const outPath = !uploadToCDN ? path.join(__dirname, './dist') : path.join(__dirname, './dist-cdn');
 process.env.NODE_ENV = process.env.NODE_ENV == 'cdn' ? "production" : process.env.NODE_ENV;
@@ -22,7 +24,10 @@ const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 module.exports = function (publicPath) {
   console.log("__dirname: ", __dirname);
   console.log("WP IS PRODUCTION? ", isProduction);
-  console.log("version: ", package.version)
+  console.log("package.version", package.version);
+  console.log("version: ", version);
+  console.log("file url: ", 'DiveSDK.front-' + version + '.js')
+  // throw('ERRO CACA');
 
   const frontEntry = isProduction ?
     [
@@ -116,6 +121,8 @@ module.exports = function (publicPath) {
     );
   }
 
+  // uploadToCDN = false;
+
   const config = {
     watch: false,
     context: sourcePath,
@@ -124,9 +131,10 @@ module.exports = function (publicPath) {
     },
     output: {
       path: outPath,
-      filename: !uploadToCDN ? 'DiveSDK.[name].js' : 'DiveSDK.[name]-' + package.version + '.js',
+      //filename: !uploadToCDN ? 'DiveSDK.[name].js' : 'DiveSDK.[name]-' + version + '.js',
+      filename: 'DiveSDK.[name].js',
       library: ['DiveSDK', "[name]"],
-      libraryTarget: isProduction ? "umd" : "var",
+      libraryTarget: isProduction && !uploadToCDN ? "umd" : "var",
       publicPath: publicPath,
     },
     target: 'web',
