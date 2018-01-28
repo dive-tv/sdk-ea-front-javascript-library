@@ -211,9 +211,24 @@ function getRefsByProvider(): Promise<{
         break;
       case "play.starzplayarabia.com":
         {
+
+          const videoRef: HTMLVideoElement = document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement;
+          const videoControls: HTMLVideoElement =
+            document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLVideoElement;
+
+          if (videoRef !== null) {
+            videoRef.style.height = videoControls.style.height = '60%';
+          }
+          if (videoControls !== null) {
+            videoControls.style.bottom = 'initial';
+            videoControls.style.top = '0';
+          }
+
+
           resolve({
             videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
-            videoParent: document.getElementsByTagName('starzplayer')[0] as HTMLElement,
+            // videoParent: document.getElementsByClassName('bitdash-vc')[0] as HTMLElement,
+            // videoParent: document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLElement,
           });
         }
         break;
@@ -284,10 +299,10 @@ export const syncVOD = (params: {
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',
     }) as any);
-    store.dispatch(UIActions.setDivider(0));
+    store.dispatch(UIActions.setDivider(60));
   }
 
-}
+};
 
 
 //LLAMADAS FINALES DEL API SDK
