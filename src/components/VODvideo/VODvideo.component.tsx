@@ -184,7 +184,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       if (target !== undefined && layout !== undefined) {
         target.setAttribute(
           "style",
-          `visibility: visible !important; position: fixed; top: 0; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`
+          `visibility: visible !important; position: fixed; top: 0; bottom: initial; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`
         );
         console.log("Moved video");
       } else {

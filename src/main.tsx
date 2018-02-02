@@ -192,40 +192,63 @@ function getRefsByProvider(): Promise<{
   return new Promise((resolve, reject) => {
     // videoRef: HTMLVideoElement | HTMLObjectElement, videoParent?: HTMLElement
     switch (window.location.host) {
-      case "www.rtve.es": {
-        resolve({
-          videoRef: document.getElementsByClassName('vjs-tech')[0] as HTMLVideoElement,
-          videoParent: document.getElementsByClassName('video-js')[0] as HTMLElement,
-        });
-      }
-      case "www.clarovideo.com":
-      case "www.clarovideo.com.mx": {
-        resolve({
-          videoRef: document.getElementById('video') as HTMLVideoElement,
-          videoParent: document.getElementsByTagName('vph5-container')[0] as HTMLElement,
-        });
-      }
-      case "play.starzplayarabia.com": {
-        resolve({
-          videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
-          videoParent: document.getElementsByTagName('starzplayer')[0] as HTMLElement,
-        });
-      }
-      case 'infomix.tv': {
-        const script = document.createElement('script');
-        script.src = "https://player.vimeo.com/api/player.js?retert=34535";
-        script.onload = () => {
-          const iframe = document.querySelector('iframe');
-          const player = new Vimeo.Player(iframe);
+      case "www.rtve.es":
+        {
           resolve({
-            videoRef: player as HTMLVideoElement,
-            videoParent: document.querySelector('iframe') as HTMLElement,
+            videoRef: document.getElementsByClassName('vjs-tech')[0] as HTMLVideoElement,
+            videoParent: document.getElementsByClassName('video-js')[0] as HTMLElement,
           });
         }
-        document.head.appendChild(script);
-      }
+        break;
+      case "www.clarovideo.com":
+      case "www.clarovideo.com.mx":
+        {
+          resolve({
+            videoRef: document.getElementById('video') as HTMLVideoElement,
+            videoParent: document.getElementsByTagName('vph5-container')[0] as HTMLElement,
+          });
+        }
+        break;
+      case "play.starzplayarabia.com":
+        {
+
+          const videoRef: HTMLVideoElement = document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement;
+          const videoControls: HTMLVideoElement =
+            document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLVideoElement;
+
+          if (videoRef !== null) {
+            videoRef.style.height = videoControls.style.height = '60%';
+          }
+          if (videoControls !== null) {
+            videoControls.style.bottom = 'initial';
+            videoControls.style.top = '0';
+          }
+
+
+          resolve({
+            videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
+            // videoParent: document.getElementsByClassName('bitdash-vc')[0] as HTMLElement,
+            // videoParent: document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLElement,
+          });
+        }
+        break;
+      case 'infomix.tv':
+        {
+          const script = document.createElement('script');
+          script.src = "https://player.vimeo.com/api/player.js?retert=34535";
+          script.onload = () => {
+            const iframe = document.querySelector('iframe');
+            const player = new Vimeo.Player(iframe);
+            resolve({
+              videoRef: player as HTMLVideoElement,
+              videoParent: document.querySelector('iframe') as HTMLElement,
+            });
+          };
+          document.head.appendChild(script);
+        }
+        break;
     }
-  })
+  });
 }
 
 export const demoVOD = () => {
@@ -240,7 +263,7 @@ export const demoVOD = () => {
       // platform: 'HBBTV',
     })
       .then(() => {
-        let movieId = getIdByProvider();
+        const movieId = getIdByProvider();
         // movieId = "577062"; // Creo que es sex and the city.
         // movieId = '63501863951'; // Jurassic World
         return syncVOD({ movieId, timestamp: (videoRef as any).currentTime || 1, videoRef, videoParent, isDemo: true });
@@ -252,8 +275,8 @@ export const demoVOD = () => {
         }) as any);
         // store.dispatch(UIActions.setDivider(100));
       });
-  })
-}
+  });
+};
 
 export const syncVOD = (params: {
   movieId: string,
@@ -276,10 +299,10 @@ export const syncVOD = (params: {
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',
     }) as any);
-    store.dispatch(UIActions.setDivider(0));
+    store.dispatch(UIActions.setDivider(60));
   }
 
-}
+};
 
 
 //LLAMADAS FINALES DEL API SDK
