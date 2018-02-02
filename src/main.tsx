@@ -131,7 +131,7 @@ export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
   
-  initialize('#root', vodKey, "test", 'es', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
+  initialize('#root', vodKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
     console.log("DO IT!!!");
 
     channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -237,7 +237,7 @@ export const demoVOD = () => {
       apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
       deviceId: "test",
       showMenu: false,
-      platform: 'HBBTV',
+      // platform: 'HBBTV',
     })
       .then(() => {
         let movieId = getIdByProvider();

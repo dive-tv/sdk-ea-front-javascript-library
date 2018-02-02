@@ -14,7 +14,8 @@ NOTE: this document is being updated on a regular base and contents are subject 
 
 The following sections describe the different functions that SDK contains to integrate a client SW using Dive Front SDK.
 
-- Import SDK with npm ->
+- Import SDK with npm -> npm i -S @dive-tv/sdk-ea-front-javascript-library
+- Import in js document -> var DiveSDK = require('@dive-tv/sdk-ea-front-javascript-library'); 
 - Authentication details are provided in the library initialization
 - API calls are performed calling library methods
 - Response statuses and objects are mapped to native objects of the library implementation language.
@@ -44,7 +45,7 @@ var apiKey = "client_api_key_example"; // String | Client api key provided by Di
 var userId = "user_id_example"; // String | Unique id that tracks a unique client of your s
 var locale = "locale_example"; // String | Language to setup  texts of the UI and contents 
 
-DiveSDK.front.initialize(selector, apiKey, userId, locale);
+DiveSDK.initialize(selector, apiKey, userId, locale);
 
 ````
 
@@ -67,7 +68,7 @@ Promise => (boolean)
 #### Example:
 ````javascript
 var clientMovieId = "clientMovieIdList_example"; // String | client movie ID
-var result = DiveSDK.front.vodIsAvailable(clientMovieId).then((val) => {
+var result = DiveSDK.vodIsAvailable(clientMovieId).then((val) => {
       console.log("vod Is Available: ", val);
 });
 ````
@@ -97,9 +98,9 @@ var clientMovieId = "clientMovieId_example"; // String | client movie ID
 var timestamp = 0; //Integer | timestamp in seconds
 var videoRef = document.getElementById('video');
 
-DiveSDK.front.vodStart(clientMovieId, timestamp);
+DiveSDK.vodStart(clientMovieId, timestamp);
 or
-DiveSDK.front.vodStart(clientMovieId, timestamp, videoRef);
+DiveSDK.vodStart(clientMovieId, timestamp, videoRef);
 ````
 
 ### Pause
@@ -116,7 +117,7 @@ N/A
 
 #### Example:
 ````javascript
-DiveSDK.front.vodPause();
+DiveSDK.vodPause();
 ````
 
 ### Resume
@@ -136,7 +137,7 @@ N/A
 
 #### Example:
 ````javascript
-    DiveSDK.front.vodResume(timestamp);
+    DiveSDK.vodResume(timestamp);
 ````
 
 ### Seek
@@ -156,7 +157,7 @@ N/A
 
 #### Example:
 ````javascript
-    DiveSDK.front.vodSeek(newTimestamp);
+    DiveSDK.vodSeek(newTimestamp);
    
 ````
 
@@ -174,7 +175,7 @@ N/A
 
 #### Example:
 ````javascript
-    DiveSDK.front.vodEnd();
+    DiveSDK.vodEnd();
 ````
 
 ### Channel sync availability
@@ -196,7 +197,7 @@ Promise => (boolean)
 #### Example:
 ````javascript
 var channelId = "TVE"; // String | channel ID
-var result = DiveSDK.front.channelIsAvailable(channelId).then((val) => {
+var result = DiveSDK.channelIsAvailable(channelId).then((val) => {
       console.log("Channel Is Available: ", val);
 });
 ````
@@ -220,7 +221,7 @@ Null | -----------
 
 #### Example:
 ````javascript
-diveFragment = DiveSDK.front.tvStart(channelId);
+diveFragment = DiveSDK.tvStart(channelId);
 ````
 
 ## How to use
