@@ -22,6 +22,12 @@
       "dom"
     ],
     "paths": {
+      "Main": [
+        "./src/main"
+      ],
+      "Store": [
+        "./src/store/store"
+      ],
       "Components": [
         "./src/components/index"
       ],

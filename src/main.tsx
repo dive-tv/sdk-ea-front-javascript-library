@@ -6,7 +6,7 @@ import ShadowDOM from 'react-shadow';
 
 import { store } from './store/store';
 import { App } from 'Containers';
-import { Card, KeyMap, loadHbbtvKeys, AccessToken, EaAPI, MovieStatus, ChannelStatus } from 'Services';
+import { Card, KeyMap, loadHbbtvKeys, AccessToken, EaAPI, MovieStatus, ChannelStatus, DemoService } from 'Services';
 import { DIVE_ENVIRONMENT, TESTING_CHANNEL, changeVodSelector, changeVodParentSelector, VOD_MODE } from 'Constants';
 import * as css from './scss/main.scss';
 import { UIActions, SyncActions, SocketActions } from 'Actions';
@@ -14,7 +14,6 @@ import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 
 declare const KeyEvent: any;
-declare const Vimeo: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -25,18 +24,20 @@ export interface IDiveConfig {
   environment?: 'DEV' | 'PRE' | 'PRO';
 }
 
+export interface IInitParams {
+  showMenu: boolean;
+  apiKey: string;
+  deviceId: string;
+  selector: string;
+  theme?: ITheme;
+  platform?: 'HBBTV' | 'WEB';
+}
+
 export let config: IDiveConfig = {
   platform: 'WEB',
   environment: DIVE_ENVIRONMENT,
 };
-export const init = (params: {
-  showMenu: boolean,
-  apiKey: string,
-  deviceId: string,
-  selector: string,
-  theme?: ITheme,
-  platform?: 'HBBTV' | 'WEB',
-}) => {
+export const init = (params: IInitParams) => {
 
   if (params && params.platform != null) {
     config.platform = params.platform;
@@ -107,185 +108,21 @@ export const init = (params: {
   // });
 };
 
-export const test = () => {
-  // tslint:disable-next-line:max-line-length
-  init({
-    selector: "#root",
-    apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
-    deviceId: "test",
-    showMenu: false,
-    theme: {},
-    platform: 'HBBTV',
-  })
-    .then(() => {
-      const testGroup = {
-        top: "EMPTY",
-        bottom: "CAROUSEL",
-      };
-      store.dispatch(UIActions.open(testGroup) as any);
-      store.dispatch(SyncActions.syncChannel(TESTING_CHANNEL) as any);
-    });
-};
-
-export const test2 = () => {
-  const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
-  const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
-  
-  initialize('#root', vodKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
-    console.log("DO IT!!!");
-
-    channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
-      console.log("channelIsAvailable: ", val);
-    });
-
-    vodIsAvailable('63501863951').then((val: boolean) => {
-      console.log("vodIsAvailable: ", val);
-    });
-
-    vodStart('63501863951', 0);
 
 
-  });
-};
+export const demoVOD = () => DemoService.demoVOD(init, syncVOD);
 
-function getIdByProvider(): string {
-  switch (window.location.host) {
-    case "www.rtve.es": {
-      const pos = window.location.href.search(/\/\d{7}/g) + 1;
-      // return window.location.href.substr(pos, 7);
-      return "63501863951";
-    }
-    case "www.clarovideo.com":
-    case "www.clarovideo.com.mx": {
-      const pos = window.location.href.search(/=\d{6}/g) + 1;
-      return window.location.href.substr(pos, 7);
-    }
-    case "play.starzplayarabia.com": {
-      const arr = window.location.href.split('/');
-      let spId = '';
 
-      // tslint:disable-next-line:prefer-conditional-expression
-      if (arr[arr.length - 3] === 'movies') {
-        // Para las movies se devuelve la última parte de la url (ejemplo: 64860712307)
-        // https://play.starzplayarabia.com/en/movies/hitch/23950888433
-        spId = arr[arr.length - 1];
-      } else {
-        // Para el caso de la serie, se cogen las dos últimas partes de la url (ejemplo: 36008488058/s2e12)
-        // https://play.starzplayarabia.com/en/series/sons-of-anarchy/47919656343/s1e3
-        spId = arr[arr.length - 2] + '-' + arr[arr.length - 1];
-      }
-      console.log("spId: ", spId);
-      return spId;
-    }
-
-    case 'infomix.tv':
-      const id = window.location.href.split("infomix.tv/")[1];
-      return "63501863951"; // Creo que es sex and the city.
-    // return id;
-  }
+export interface ISyncVODParams {
+  movieId: string;
+  timestamp: number;
+  theme?: ITheme;
+  videoRef: HTMLVideoElement | HTMLObjectElement;
+  videoParent?: HTMLElement;
+  isDemo?: boolean;
 }
 
-function getRefsByProvider(): Promise<{
-  videoRef: HTMLVideoElement | HTMLObjectElement,
-  videoParent?: HTMLElement,
-}> {
-  return new Promise((resolve, reject) => {
-    // videoRef: HTMLVideoElement | HTMLObjectElement, videoParent?: HTMLElement
-    switch (window.location.host) {
-      case "www.rtve.es":
-        {
-          resolve({
-            videoRef: document.getElementsByClassName('vjs-tech')[0] as HTMLVideoElement,
-            videoParent: document.getElementsByClassName('video-js')[0] as HTMLElement,
-          });
-        }
-        break;
-      case "www.clarovideo.com":
-      case "www.clarovideo.com.mx":
-        {
-          resolve({
-            videoRef: document.getElementById('video') as HTMLVideoElement,
-            videoParent: document.getElementsByTagName('vph5-container')[0] as HTMLElement,
-          });
-        }
-        break;
-      case "play.starzplayarabia.com":
-        {
-
-          const videoRef: HTMLVideoElement = document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement;
-          const videoControls: HTMLVideoElement =
-            document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLVideoElement;
-
-          if (videoRef !== null) {
-            videoRef.style.height = videoControls.style.height = '60%';
-          }
-          if (videoControls !== null) {
-            videoControls.style.bottom = 'initial';
-            videoControls.style.top = '0';
-          }
-
-
-          resolve({
-            videoRef: document.getElementById('bitdash-video-starzplayer') as HTMLVideoElement,
-            // videoParent: document.getElementsByClassName('bitdash-vc')[0] as HTMLElement,
-            // videoParent: document.getElementsByClassName('bitdash-ctrl-w')[0] as HTMLElement,
-          });
-        }
-        break;
-      case 'infomix.tv':
-        {
-          const script = document.createElement('script');
-          script.src = "https://player.vimeo.com/api/player.js?retert=34535";
-          script.onload = () => {
-            const iframe = document.querySelector('iframe');
-            const player = new Vimeo.Player(iframe);
-            resolve({
-              videoRef: player as HTMLVideoElement,
-              videoParent: document.querySelector('iframe') as HTMLElement,
-            });
-          };
-          document.head.appendChild(script);
-        }
-        break;
-    }
-  });
-}
-
-export const demoVOD = () => {
-
-  getRefsByProvider().then((vodRefs) => {
-    const { videoRef, videoParent } = vodRefs;
-    init({
-      selector: "#root",
-      apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
-      deviceId: "test",
-      showMenu: false,
-      // platform: 'HBBTV',
-    })
-      .then(() => {
-        const movieId = getIdByProvider();
-        // movieId = "577062"; // Creo que es sex and the city.
-        // movieId = '63501863951'; // Jurassic World
-        return syncVOD({ movieId, timestamp: (videoRef as any).currentTime || 1, videoRef, videoParent, isDemo: true });
-      })
-      .then(() => {
-        store.dispatch(UIActions.open({
-          top: 'VODVIDEO',
-          bottom: 'CAROUSEL',
-        }) as any);
-        // store.dispatch(UIActions.setDivider(100));
-      });
-  });
-};
-
-export const syncVOD = (params: {
-  movieId: string,
-  timestamp: number,
-  theme?: ITheme,
-  videoRef: HTMLVideoElement | HTMLObjectElement,
-  videoParent?: HTMLElement,
-  isDemo?: boolean,
-}) => {
+export const syncVOD = (params: ISyncVODParams) => {
   let { movieId, timestamp, videoRef, videoParent, isDemo } = params;
   timestamp = timestamp || 1;
   if (VOD_MODE === "ONE_SHOT") {
@@ -483,6 +320,53 @@ export const hide = () => {
     bottom: 'HIDE',
   }) as any);
 };
+
+
+//TESTS
+
+export const test = () => {
+  // tslint:disable-next-line:max-line-length
+  init({
+    selector: "#root",
+    apiKey: "dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT",
+    deviceId: "test",
+    showMenu: false,
+    theme: {},
+    platform: 'HBBTV',
+  })
+    .then(() => {
+      const testGroup = {
+        top: "EMPTY",
+        bottom: "CAROUSEL",
+      };
+      store.dispatch(UIActions.open(testGroup) as any);
+      store.dispatch(SyncActions.syncChannel(TESTING_CHANNEL) as any);
+    });
+};
+
+export const test2 = () => {
+  const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
+  const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
+
+  initialize('#root', vodKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
+    console.log("DO IT!!!");
+
+    channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
+      console.log("channelIsAvailable: ", val);
+    });
+
+    vodIsAvailable('63501863951').then((val: boolean) => {
+      console.log("vodIsAvailable: ", val);
+    });
+
+    vodStart('63501863951', 0);
+
+
+  });
+};
+
+
+
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS 

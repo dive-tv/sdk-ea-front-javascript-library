@@ -140,6 +140,8 @@ module.exports = function (publicPath) {
     target: 'web',
     resolve: {
       alias: {
+        Main: path.resolve(__dirname, 'src', 'main'),
+        Store: path.resolve(__dirname, 'src', 'store', 'store'),
         Components: path.resolve(__dirname, 'src', 'components', 'index'),
         Services: path.resolve(__dirname, 'src', 'services', 'index'),
         Reducers: path.resolve(__dirname, 'src', 'reducers', 'index'),
