@@ -6,7 +6,9 @@ export const SevenTV: IDemo = {
     const arr = window.location.href.split('/');
     const chapter = arr.pop();
     const serie = arr.pop();
-    return `${serie}-${chapter}`;
+    console.log('[SevenTV] id: ', `${serie}-${chapter}`);
+    return "63501863951";
+    // return `${serie}-${chapter}`;
   },
   getRefs: () => {
     return {
