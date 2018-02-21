@@ -9,6 +9,7 @@ export interface IDemo {
   getRefs: (callback?: (refs: IDemoRefs) => void) => IDemoRefs;
   URL: string;
   URL2?: string;
+  API_KEY?: string;
 }
 
 export interface IDemoRefs {
@@ -107,14 +108,23 @@ export namespace DemoService {
     });
   };
 
+  export const getApiKey = () => {
+    switch (window.location.host) {
+      case SevenTV.URL:
+        return SevenTV.API_KEY;
+      default:
+        return 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
+    }
+  }
+
 
   export const demoVOD = (initFunc: (params: IInitParams) => any, syncVODFunc: (params: ISyncVODParams) => any) => {
     DemoService.getRefsByProvider().then((vodRefs) => {
       const { videoRef, videoParent } = vodRefs;
       initFunc({
         selector: "#root",
-        apiKey: "cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2",
-        deviceId: "test",
+        apiKey: getApiKey(),
+        deviceId: "demo",
         showMenu: false,
         // platform: 'HBBTV',
       })

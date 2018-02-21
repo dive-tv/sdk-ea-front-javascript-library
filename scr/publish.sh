@@ -6,7 +6,9 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
         echo "Set minor version and push on master branch, publishing lib to NPM"
         npm install
         npm run build
+        npm version patch
         npm publish
+
     else
         echo "Branch is not master, skipping NPM publish"
     fi
