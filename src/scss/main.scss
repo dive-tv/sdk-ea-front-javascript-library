@@ -45,6 +45,8 @@ body .diveContainer {
     @import '../components/banner/banner.component';
 }
 
+@import 'demos';
+
 @media all and (max-width: 900) {
     .diveContainer {
         font-size: 3px;

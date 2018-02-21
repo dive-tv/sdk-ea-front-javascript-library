@@ -8,3 +8,5 @@ export * from "./demos/starzplay.demo";
 export * from "./demos/infomix.demo";
 export * from "./demos/claro.demo";
 export * from "./demos/sevenTV.demo";
+export * from "./demos/watchbox.demo";
+export * from "./demos/maxdome.demo";

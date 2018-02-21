@@ -1,7 +1,7 @@
 import { IInitParams, ISyncVODParams } from "Main";
 import { UIActions } from "Actions";
 import { store } from "Store";
-import { RTVE, Claro, Starzplay, Infomix, SevenTV } from "Services";
+import { RTVE, Claro, Starzplay, Infomix, SevenTV, Watchbox, MaxdomeDemo } from "Services";
 
 
 export interface IDemo {
@@ -38,6 +38,12 @@ export namespace DemoService {
       // return id;
       case SevenTV.URL:
         return SevenTV.getId();
+
+      case Watchbox.URL:
+        return Watchbox.getId();
+
+      case MaxdomeDemo.URL:
+        return MaxdomeDemo.getId();
     }
   };
 
@@ -47,27 +53,57 @@ export namespace DemoService {
     videoParent?: HTMLElement,
   }> => {
     return new Promise((resolve, reject) => {
+      let videoRefs: IDemoRefs;
       // videoRef: HTMLVideoElement | HTMLObjectElement, videoParent?: HTMLElement
       switch (window.location.host) {
         case RTVE.URL:
-          resolve(RTVE.getRefs());
+          videoRefs = RTVE.getRefs();
+          resolve(videoRefs);
           break;
+
         case Claro.URL:
         case Claro.URL2:
-          resolve(Claro.getRefs());
+          videoRefs = Claro.getRefs();
+          resolve(videoRefs);
           break;
+
         case Starzplay.URL:
-          resolve(Starzplay.getRefs());
+          videoRefs = Starzplay.getRefs();
+          resolve(videoRefs);
           break;
+
         case Infomix.URL:
           Infomix.getRefs((refs: IDemoRefs) => {
             resolve(refs);
           });
           break;
+
         case SevenTV.URL:
-          resolve(SevenTV.getRefs());
+          videoRefs = SevenTV.getRefs();
+          resolve(videoRefs);
+          break;
+
+        case Watchbox.URL:
+          videoRefs = Watchbox.getRefs();
+          resolve(videoRefs);
+          break;
+
+        case MaxdomeDemo.URL:
+          videoRefs = MaxdomeDemo.getRefs();
+          resolve(videoRefs);
           break;
       }
+
+
+      if (videoRefs != null) {
+        if (videoRefs.videoRef != null) {
+          videoRefs.videoRef.classList.add('demoVideo');
+        }
+        if (videoRefs.videoParent != null) {
+          videoRefs.videoParent.classList.add('demoVideoContainer');
+        }
+      }
+
     });
   };
 
