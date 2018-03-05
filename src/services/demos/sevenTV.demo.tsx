@@ -2,6 +2,7 @@ import { IDemo } from "Services";
 
 export const SevenTV: IDemo = {
   URL: 'www.7tv.de',
+  API_KEY: 'N3R2X2VhX3Rlc3Q6ZUpXSG1yUUNTVmVUaG9qd0VIMm01TlF6U2Y5U2hBenY=',
   getId: () => {
     const arr = window.location.href.split('/');
     const chapter = arr.pop();

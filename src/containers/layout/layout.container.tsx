@@ -35,7 +35,7 @@ export namespace Layout {
 }
 
 // tslint:disable-next-line:max-line-length
-type LayoutProps = Layout.IState & Layout.IActionProps & Layout.IOwnProps;
+export type LayoutProps = Layout.IState & Layout.IActionProps & Layout.IOwnProps;
 export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
   private lastTimeMenuClicked: number;
   private keysUsed: number[] = [KeyMap.COLOR_YELLOW, KeyMap.BACK];

@@ -110,7 +110,7 @@ export const init = (params: IInitParams) => {
 
 
 
-export const demoVOD = () => DemoService.demoVOD(init, syncVOD);
+export const demoVOD = () => DemoService.demoVOD(init, syncVOD, vodResume, vodPause);
 
 
 export interface ISyncVODParams {

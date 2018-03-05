@@ -3,6 +3,7 @@ import { IDemo } from "Services";
 declare const Maxdome: any;
 export const MaxdomeDemo: IDemo = {
   URL: 'www.maxdome.de',
+  API_KEY: 'bWF4ZG9tZV9lYV90ZXN0OjdZODJFVGhHTWg1dmpnSFRCTHdrUVJQMjVZNkZWVmVv',
   getId: () => {
     /*const src: string = (document.getElementById('videoPlayer') as HTMLVideoElement).src;
     const arr = src.split('/');

@@ -1,8 +1,13 @@
 import { IInitParams, ISyncVODParams } from "Main";
 import { UIActions } from "Actions";
 import { store } from "Store";
-import { RTVE, Claro, Starzplay, Infomix, SevenTV, Watchbox, MaxdomeDemo } from "Services";
+import { RTVE, Claro, Starzplay, Infomix, SevenTV, Watchbox, MaxdomeDemo, KeyMap } from "Services";
 
+
+export let initFunc: (params: IInitParams) => any = null;
+export let syncVODFunc: (params: ISyncVODParams) => any = null;
+export let vodPause: () => any = null;
+export let vodResume: (time: number) => any = null;
 
 export interface IDemo {
   getId: () => string;
@@ -99,11 +104,37 @@ export namespace DemoService {
       if (videoRefs != null) {
         if (videoRefs.videoRef != null) {
           videoRefs.videoRef.classList.add('demoVideo');
+          videoRefs.videoRef.classList.add('demoVideoId');
         }
         if (videoRefs.videoParent != null) {
           videoRefs.videoParent.classList.add('demoVideoContainer');
+          videoRefs.videoParent.classList.add('demoVideoContainerId');
         }
       }
+
+      const keyFunc = (event: KeyboardEvent) => {
+        const km: any = KeyMap;
+        const keyCode = event.keyCode;
+
+        switch (keyCode) {
+          case km.COLOR_YELLOW:
+            DemoService.getRefsByProvider().then((vodRefs) => {
+              if (vodRefs.videoParent.classList.contains('demoVideoContainer')) {
+                vodRefs.videoRef.classList.remove('demoVideo');
+                vodRefs.videoParent.classList.remove('demoVideoContainer');
+              } else {
+                vodRefs.videoRef.classList.add('demoVideo');
+                vodRefs.videoParent.classList.add('demoVideoContainer');
+              }
+            });
+            event.stopPropagation();
+            event.preventDefault();
+            break;
+        }
+
+      };
+      document.removeEventListener("keypress", keyFunc);
+      document.addEventListener("keypress", keyFunc);
 
     });
   };
@@ -112,19 +143,58 @@ export namespace DemoService {
     switch (window.location.host) {
       case SevenTV.URL:
         return SevenTV.API_KEY;
+      case MaxdomeDemo.URL:
+        return MaxdomeDemo.API_KEY;
+      case Watchbox.URL:
+        return Watchbox.API_KEY;
       default:
         return 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
     }
   }
 
+  export const OnInsert = (e: any) => {
+    const tag: string = e.target.tagName as string;
+    if (tag && tag.toLocaleLowerCase() === 'video') {
+      console.log("[dive] instancia video");
+      if (e.target.classList.contains('demoVideoId')) {
+        console.log("[dive] es demoVideo");
+        demoVOD(initFunc, syncVODFunc, vodResume, vodPause);
+      }
+    }
+  };
 
-  export const demoVOD = (initFunc: (params: IInitParams) => any, syncVODFunc: (params: ISyncVODParams) => any) => {
+  export const OnRemove = (e: any) => {
+    const tag: string = e.target.tagName as string;
+    if (tag && tag.toLocaleLowerCase() === 'video') {
+      console.log("[dive] instancia video");
+      if (e.target.classList.contains('demoVideoId')) {
+        console.log("[dive] es demoVideo");
+        vodPause();
+      }
+    }
+  };
+
+
+  export const demoVOD = (
+    _initFunc: (params: IInitParams) => any,
+    _syncVODFunc: (params: ISyncVODParams) => any,
+    _vodResume: (time: number) => any,
+    _vodPause: () => any,
+  ) => {
+    initFunc = _initFunc;
+    syncVODFunc = _syncVODFunc;
+    vodPause = _vodPause;
+    vodResume = _vodResume;
     DemoService.getRefsByProvider().then((vodRefs) => {
       const { videoRef, videoParent } = vodRefs;
+      document.addEventListener("DOMNodeInserted", OnInsert);
+      document.addEventListener("DOMNodeRemoved", OnRemove);
+      const apiKey: string = getApiKey();
+      console.log("api key: ", apiKey);
       initFunc({
         selector: "#root",
-        apiKey: getApiKey(),
-        deviceId: "demo",
+        apiKey: apiKey,
+        deviceId: "test",
         showMenu: false,
         // platform: 'HBBTV',
       })

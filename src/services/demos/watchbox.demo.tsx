@@ -2,6 +2,7 @@ import { IDemo } from "Services";
 
 export const Watchbox: IDemo = {
   URL: 'www.watchbox.de',
+  API_KEY: 'd2F0Y2hib3hfZWFfdGVzdDpNNVdrUlNmbzZOdFQ3Q21SRmk0bnVra0JOVzhpa3U1WQ==',
   getId: () => {
     let id = '';
     const arr = window.location.href.split('/');
@@ -10,7 +11,8 @@ export const Watchbox: IDemo = {
     const arrTitle = title.split('-');
     id = arrTitle.pop();
     console.log("[Watchbox] id: ", id);
-    return "63501863951";
+    return id;
+    // return "63501863951";
   },
   getRefs: () => {
     return {
