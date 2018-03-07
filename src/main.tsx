@@ -132,12 +132,11 @@ export const syncVOD = (params: ISyncVODParams) => {
   }
 
   if (isDemo !== true && videoRef != null) {
+    store.dispatch(UIActions.setDivider(60));
     store.dispatch(UIActions.open({
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',
     }) as any);
-    console.log('Is Demo');
-    store.dispatch(UIActions.setDivider(60));
   }
 
 };
