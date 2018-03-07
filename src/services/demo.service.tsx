@@ -165,7 +165,6 @@ export namespace DemoService {
   export const OnRemove = (e: any) => {
     const tag: string = e.target.tagName as string;
     if (tag && tag.toLocaleLowerCase() === 'video') {
-      console.log("[dive] instancia video");
       if (e.target.classList.contains('demoVideoId')) {
         console.log("[dive] es demoVideo");
         vodPause();
