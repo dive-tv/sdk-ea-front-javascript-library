@@ -157,7 +157,6 @@ export namespace DemoService {
     if (tag && tag.toLocaleLowerCase() === 'video') {
       console.log("[dive] instancia video");
       if (e.target.classList.contains('demoVideoId')) {
-        console.log("[dive] es demoVideo");
         demoVOD(initFunc, syncVODFunc, vodResume, vodPause);
       }
     }
