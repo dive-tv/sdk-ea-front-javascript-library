@@ -131,13 +131,16 @@ export const syncVOD = (params: ISyncVODParams) => {
     store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
 
+  console.log('Is Demo?');
+  console.log('isDemo: ', isDemo);
+  console.log('videoRef: ', videoRef != null);
   if (isDemo !== true && videoRef != null) {
-    console.log('Is Demo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
     store.dispatch(UIActions.open({
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',
     }) as any);
-    
+
     store.dispatch(UIActions.setDivider(60));
   }
 
