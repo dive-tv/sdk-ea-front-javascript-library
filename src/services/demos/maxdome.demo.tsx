@@ -16,7 +16,7 @@ export const MaxdomeDemo: IDemo = {
       id = Maxdome.generatedPlaybackOptions.asset.id;
     }
 
-    console.log('[Maxdome] id asda: ', id);
+    console.log('[Maxdome] id: ', id);
     return id;
   },
   getRefs: () => {
