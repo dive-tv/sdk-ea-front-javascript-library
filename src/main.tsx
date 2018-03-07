@@ -141,16 +141,7 @@ export const syncVOD = (params: ISyncVODParams) => {
       store.dispatch(UIActions.setDivider(60));
     }
   }
-
-
 };
-
-export const setScreenDemo = () => {
-  store.dispatch(UIActions.open({
-    top: 'VODVIDEO',
-    bottom: 'CAROUSEL',
-  }) as any);
-}
 
 
 //LLAMADAS FINALES DEL API SDK
