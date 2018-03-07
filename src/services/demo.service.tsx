@@ -155,7 +155,6 @@ export namespace DemoService {
   export const OnInsert = (e: any) => {
     const tag: string = e.target.tagName as string;
     if (tag && tag.toLocaleLowerCase() === 'video') {
-      console.log("[dive] instancia video");
       if (e.target.classList.contains('demoVideoId')) {
         demoVOD(initFunc, syncVODFunc, vodResume, vodPause);
       }
