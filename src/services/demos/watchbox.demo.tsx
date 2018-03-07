@@ -10,7 +10,6 @@ export const Watchbox: IDemo = {
     title = title.substr(0, title.length - 5);
     const arrTitle = title.split('-');
     id = arrTitle.pop();
-    console.log("[Watchbox] id: ", id);
     return id;
     // return "63501863951";
   },
