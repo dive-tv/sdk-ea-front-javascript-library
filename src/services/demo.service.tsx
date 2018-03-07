@@ -166,7 +166,6 @@ export namespace DemoService {
     const tag: string = e.target.tagName as string;
     if (tag && tag.toLocaleLowerCase() === 'video') {
       if (e.target.classList.contains('demoVideoId')) {
-        console.log("[dive] es demoVideo");
         vodPause();
       }
     }
