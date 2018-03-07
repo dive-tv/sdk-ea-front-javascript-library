@@ -136,6 +136,7 @@ export const syncVOD = (params: ISyncVODParams) => {
       top: 'VODVIDEO',
       bottom: 'CAROUSEL',
     }) as any);
+    console.log('Is Demo');
     store.dispatch(UIActions.setDivider(60));
   }
 
