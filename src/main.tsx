@@ -137,9 +137,9 @@ export const syncVOD = (params: ISyncVODParams) => {
       bottom: 'CAROUSEL',
     }) as any);
 
-    if (isDemo !== true) {
+    /*if (isDemo !== true) {
       store.dispatch(UIActions.setDivider(60));
-    }
+    }*/
   }
 };
 
