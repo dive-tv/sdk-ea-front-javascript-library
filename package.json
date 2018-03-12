@@ -100,6 +100,7 @@
   "dependencies": {
     "@dive-tv/sdk-ea-typescript-library": "^1.1.9",
     "@types/element-resize-event": "^2.0.0",
+    "@vimeo/player": "^2.3.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.5",
