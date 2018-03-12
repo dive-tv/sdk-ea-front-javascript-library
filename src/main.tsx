@@ -12,6 +12,7 @@ import * as css from './scss/main.scss';
 import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
+import Player from '@vimeo/player';
 
 declare const KeyEvent: any;
 
@@ -262,6 +263,16 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
   }
 };
 
+export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement): any => {
+
+  const player = new Player(videoRef, {});
+  if (VOD_MODE === "ONE_SHOT") {
+    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player }) as any);
+  } else {
+    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player }) as any);
+  }
+};
+
 export const vodPause = () => {
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
   if (APIinstance.socket.authenticated) {
@@ -349,19 +360,20 @@ export const test = () => {
 export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
+  const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
 
-  initialize('#root', vodKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
+  initialize('#root', stcKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
     console.log("DO IT!!!");
 
-    channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
+    /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
       console.log("channelIsAvailable: ", val);
-    });
+    });*/
 
     vodIsAvailable('63501863951').then((val: boolean) => {
       console.log("vodIsAvailable: ", val);
     });
 
-    vodStart('63501863951', 0);
+    vodStart('15e640df-3f1b-34c2-a8b9-e982077cad9a', 0);
 
 
   });

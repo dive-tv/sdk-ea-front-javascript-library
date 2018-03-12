@@ -25,7 +25,7 @@ export interface IMiniCardMethods {
   // setSelectedOnSceneChange?: any;
 }
 
-type MiniCardProps = IMiniCardState & IMiniCardMethods & { id: string };
+export type MiniCardProps = IMiniCardState & IMiniCardMethods & { id: string };
 
 export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
 
@@ -33,7 +33,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
   private openCard: Card;
 
   private isHBBTV: boolean = false;
-  
+
 
   public render() {
     const isRelation: boolean = this.props.element.parentId != null;
@@ -139,8 +139,13 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
             <div className="title customTitle" >{title}</div>
             <div className="desc customTxt">{text}</div>
           </div>;
-          break;
+        } else {
+          const title = this.props.element.title;
+          box = <div className="text">
+            <div className="title customTitle" >{title}</div>
+          </div>;
         }
+        break;
       case 'song':
         box = <div className="text customTxt"></div>;
         break;

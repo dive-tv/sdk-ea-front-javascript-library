@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,8 @@
     "@types/redux-actions": "1.2.8",
     "@types/redux-logger": "^3.0.4",
     "@types/socket.io-client": "^1.4.30",
+    "@types/vimeo": "0.0.31",
+    "@types/vimeo__player": "^2.0.2",
     "@types/webpack": "3.0.10",
     "@types/webpack-env": "1.13.0",
     "autoprefixer": "^7.1.4",
