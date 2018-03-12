@@ -362,7 +362,7 @@ export const test2 = () => {
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
   const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
 
-  initialize('#root', stcKey, "test", 'en-UK', null, { environment: DIVE_ENVIRONMENT }).then((value) => {
+  initialize('#root', stcKey, "test", 'en-UK', null, { environment: 'PRO' }).then((value) => {
     console.log("DO IT!!!");
 
     /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -373,7 +373,7 @@ export const test2 = () => {
       console.log("vodIsAvailable: ", val);
     });
 
-    vodStart('15e640df-3f1b-34c2-a8b9-e982077cad9a', 0);
+    vodStart('3783561e-7143-3552-8b07-01f2bb54f38d', 0);
 
 
   });
