@@ -40,6 +40,8 @@ export let config: IDiveConfig = {
   environment: DIVE_ENVIRONMENT,
   test: false,
 };
+
+/*DEPRECADA */
 export const init = (params: IInitParams) => {
 
   if (params && params.platform != null) {
