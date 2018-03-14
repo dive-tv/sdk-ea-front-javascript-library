@@ -289,21 +289,28 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   let ret;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
-  const player = new Player(videoRef, {});
-  if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
-  } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
-  }
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
+  const script = document.createElement('script');
+  script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
+  script.onload = () => {
+    const player = new Player(videoRef, {});
+    if (VOD_MODE === "ONE_SHOT") {
+      ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
+    } else {
+      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
     }
-  }
-  return ret;
+    if (params && params.demo) {
+      if (videoRef != null) {
+        store.dispatch(UIActions.open({
+          top: 'VODVIDEO',
+          bottom: 'CAROUSEL',
+        }) as any);
+      }
+
+    }
+    return ret;
+  };
+  document.head.appendChild(script);
+
 };
 
 export const vodPause = () => {
