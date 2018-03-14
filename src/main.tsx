@@ -67,7 +67,7 @@ export const init = (params: IInitParams) => {
     console.error("NO KEYMAP FOUND");
   }
 
-  const APIinstance = new EaAPI(
+  APIinstance = new EaAPI(
     { env: DIVE_ENVIRONMENT, storeToken: "webstorage", apiKey: params.apiKey, deviceId: params.deviceId },
   );
 
@@ -161,7 +161,7 @@ export const initialize = (
 
   if (options != null) {
     config = { ...config, ...options };
-  }
+  } 
   console.log("[initialize] options: ", options);
   if (typeof locale !== "string") {
     locale = 'en-UK';
@@ -187,7 +187,7 @@ export const initialize = (
   }
 
   APIinstance = new EaAPI(
-    { environment: options.environment, storeToken: "webstorage", apiKey, deviceId: userId },
+    { environment: config.environment, storeToken: "webstorage", apiKey, deviceId: userId },
   );
 
   APIinstance.setLocale(locale);
@@ -275,26 +275,34 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
 
 export const vodPause = () => {
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
-  if (APIinstance.socket.authenticated) {
+  if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_pause", JSON.stringify({ timestamp: 0 }));
+  } else {
+    console.error("APIinstance is null. initialize() is needed.");
   }
 };
 
 export const vodResume = (timestamp: number) => {
-  if (APIinstance.socket.authenticated) {
+  if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_continue", JSON.stringify({ timestamp: Math.max(0, timestamp | 0) }));
+  } else {
+    console.error("APIinstance is null. initialize() is needed.");
   }
 };
 
 export const vodSeek = (timestamp: number) => {
-  if (APIinstance.socket.authenticated) {
+  if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_set", JSON.stringify({ timestamp: Math.max(0, timestamp | 0) }));
+  } else {
+    console.error("APIinstance is null. initialize() is needed.");
   }
 };
 
 export const vodEnd = () => {
-  if (APIinstance.socket.authenticated) {
+  if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_end");
+  } else {
+    console.error("APIinstance is null. initialize() is needed.");
   }
 };
 
@@ -373,7 +381,11 @@ export const test2 = () => {
       console.log("vodIsAvailable: ", val);
     });
 
-    vodStart('3783561e-7143-3552-8b07-01f2bb54f38d', 0);
+    const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
+    const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
+    const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
+    const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
+    vodStart(movieFootballMatch, 0);
 
 
   });

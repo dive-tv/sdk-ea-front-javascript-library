@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { navigable, INavigable } from 'HOC';
+import { navigable, INavigable, INavigableProps } from 'HOC';
 import { Text, Card, Helper, Localize, RelationModule, Duple, Single } from 'Services';
 import { MiniCardButton, CardAndCategory, DIVE_CONFIG } from 'Components';
 import * as classNames from 'classnames';

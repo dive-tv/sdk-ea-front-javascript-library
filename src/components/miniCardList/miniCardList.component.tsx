@@ -30,7 +30,7 @@ export interface IMiniCardListMethods {
   setNodeById?: (idx: number) => any;
 }
 
-type MiniCardListProps = IMiniCardListState & IMiniCardListMethods &
+export type MiniCardListProps = IMiniCardListState & IMiniCardListMethods &
   { uiActions: IUIActions, userActions: IUserActions };
 
 export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
@@ -146,6 +146,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         );
       }
     }
+    console.log('-----------------------------------------');
     return (
       <ul className="miniCardList" >
         {cardsToShow}
@@ -160,14 +161,20 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     const { el, count, index, parent } = params;
     const cardRender: CardRender = params.el;
 
+
     if (cardRender.type !== "moreRelations") {
       const card = cardRender as ICardRelation;
+
+      // tslint:disable-next-line:max-line-length
+      const groupId: string = card.parentId != null ? (card.parentId + '-' + card.version).toString() : '';
+      const id: string = groupId + '#' + card.card_id + '-' + card.version + this.props.sceneCount;
+      console.log("id: ", id);
       return (
         <MiniCard
           focusChainClass="childFocused"
           activeGroupClass="activeGroup"
           // tslint:disable-next-line:max-line-length
-          groupName={card.parentId != null ? (card.parentId + '' + card.version).toString() : (card.card_id + '' + card.version).toString()}
+          groupName={groupId !== '' ? groupId : (card.card_id + '-' + card.version).toString()}
           element={card}
           parent={this}
           forceFirst={true}
@@ -176,8 +183,8 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
           clickActionLike={this.clickActionLike.bind(this)(card)}
           // trackVisibility={this.trackVisibility.bind(this)(card)}
           onFocusCallback={this.onFocusCallback.bind(this)(card)}
-          key={card.card_id + '#' + card.version + this.props.sceneCount}
-          id={card.card_id + '#' + card.version}
+          key={id}
+          id={id}
           isScrollable={true}
           scrollPadding={100}
           navClass="scrollable"
