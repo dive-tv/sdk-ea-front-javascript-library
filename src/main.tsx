@@ -292,16 +292,25 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
   const script = document.createElement('script');
   script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
+
+  const movieId2 = movieId;
+  const timestamp2 = timestamp;
+  const videoRef2 = videoRef;
+  const params2 = params;
   script.onload = () => {
+    console.log('videoRef2: ', videoRef2);
+    console.log('movieId2: ', videoRef2);
+    console.log('movieId2: ', videoRef2);
+    console.log('params2: ', videoRef2);
     // const player = new Player(videoRef, {});
-    const player = new Vimeo.Player(videoRef);
+    const player = new Vimeo.Player(videoRef2);
     if (VOD_MODE === "ONE_SHOT") {
-      ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
+      ret = store.dispatch(SyncActions.staticVOD({ movieId2, timestamp2, player, videoParentRef }) as any);
     } else {
-      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
+      ret = store.dispatch(SyncActions.syncVOD({ movieId2, timestamp2, protocol: "https", player, videoParentRef }) as any);
     }
-    if (params && params.demo) {
-      if (videoRef != null) {
+    if (params2 && params2.demo) {
+      if (videoRef2 != null) {
         store.dispatch(UIActions.open({
           top: 'VODVIDEO',
           bottom: 'CAROUSEL',
