@@ -266,10 +266,11 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 
 // tslint:disable-next-line:max-line-length
 export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean }): any => {
+  let ret;
   if (VOD_MODE === "ONE_SHOT") {
-    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef }) as any);
+    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef }) as any);
   } else {
-    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef }) as any);
+    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef }) as any);
   }
 
   if (params && params.demo) {
@@ -280,17 +281,27 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
       }) as any);
     }
   }
+  return ret;
 };
 
 // tslint:disable-next-line:max-line-length
 export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean }): any => {
-
+  let ret;
   const player = new Player(videoRef, {});
   if (VOD_MODE === "ONE_SHOT") {
-    return store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player }) as any);
+    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player }) as any);
   } else {
-    return store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player }) as any);
+    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player }) as any);
   }
+  if (params && params.demo) {
+    if (videoRef != null) {
+      store.dispatch(UIActions.open({
+        top: 'VODVIDEO',
+        bottom: 'CAROUSEL',
+      }) as any);
+    }
+  }
+  return ret;
 };
 
 export const vodPause = () => {
