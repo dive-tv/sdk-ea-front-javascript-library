@@ -287,30 +287,30 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 };
 
 // tslint:disable-next-line:max-line-length
-export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+export const vodVimeoStart = (_movieId: string, _timestamp: number, _videoRef?: HTMLIFrameElement, _params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   let ret;
-  const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  const videoParentRef = _params && _params.videoParent ? _params.videoParent : null;
   const script = document.createElement('script');
   script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
 
-  const movieId2 = movieId;
-  const timestamp2 = timestamp;
-  const videoRef2 = videoRef;
-  const params2 = params;
+  const movieId = _movieId;
+  const timestamp = _timestamp;
+  const videoRef = _videoRef;
+  const params = _params;
   script.onload = () => {
-    console.log('videoRef2: ', videoRef2);
-    console.log('movieId2: ', videoRef2);
-    console.log('movieId2: ', videoRef2);
-    console.log('params2: ', videoRef2);
+    console.log('videoRef: ', videoRef);
+    console.log('timestamp: ', timestamp);
+    console.log('movieId: ', movieId);
+    console.log('params: ', videoRef);
     // const player = new Player(videoRef, {});
-    const player = new Vimeo.Player(videoRef2);
+    const player = new Vimeo.Player(videoRef);
     if (VOD_MODE === "ONE_SHOT") {
-      ret = store.dispatch(SyncActions.staticVOD({ movieId2, timestamp2, player, videoParentRef }) as any);
+      ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
     } else {
-      ret = store.dispatch(SyncActions.syncVOD({ movieId2, timestamp2, protocol: "https", player, videoParentRef }) as any);
+      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
     }
-    if (params2 && params2.demo) {
-      if (videoRef2 != null) {
+    if (params && params.demo) {
+      if (videoRef != null) {
         store.dispatch(UIActions.open({
           top: 'VODVIDEO',
           bottom: 'CAROUSEL',
