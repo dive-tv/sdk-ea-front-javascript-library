@@ -23,6 +23,7 @@ let APIinstance: EaAPI = null;
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';
+  test?: boolean;
 }
 
 export interface IInitParams {
@@ -37,6 +38,7 @@ export interface IInitParams {
 export let config: IDiveConfig = {
   platform: 'WEB',
   environment: DIVE_ENVIRONMENT,
+  test: false,
 };
 export const init = (params: IInitParams) => {
 
@@ -161,7 +163,7 @@ export const initialize = (
 
   if (options != null) {
     config = { ...config, ...options };
-  } 
+  }
   console.log("[initialize] options: ", options);
   if (typeof locale !== "string") {
     locale = 'en-UK';
@@ -215,13 +217,17 @@ export const initialize = (
         <Main showMenu={false} theme={theme} platform={config.platform} />,
         document.querySelector(selector),
       );
+      let group;
+      if (config.test !== true) {
+        group = {
+          top: "EMPTY",
+          bottom: "CAROUSEL",
+        };
+        store.dispatch(UIActions.open(group) as any);
+        store.dispatch(UIActions.setDivider(0));
+      }
 
-      const testGroup = {
-        top: "EMPTY",
-        bottom: "CAROUSEL",
-      };
-      store.dispatch(UIActions.open(testGroup) as any);
-      store.dispatch(UIActions.setDivider(0));
+
 
     })
     .catch((error: any) => {
