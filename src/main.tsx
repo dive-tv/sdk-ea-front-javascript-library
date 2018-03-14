@@ -12,9 +12,10 @@ import * as css from './scss/main.scss';
 import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
-import Player from '@vimeo/player';
+// import Player from '@vimeo/player';
 
 declare const KeyEvent: any;
+declare const Vimeo: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -292,7 +293,8 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
   const script = document.createElement('script');
   script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
   script.onload = () => {
-    const player = new Player(videoRef, {});
+    // const player = new Player(videoRef, {});
+    const player = new Vimeo.Player(videoRef);
     if (VOD_MODE === "ONE_SHOT") {
       ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
     } else {
