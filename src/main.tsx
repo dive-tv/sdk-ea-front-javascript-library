@@ -288,7 +288,7 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 
 // tslint:disable-next-line:max-line-length
 export const vodVimeoStart = (_movieId: string, _timestamp: number, _videoRef?: HTMLIFrameElement, _params?: { demo: boolean, videoParent?: HTMLElement }): any => {
-  let ret;
+  let ret: any;
   const videoParentRef = _params && _params.videoParent ? _params.videoParent : null;
   const script = document.createElement('script');
   script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
@@ -301,23 +301,34 @@ export const vodVimeoStart = (_movieId: string, _timestamp: number, _videoRef?: 
     console.log('videoRef: ', videoRef);
     console.log('timestamp: ', timestamp);
     console.log('movieId: ', movieId);
-    console.log('params: ', videoRef);
+    console.log('params: ', params);
     // const player = new Player(videoRef, {});
     const player = new Vimeo.Player(videoRef);
-    if (VOD_MODE === "ONE_SHOT") {
-      ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
-    } else {
-      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
-    }
-    if (params && params.demo) {
-      if (videoRef != null) {
-        store.dispatch(UIActions.open({
-          top: 'VODVIDEO',
-          bottom: 'CAROUSEL',
-        }) as any);
-      }
 
+    console.log('player: ', player);
+    try {
+      if (VOD_MODE === "ONE_SHOT") {
+        ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
+      } else {
+        ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
+      }
+    } catch (e) {
+      console.error('ERROR dispach syncVOD: ', e);
     }
+
+    try {
+      if (params && params.demo) {
+        if (videoRef != null) {
+          store.dispatch(UIActions.open({
+            top: 'VODVIDEO',
+            bottom: 'CAROUSEL',
+          }) as any);
+        }
+      }
+    } catch (e) {
+      console.error('Error open VODVIDEO', e);
+    }
+
     return ret;
   };
   document.head.appendChild(script);
