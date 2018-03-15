@@ -146,7 +146,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         );
       }
     }
-    console.log('-----------------------------------------');
+    // console.log('-----------------------------------------');
     return (
       <ul className="miniCardList" >
         {cardsToShow}
@@ -168,7 +168,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
       // tslint:disable-next-line:max-line-length
       const groupId: string = card.parentId != null ? (card.parentId + '-' + card.version).toString() : '';
       const id: string = groupId + '#' + card.card_id + '-' + card.version + this.props.sceneCount;
-      console.log("id: ", id);
+      // console.log("id: ", id);
       return (
         <MiniCard
           focusChainClass="childFocused"

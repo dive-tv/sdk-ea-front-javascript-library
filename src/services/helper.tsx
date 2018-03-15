@@ -17,7 +17,7 @@ export interface ApiRelationModule extends RelationModule {
 
 // tslint:disable-next-line:no-internal-module
 // tslint:disable-next-line:no-namespace
-class HelperClass {
+export class HelperClass {
   public getContainer = (card: Card, type: CardContainerTypeEnum): CardContainer | undefined => {
     return card.info
       ? card

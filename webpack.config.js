@@ -26,7 +26,7 @@ module.exports = function (publicPath) {
   console.log("WP IS PRODUCTION? ", isProduction);
   console.log("package.version", package.version);
   console.log("version: ", version);
-  console.log("file url: ", 'DiveSDK.front-' + version + '.js')
+  console.log("file url: ", 'DiveSDK.front-' + version + '.js');
   // throw('ERRO CACA');
 
   const frontEntry = isProduction ?
@@ -36,10 +36,13 @@ module.exports = function (publicPath) {
       'react-redux',
       'react-router',
       'redux',
-      path.resolve(__dirname, 'src', 'main.tsx')] :
+      // path.resolve(__dirname, 'src', 'services', 'vimeo-player.js'),
+      path.resolve(__dirname, 'src', 'main.tsx'),
+    ] :
     [
       'eventsource-polyfill', // Necessary for hot reloading with IE
       `webpack-hot-middleware/client?reload=true&path=${publicPath}__webpack_hmr`,
+      // path.resolve(__dirname, 'src', 'services', 'vimeo-player.js'),
       path.resolve(__dirname, 'src', 'main.tsx')
     ];
 
@@ -152,6 +155,7 @@ module.exports = function (publicPath) {
         HOC: path.resolve(__dirname, 'src', 'HOC', 'index'),
         CardModules: path.resolve(__dirname, 'src', 'components', 'cardDetailComponents', 'cardModules', 'index'),
         Theme: path.resolve(__dirname, 'src', 'scss', 'theme', 'index'),
+        Vimeo: path.resolve(__dirname, 'src', 'services', 'vimeo-player'),
       },
       extensions: ['.js', '.ts', '.tsx'],
       // Fix webpack's default behavior to not load packages with jsnext:main module

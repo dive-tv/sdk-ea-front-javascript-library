@@ -12,15 +12,21 @@ import * as css from './scss/main.scss';
 import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
+import * as Vimeo from 'Vimeo';
+// import * as Vimeo from './services/vimeo-player';
+
+// import Vimeo = require('./services/vimeo-player');
 // import Player from '@vimeo/player';
+// const Vimeo: any = require('Vimeo');
 
 declare const KeyEvent: any;
-declare const Vimeo: any;
+// declare const Vimeo: any;
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 let APIinstance: EaAPI = null;
 
+export const getVimeo = () => Vimeo;
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';
@@ -41,6 +47,7 @@ export let config: IDiveConfig = {
   environment: DIVE_ENVIRONMENT,
   test: false,
 };
+
 
 /*DEPRECADA */
 export const init = (params: IInitParams) => {
@@ -287,52 +294,37 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 };
 
 // tslint:disable-next-line:max-line-length
-export const vodVimeoStart = (_movieId: string, _timestamp: number, _videoRef?: HTMLIFrameElement, _params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   let ret: any;
-  const videoParentRef = _params && _params.videoParent ? _params.videoParent : null;
-  const script = document.createElement('script');
-  script.src = 'https://player.vimeo.com/api/player.js?retert=34535';
+  const videoParentRef = params && params.videoParent ? params.videoParent : null;
 
-  const movieId = _movieId;
-  const timestamp = _timestamp;
-  const videoRef = _videoRef;
-  const params = _params;
-  script.onload = () => {
-    console.log('videoRef: ', videoRef);
-    console.log('timestamp: ', timestamp);
-    console.log('movieId: ', movieId);
-    console.log('params: ', params);
-    // const player = new Player(videoRef, {});
-    const player = new Vimeo.Player(videoRef);
+  // const player = new Player(videoRef, {});
+  let player;
+  if (Vimeo.Player != null) {
+    console.log('Vimeo', Vimeo);
+    player = new Vimeo.Player(videoRef);
+    console.log('player', Vimeo);
+  }
 
-    console.log('player: ', player);
-    try {
-      if (VOD_MODE === "ONE_SHOT") {
-        ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
-      } else {
-        ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
-      }
-    } catch (e) {
-      console.error('ERROR dispach syncVOD: ', e);
+
+  console.log('player: ', player);
+
+  if (VOD_MODE === "ONE_SHOT") {
+    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
+  } else {
+    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
+  }
+
+  if (params && params.demo) {
+    if (videoRef != null) {
+      store.dispatch(UIActions.open({
+        top: 'VODVIDEO',
+        bottom: 'CAROUSEL',
+      }) as any);
     }
+  }
 
-    try {
-      if (params && params.demo) {
-        if (videoRef != null) {
-          store.dispatch(UIActions.open({
-            top: 'VODVIDEO',
-            bottom: 'CAROUSEL',
-          }) as any);
-        }
-      }
-    } catch (e) {
-      console.error('Error open VODVIDEO', e);
-    }
-
-    return ret;
-  };
-  document.head.appendChild(script);
-
+  return ret;
 };
 
 export const vodPause = () => {
