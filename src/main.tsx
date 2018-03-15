@@ -299,14 +299,7 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
 
   // const player = new Player(videoRef, {});
-  let player;
-  if (Vimeo.Player != null) {
-    console.log('Vimeo', Vimeo);
-    player = new Vimeo.Player(videoRef);
-    console.log('player', Vimeo);
-  }
-
-
+  const player = new Vimeo(videoRef);
   console.log('player: ', player);
 
   if (VOD_MODE === "ONE_SHOT") {
