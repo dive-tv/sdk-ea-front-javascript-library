@@ -147,7 +147,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handleSuspend(); });
           this.videoRefs.el.addEventListener("end", () => { /*console.log("video!!! eeeeend");*/ this.getVideoStatus(); this.handleEnd(); });
           this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
-        } else if ((this.videoRefs.el as any).getCurentTime) {
+        } else if ((this.videoRefs.el as any).getCurrentTime != null) {
           //Vimeo
           console.log('[VODVideo] is vimeo player');
           const vimeoPlayer: any = (this.videoRefs.el as any);
@@ -155,7 +155,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           vimeoPlayer.on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
           vimeoPlayer.on("end", () => { /*console.log("video!!! eeeeend");*/ this.handleEnd(); });
           vimeoPlayer.on("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
-          vimeoPlayer.on("seeked", (e: any) => { console.log("[VODVideo][Vimeo][Seeked]"); this.handleSeek(); });
+          // vimeoPlayer.on("seeked", (e: any) => { console.log("[VODVideo][Vimeo][Seeked]"); this.handleSeek(); });
         }
         else {
           this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
