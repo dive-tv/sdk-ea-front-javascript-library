@@ -299,13 +299,16 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
 
   // const player = new Player(videoRef, {});
+  // const video = document.querySelector('iframe');
   const player = new Vimeo(videoRef);
-  console.log('player: ', player);
+  /*console.log('player: ', player);
+  console.log('videoRef: ', videoRef);
+  console.log('video: ', video);*/
 
   if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, player, videoParentRef }) as any);
+    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef: player, videoParentRef }) as any);
   } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", player, videoParentRef }) as any);
+    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef: player, videoParentRef }) as any);
   }
 
   if (params && params.demo) {
