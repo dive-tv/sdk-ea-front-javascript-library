@@ -155,7 +155,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           vimeoPlayer.on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
           vimeoPlayer.on("end", () => { /*console.log("video!!! eeeeend");*/ this.handleEnd(); });
           vimeoPlayer.on("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
-          // vimeoPlayer.on("seeked", (e: any) => { console.log("[VODVideo][Vimeo][Seeked]"); this.handleSeek(); });
+          vimeoPlayer.on("seeked", (e: any) => { console.log("[VODVideo][Vimeo][Seeked]"); this.handleSeek(); });
         }
         else {
           this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
