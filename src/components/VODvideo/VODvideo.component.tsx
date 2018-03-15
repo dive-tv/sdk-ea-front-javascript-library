@@ -148,10 +148,12 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           this.videoRefs.el.addEventListener("end", () => { /*console.log("video!!! eeeeend");*/ this.getVideoStatus(); this.handleEnd(); });
           this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
         } else if ((this.videoRefs.el as any).getCurentTime) {
+          //Vimeo
           (this.videoRefs.el as any).on("play", () => { /*console.log("video!!! playing");*/ this.handlePlay(); });
           (this.videoRefs.el as any).on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
           (this.videoRefs.el as any).on("end", () => { /*console.log("video!!! eeeeend");*/ this.handleEnd(); });
           (this.videoRefs.el as any).on("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
+          (this.videoRefs.el as any).on("seeked", () => { /*console.log("video!!! timeupdate");*/ this.handleSeek; });
         }
         else {
           this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
@@ -251,6 +253,8 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           threshold = parseFloat(threshold.toFixed(2));
           // console.log("TIMEDIFFF", timeDiff);
           // //this.props.syncActions.setTime(this.videoRefs.time);
+
+          console.log('timeDiff - threshold', timeDiff, threshold);
           if (this.lastVODHbbtvData) {
             // PAUSE / PLAY (HBBTV)
             if (previousVODHbbtvData.timeScale && previousVODHbbtvData.timeScale !== this.lastVODHbbtvData.timeScale) {
@@ -305,13 +309,13 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     if (this.videoRefs) {
       if (DiveAPI.socket.authenticated) {
         DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(0, this.videoRefs.time + delay) }));
-        
+
       }
       //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }
   }
 
-  private handleSuspend(){
+  private handleSuspend() {
     console.log("suspend!");
   }
 
