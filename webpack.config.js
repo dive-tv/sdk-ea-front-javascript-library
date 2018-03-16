@@ -156,6 +156,7 @@ module.exports = function (publicPath) {
         CardModules: path.resolve(__dirname, 'src', 'components', 'cardDetailComponents', 'cardModules', 'index'),
         Theme: path.resolve(__dirname, 'src', 'scss', 'theme', 'index'),
         Vimeo: path.resolve(__dirname, 'src', 'services', 'vimeo-player'),
+        Youtube: path.resolve(__dirname, 'src', 'services', 'youtube-player'),
       },
       extensions: ['.js', '.ts', '.tsx'],
       // Fix webpack's default behavior to not load packages with jsnext:main module

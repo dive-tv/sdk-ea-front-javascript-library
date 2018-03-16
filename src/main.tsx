@@ -13,6 +13,7 @@ import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 import * as Vimeo from 'Vimeo';
+import * as Youtube from 'Youtube';
 // import * as Vimeo from './services/vimeo-player';
 
 // import Vimeo = require('./services/vimeo-player');
@@ -440,6 +441,47 @@ export const test2 = () => {
 
   });
 };
+
+export const testYoutube = () => {
+  const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
+  const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
+  const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
+
+  initialize('#root', stcKey, "test", 'en-UK', null, { environment: 'PRO' }).then((value) => {
+    console.log("DO IT!!!");
+
+    /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
+      console.log("channelIsAvailable: ", val);
+    });*/
+
+    vodIsAvailable('63501863951').then((val: boolean) => {
+      console.log("vodIsAvailable: ", val);
+    });
+
+    const ytPlayer: HTMLDivElement = document.querySelector('#ytPlayer');
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    
+    const player = new Youtube.YT.Player('ytPlayer', {
+      height: '360',
+      width: '640',
+      videoId: 'M7lc1UVf-VE',
+      events: {
+        onReady: (e: any) => { console.log('onReady', e); },
+        onStateChange: (e: any) => { console.log('onStateChange', e); },
+      },
+    });
+
+    const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
+    const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
+    const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
+    const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
+    vodStart(movieFootballMatch, 0);
+
+
+  });
+};
+
 
 
 
