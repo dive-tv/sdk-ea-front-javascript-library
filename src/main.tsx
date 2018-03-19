@@ -297,16 +297,11 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 
 // tslint:disable-next-line:max-line-length
 export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
-  let ret: any;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
-
-  // const player = new Player(videoRef, {});
-  // const video = document.querySelector('iframe');
   const player = new Vimeo(videoRef);
-  /*console.log('player: ', player);
-  console.log('videoRef: ', videoRef);
-  console.log('video: ', video);*/
 
+  return vodStart(movieId, timestamp, player, params);
+  /*
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef: player, videoParentRef }) as any);
   } else {
@@ -322,10 +317,8 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
     }
   }
 
-  return ret;
+  return ret;*/
 };
-
-
 
 export const vodPause = () => {
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);

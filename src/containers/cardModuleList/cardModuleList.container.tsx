@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from "Services";
 import { cardModuleConfig, cardModuleClasses, isValidatable } from "CardModules";
-import { navigable } from "HOC";
+import { navigable, INavigableProps } from "HOC";
 import { NavigationContainer, Loading, NavigableBanner } from "Components";
 import { ICardWithBanner } from 'Actions';
 

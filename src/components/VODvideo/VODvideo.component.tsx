@@ -45,6 +45,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   private videoContainer: HTMLElement;
   private videoInterval: number;
   private mode: "HBBTV" | "HTML5" = "HTML5";
+  private type: 'VIDEO' | 'VIMEO' | 'YOUTUBE';
   private lastVODHbbtvData = {
     time: 0,
     playState: 0,
@@ -141,6 +142,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       if (this.videoRefs = this.getVideo()) {
         // console.log("TVS found VR");
         if (this.videoRefs.el.currentTime !== undefined) {
+          this.type = 'VIDEO';
           this.videoRefs.el.addEventListener("playing", () => { /*console.log("video!!! playing");*/ /*this.getVideoStatus();*/ this.handlePlay(); });
           this.videoRefs.el.addEventListener("pause", () => { /*console.log("video!!! pause");*/ /*this.getVideoStatus();*/ this.handlePause(); });
           // this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handlePause(); });
@@ -149,7 +151,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
         } else if ((this.videoRefs.el as any).getCurrentTime != null) {
           //Vimeo
-          console.log('[VODVideo] is vimeo player');
+          this.type = 'VIMEO';
           const vimeoPlayer: any = (this.videoRefs.el as any);
           vimeoPlayer.on("play", () => { /*console.log("video!!! playing");*/ this.handlePlay(); });
           vimeoPlayer.on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
