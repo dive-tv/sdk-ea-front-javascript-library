@@ -13,7 +13,7 @@ import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 import * as Vimeo from 'Vimeo';
-import * as Youtube from 'Youtube';
+import * as YT from 'YT';
 // import * as Vimeo from './services/vimeo-player';
 
 // import Vimeo = require('./services/vimeo-player');
@@ -28,6 +28,7 @@ const history = createBrowserHistory();
 let APIinstance: EaAPI = null;
 
 export const getVimeo = () => Vimeo;
+export const getYoutube = () => YT;
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';
@@ -324,6 +325,8 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
   return ret;
 };
 
+
+
 export const vodPause = () => {
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
   if (APIinstance && APIinstance.socket.authenticated) {
@@ -459,16 +462,17 @@ export const testYoutube = () => {
     });
 
     const ytPlayer: HTMLDivElement = document.querySelector('#ytPlayer');
+    const YTClass: any = (window as any).YT;
+    console.log('YTClass: ', YTClass);
     // 3. This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
-    
-    const player = new Youtube.YT.Player('ytPlayer', {
+    const player = new YTClass.Player('ytPlayer', {
       height: '360',
       width: '640',
       videoId: 'M7lc1UVf-VE',
       events: {
         onReady: (e: any) => { console.log('onReady', e); },
-        onStateChange: (e: any) => { console.log('onStateChange', e); },
+        onStateChange: (e: any) => { console.log('onStateChange', e, player.getCurrentTime()); },
       },
     });
 
@@ -477,12 +481,8 @@ export const testYoutube = () => {
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
     vodStart(movieFootballMatch, 0);
-
-
   });
 };
-
-
 
 
 

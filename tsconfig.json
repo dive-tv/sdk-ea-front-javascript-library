@@ -62,7 +62,7 @@
       "Vimeo": [
         "./src/services/vimeo-player"
       ],
-      "Youtube": [
+      "YT": [
         "./src/services/youtube-player"
       ]
     }
