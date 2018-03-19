@@ -189,6 +189,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
           containerHeight={this.props.ui.divider}
           videoRef={this.props.sync.videoRef}
           parentRef={this.props.sync.parentVideoRef}
+          videoType={this.props.sync.videoType}
         />;
       default:
         return null; // <HbbtvLiveStream key="liveStream" />;

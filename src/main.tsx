@@ -13,6 +13,7 @@ import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 import * as Vimeo from 'Vimeo';
+import { VideoType } from 'Reducers';
 import * as YT from 'YT';
 // import * as Vimeo from './services/vimeo-player';
 
@@ -22,6 +23,8 @@ import * as YT from 'YT';
 
 declare const KeyEvent: any;
 // declare const Vimeo: any;
+
+let videoType: VideoType = "VIDEO";
 
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
@@ -146,7 +149,6 @@ export const syncVOD = (params: ISyncVODParams) => {
   } else {
     store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
-
   if (videoRef != null) {
     store.dispatch(UIActions.open({
       top: 'VODVIDEO',
@@ -275,13 +277,17 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 };
 
 // tslint:disable-next-line:max-line-length
-export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement | any, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   let ret;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  console.log('VOD_MODE', VOD_MODE);
   if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef }) as any);
+    ret = store.dispatch(
+      SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType }) as any);
   } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef }) as any);
+    console.log('syncVOD');
+    ret = store.dispatch(
+      SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
   }
 
   if (params && params.demo) {
@@ -299,25 +305,15 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
   const player = new Vimeo(videoRef);
-
+  videoType = "VIMEO";
   return vodStart(movieId, timestamp, player, params);
-  /*
-  if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef: player, videoParentRef }) as any);
-  } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef: player, videoParentRef }) as any);
-  }
+};
 
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-    }
-  }
-
-  return ret;*/
+// tslint:disable-next-line:max-line-length
+export const vodYoutubeStart = (movieId: string, timestamp: number, player: any, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+  const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  videoType = "YOUTUBE";
+  return vodStart(movieId, timestamp, player, params);
 };
 
 export const vodPause = () => {
@@ -463,17 +459,20 @@ export const testYoutube = () => {
       height: '360',
       width: '640',
       videoId: 'M7lc1UVf-VE',
+      /*
       events: {
         onReady: (e: any) => { console.log('onReady', e); },
         onStateChange: (e: any) => { console.log('onStateChange', e, player.getCurrentTime()); },
-      },
-    });
+      },*/
 
+    });
+    (window as any).player = player;
+    console.log('Player', player);
     const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
     const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
-    vodStart(movieFootballMatch, 0);
+    vodYoutubeStart(movieNewYear, 0, player, {demo: true});
   });
 };
 

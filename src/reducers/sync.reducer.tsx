@@ -4,10 +4,12 @@ import { Card } from 'Services';
 import { FilterTypeEnum } from 'Constants';
 
 export type ChannelStatus = "off" | "playing" | "paused" | "end" | "ready";
+export type VideoType = "VIDEO" | "VIMEO" | "YOUTUBE";
 export type CardRender = ICardRelation | ICardAndRelations;
 
 export interface ISyncState {
   type?: "SOCKET" | "YOUTUBE";
+  videoType: VideoType;
   socketStatus: string;
   // chunkStatus: ServiceStatus;
   movieId?: string;
@@ -73,9 +75,9 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
       };
     case 'SYNC/START_SCENE':
       if (action.payload instanceof Array) {
-        return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount+1 };
+        return { ...state, cards: action.payload, selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount + 1 };
       } else {
-        return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount+1 };
+        return { ...state, cards: [], selectedOnSceneChange: true, channelStatus: "playing", sceneCount: state.sceneCount + 1 };
       }
     case 'SYNC/UPDATE_SCENE':
       if (action.payload instanceof Array && action.payload.length) {
@@ -111,7 +113,12 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
       return { ...state, filter: action.payload };
 
     case 'SYNC/SET_VIDEOREFS':
-      return { ...state, videoRef: action.payload.videoRef, parentVideoRef: action.payload.videoParentRef };
+      return {
+        ...state,
+        videoRef: action.payload.videoRef,
+        parentVideoRef: action.payload.videoParentRef,
+        videoType: action.payload.videoType,
+      };
 
     default:
       return state;
@@ -125,6 +132,7 @@ const calcTime = (state: ISyncState, time: number) => {
 };
 
 export const initialSyncState: ISyncState = {
+  videoType: "VIDEO",
   selectedOnSceneChange: true,
   socketStatus: 'INIT',
   movieId: "",

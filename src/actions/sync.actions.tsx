@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { MapDispatchToPropsObject, ActionCreator } from 'react-redux';
-import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender, IBanner } from 'Reducers';
+import { SyncActionTypes, ISyncAction, ICardRelation, ICardAndRelations, CardRender, IBanner, VideoType } from 'Reducers';
 import { createAction } from 'redux-actions';
 // import { DiveAPI, InlineResponse200, TvEventResponse, Chunk } from 'Services';
 import { Card, EaAPI, Helper, Single, Duple, ApiRelationModule } from 'Services';
@@ -38,13 +38,13 @@ export const syncCreateAction = (type: SyncActionTypes, payload?: any): ReduxAct
 export const SyncActions: ISyncActions = {
   openCard: syncCreateAction("SYNC/OPEN_CARD", (card: Card) => (card)),
   setMovie: syncCreateAction("SYNC/SET_MOVIE", (movieId: string) => (movieId)),
-  //socketConnected: syncCreateAction("SOCKET/AUTHENTICATED", (movieId: string) => (movieId)),
+  // socketConnected: syncCreateAction("SOCKET/AUTHENTICATED", (movieId: string) => (movieId)),
   setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),
   setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE" | "STATIC_VOD") => (syncType)),
   setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
-  staticVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement }) => (dispatch: any) => {
+  staticVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement | any, videoParentRef?: HTMLElement, videoType: VideoType }) => (dispatch: any) => {
     dispatch(SyncActions.setSyncType("STATIC_VOD"));
-    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef }));
+    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType }));
     dispatch(SyncActions.setMovie(params.movieId));
     DiveAPI.getStaticMovieScene({ relations: true, clientMovieId: params.movieId, timestamp: params.timestamp })
       .then((cards: Card[]) => {
@@ -55,11 +55,11 @@ export const SyncActions: ISyncActions = {
     DiveAPI.socket.close();
     dispatch(UIActions.goBack());
   },
-  syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement }) => (dispatch: any) => {
+  syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType }) => (dispatch: any) => {
     // dispatch(SyncActions.setMovie(params.movieId));
 
     dispatch(SyncActions.setSyncType("SOCKET"));
-    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef }));
+    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType }));
     let indexedBanners = {};
     DiveAPI.syncWithMovieVOD({
       movieId: params.movieId,
@@ -149,7 +149,9 @@ export const SyncActions: ISyncActions = {
   setTime: syncCreateAction("SYNC/SET_TIME", (time: number) => (time)),
   closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG"),
   changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterTypeEnum) => filter),
-  setVideoRefs: syncCreateAction("SYNC/SET_VIDEOREFS", (params: { videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement }) => params),
+  setVideoRefs: syncCreateAction("SYNC/SET_VIDEOREFS", (params: {
+    videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType,
+  }) => params),
 };
 
 const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICardRelation | ICardAndRelations> => {
