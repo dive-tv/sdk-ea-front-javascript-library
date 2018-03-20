@@ -455,24 +455,14 @@ export const testYoutube = () => {
     console.log('YTClass: ', YTClass);
     // 3. This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
-    const player = new YTClass.Player('ytPlayer', {
-      height: '360',
-      width: '640',
-      videoId: 'M7lc1UVf-VE',
-      /*
-      events: {
-        onReady: (e: any) => { console.log('onReady', e); },
-        onStateChange: (e: any) => { console.log('onStateChange', e, player.getCurrentTime()); },
-      },*/
-
-    });
+    const player = new YTClass.Player('ytPlayer', { height: '360', width: '640', videoId: 'M7lc1UVf-VE' });
     (window as any).player = player;
     console.log('Player', player);
     const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
     const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
-    vodYoutubeStart(movieNewYear, 0, player, {demo: true});
+    vodYoutubeStart(movieNewYear, 0, player, { demo: true });
   });
 };
 
