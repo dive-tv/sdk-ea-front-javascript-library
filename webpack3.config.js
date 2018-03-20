@@ -13,7 +13,7 @@ process.env.NODE_ENV = process.env.NODE_ENV == 'cdn' ? "production" : process.en
 
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
@@ -98,7 +98,7 @@ module.exports = function (publicPath) {
   );
   const sourceMapPath = "file:///";
   if (process.env.NODE_ENV === "production") {
-    /*plugins.push(
+    plugins.push(
       new UglifyJSPlugin({
         sourceMap: {
           base: "file:///",
@@ -121,7 +121,7 @@ module.exports = function (publicPath) {
           drop_console: false,//true
         },
       })
-    );*/
+    );
   }
 
   // uploadToCDN = false;
@@ -163,7 +163,7 @@ module.exports = function (publicPath) {
       mainFields: ['main']
     },
     module: {
-      rules: [
+      loaders: [
         // .ts, .tsx
         {
           test: /\.(ts|tsx)?$/,
@@ -236,14 +236,13 @@ module.exports = function (publicPath) {
               },
             },
           ],
-        }
-        /*,
+        },
         {
           test: /\.json$/,
           use: 'json-loader',
           exclude: [/node_modules/],
 
-        }*/
+        }
       ],
     },
     plugins: plugins,

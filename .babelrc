@@ -6,6 +6,6 @@
     ]
   ],
   "sourceMaps": true,
-  "plugins": ["transform-runtime"]
-  // magic: true
+  "plugins": ["transform-runtime"],
+  "magic": true
 }
