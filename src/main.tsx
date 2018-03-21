@@ -13,6 +13,8 @@ import { UIActions, SyncActions, SocketActions } from 'Actions';
 import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 import * as Vimeo from 'Vimeo';
+import { VideoType } from 'Reducers';
+import * as YT from 'YT';
 // import * as Vimeo from './services/vimeo-player';
 
 // import Vimeo = require('./services/vimeo-player');
@@ -22,11 +24,14 @@ import * as Vimeo from 'Vimeo';
 declare const KeyEvent: any;
 // declare const Vimeo: any;
 
+let videoType: VideoType = "VIDEO";
+
 const history = createBrowserHistory();
 // let DiveAPI: diveApi.DiveAPI;
 let APIinstance: EaAPI = null;
 
 export const getVimeo = () => Vimeo;
+export const getYoutube = () => YT;
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';
@@ -47,7 +52,6 @@ export let config: IDiveConfig = {
   environment: DIVE_ENVIRONMENT,
   test: false,
 };
-
 
 /*DEPRECADA */
 export const init = (params: IInitParams) => {
@@ -121,10 +125,7 @@ export const init = (params: IInitParams) => {
   // });
 };
 
-
-
 export const demoVOD = () => DemoService.demoVOD(init, syncVOD, vodResume, vodPause);
-
 
 export interface ISyncVODParams {
   movieId: string;
@@ -137,14 +138,14 @@ export interface ISyncVODParams {
 
 /*DEPRECADA*/
 export const syncVOD = (params: ISyncVODParams) => {
-  let { movieId, timestamp, videoRef, videoParent, isDemo } = params;
+  const { movieId, videoRef, videoParent, isDemo } = params;
+  let { timestamp } = params;
   timestamp = timestamp || 1;
   if (VOD_MODE === "ONE_SHOT") {
     store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef: videoParent }) as any);
   } else {
     store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef: videoParent }) as any);
   }
-
   if (videoRef != null) {
     store.dispatch(UIActions.open({
       top: 'VODVIDEO',
@@ -157,8 +158,7 @@ export const syncVOD = (params: ISyncVODParams) => {
   }
 };
 
-
-//LLAMADAS FINALES DEL API SDK
+// LLAMADAS FINALES DEL API SDK
 
 export const initialize = (
   selector: string,
@@ -237,19 +237,11 @@ export const initialize = (
         store.dispatch(UIActions.open(group) as any);
         store.dispatch(UIActions.setDivider(0));
       }
-
-
-
     })
     .catch((error: any) => {
       console.error("ERROR LOADING", error);
     });
-
-
-
-
 };
-
 
 export const vodIsAvailable = (movieId: string): Promise<boolean> => {
   if (APIinstance == null) {
@@ -261,7 +253,7 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
       .then((response: MovieStatus[]) => {
         // TODO
         if (response !== undefined && response.length >= 1) {
-          console.log("RESPONDE VOD AVAILABLE: ", response)
+          console.log("RESPONDE VOD AVAILABLE: ", response);
           resolve(response[0].ready);
         }
 
@@ -273,14 +265,18 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 };
 
 // tslint:disable-next-line:max-line-length
-export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement | any, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI?: any }): any => {
   let ret;
   console.log('[vodStart] 1');
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  // console.log('VOD_MODE', VOD_MODE);
   if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef }) as any);
+    ret = store.dispatch(
+      SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef }) as any);
+    console.log('syncVOD');
+    ret = store.dispatch(
+      SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   }
 
   // if (params && params.demo) {
@@ -296,32 +292,17 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
 
 // tslint:disable-next-line:max-line-length
 export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
-  let ret: any;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
-
-  // const player = new Player(videoRef, {});
-  // const video = document.querySelector('iframe');
   const player = new Vimeo(videoRef);
-  /*console.log('player: ', player);
-  console.log('videoRef: ', videoRef);
-  console.log('video: ', video);*/
+  videoType = "VIMEO";
+  return vodStart(movieId, timestamp, player, params);
+};
 
-  if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef: player, videoParentRef }) as any);
-  } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef: player, videoParentRef }) as any);
-  }
-
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-    }
-  }
-
-  return ret;
+// tslint:disable-next-line:max-line-length
+export const vodYoutubeStart = (movieId: string, timestamp: number, player: any, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+  const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  videoType = "YOUTUBE";
+  return vodStart(movieId, timestamp, player.a, { ...params, playerAPI: player });
 };
 
 export const vodPause = () => {
@@ -393,9 +374,7 @@ export const hide = () => {
   }) as any);
 };
 
-
-//TESTS
-
+// TESTS
 export const test = () => {
   // tslint:disable-next-line:max-line-length
   init({
@@ -437,13 +416,30 @@ export const test2 = () => {
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
     vodStart(movieFootballMatch, 0);
-
-
   });
 };
 
+export const testYoutube = () => {
+  const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
+  const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
+  const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
 
+  initialize('#root', stcKey, "test", 'en-UK', null, { environment: 'PRO' }).then((value) => {
+    vodIsAvailable('63501863951').then((val: boolean) => {
+      console.log("vodIsAvailable: ", val);
+    });
 
+    const ytPlayerRef: HTMLDivElement = document.querySelector('#ytPlayer');
+    const YTClass: any = (window as any).YT;
+    const player = new YTClass.Player('ytPlayer', { height: '360', width: '640', videoId: 'M7lc1UVf-VE' });
+    (window as any).player = player;
+    const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
+    const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
+    const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
+    const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
+    vodYoutubeStart(movieNewYear, 0, player, { demo: true, videoParent: player.a.parentElement });
+  });
+};
 
 // index.html hot reload trick
 /* DISABLED FOR WINDOWS 

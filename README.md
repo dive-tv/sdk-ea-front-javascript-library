@@ -103,6 +103,62 @@ or
 DiveSDK.vodStart(clientMovieId, timestamp, videoRef);
 ````
 
+### Movie Start (Vimeo)
+````javascript
+vodVimeoStart(movieId, timestamp, videoRef)
+````
+Initializes the synchronization and Carousel with a VOD content for Vimeo video embedded
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*movieId* | *String* | *requested movie identifier* 
+*timestamp* | *Integer* | *Current time in seconds of the media content*
+*videoRef* | *HTMLVideoElement* | *HTML Video element to link the videoevents.*
+
+#### Return:
+Type | Description 
+------------ | -------------
+Null | --------------
+
+#### Example:
+````javascript
+var clientMovieId = "clientMovieId_example"; // String | client movie ID
+var timestamp = 0; //Integer | timestamp in seconds
+var videoRef = document.getElementById('video');
+
+DiveSDK.vodVimeoStart(clientMovieId, timestamp, videoRef);
+````
+
+### Movie Start (Youtube)
+````javascript
+vodYoutubeStart(movieId, timestamp, player)
+````
+Initializes the synchronization and Carousel with a VOD content for Youtube video embedded
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*movieId* | *String* | *requested movie identifier* 
+*timestamp* | *Integer* | *Current time in seconds of the media content*
+*player* | *Youtube API Video Instance* | *Current Youtube Iframe API Instance*
+
+#### Return:
+Type | Description 
+------------ | -------------
+Null | --------------
+
+#### Example:
+````javascript
+var clientMovieId = "clientMovieId_example"; // String | client movie ID
+var timestamp = 0; //Integer | timestamp in seconds
+var player = new YT.Player('ytPlayer', { height: '360', width: '640', videoId: 'M7lc1UVf-VE' });
+
+DiveSDK.vodYoutubeStart(clientMovieId, timestamp, player);
+````
+
 ### Pause
 ````javascript
 vodPause()
