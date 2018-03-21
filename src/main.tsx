@@ -275,6 +275,7 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 // tslint:disable-next-line:max-line-length
 export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
   let ret;
+  console.log('[vodStart] 1');
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef }) as any);
@@ -282,14 +283,14 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
     ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef }) as any);
   }
 
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-    }
+  // if (params && params.demo) {
+  if (videoRef != null) {
+    store.dispatch(UIActions.open({
+      top: 'VODVIDEO',
+      bottom: 'CAROUSEL',
+    }) as any);
   }
+  //  }
   return ret;
 };
 
