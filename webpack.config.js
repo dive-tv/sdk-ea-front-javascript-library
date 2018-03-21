@@ -14,8 +14,8 @@ process.env.NODE_ENV = process.env.NODE_ENV == 'cdn' ? "production" : process.en
 // plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractSASS = new ExtractTextPlugin('[name].css');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const extractSASS = new ExtractTextPlugin('[name].css');
 const autoPrefixer = require('autoprefixer');
 const RemoteDebuggerPlugin = require('remote-debugger-webpack').default;
 
@@ -165,11 +165,22 @@ module.exports = function (publicPath) {
     module: {
       rules: [
         // .ts, .tsx
-        {
+        /*{
           test: /\.(ts|tsx)?$/,
           exclude: /node_modules/,
-          use: ['cache-loader', 'babel-loader', 'awesome-typescript-loader?configFileName=tsconfig.json'],
+          use: ['cache-loader', 'babel-loader', 'ts-loader'],
+        },*/
+        {
+          test: /\.(ts|tsx)$/,
+          enforce: 'pre',
+          loader: 'tslint-loader',
+          options: { /* Loader options go here */ }
         },
+        { test: /\.(ts|tsx)$/, loader: "cache-loader" },
+        { test: /\.(ts|tsx)$/, loader: "babel-loader" },
+        { test: /\.(ts|tsx)$/, loader: "ts-loader" },
+        // { test: /\.(ts|tsx)$/, loader: "awesome-typescript-loader?configFileName=tsconfig.json" },
+        
         // css
         {
           test: /\.css$/,

@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": true,
-    "declarationDir": "./dist/",
+    /*"declaration": true,
+    "declarationDir": "./dist/",*/
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "removeComments": true,

@@ -5,9 +5,9 @@ import * as ES from '../assets/ES/localized_texts.json';
 import * as EN from '../assets/EN/localized_texts.json';
 import * as DE from '../assets/DE/localized_texts.json';
 
-type AvailableLanguages = "ES" | "EN" | "DE";
+export type AvailableLanguages = "ES" | "EN" | "DE";
 
-class LocalizeService {
+export class LocalizeService {
     private language: AvailableLanguages = "EN";
     private texts: { [key: string]: any } = {
         EN,

@@ -1,31 +1,31 @@
-//DIVE TEAM: DON'T FORGET TO EDIT tsconfig.json too
-//The only difference is "./src/**/*.spec.tsx", in exclude
+// DIVE TEAM: DON'T FORGET TO EDIT tsconfig.json too
+// The only difference is "./src/**/*.spec.tsx", in exclude
 {
   "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "strictNullChecks": true,
-      "baseUrl": ".",
-      "rootDir": "./src/",
-      "noImplicitAny": true,
-      "sourceMap": true,
-      "outDir": "./dist/",
-      "declaration": true,
-      "declarationDir": "./dist/",
-      "lib": [
-          "dom",
-          "es2015.promise",
-          "es5",
-          "es6"
-      ]
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "rootDir": "./src/",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "outDir": "./dist/",
+    /*"declaration": true,
+      "declarationDir": "./dist/",*/
+    "lib": [
+      "dom",
+      "es2015.promise",
+      "es5",
+      "es6"
+    ]
   },
   "include": [
-      "./src/**/*"
+    "./src/**/*"
   ],
   "exclude": [
-      "node_modules",
-      "./src/**/*.spec.tsx",
-      "dist"
+    "node_modules",
+    "./src/**/*.spec.tsx",
+    "dist"
   ]
 }

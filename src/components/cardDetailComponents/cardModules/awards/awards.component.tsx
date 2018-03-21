@@ -10,7 +10,7 @@ import { navigable, statics } from "HOC";
 
 declare const Localize: any;
 
-interface IAwardsProps {
+export interface IAwardsProps {
     container: AwardsContainer;
 }
 @statics({

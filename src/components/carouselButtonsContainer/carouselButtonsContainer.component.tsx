@@ -14,7 +14,6 @@ export interface IButtonsContainerProps {
 
 export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsContainerProps> {
 
-
   public render(): any {
     // console.log("[CarouselButtonsContainer][render]");
     const elements: string[] = [];
