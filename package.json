@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.78",
+  "version": "1.0.79",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,6 @@
     "@types/webpack": "^4.1.1",
     "@types/webpack-env": "^1.13.5",
     "autoprefixer": "^7.1.4",
-    "awesome-typescript-loader": "^4.0.0-0",
     "aws-cli-js": "^2.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

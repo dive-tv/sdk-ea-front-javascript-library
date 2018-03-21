@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { IState, ISyncState, VideoType } from 'Reducers';
 import { SyncActions, ISyncActions } from 'Actions';
 import { EaAPI } from 'Services';
-import * as YT from 'YT';
 
 declare const DiveAPI: EaAPI;
 

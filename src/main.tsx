@@ -14,7 +14,6 @@ import { Theme, Main } from 'Components';
 import { ITheme } from 'Theme';
 import * as Vimeo from 'Vimeo';
 import { VideoType } from 'Reducers';
-import * as YT from 'YT';
 // import * as Vimeo from './services/vimeo-player';
 
 // import Vimeo = require('./services/vimeo-player');
@@ -31,7 +30,6 @@ const history = createBrowserHistory();
 let APIinstance: EaAPI = null;
 
 export const getVimeo = () => Vimeo;
-export const getYoutube = () => YT;
 export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';

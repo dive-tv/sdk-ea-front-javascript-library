@@ -62,9 +62,6 @@
       "Vimeo": [
         "./src/services/vimeo-player"
       ],
-      "YT": [
-        "./src/services/youtube-player"
-      ]
     }
   },
   "include": [
