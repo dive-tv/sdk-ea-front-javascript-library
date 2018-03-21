@@ -46,7 +46,6 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
   // }
 
   public render(): any {
-    // console.log("[Layout][render]");
     if (this.props && this.props.ui) {
       // Top configuration
       const topType: UILayerTopTypes = this.props.ui.containers[0].component as UILayerTopTypes;
@@ -99,15 +98,19 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
   }
 
   public componentDidMount() {
-    const keyUpObservableFiltered: RxJS.Subscription = keyUpObservable$
-      .filter((event: KeyboardEvent) => {
-        console.warn("LAYOUT KEYCODE", event.keyCode);
-        return this.keysUsed.indexOf(event.keyCode) > -1;
-      })
-      .subscribe((event: KeyboardEvent) => {
-        // console.warn("HANDLED KEYCODE", keyCode);
-        this.onKeyPressUp(event);
-      });
+    try {
+      const keyUpObservableFiltered: RxJS.Subscription = keyUpObservable$
+        .filter((event: KeyboardEvent) => {
+          console.warn("LAYOUT KEYCODE", event.keyCode);
+          return this.keysUsed.indexOf(event.keyCode) > -1;
+        })
+        .subscribe((event: KeyboardEvent) => {
+          // console.warn("HANDLED KEYCODE", keyCode);
+          this.onKeyPressUp(event);
+        });
+    } catch (e) {
+      console.log('ERROR: ', e);
+    }
   }
 
   public componentWillUpdate(nextProps: Readonly<LayoutProps>, nextState: Readonly<LayoutProps>) {
@@ -190,6 +193,7 @@ export class LayoutClass extends React.PureComponent<LayoutProps, {}> {
           videoRef={this.props.sync.videoRef}
           parentRef={this.props.sync.parentVideoRef}
           videoType={this.props.sync.videoType}
+          playerAPI={this.props.sync.playerAPI}
         />;
       default:
         return null; // <HbbtvLiveStream key="liveStream" />;

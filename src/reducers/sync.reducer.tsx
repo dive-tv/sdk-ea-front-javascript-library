@@ -27,6 +27,7 @@ export interface ISyncState {
   showInfoMsg: boolean;
   videoRef?: HTMLVideoElement | HTMLObjectElement;
   parentVideoRef?: HTMLElement;
+  playerAPI?: any;
 }
 export interface ISyncAction extends Action {
   type: SyncActionTypes;
@@ -118,6 +119,7 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         videoRef: action.payload.videoRef,
         parentVideoRef: action.payload.videoParentRef,
         videoType: action.payload.videoType,
+        playerAPI: action.payload.playerAPI,
       };
 
     default:

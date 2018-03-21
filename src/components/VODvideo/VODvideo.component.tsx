@@ -13,7 +13,6 @@ declare const DiveAPI: EaAPI;
 
 const delay = 0; // -6; // -15;
 
-
 // tslint:disable-next-line:no-namespace
 export namespace VODvideo {
   export interface IOwnProps {
@@ -21,6 +20,7 @@ export namespace VODvideo {
     parentRef?: HTMLElement;
     containerHeight: number;
     videoType: VideoType;
+    playerAPI?: any;
   }
 
   export interface IActionProps {
@@ -38,6 +38,7 @@ interface IVideoRefs {
   el: HTMLVideoElement;
   parent?: HTMLElement;
   parentHTML?: string;
+  playerAPI?: any;
   style?: string;
   time?: number;
 }
@@ -117,7 +118,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       const time = 0;
 
       // tslint:disable-next-line:max-line-length
-      return { el: (el as HTMLVideoElement), parent: this.props.parentRef, /*parentHTML: el.parentElement.innerHTML,*/ style, time };
+      return { el: (el as HTMLVideoElement), parent: this.props.parentRef, playerAPI: this.props.playerAPI, /*parentHTML: el.parentElement.innerHTML,*/ style, time };
     } else {
       console.error("NO VIDEO FOUND FOR VOD");
     }
@@ -135,25 +136,21 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     return style;
   }
 
-  private onPlayerReady(event: any) {
-    console.log('onPlayerReady', event);
-    this.videoRefs.time = event.target.getCurrentTime();
-    event.target.lastTime = this.videoRefs.time;
-    event.target.playVideo();
+  private ytPlayerEvents() {
+    const ytPlayer: any = (this.videoRefs.playerAPI as any);
+    this.videoRefs.time = ytPlayer.getCurrentTime();
+    ytPlayer.lastTime = this.videoRefs.time;
+    ytPlayer.playVideo();
     const interval = 500;
-
     /// Time tracking starting here
-
     const checkPlayerTime = () => {
-      // if (event.target.getPlayerState() === YTClass.PlayerState.PLAYING) {
-      this.videoRefs.time = event.target.getCurrentTime();
+      this.videoRefs.time = ytPlayer.getCurrentTime();
       // console.log('TIME: ' + t + ' LAST: ' + event.target.lastTime + " DIFF: " + Math.abs(t - event.target.lastTime - (interval / 1000)));
-      if (Math.abs(this.videoRefs.time - event.target.lastTime - (interval / 1000)) > (interval / 1000)) {
-        console.log("seek"); /// fire your event here !
+      if (Math.abs(this.videoRefs.time - ytPlayer.lastTime - (interval / 1000)) > (interval / 1000)) {
+        // console.log("seek");
         this.handleSeek();
       }
-      // }
-      event.target.lastTime = this.videoRefs.time;
+      ytPlayer.lastTime = this.videoRefs.time;
     };
     setInterval(checkPlayerTime, interval);
   }
@@ -162,15 +159,15 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
     const YTClass: any = (window as any).YT;
     switch (event.data) {
       case YTClass.PlayerState.PLAYING:
-        console.log('PLAYING', event);
+        // console.log('PLAYING', event);
         this.handlePlay();
         break;
       case YTClass.PlayerState.PAUSED:
-        console.log('PAUSED', event);
+        // console.log('PAUSED', event);
         this.handlePause();
         break;
       case YTClass.PlayerState.ENDED:
-        console.log('ENDED', event);
+        // console.log('ENDED', event);
         this.handleEnd();
         break;
       /*
@@ -183,7 +180,6 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       */
     }
   }
-
   private toggleVideoStyles() {
     const passive = this.props.containerHeight === 100 || this.props.parentRef == null;
     // console.log("TVS passive: ", passive);
@@ -199,14 +195,14 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
             vimeoPlayer.on("pause", () => { /*console.log("video!!! pause");*/ this.handlePause(); });
             vimeoPlayer.on("end", () => { /*console.log("video!!! eeeeend");*/ this.handleEnd(); });
             vimeoPlayer.on("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
-            vimeoPlayer.on("seeked", (e: any) => { console.log("[VODVideo][Vimeo][Seeked]"); this.handleSeek(); });
+            vimeoPlayer.on("seeked", (e: any) => { /*console.log("[VODVideo][Vimeo][Seeked]");*/ this.handleSeek(); });
             break;
           case 'YOUTUBE':
-            console.log('ENTRAAAA');
-            const ytPlayer: any = (this.videoRefs.el as any);
-            ytPlayer.addEventListener('onReady', (e: any) => { this.onPlayerReady(e); });
+            const ytPlayer: any = (this.videoRefs.playerAPI as any);
+            const YTClass: any = (window as any).YT;
+            this.ytPlayerEvents();
+            // ytPlayer.addEventListener('onReady', (e: any) => { this.onPlayerReady(e); });
             ytPlayer.addEventListener('onStateChange', (e: any) => { this.onPlayerStateChange(e); });
-            // this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
             break;
           case 'VIDEO':
             this.videoRefs.el.addEventListener("playing", () => { /*console.log("video!!! playing");*/ /*this.getVideoStatus();*/ this.handlePlay(); });
@@ -248,7 +244,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       if (target !== undefined && layout !== undefined) {
         target.setAttribute(
           "style",
-          `visibility: visible !important; position: fixed; top: 0; bottom: initial; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`
+          `visibility: visible !important; position: fixed; top: 0; bottom: initial; left: 50%; margin-left: -50%; background: black; pointer-events: all; width: 100% !important; height: ${layout.offsetHeight}px !important; z-index:899;`,
         );
         console.log("Moved video");
       } else {
@@ -316,7 +312,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
           // console.log("TIMEDIFFF", timeDiff);
           // //this.props.syncActions.setTime(this.videoRefs.time);
 
-          console.log('timeDiff - threshold', timeDiff, threshold);
+          // console.log('timeDiff - threshold', timeDiff, threshold);
           if (this.lastVODHbbtvData) {
             // PAUSE / PLAY (HBBTV)
             if (previousVODHbbtvData.timeScale && previousVODHbbtvData.timeScale !== this.lastVODHbbtvData.timeScale) {
@@ -348,7 +344,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       if (DiveAPI.socket.authenticated) {
         DiveAPI.socket.emit("vod_set", JSON.stringify({ timestamp: Math.max(0, this.videoRefs.time + delay) }));
       }
-      //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
+      // this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }
   }
 
@@ -359,7 +355,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       if (DiveAPI.socket.authenticated) {
         DiveAPI.socket.emit("vod_continue", JSON.stringify({ timestamp: Math.max(0, this.videoRefs.time + delay) }));
       }
-      //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
+      // this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }
     this.ignoreNext = true;
   }
@@ -374,7 +370,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
         DiveAPI.socket.emit("vod_pause", JSON.stringify({ timestamp: Math.max(0, this.videoRefs.time + delay) }));
 
       }
-      //this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
+      // this.props.syncActions.setTime(Math.max(0, this.videoRefs.time + delay));
     }
   }
 

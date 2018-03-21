@@ -42,9 +42,9 @@ export const SyncActions: ISyncActions = {
   setChunkStatus: syncCreateAction("SYNC/SET_CHUNK_STATUS", (chunkStatus: string) => (chunkStatus)),
   setSyncType: syncCreateAction("SYNC/SET_SYNC_TYPE", (syncType: "SOCKET" | "YOUTUBE" | "STATIC_VOD") => (syncType)),
   setSelectedOnSceneChange: syncCreateAction("SYNC/SET_SELECTED_ON_SCENE_CHANGE", (val: boolean) => (val)),
-  staticVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement | any, videoParentRef?: HTMLElement, videoType: VideoType }) => (dispatch: any) => {
+  staticVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement | any, videoParentRef?: HTMLElement, videoType: VideoType, playerAPI: any }) => (dispatch: any) => {
     dispatch(SyncActions.setSyncType("STATIC_VOD"));
-    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType }));
+    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType, playerAPI: params.playerAPI }));
     dispatch(SyncActions.setMovie(params.movieId));
     DiveAPI.getStaticMovieScene({ relations: true, clientMovieId: params.movieId, timestamp: params.timestamp })
       .then((cards: Card[]) => {
@@ -55,11 +55,11 @@ export const SyncActions: ISyncActions = {
     DiveAPI.socket.close();
     dispatch(UIActions.goBack());
   },
-  syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType }) => (dispatch: any) => {
+  syncVOD: (params: { movieId: string, timestamp: number, protocol?: "http" | "https", videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType, playerAPI: any }) => (dispatch: any) => {
     // dispatch(SyncActions.setMovie(params.movieId));
 
     dispatch(SyncActions.setSyncType("SOCKET"));
-    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType }));
+    dispatch(SyncActions.setVideoRefs({ videoRef: params.videoRef, videoParentRef: params.videoParentRef, videoType: params.videoType, playerAPI: params.playerAPI }));
     let indexedBanners = {};
     DiveAPI.syncWithMovieVOD({
       movieId: params.movieId,
@@ -150,12 +150,12 @@ export const SyncActions: ISyncActions = {
   closeInfoMsg: syncCreateAction("SYNC/CLOSE_INFO_MSG"),
   changeFilter: syncCreateAction("SYNC/CHANGE_FILTER", (filter: FilterTypeEnum) => filter),
   setVideoRefs: syncCreateAction("SYNC/SET_VIDEOREFS", (params: {
-    videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType,
+    videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType, playerAPI: any,
   }) => params),
 };
 
 const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICardRelation | ICardAndRelations> => {
-  if (cards == null) return [];
+  if (cards == null) { return []; }
   cards = cards.reverse();
   let relCards: Array<ICardRelation | ICardAndRelations> = [];
 
@@ -166,7 +166,7 @@ const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICa
       !(SUPPORTED_CARD_TYPES.indexOf(card.type) > -1)) {
       continue;
     }
-    let castedCard = card as ICardRelation;
+    const castedCard = card as ICardRelation;
     if (banners && banners[card.card_id]) {
       castedCard.banner = banners[card.card_id];
     }
@@ -183,7 +183,7 @@ const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICa
 
           // Cogemos todas las relaciones dentro del mismo tipo filtrando previamente.
           childrenCards = Helper.getRelationCardsFromRelationCarousel(card.type, rel as ApiRelationModule).filter((el: Card) => {
-            let castedChildrenCard = card as ICardRelation;
+            const castedChildrenCard = card as ICardRelation;
             if (banners && banners[castedChildrenCard.card_id]) {
               castedChildrenCard.banner = banners[castedChildrenCard.card_id];
             }
@@ -208,7 +208,7 @@ const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICa
 };
 
 const processBanners = (movieId: string, banners: any[]): { [key: string]: IBanner } => {
-  let processedBanners: { [key: string]: IBanner } = {};
+  const processedBanners: { [key: string]: IBanner } = {};
   if (banners && banners.length) {
     for (let i = 0; i < banners.length; i++) {
       const bannersForMovie = banners[i];
