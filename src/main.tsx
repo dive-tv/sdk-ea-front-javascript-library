@@ -311,14 +311,14 @@ export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTM
     ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef: player, videoParentRef }) as any);
   }
 
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-    }
+  //if (params && params.demo) {
+  if (videoRef != null) {
+    store.dispatch(UIActions.open({
+      top: 'VODVIDEO',
+      bottom: 'CAROUSEL',
+    }) as any);
   }
+  // }
 
   return ret;
 };
