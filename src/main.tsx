@@ -419,23 +419,32 @@ export const test2 = () => {
   const vodKey = 'cnR2ZV90ZXN0OnF6b1JiN0NZenJIcFlIUGZXTmM2bkczeGVUb0o5bVo2';
   const testKey = 'dG91Y2h2aWVfYXBpOkYyUUhMZThYdEd2R1hRam50V3FMVXFjdGI5QmRVdDRT';
   const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
+  const infomixKey = 'aW5mb21peF9lYV90ZXN0OlB0WlRidEU0OW9zU1dzVmlrUFhDUjUzc1JzWEdZeEFv';
 
-  initialize('#root', stcKey, "test", 'en-UK', null, { environment: 'PRO' }).then((value) => {
+  initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
     console.log("DO IT!!!");
 
     /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
       console.log("channelIsAvailable: ", val);
     });*/
 
-    vodIsAvailable('63501863951').then((val: boolean) => {
+    /*vodIsAvailable('63501863951').then((val: boolean) => {
       console.log("vodIsAvailable: ", val);
-    });
+    });*/
 
+    //STC
     const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
     const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
-    vodStart(movieFootballMatch, 0);
+    //Infomix
+    const infomix1: string = '259933678';
+    const infomix2: string = '259934039';
+    const infomix3: string = '259934261';
+    const infomix4: string = '259934477';
+
+
+    vodStart(infomix1, 0);
 
 
   });
