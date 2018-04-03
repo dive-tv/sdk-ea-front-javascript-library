@@ -103,6 +103,34 @@ or
 DiveSDK.vodStart(clientMovieId, timestamp, videoRef);
 ````
 
+### Movie Start (Vimeo)
+````javascript
+vodVimeoStart(movieId, timestamp, videoRef)
+````
+Initializes the synchronization and Carousel with a VOD content for Vimeo video embedded
+
+#### Parameters:
+
+Name | Type | Description 
+------------ | ------------- | ------------- 
+*movieId* | *String* | *requested movie identifier* 
+*timestamp* | *Integer* | *Current time in seconds of the media content*
+*videoRef* | *HTMLVideoElement* | *HTML Video element to link the videoevents.*
+
+#### Return:
+Type | Description 
+------------ | -------------
+Null | --------------
+
+#### Example:
+````javascript
+var clientMovieId = "clientMovieId_example"; // String | client movie ID
+var timestamp = 0; //Integer | timestamp in seconds
+var videoRef = document.getElementById('video');
+
+DiveSDK.vodVimeoStart(clientMovieId, timestamp, videoRef);
+````
+
 ### Pause
 ````javascript
 vodPause()
