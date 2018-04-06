@@ -57,7 +57,11 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   private ignoreNext = false;
 
   public shouldComponentUpdate(nextProps: VODVideoProps) {
-    return this.props.containerHeight !== nextProps.containerHeight;
+    const val: boolean = this.props.containerHeight !== nextProps.containerHeight;
+    if (val) {
+      this.moveVideo();
+    }
+    return val;
   }
 
   public componentWillMount() {
