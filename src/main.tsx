@@ -444,7 +444,7 @@ export const test2 = () => {
     const infomix4: string = '259934477';
 
 
-    vodStart(infomix1, 0);
+    vodStart(infomix4, 0);
 
 
   });

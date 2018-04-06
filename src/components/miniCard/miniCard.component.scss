@@ -164,6 +164,9 @@ $computed-card-plus-expandedInfo: 30%;
             border: solid 2px $off-yellow; //display: block;
             z-index: 1;
             position: relative;
+            .btn{
+              cursor: pointer;
+            }
         }
     }
 }

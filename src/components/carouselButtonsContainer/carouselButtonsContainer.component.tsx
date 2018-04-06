@@ -52,6 +52,8 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
             // nameForNode="miniCardListCarousel"
             setElement={this.props.setFilter} />
         </div>
+
+        <div className="powered"></div>
       </div>
     );
   }
