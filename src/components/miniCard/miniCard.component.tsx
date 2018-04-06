@@ -87,11 +87,12 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
           <div className="expandedInfoInside">
             <div className="text">{text}</div>
             <div className="btn">{this.button('MORE')}</div>
-            <div className="btn">{this.button('SAVE')}</div>
+            {/*<div className="btn">{this.button('SAVE')}</div>*/}
           </div>
         </div>
       </div>);
   }
+
   private expandedInfoText = (): JSX.Element => {
     let box: JSX.Element;
     let text: string = '';
@@ -99,11 +100,11 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     if (textContainer !== undefined && textContainer.data.length > 0) {
       text = textContainer.data[0].text;
     }
-
+    let title = this.props.element.title;
     switch (this.props.element.type) {
       case 'quote':
       case 'reference':
-        box = <div className="text alone customTxt">{text}</div >;
+        box = <div className="text alone customTxt">{title}</div >;
         break;
       case 'character':
         const person: Card | null = Helper.getRelationCard(
@@ -112,7 +113,6 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
           'content_type',
         );
         if (person) {
-          let title = this.props.element.title;
 
           // Cambios la ref de card que se debe abrir
           this.openCard = person;
@@ -140,19 +140,19 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
             <div className="desc customTxt">{text}</div>
           </div>;
         } else {
-          const title = this.props.element.title;
+          title = this.props.element.title;
           box = <div className="text">
             <div className="title customTitle" >{title}</div>
           </div>;
         }
         break;
       case 'song':
-        box = <div className="text customTxt"></div>;
+        box = <div className="text customTxt">{title}</div>;
         break;
 
       default:
         box = <div className="text" >
-          <div className="title  customTitle">{this.props.element.title}</div>
+          <div className="title  customTitle">{title}</div>
           <div className="desc  customTxt">{text}</div>
         </div>;
 
