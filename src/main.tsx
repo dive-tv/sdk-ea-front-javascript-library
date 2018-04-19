@@ -421,7 +421,7 @@ export const test2 = () => {
   const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
   const infomixKey = 'aW5mb21peF9lYV90ZXN0OlB0WlRidEU0OW9zU1dzVmlrUFhDUjUzc1JzWEdZeEFv';
 
-  initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
+  initialize('#root', stcKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
     console.log("DO IT!!!");
 
     /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -444,7 +444,7 @@ export const test2 = () => {
     const infomix4: string = '259934477';
 
 
-    vodStart(infomix4, 0);
+    vodStart(movieWhiteFamous, 0);
 
 
   });

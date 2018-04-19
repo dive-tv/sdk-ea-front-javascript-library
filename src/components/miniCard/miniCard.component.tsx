@@ -43,7 +43,7 @@ export class MiniCardClass extends React.PureComponent<MiniCardProps, {}> {
     });
 
     return (
-      <li id={this.props.id}>
+      <li id={this.props.id} ref="item">
         <div className={classes}>
           {isRelation ? <div className="relationBar groupSelectedBkg" /> : ''}
           {this.miniCard()}
