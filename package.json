@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.81",
+  "version": "1.0.84",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -90,6 +90,7 @@
     "svg-url-loader": "^2.3.1",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.9",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^1.12.0",
