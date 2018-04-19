@@ -107,6 +107,10 @@ $computed-card-plus-expandedInfo: 30%;
                 margin-bottom: 3.3%;
                 display: block;
                 border-radius: 0;
+                // Esto es para cuando solo hay un botón
+                position: absolute;
+                bottom: 0px;
+                width: 88%;
             }
         }
     }
@@ -160,6 +164,9 @@ $computed-card-plus-expandedInfo: 30%;
             border: solid 2px $off-yellow; //display: block;
             z-index: 1;
             position: relative;
+            .btn{
+              cursor: pointer;
+            }
         }
     }
 }

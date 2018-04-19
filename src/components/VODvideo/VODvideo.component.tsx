@@ -257,7 +257,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   private releaseVideo() {
     if (this.videoRefs) {
       const target = this.videoRefs.parent ? this.videoRefs.parent : this.videoRefs.el;
-      if (target && target.setAttribute) {
+      if (target && this.videoRefs && this.videoRefs.style) {
         target.setAttribute("style", this.videoRefs.style);
         // videoRefs.parent.appendChild(videoRefs.el);
         // if (videoRefs.parent.tagName.toLocaleLowerCase() !== "body") {

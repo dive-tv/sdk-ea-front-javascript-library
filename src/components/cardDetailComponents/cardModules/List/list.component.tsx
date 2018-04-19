@@ -347,6 +347,8 @@ export class List extends React.PureComponent<ICardModuleProps & IListProps & IU
         return Localize("CAROUSEL_ALIAS_OST"); //`TITLE_${type}`);
       case 'Soundtrack':
         return Localize(`TITLE_${type.toLocaleUpperCase()}`);
+      case 'Filmography':
+        return Localize("FILMOGRAPHY");
       default:
         return null;
     }

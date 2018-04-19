@@ -54,7 +54,7 @@ export interface IMenuState {
   elements: Array<{ title: string, sections: IUIGroup, icon: string }>;
 }
 
-type DividerSize = 0 | 60 | 100;
+export type DividerSize = 0 | 60 | 100;
 
 export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): IUIState => {
   const customDivider: DividerSize = state.divider !== 0 ? 60 : 0;
@@ -103,7 +103,9 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
 
     case 'UI/CLOSE_CARD':
       if (state.prevCards.length === 0) {
-        return state;
+        const containers: IUIContainer[] = [...state.containers];
+        containers[1].component = 'CAROUSEL';
+        return { ...state, card: undefined, prevCards: [], containers };
       }
       const [last] = state.prevCards.slice(-1);
       const restCards = state.prevCards.slice(0, -1);

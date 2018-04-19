@@ -11,6 +11,7 @@
     border: 2px solid $color-warm-grey;
     background-position-y: 1px;
     background-color: $color-dark-grey-three;
+    cursor: pointer;
     &:active{
         background-image: url('#{$assets-path}common/Arrow_Down_Press@1x.svg') !important;
         background-color: $color-dark-grey-three !important;

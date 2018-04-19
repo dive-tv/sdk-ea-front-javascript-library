@@ -58,6 +58,7 @@ export class CarouselClass
           parent={this}
           columns={1}
           forceFirst={true}
+          showCloseButton={false}
           movieId={this.getState().movieId}
           filter={this.props.state.filter}
           setFilter={this.setFilter.bind(this)}

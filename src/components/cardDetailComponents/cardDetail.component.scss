@@ -13,5 +13,14 @@
   .cardDetailBtn {
     width: 2%;
     height: 100%;
+    position: relative;
+    display: inline-block;
+    margin-right: 1vh;
+    .close{
+      
+    }
+    .back{
+      line-height: 2;
+    }
   }
 }
