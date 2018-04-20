@@ -28,6 +28,7 @@ export class LocalizeService {
     ES,
     DE,
   };
+  
   public setLanguage(lang: AvailableLanguages) {
     this.language = lang;
   }
