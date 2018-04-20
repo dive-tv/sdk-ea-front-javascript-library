@@ -321,6 +321,7 @@ export const vodResume = (timestamp: number) => {
 };
 
 export const vodSeek = (timestamp: number) => {
+  console.log(APIinstance);
   if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_set", JSON.stringify({ timestamp: Math.max(0, timestamp | 0) }));
   } else {
@@ -399,7 +400,7 @@ export const test2 = () => {
   const stcKey = 'c3RjX2VhX2RldmljZTpuOGpqUzZBczk4dEFHdWFOeDc1aVhRZlBHV2NQNmVyRA==';
   const infomixKey = 'aW5mb21peF9lYV90ZXN0OlB0WlRidEU0OW9zU1dzVmlrUFhDUjUzc1JzWEdZeEFv';
 
-  initialize('#root', stcKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
+  initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
     console.log("DO IT!!!");
 
     /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
@@ -422,7 +423,7 @@ export const test2 = () => {
     const infomix4: string = '259934477';
 
 
-    vodStart(movieWhiteFamous, 0);
+    vodStart(infomix1, 0);
 
 
   });
