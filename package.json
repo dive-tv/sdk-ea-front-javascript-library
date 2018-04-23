@@ -31,6 +31,7 @@
     "@types/redux-actions": "1.2.8",
     "@types/redux-logger": "^3.0.4",
     "@types/socket.io-client": "^1.4.30",
+    "@types/tapable": "^0.2.5",
     "@types/webpack": "3.0.10",
     "@types/webpack-env": "1.13.0",
     "autoprefixer": "^7.1.4",
