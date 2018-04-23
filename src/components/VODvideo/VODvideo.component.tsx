@@ -140,6 +140,7 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   }
 
   private ytPlayerEvents() {
+    if (this.videoRefs.playerAPI == null) return;
     const ytPlayer: any = (this.videoRefs.playerAPI as any);
     this.videoRefs.time = ytPlayer.getCurrentTime();
     ytPlayer.lastTime = this.videoRefs.time;
@@ -202,6 +203,9 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
             break;
           case 'YOUTUBE':
             const ytPlayer: any = (this.videoRefs.playerAPI as any);
+            if (ytPlayer == null) {
+              return;
+            }
             const YTClass: any = (window as any).YT;
             this.ytPlayerEvents();
             // ytPlayer.addEventListener('onReady', (e: any) => { this.onPlayerReady(e); });

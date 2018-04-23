@@ -9,6 +9,7 @@ import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'A
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
 import { SUPPORTED_CARD_TYPES, FilterTypeEnum, LIMIT_FOR_RELATIONS } from 'Constants';
 import { BottomOverlayMessage } from "Containers";
+import classNames = require('classnames');
 
 // tslint:disable-next-line:no-namespace
 export namespace Carousel {
@@ -23,6 +24,7 @@ export namespace Carousel {
 
   export interface IState {
     rewinded: boolean;
+    numCardsShown: number;
   }
 
   export type IAllProps = Carousel.IOwnProps & Carousel.IActionProps & INavigableProps & INavState & INavActions;
@@ -36,7 +38,7 @@ export class CarouselClass
   private currentSceneText = Localize("CURRENT_SCENE");
   constructor(props: any) {
     super(props);
-    this.state = { rewinded: false };
+    this.state = { rewinded: false, numCardsShown: -1 };
     this.closeCarousel = this.closeCarousel.bind(this);
     this.getCurrentTime = this.getCurrentTime.bind(this);
   }
@@ -45,12 +47,36 @@ export class CarouselClass
     return this.props.state;
   }
 
+  public componentWillUpdate(nextProps: Carousel.IOwnProps) {
+    const nextCount: number = nextProps.state.cards.length;
+    const count: number = this.props.state.cards.length;
+    if (nextCount > count && count > 7) {
+      this.setState({ ...this.state, numCardsShown: nextCount - count + this.state.numCardsShown });
+      if (this.interval !== null) {
+        clearTimeout(this.interval);
+        this.interval = setTimeout(() => {
+          clearTimeout(this.interval);
+          this.setState({ ...this.state, numCardsShown: 0 });
+          this.interval = setTimeout(() => {
+            this.setState({ ...this.state, numCardsShown: -1 });
+          }, 1000);
+        }, 4000);
+      }
+    }
+
+  }
+
   public render(): any {
     // console.log("[Carousel][render]");
     let cards: CardRender[] = this.props.state.cards !== undefined ? this.props.state.cards : [];
 
     cards = this.performFilter(cards);
 
+    const newCardsClass = classNames({
+      newCardText: true,
+      show: this.state.numCardsShown > 0,
+      hide: this.state.numCardsShown === 0,
+    });
     return (
       <div className="containerCarousel fillParent customBkg">
         <CarouselButtonsContainer
@@ -86,6 +112,12 @@ export class CarouselClass
               />
           }
         </div>
+        {this.state.numCardsShown >= 0 ?
+          <div className={newCardsClass}>
+            {`${this.state.numCardsShown} ${Localize('NEW_CARDS')}`}
+          </div>
+          : null}
+
         {this.getMessageForCarousel()}
       </div >
     );
@@ -204,7 +236,7 @@ export class CarouselClass
     // this.props.uiActions.open({ top: "TV", bottom: "GRID" });
     // this.props.uiActions.goBack();
     // this.props.syncActions.closeSocket();
-    
+
     this.props.uiActions.open({
       bottom: 'HIDE',
     });

@@ -263,33 +263,27 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 };
 
 // tslint:disable-next-line:max-line-length
-export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement | any, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI?: any }): any => {
+export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI: any }): any => {
   let ret;
-  console.log('[vodStart] 1');
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
-  // console.log('VOD_MODE', VOD_MODE);
   if (VOD_MODE === "ONE_SHOT") {
-    ret = store.dispatch(
-      SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
+    ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType }) as any);
   } else {
-    console.log('syncVOD');
-    ret = store.dispatch(
-      SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
+    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
   }
 
-  // if (params && params.demo) {
-  if (videoRef != null) {
-    store.dispatch(UIActions.open({
-      top: 'VODVIDEO',
-      bottom: 'CAROUSEL',
-    }) as any);
+  if (params && params.demo) {
+    if (videoRef != null) {
+      store.dispatch(UIActions.open({
+        top: 'VODVIDEO',
+        bottom: 'CAROUSEL',
+      }) as any);
+    }
   }
-  //  }
   return ret;
 };
-
 // tslint:disable-next-line:max-line-length
-export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement }): any => {
+export const vodVimeoStart = (movieId: string, timestamp: number, videoRef?: HTMLIFrameElement, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI: any }): any => {
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
   const player = new Vimeo(videoRef);
   videoType = "VIMEO";
