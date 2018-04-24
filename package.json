@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.85",
+  "version": "1.0.86",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-es2015-native-modules": "^6.9.4",
     "babel-preset-es3": "^1.0.1",
     "babel-preset-latest": "^6.24.1",
