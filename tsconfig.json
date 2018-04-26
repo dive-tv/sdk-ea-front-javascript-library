@@ -61,7 +61,7 @@
       ],
       "Vimeo": [
         "./src/services/vimeo-player"
-      ]
+      ],
     }
   },
   "include": [

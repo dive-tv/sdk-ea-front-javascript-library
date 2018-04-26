@@ -8,7 +8,7 @@
   outline: none;
 }
 
- :host,
+:host,
 html,
 body,
 .diveContainer {
@@ -21,7 +21,7 @@ body,
   @include fillParent;
 }
 
- ::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
   background: rgba(0, 0, 0, .3);
   width: 10px;
@@ -31,21 +31,21 @@ body,
   margin: 0;
 }
 
- ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   // background: #8c8c8c;
   background: #040404;
   display: none; // HBBTV
   border-radius: 30px;
 }
 
- ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   display: none; // HBBTV
 }
 
 .web {
-   ::-webkit-scrollbar,
-   ::-webkit-scrollbar-thumb,
-   ::-webkit-scrollbar-track {
+  ::-webkit-scrollbar,
+  ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-track {
     display: block !important;
   }
 }
@@ -111,5 +111,42 @@ body,
     body {
       font-size: 20px;
     }
+  }
+}
+
+// ANIMATION
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

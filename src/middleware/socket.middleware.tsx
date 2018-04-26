@@ -135,7 +135,7 @@ const socketMiddleware = () => {
                     secure: true,
                     transports: ["websocket", "xhr-polling", "polling", "htmlfile"],
                 });
-
+                
                 const channel = action.payload.channelId;
                 socket.on('connect', onOpen(socket, store, channel));
                 socket.on('connect_error', onError(socket, store));

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { navigable } from 'HOC';
 import { Card, EaAPI, RelationModule, Duple, Single } from 'Services';
-import { MiniCard, MoreRelations, NavigableBanner } from 'Components';
+import { MiniCard, MoreRelations, NavigableBanner, DIVE_CONFIG, MiniCardClass } from 'Components';
 
 import { IUIActions, /*UserActions*/ IUserActions, UIActions } from "Actions";
 import { CardRender, ICardAndRelations, ICardRelation } from 'Reducers';
@@ -35,27 +35,41 @@ export type MiniCardListProps = IMiniCardListState & IMiniCardListMethods &
 
 export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
+  /*private firstElement: HTMLElement;
+  private prevFirstElement: HTMLElement;*/
+  private elWidth: number = 0;
+  private numCardsDif: number = 0;
+  private list: HTMLElement;
+
   public shouldComponentUpdate(nextProps: MiniCardListProps) {
     //Si cambia de escena
+    console.log("[MiniCardList]SCU: ", nextProps.elements.length, this.props.elements.length);
     if (this.props.sceneCount !== nextProps.sceneCount) {
       return true;
     }
 
     if (typeof this.props.elements !== typeof nextProps.elements) {
       // Si no son del mismo tipo los elementos entrantes de los que hay
+      this.numCardsDif = nextProps.sceneCount - this.props.sceneCount;
       return true;
     } else if (nextProps.elements && nextProps.elements.length !== this.props.elements.length) {
+      this.numCardsDif = nextProps.sceneCount - this.props.sceneCount;
       //Si hay distinto número de elementos
       return true;
     } else if (nextProps.activeFilter !== this.props.activeFilter) {
       //Si cambia el filtro
+      this.numCardsDif = nextProps.sceneCount - this.props.sceneCount;
       return true;
     }
+    this.numCardsDif = nextProps.sceneCount - this.props.sceneCount;
     return false;
   }
 
   public componentDidMount() {
-    this.SetIfSelectedTimed();
+    if (DIVE_CONFIG.platform === 'HBBTV') {
+      this.SetIfSelectedTimed();
+    }
+
   }
 
   public SetIfSelected() {
@@ -78,10 +92,22 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
   }
 
+  public componentWillUpdate(nextProps: MiniCardListProps) {
+    if (DIVE_CONFIG.platform === 'WEB') {
+      if ((nextProps.elements.length - this.props.elements.length) > 0) {
+        this.numCardsDif = nextProps.elements.length - this.props.elements.length;
+        console.log("[MiniCardList] what happend here?");
+      } else {
+        this.numCardsDif = 0;
+      }
+    }
+
+  }
+
   public componentWillUnmount() {
     if (ReactDOM.findDOMNode(this).querySelector(".childFocused")) {
       // Check if prop is present, it is missing on allRelations > MinicardList for example.
-      if (this.props.setSelectedOnSceneChange) {
+      if (this.props.setSelectedOnSceneChange && DIVE_CONFIG.platform === 'HBBTV') {
         this.props.setSelectedOnSceneChange(true);
       }
     }
@@ -89,6 +115,17 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
   public componentDidUpdate(prevProps: MiniCardListProps) {
     // this.SetIfSelected();
+    console.log("[MiniCardList] this.elWidth: ", this.elWidth);
+    console.log("[MiniCardList] this.numCardsDif: ", this.numCardsDif);
+    this.list.scrollLeft += this.elWidth * this.numCardsDif;
+    // Hacemos el scroll para mantener la posición de los elementos actuales.
+    /*if (this.prevFirstElement) {
+      console.log("this.prevFirstElement: ", this.prevFirstElement.offsetLeft);
+    }
+    if (this.firstElement) {
+      console.log("this.firstElement: ", this.firstElement.offsetLeft);
+    }
+*/
   }
 
   public getRelations = (card: Card): Card[] => {
@@ -148,7 +185,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     }
     // console.log('-----------------------------------------');
     return (
-      <ul className="miniCardList" >
+      <ul className="miniCardList" ref={(list) => this.list = list}>
         {cardsToShow}
       </ul >
     );
@@ -173,6 +210,15 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
         <MiniCard
           focusChainClass="childFocused"
           activeGroupClass="activeGroup"
+          ref={
+            (element: any) => {
+              if (this.elWidth === 0 && element != null) {
+                console.log("element: ", element);
+                const width: number = element.wrappedInstance.wrapper.getBoundingClientRect().width;
+                this.elWidth = width + (width * 1.56 / 10.5);
+              }
+            }
+          }
           // tslint:disable-next-line:max-line-length
           groupName={groupId !== '' ? groupId : (card.card_id + '-' + card.version).toString()}
           element={card}

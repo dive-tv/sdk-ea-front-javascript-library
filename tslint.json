@@ -11,7 +11,9 @@
       /*
        * Any rules specified here will override those from the base config we are extending.
        */
+      "max-line-length": [false, 100],
       "curly": true,
+      "no-console": false,
       "quotemark": [false, "single", "jsx-single"],
       "indent": [true, "spaces"],
       "ordered-imports": [

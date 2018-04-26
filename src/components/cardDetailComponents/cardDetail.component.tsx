@@ -26,8 +26,8 @@ export class CardDetailClass
   extends React.PureComponent<CardDetailProps, ICardDetailState> {
   private cardModules: JSX.Element[] = [];
 
-  constructor(props: any) {
-    super(props);
+  constructor() {
+    super();
     this.state = cardDetailInitialState;
   }
 
@@ -42,8 +42,21 @@ export class CardDetailClass
                 clickAction={() => {
                   this.closeAllCards();
                 }}
-                columns={1}
+                columns={2}
               >
+              </NavigationContainer>
+
+            </div>
+
+            <div className="cardDetailBtn">
+              <NavigationContainer key="cdBack" className="bctButton back customBtn"
+                parent={this}
+                clickAction={() => {
+                  this.closeCard();
+                }}
+                columns={2}
+              >
+                {'<'}
               </NavigationContainer>
             </div>
           </div>
@@ -62,6 +75,10 @@ export class CardDetailClass
     // TODO: logic to close all cards
     //this.props.uiActions.openSync();
     this.props.uiActions.goBack();
+  }
+
+  public closeCard() {
+    this.props.uiActions.closeCard();
   }
 
   public componentDidMount() {

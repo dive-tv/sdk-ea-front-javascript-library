@@ -120,7 +120,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                         {this.props.time ? (<div className="time">
                             <i className="clock"></i><span>{this.props.time}</span>
                         </div>) : null}
-                        <div className="headerButtons">
+                        {/*<div className="headerButtons">
                             <NavigationContainer
                                 parent={this}
                                 columns={1}
@@ -133,7 +133,7 @@ export class Header extends React.PureComponent<ICardModuleProps & IHeaderProps,
                                     <span>{Localize("CAROUSEL_CARD_SAVE")}</span>
                                 </div>
                             </NavigationContainer>
-                        </div>
+                          </div>*/}
                     </div>
                 </div>
             </div >
