@@ -34,6 +34,7 @@ export interface IDiveConfig {
   platform?: 'HBBTV' | 'WEB';
   environment?: 'DEV' | 'PRE' | 'PRO';
   test?: boolean;
+  token?: string;
 }
 
 export interface IInitParams {
@@ -196,14 +197,33 @@ export const initialize = (
   } catch (e) {
     console.error("NO KEYMAP FOUND");
   }
+  if (config.token != null) {
+    APIinstance = new EaAPI(
+      { environment: config.environment, storeToken: "webstorage", deviceId: null },
+    );
 
-  APIinstance = new EaAPI(
-    { environment: config.environment, storeToken: "webstorage", apiKey, deviceId: userId },
-  );
+  } else {
+    APIinstance = new EaAPI(
+      { environment: config.environment, storeToken: "webstorage", apiKey, deviceId: userId },
+    );
+  }
+
 
   APIinstance.setLocale(locale);
   // APIinstance.setLocale("es-ES");
   (window as any).DiveAPI = APIinstance;
+
+  let call: any;
+  if (!config.token) {
+    call = APIinstance.loginWithDevice(userId);
+  } else {
+    call = APIinstance.loginWithToken(config.token);
+    render();
+    return new Promise<any>((resolve, reject) => {
+      resolve();
+    });
+  }
+
   return APIinstance.loginWithDevice(userId)
     .then((response: AccessToken) => {
       // tslint:disable-next-line:no-console
@@ -220,25 +240,28 @@ export const initialize = (
       }
     })
     .then(() => {
-
-      ReactDOM.render(
-        // ShadowDOM /*include={'styles.css'}*/>
-        <Main showMenu={false} theme={theme} platform={config.platform} />,
-        document.querySelector(selector),
-      );
-      let group;
-      if (config.test !== true) {
-        group = {
-          top: "EMPTY",
-          bottom: "CAROUSEL",
-        };
-        store.dispatch(UIActions.open(group) as any);
-        store.dispatch(UIActions.setDivider(0));
-      }
+      render();
     })
     .catch((error: any) => {
       console.error("ERROR LOADING", error);
     });
+
+  function render() {
+    ReactDOM.render(
+      // ShadowDOM /*include={'styles.css'}*/>
+      <Main showMenu={false} theme={theme} platform={config.platform} />,
+      document.querySelector(selector),
+    );
+    let group;
+    if (config.test !== true) {
+      group = {
+        top: "EMPTY",
+        bottom: "CAROUSEL",
+      };
+      store.dispatch(UIActions.open(group) as any);
+      store.dispatch(UIActions.setDivider(0));
+    }
+  }
 };
 
 export const vodIsAvailable = (movieId: string): Promise<boolean> => {
@@ -269,7 +292,13 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   } else {
-    ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
+    console.log("params : ", params);
+    if (params != undefined && params.playerAPI !== undefined) {
+      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
+    } else {
+      ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
+
+    }
   }
 
   if (params && params.demo) {
@@ -397,29 +426,19 @@ export const test2 = () => {
   initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO' }).then((value) => {
     console.log("DO IT!!!");
 
-    /*channelIsAvailable(TESTING_CHANNEL).then((val: boolean) => {
-      console.log("channelIsAvailable: ", val);
-    });*/
-
-    /*vodIsAvailable('63501863951').then((val: boolean) => {
-      console.log("vodIsAvailable: ", val);
-    });*/
-
     //STC
     const movieFootballMatch: string = '15e640df-3f1b-34c2-a8b9-e982077cad9a';
     const movieNewYear: string = '3783561e-7143-3552-8b07-01f2bb54f38d';
     const movieSideways: string = '31f4ea4f-cf8b-389a-a17d-61c8b53a13fb';
     const movieWhiteFamous: string = 'e94796cf-9aff-3c21-900e-fba94a337f7c';
-    
+
     //Infomix
     const infomix1: string = '259933678';
     const infomix2: string = '259934039';
     const infomix3: string = '259934261';
     const infomix4: string = '259934477';
 
-
     vodStart(infomix1, 0);
-
 
   });
 };
