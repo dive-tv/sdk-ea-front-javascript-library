@@ -1,6 +1,6 @@
 {
   "name": "@dive-tv/sdk-ea-front-javascript-library",
-  "version": "1.0.88",
+  "version": "1.0.89",
   "description": "Dive SDK for Javascript",
   "main": "index.js",
   "scripts": {
@@ -100,7 +100,7 @@
     "weinre": "^2.0.0-pre-I0Z7U9OV"
   },
   "dependencies": {
-    "@dive-tv/sdk-ea-typescript-library": "^1.1.23",
+    "@dive-tv/sdk-ea-typescript-library": "^1.1.24",
     "@types/element-resize-event": "^2.0.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
