@@ -215,8 +215,10 @@ export const initialize = (
 
   let call: any;
   if (!config.token) {
+    console.log("[loginWithDevice]")
     call = APIinstance.loginWithDevice(userId);
   } else {
+    console.log("[loginWithToken]")
     call = APIinstance.loginWithToken(config.token);
     render();
     return new Promise<any>((resolve, reject) => {
@@ -224,7 +226,7 @@ export const initialize = (
     });
   }
 
-  return APIinstance.loginWithDevice(userId)
+  return call
     .then((response: AccessToken) => {
       // tslint:disable-next-line:no-console
       console.log("Authorized!");
