@@ -179,11 +179,11 @@ export const initialize = (
     locale = 'en-UK';
   }
 
-  if (typeof apiKey !== "string" && typeof config.token !== "string") {
+  if (typeof apiKey !== "string" && config.token == null) {
     console.error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
     throw new Error("You should provide a Dive API KEY in the initialization parameter 'apiKey");
   }
-  if (typeof userId !== "string" && typeof config.token !== "string") {
+  if (typeof userId !== "string" && config.token == null) {
     console.error(`You should provide a unique client id (or token) in order to authenticate him,
       provide it through the initialization parameter 'clientId'`);
     throw new Error(`You should provide a unique client id (or token) in order to authenticate him,
