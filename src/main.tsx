@@ -215,13 +215,13 @@ export const initialize = (
 
   let call: any;
   if (!config.token) {
-    console.log("[loginWithDevice]")
+    console.log("[loginWithDevice]");
     call = APIinstance.loginWithDevice(userId);
   } else {
-    console.log("[loginWithToken]")
+    console.log("[loginWithToken]");
     call = APIinstance.loginWithToken(config.token);
-    render();
-    return new Promise<any>((resolve, reject) => {
+    // render();
+    call = new Promise<any>((resolve, reject) => {
       resolve();
     });
   }
