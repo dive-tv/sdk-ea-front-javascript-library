@@ -291,15 +291,15 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI: any }): any => {
   let ret;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
+  console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   } else {
     console.log("params : ", params);
-    if (params != undefined && params.playerAPI !== undefined) {
+    if (params != null && params.playerAPI != null) {
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
     } else {
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
-
     }
   }
 
