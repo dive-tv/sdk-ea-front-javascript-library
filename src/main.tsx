@@ -298,21 +298,17 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
   } else {
 
     if (params != undefined && params.playerAPI !== undefined) {
-      console.log("params (with playerAPI) : ", params);
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
     } else {
-      console.log("params (without playerAPI) : ", params);
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
     }
   }
 
-  if (params && params.demo) {
-    if (videoRef != null) {
-      store.dispatch(UIActions.open({
-        top: 'VODVIDEO',
-        bottom: 'CAROUSEL',
-      }) as any);
-    }
+  if ((params && params.demo) || videoRef != null) {
+    store.dispatch(UIActions.open({
+      top: 'VODVIDEO',
+      bottom: 'CAROUSEL',
+    }) as any);
   }
   return ret;
 };
