@@ -291,6 +291,7 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI: any }): any => {
   let ret;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
+
   console.log("APIinstance.socket.authenticated: ", APIinstance.socket);
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);

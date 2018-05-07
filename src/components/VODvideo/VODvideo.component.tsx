@@ -186,14 +186,17 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
   }
   private toggleVideoStyles() {
     const passive = this.props.containerHeight === 100 || this.props.parentRef == null;
+    console.log("[VODVideo] this.props.videoType: ", this.props.videoType);
+    console.log("[VODVideo] this.videoRefs: ", this.videoRefs);
     // console.log("TVS passive: ", passive);
     if (!this.videoRefs || !this.videoRefs.el || !this.videoRefs.el.parentElement) {
+      console.log("[VODVideo] toggleVideoStyles2: ", this.props.videoType);
       // console.log("TVS with VR");
       // tslint:disable-next-line:no-conditional-assignment
       if (this.videoRefs = this.getVideo()) {
+        console.log("[VODVideo] toggleVideoStyles3: ", this.props.videoType);
         // console.log("TVS found VR");
-        console.log("[VODVideo] this.props.videoType: ", this.props.videoType);
-        console.log("[VODVideo] this.videoRefs: ", this.videoRefs);
+
         switch (this.props.videoType) {
           case 'VIMEO':
             const vimeoPlayer: any = (this.videoRefs.el as any);
