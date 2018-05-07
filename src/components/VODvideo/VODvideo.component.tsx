@@ -192,6 +192,8 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
       // tslint:disable-next-line:no-conditional-assignment
       if (this.videoRefs = this.getVideo()) {
         // console.log("TVS found VR");
+        console.log("[VODVideo] this.props.videoType: ", this.props.videoType);
+        console.log("[VODVideo] this.videoRefs: ", this.videoRefs);
         switch (this.props.videoType) {
           case 'VIMEO':
             const vimeoPlayer: any = (this.videoRefs.el as any);
@@ -212,12 +214,12 @@ class VODvideoClass extends React.Component<VODVideoProps, {}> {
             ytPlayer.addEventListener('onStateChange', (e: any) => { this.onPlayerStateChange(e); });
             break;
           case 'VIDEO':
-            this.videoRefs.el.addEventListener("playing", () => { /*console.log("video!!! playing");*/ /*this.getVideoStatus();*/ this.handlePlay(); });
-            this.videoRefs.el.addEventListener("pause", () => { /*console.log("video!!! pause");*/ /*this.getVideoStatus();*/ this.handlePause(); });
+            this.videoRefs.el.addEventListener("playing", () => { console.log("video!!! playing"); /*this.getVideoStatus();*/ this.handlePlay(); });
+            this.videoRefs.el.addEventListener("pause", () => { console.log("video!!! pause"); /*this.getVideoStatus();*/ this.handlePause(); });
             // this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handlePause(); });
             this.videoRefs.el.addEventListener("suspend", () => { /*console.log("video!!! suspend");*//*this.getVideoStatus();*/ this.handleSuspend(); });
             this.videoRefs.el.addEventListener("end", () => { /*console.log("video!!! eeeeend");*/ this.getVideoStatus(); this.handleEnd(); });
-            this.videoRefs.el.addEventListener("timeupdate", () => { /*console.log("video!!! timeupdate");*/ this.getVideoStatus(); });
+            this.videoRefs.el.addEventListener("timeupdate", () => { console.log("video!!! timeupdate"); this.getVideoStatus(); });
             break;
           default:
             this.videoInterval = setInterval(() => { this.getVideoStatus(); }, 500) as any;
