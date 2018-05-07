@@ -295,10 +295,12 @@ export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVide
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   } else {
-    console.log("params : ", params);
-    if (params != null && params.playerAPI != null) {
+    
+    if (params != undefined && params.playerAPI !== undefined) {
+      console.log("params (with playerAPI) : ", params);
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
     } else {
+      console.log("params (without playerAPI) : ", params);
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType }) as any);
     }
   }
