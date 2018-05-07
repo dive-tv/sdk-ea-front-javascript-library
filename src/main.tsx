@@ -291,11 +291,11 @@ export const vodIsAvailable = (movieId: string): Promise<boolean> => {
 export const vodStart = (movieId: string, timestamp: number, videoRef?: HTMLVideoElement | HTMLObjectElement, params?: { demo: boolean, videoParent?: HTMLElement, playerAPI: any }): any => {
   let ret;
   const videoParentRef = params && params.videoParent ? params.videoParent : null;
-  console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
+  console.log("APIinstance.socket.authenticated: ", APIinstance.socket);
   if (VOD_MODE === "ONE_SHOT") {
     ret = store.dispatch(SyncActions.staticVOD({ movieId, timestamp, videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
   } else {
-    
+
     if (params != undefined && params.playerAPI !== undefined) {
       console.log("params (with playerAPI) : ", params);
       ret = store.dispatch(SyncActions.syncVOD({ movieId, timestamp, protocol: "https", videoRef, videoParentRef, videoType, playerAPI: params.playerAPI }) as any);
@@ -331,7 +331,7 @@ export const vodYoutubeStart = (movieId: string, timestamp: number, player: any,
 };
 
 export const vodPause = () => {
-  console.log("APIinstance.socket.authenticated: ", APIinstance.socket.authenticated);
+  console.log("APIinstance.socket.authenticated: ", APIinstance.socket);
   if (APIinstance && APIinstance.socket.authenticated) {
     APIinstance.socket.emit("vod_pause", JSON.stringify({ timestamp: 0 }));
   } else {
@@ -340,7 +340,7 @@ export const vodPause = () => {
 };
 
 export const vodResume = (timestamp: number) => {
-  if (APIinstance && APIinstance.socket.authenticated) {
+  if (APIinstance && APIinstance.socket) {
     APIinstance.socket.emit("vod_continue", JSON.stringify({ timestamp: Math.max(0, timestamp | 0) }));
   } else {
     console.error("APIinstance is null. initialize() is needed.");
