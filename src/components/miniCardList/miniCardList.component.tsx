@@ -43,7 +43,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
   public shouldComponentUpdate(nextProps: MiniCardListProps) {
     //Si cambia de escena
-    console.log("[MiniCardList]SCU: ", nextProps.elements.length, this.props.elements.length);
     if (this.props.sceneCount !== nextProps.sceneCount) {
       return true;
     }
@@ -96,7 +95,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
     if (DIVE_CONFIG.platform === 'WEB') {
       if ((nextProps.elements.length - this.props.elements.length) > 0) {
         this.numCardsDif = nextProps.elements.length - this.props.elements.length;
-        console.log("[MiniCardList] what happend here?");
       } else {
         this.numCardsDif = 0;
       }
@@ -115,8 +113,6 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
 
   public componentDidUpdate(prevProps: MiniCardListProps) {
     // this.SetIfSelected();
-    console.log("[MiniCardList] this.elWidth: ", this.elWidth);
-    console.log("[MiniCardList] this.numCardsDif: ", this.numCardsDif);
     this.list.scrollLeft += this.elWidth * this.numCardsDif;
     // Hacemos el scroll para mantener la posición de los elementos actuales.
     /*if (this.prevFirstElement) {
@@ -213,7 +209,7 @@ export class MiniCardListClass extends React.Component<MiniCardListProps, {}> {
           ref={
             (element: any) => {
               if (this.elWidth === 0 && element != null) {
-                console.log("element: ", element);
+                // console.log("element: ", element);
                 const width: number = element.wrappedInstance.wrapper.getBoundingClientRect().width;
                 this.elWidth = width + (width * 1.56 / 10.5);
               }
