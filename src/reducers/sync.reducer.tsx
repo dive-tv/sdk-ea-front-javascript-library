@@ -28,6 +28,7 @@ export interface ISyncState {
   videoRef?: HTMLVideoElement | HTMLObjectElement;
   parentVideoRef?: HTMLElement;
   playerAPI?: any;
+  dropDownCarouselState: boolean;
 }
 export interface ISyncAction extends Action {
   type: SyncActionTypes;
@@ -57,7 +58,7 @@ export type SyncActionTypes = "SYNC/OPEN_CARD" | "SYNC/START" | "SYNC/SET_TIME" 
   "SYNC/START_SCENE" | "SYNC/UPDATE_SCENE" | "SYNC/END_SCENE" | "SYNC/PAUSE_START" | "SYNC/PAUSE_END" |
   "SYNC/SET_MOVIE" | "SYNC/CHUNK_FAILED" | "SYNC/INIT_TIME" | "SYNC/SET_SELECTED_ON_SCENE_CHANGE" |
   "SOCKET/CONNECTED" | "SYNC/SET_TRAILER" | "SYNC/SET_SYNC_TYPE" | "SYNC/SET_CHUNK_STATUS" | "SYNC/CLOSE_INFO_MSG" |
-  "SYNC/CHANGE_FILTER" | "SYNC/SET_VIDEOREFS" | SocketActionTypes;
+  "SYNC/CHANGE_FILTER" | "SYNC/SET_VIDEOREFS" | 'SYNC/DOWPDOWN_CAROUSEL_STATE' | SocketActionTypes;
 
 export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncAction): ISyncState => {
   switch (action.type) {
@@ -121,6 +122,10 @@ export const SyncReducer = (state: ISyncState = initialSyncState, action: ISyncA
         videoType: action.payload.videoType,
         playerAPI: action.payload.playerAPI,
       };
+    case 'SYNC/DOWPDOWN_CAROUSEL_STATE':
+      console.log("DOWPDOWN_CAROUSEL_STATE - action.payload: ", action.payload); 
+      const val: boolean = action.payload != null ? action.payload : !state.dropDownCarouselState;
+      return { ...state, dropDownCarouselState: val };
 
     default:
       return state;
@@ -148,4 +153,5 @@ export const initialSyncState: ISyncState = {
   lastUpdatedTime: 0,
   showInfoMsg: false,
   sceneCount: 0,
+  dropDownCarouselState: false,
 };

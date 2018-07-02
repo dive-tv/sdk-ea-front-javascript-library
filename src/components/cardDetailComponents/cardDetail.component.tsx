@@ -2,7 +2,7 @@ import * as React from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { Loading, NavigationContainer } from 'Components';
+import { Loading, NavigationContainer, CardDetailBtns } from 'Components';
 import { IUIActions, UIActions } from 'Actions';
 import { navigable, INavigableProps } from "HOC";
 import { cardModuleConfig, cardModuleClasses, IValidatable, isValidatable } from 'CardModules';
@@ -35,31 +35,12 @@ export class CardDetailClass
     return this.state.status === "DONE" && this.props.card ? (
       <div className="cardDetail fillParent customBkg">
         <div className="carouselButtonsContainer">
-          <div className="bottomContainerTopButtons">
-            <div className="cardDetailBtn">
-              <NavigationContainer key="cdClose" className="bctButton close customBtn"
-                parent={this}
-                clickAction={() => {
-                  this.closeAllCards();
-                }}
-                columns={2}
-              >
-              </NavigationContainer>
-
-            </div>
-
-            <div className="cardDetailBtn">
-              <NavigationContainer key="cdBack" className="bctButton back customBtn"
-                parent={this}
-                clickAction={() => {
-                  this.closeCard();
-                }}
-                columns={2}
-              >
-                {'<'}
-              </NavigationContainer>
-            </div>
-          </div>
+          <CardDetailBtns
+            parent={this}
+            columns={1}
+            closeAllCards={() => this.closeAllCards()}
+            closeCard={() => this.closeCard()}
+          />
         </div>
         <NavigableCardModuleList
           isDefault={true}

@@ -90,6 +90,8 @@ export class CarouselClass
           setFilter={this.setFilter.bind(this)}
           closeCarousel={this.closeCarousel.bind(this)}
           navClass="carouselButtonsContainer"
+          dropDownOpened={(val?: boolean) => this.props.syncActions.dropDownOpened(val)}
+          dropDownState={this.getState().dropDownCarouselState}
         />
         <div className="cards">
           {
