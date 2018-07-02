@@ -217,7 +217,7 @@ export const initialize = (
   if (!config.token) {
     call = APIinstance.loginWithDevice(userId);
   } else {
-    call = APIinstance.loginWithToken(config.token as AccessToken);
+    call = APIinstance.loginWithToken(config.token);
     render();
     return new Promise<any>((resolve, reject) => {
       resolve();
