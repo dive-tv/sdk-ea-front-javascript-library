@@ -1,5 +1,6 @@
 export * from './navigationContainer/navigationContainer.component';
 export * from './cardDetailComponents/cardDetail.component';
+export * from './cardDetailComponents/cardDetailBtns/cardDetailBtns.component';
 export * from './cardAndCategory/cardAndCategory.component';
 export * from './verticalScroll/verticalScroll.component';
 export * from './horizontalScroll/horizontalScroll.component';
