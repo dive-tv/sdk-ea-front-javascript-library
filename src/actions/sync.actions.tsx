@@ -25,6 +25,7 @@ export interface ISyncActions extends MapDispatchToPropsObject {
   setSelectedOnSceneChange: ActionCreator<ISyncAction>;
   closeInfoMsg: ActionCreator<ISyncAction>;
   changeFilter: ActionCreator<ISyncAction>;
+  dropDownOpened: ActionCreator<ISyncAction>;
   closeSocket: ActionCreator<void>;
 }
 
@@ -152,6 +153,7 @@ export const SyncActions: ISyncActions = {
   setVideoRefs: syncCreateAction("SYNC/SET_VIDEOREFS", (params: {
     videoRef: HTMLVideoElement | HTMLObjectElement, videoParentRef?: HTMLElement, videoType: VideoType, playerAPI: any,
   }) => params),
+  dropDownOpened: syncCreateAction("SYNC/DOWPDOWN_CAROUSEL_STATE", (val: boolean) => val),
 };
 
 const processCard = (cards: Card[], banners?: { [key: string]: any }): Array<ICardRelation | ICardAndRelations> => {

@@ -14,6 +14,8 @@ export interface IDropDownListProps {
   nameForNode?: string;
   setElement: (element: string) => void;
   idx?: number;
+  dropDownState: boolean;
+  dropDownStateAction: (val?: boolean) => void;
 }
 
 export interface IDropDownListState {
@@ -35,16 +37,22 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
     this.state = dropDownInitialState;
   }
 
+  public componentDidUpdate(oldProps: IDropDownListProps) {
+    if (this.props.dropDownState === false && oldProps.dropDownState === true) {
+      this.props.setNodeById(this.props.idx);
+    }
+  }
+
   public render(): any {
     const classes = classNames("dropdownContainer customBtn customBtnByChild", {
       hbbtv: this.isHBBTV,
-      clicked: this.state.clicked,
+      clicked: this.props.dropDownState,
     });
     return (
       <div className={classes}>
         <label className="mainLabel"
           onMouseOver={this.onMouseOver}
-          onClick={this.onClick}
+          onMouseUp={this.onClick}
         >{Localize(this.props.selectedItem)}</label>
         <div className="dropdownList">
           {this.renderChildren()}
@@ -62,7 +70,8 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
   }
 
   public handleClickOutside = () => {
-    this.setState({ clicked: false });
+    // this.setState({ clicked: false });
+    this.props.dropDownStateAction(false);
   }
 
   private onMouseOver = (e: any) => {
@@ -72,7 +81,10 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
   }
 
   private onClick = (e?: any) => {
-    this.setState({ clicked: !this.state.clicked });
+    console.log("[DropDownList] onClick");
+    // this.props.dropDownStateAction();
+    this.props.setNodeById(this.props.idx);
+    // this.setState({ clicked: !this.state.clicked });
     /*if (!this.isHBBTV && this.props.setNodeById) {
       this.props.setNodeById(this.props.idx);
     }*/
@@ -81,12 +93,19 @@ export class DropDownListClass extends React.PureComponent<IDropDownListProps, I
   private renderChildren(): JSX.Element[] {
 
     const children: JSX.Element[] = [];
+    if (!this.props.dropDownState) {
+      return children;
+    }
 
     this.props.elements.map((element: string) => {
 
       const actionOnClick = () => {
-        this.selectOption(element);
-        this.setState({ clicked: false });
+        if (this.props.dropDownState) {
+          this.selectOption(element);
+          // this.setState({ clicked: false });
+          this.props.dropDownStateAction(false);
+          this.props.setNodeById(this.props.idx);
+        }
       };
 
       const classes = classNames({

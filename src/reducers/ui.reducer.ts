@@ -127,8 +127,12 @@ export const UIReducer = (state: IUIState = initialUIState, action: IUIAction): 
 
     case 'UI/SET_MENU_ACTIVATED':
       return { ...state, menuActivated: action.payload };
+
+   
+
     default:
       return state;
+      
   }
 };
 

@@ -8,9 +8,11 @@ import { FilterTypeEnum } from 'Constants';
 export interface IButtonsContainerProps {
   movieId: string;
   filter: FilterTypeEnum;
-  showCloseButton?: boolean
+  showCloseButton?: boolean;
   closeCarousel: () => void;
   setFilter: (filterName: FilterTypeEnum) => void;
+  dropDownOpened: (val?: boolean) => void;
+  dropDownState: boolean;
 }
 
 export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsContainerProps, any> {
@@ -49,7 +51,14 @@ export class CarouselButtonsContainerClass extends React.PureComponent<IButtonsC
             groupName="dropDownFilter"
             parent={this}
             // nameForNode="miniCardListCarousel"
-            setElement={this.props.setFilter} />
+            clickAction={() => {
+              console.log("DOWPDOWN_CAROUSEL_STATE:  ", this.props.dropDownState);
+              this.props.dropDownOpened();
+            }}
+            setElement={this.props.setFilter} 
+            dropDownState={this.props.dropDownState}
+            dropDownStateAction={(val: boolean) => this.props.dropDownOpened(val)}
+            />
         </div>
 
         <div className="powered"></div>

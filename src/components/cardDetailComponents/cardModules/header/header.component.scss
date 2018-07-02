@@ -2,6 +2,10 @@
   // width: pxToVw(249.5);
   width: 27.7%;
 }
+.cardModulesContainer .cardModule-container.header-container > :focus{
+  /*background-color: #3b3b3b;*/
+  border-right: 1px solid $color-off-yellow !important;
+}
 
 .header {
   width: 100%;
