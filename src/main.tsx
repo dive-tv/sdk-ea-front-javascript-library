@@ -218,7 +218,7 @@ export const initialize = (
     console.log("[loginWithDevice]");
     call = APIinstance.loginWithDevice(userId);
   } else {
-    call = APIinstance.loginWithToken(config.token as AccessToken);
+    call = APIinstance.loginWithToken(config.token as any);
     render();
     return new Promise<any>((resolve, reject) => {
       resolve();

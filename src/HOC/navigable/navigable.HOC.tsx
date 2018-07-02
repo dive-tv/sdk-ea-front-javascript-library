@@ -216,11 +216,11 @@ const NavigableClass = <TOriginalProps extends {}>(
       const {
         idx, columns, tabIndex, clickAction, isDefault, /*groupName,*/ onFocusCallback,
         onFocusCallbackRepeat, forceFirst, forceOrder, modal, onBeforeUnmount,
-        focusChainClass, navClass, ...noNavOwnProps,
+        focusChainClass, navClass, ...noNavOwnProps
       } = this.props as any;
       const {
         navigation, lastKey, selected, selectedNav, lastSelected,
-        activated, lastActivated, navNames, ...childProps,
+        activated, lastActivated, navNames, ...childProps
       } = noNavOwnProps;
       // childProps = childProps || {};
       // const castedProps = Object.assign({}, childProps) as any;
@@ -392,7 +392,7 @@ const NavigableClass = <TOriginalProps extends {}>(
       if (DIVE_CONFIG.platform === 'WEB') {
         return false;
       }
-      
+
       if (this.isSelected()  /* || this.inFocusChain(this.props.selectedNav)*/) {
         let nav: INavigable | undefined = this.props.selectedNav;
         do {
