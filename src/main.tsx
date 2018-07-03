@@ -35,6 +35,7 @@ export interface IDiveConfig {
   environment?: 'DEV' | 'PRE' | 'PRO';
   test?: boolean;
   token?: any;
+  storeToken?: 'cookies' | 'webstorage';
 }
 
 export interface IInitParams {
@@ -197,14 +198,20 @@ export const initialize = (
   } catch (e) {
     console.error("NO KEYMAP FOUND");
   }
+
+  let sToken: string = 'webstorage';
+  if (options && options.storeToken) {
+    sToken = options.storeToken;
+  }
+
   if (config.token != null) {
     APIinstance = new EaAPI(
-      { environment: config.environment, storeToken: "webstorage", deviceId: null },
+      { environment: config.environment, storeToken: sToken, deviceId: null },
     );
 
   } else {
     APIinstance = new EaAPI(
-      { environment: config.environment, storeToken: "webstorage", apiKey, deviceId: userId },
+      { environment: config.environment, storeToken: sToken, apiKey, deviceId: userId },
     );
   }
 
@@ -426,7 +433,7 @@ export const test2 = () => {
 
   const tempToken = '{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3RyZWFtLXNlcnZlciIsImFwaS1zZXJ2ZXIiLCJkaXZlLXNlcnZlciIsIm9hdXRoLXNlcnZlciJdLCJncmFudF90eXBlIjoidXNlcl9jcmVkZW50aWFscyIsInVzZXJfaWQiOiJkaXZlLmRlbW8iLCJzY29wZSI6WyJkZXZpY2UiLCJ1c2VyIl0sImV4cCI6MTUyNDgzMzg4MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQVRBTE9HIiwiUk9MRV9MSVNUUyIsIlJPTEVfREVNT19MT0dJTiIsIlJPTEVfT05FX1NIT1QiLCJST0xFX0FSX0xPR0lOIiwiUk9MRV9GVUxMX0NBUlJPVVNFTCIsIlJPTEVfUFJPRklMRSIsIlJPTEVfRlVMTF9DQVJST1VTRUxfQ0hBTk5FTCIsIlJPTEVfUE9DS0VUIiwiUk9MRV9UVl9HUklEIiwiUk9MRV9BUl9TRUFSQ0giLCJST0xFX09ORV9TSE9UX0NIQU5ORUwiLCJST0xFX0ZFRURCQUNLIiwiUk9MRV9BTEFSTSIsIlJPTEVfQ0FSRF9ERVRBSUwiLCJST0xFX0RFTU9fUExBWUJBQ0siLCJST0xFX0FSX0NBVEFMT0ciXSwiY2xpZW50X2lkIjoiZGl2ZV9kZW1vIiwianRpIjoiZmM2NTc0MzctNTRkZS00MDNkLTllNjUtNWQ1OTVjMDY2Yzg4In0.WrC1kvv9AeSXhtl_1De3HA-jx1Xb77Nok3Y8LsM5RS8","token_type":"bearer","refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3RyZWFtLXNlcnZlciIsImFwaS1zZXJ2ZXIiLCJkaXZlLXNlcnZlciIsIm9hdXRoLXNlcnZlciJdLCJncmFudF90eXBlIjoidXNlcl9jcmVkZW50aWFscyIsInVzZXJfaWQiOiJkaXZlLmRlbW8iLCJzY29wZSI6WyJkZXZpY2UiLCJ1c2VyIl0sImF0aSI6ImZjNjU3NDM3LTU0ZGUtNDAzZC05ZTY1LTVkNTk1YzA2NmM4OCIsImV4cCI6MTU0MDM3Njg4MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DQVRBTE9HIiwiUk9MRV9MSVNUUyIsIlJPTEVfREVNT19MT0dJTiIsIlJPTEVfT05FX1NIT1QiLCJST0xFX0FSX0xPR0lOIiwiUk9MRV9GVUxMX0NBUlJPVVNFTCIsIlJPTEVfUFJPRklMRSIsIlJPTEVfRlVMTF9DQVJST1VTRUxfQ0hBTk5FTCIsIlJPTEVfUE9DS0VUIiwiUk9MRV9UVl9HUklEIiwiUk9MRV9BUl9TRUFSQ0giLCJST0xFX09ORV9TSE9UX0NIQU5ORUwiLCJST0xFX0ZFRURCQUNLIiwiUk9MRV9BTEFSTSIsIlJPTEVfQ0FSRF9ERVRBSUwiLCJST0xFX0RFTU9fUExBWUJBQ0siLCJST0xFX0FSX0NBVEFMT0ciXSwiY2xpZW50X2lkIjoiZGl2ZV9kZW1vIiwianRpIjoiYWZmMjVmYjEtZDczMi00NWU1LWFhMTEtYjg2YTRhOTFmMWUyIn0.s-1qiS2ewrhcD7K64IWCAvpV5cJpwf6cU9cxYWabNAI","expires_in":8998,"scope":"device user","user_id":"dive.demo","client_id":"dive_demo","jti":"fc657437-54de-403d-9e65-5d595c066c88"}';
 
-  initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO', /*token: JSON.parse(tempToken)*/ platform: 'HBBTV'}).then((value) => {
+  initialize('#root', infomixKey, "test", 'es-ES', null, { environment: 'PRO', /*token: JSON.parse(tempToken)*/ platform: 'HBBTV', storeToken: 'cookies' }).then((value) => {
     console.log("DO IT!!!");
 
     //STC
