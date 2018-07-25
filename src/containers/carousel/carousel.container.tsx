@@ -3,7 +3,7 @@ import { connect, MapDispatchToPropsObject } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import { navigable, INavigableProps } from 'HOC';
-import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButtonsContainer } from 'Components';
+import { Loading, NavigationContainer, MiniCardList, DropDownList, CarouselButtonsContainer, DIVE_CONFIG } from 'Components';
 import { IState, ISyncState, INavState, CardRender, ICardRelation, ICardAndRelations } from 'Reducers';
 import { SyncActions, ISyncActions, UIActions, IUIActions, INavActions } from 'Actions';
 import { Localize, Card, RelationModule, CardTypeEnum } from 'Services';
@@ -84,7 +84,7 @@ export class CarouselClass
           parent={this}
           columns={1}
           forceFirst={true}
-          showCloseButton={false}
+          showCloseButton={DIVE_CONFIG.showCloseButton}
           movieId={this.getState().movieId}
           filter={this.props.state.filter}
           setFilter={this.setFilter.bind(this)}

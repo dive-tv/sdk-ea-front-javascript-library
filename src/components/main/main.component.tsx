@@ -12,6 +12,7 @@ export interface IMainProps {
   theme: ITheme;
   showMenu: boolean;
   platform: platformTypes;
+  showCloseButton?: boolean;
 }
 
 export interface IMainState {
@@ -19,11 +20,13 @@ export interface IMainState {
 }
 export type platformTypes = 'HBBTV' | 'WEB';
 export interface IDiveConfig {
-  platform: platformTypes,
+  platform: platformTypes;
+  showCloseButton: boolean;
 
 }
 export let DIVE_CONFIG: IDiveConfig = {
   platform: 'WEB',
+  showCloseButton: false,
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -31,16 +34,20 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     theme: null,
     showMenu: false,
     platform: 'WEB',
+    showCloseButton: false,
   };
 
   private divElement: HTMLDivElement;
   private fontSize: number = 11;
 
   public componentDidMount() {
-    if(this.props.platform != null){
+    if (this.props.platform != null) {
       DIVE_CONFIG.platform = this.props.platform;
     }
-    
+    if (this.props.showCloseButton != null) {
+      DIVE_CONFIG.showCloseButton = this.props.showCloseButton;
+    }
+
     this.fontResize();
 
     elementResizeEvent(this.divElement, () => this.fontResize());
